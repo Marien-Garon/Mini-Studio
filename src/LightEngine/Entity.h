@@ -51,6 +51,7 @@ public:
 
 	bool IsTag(int tag) const { return mTag == tag; }
     bool IsColliding(Entity* other);
+	bool IsInside(float _x, float _y);
 	bool IsInside(Entity* _other);
 
     void Destroy();
@@ -65,7 +66,7 @@ public:
 	const AABBCollider& GetCollider();
 
     template<typename T>
-    T* CreateEntity(float radius, const sf::Color& color);
+    T* CreateEntity(float width, float height, const sf::Color& color);
 
 protected:
     Entity() = default;

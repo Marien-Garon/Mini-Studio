@@ -15,7 +15,9 @@ void Entity::Initialize(float _width, float _height, const sf::Color& color)
 	//mShape.setRadius(radius);
 	mShape.setSize({ _width, _height });
 	mShape.setFillColor(color);
-	
+
+	m_collider = { 0.0f, 0.0f, _width, _height };
+
 	mTarget.isSet = false;
 
 	OnInitialize();
@@ -23,9 +25,28 @@ void Entity::Initialize(float _width, float _height, const sf::Color& color)
 
 void Entity::Repulse(Entity* other) 
 {
-	sf::Vector2f distance = GetPosition(0.5f, 0.5f) - other->GetPosition(0.5f, 0.5f);
+	sf::Vector2f pos1 = GetPosition();
+	sf::Vector2f pos2 = other->GetPosition();
 
+	float overlapX1 = (pos2.x + other->GetCollider().width) - pos1.x;
+	float overlapX2 = (pos1.x + GetCollider().width)		- pos2.x;
+	float overlapY1 = (pos2.y + other->GetCollider().height)- pos1.y;
+	float overlapY2 = (pos1.y + GetCollider().height)		- pos2.y;
 
+	float moveX = (overlapX1 < overlapX2) ? overlapX1 : -overlapX2;
+	float moveY = (overlapY1 < overlapY2) ? overlapY1 : -overlapY2;
+
+	if (std::fabs(moveX) < std::fabs(moveY))
+	{
+		SetPosition(pos1.x + moveX, pos1.y);
+		other->SetPosition(pos2.x + moveX, pos2.y);
+	} 
+	else
+	{
+		SetPosition(pos1.x, pos1.y + moveY);
+		other->SetPosition(pos2.x, pos2.y + moveY);
+	}
+	
 
 
 	//circle sucks
@@ -69,6 +90,12 @@ bool Entity::IsColliding(Entity* other)
 	//return sqrLength < sqrRadius;
 }
 
+bool Entity::IsInside(float _x, float _y)
+{
+	return m_collider.IsInside(_x, _y);
+}
+
+
 bool Entity::IsInside(Entity* _other)
 {
 	return m_collider.IsInside(_other->GetCollider());
@@ -100,6 +127,8 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 	y -= size.y * ratioY;
 
 	mShape.setPosition(x, y);
+	m_collider.SetPosition(x, y);
+
 
 	//#TODO Optimise
 	if (mTarget.isSet) 

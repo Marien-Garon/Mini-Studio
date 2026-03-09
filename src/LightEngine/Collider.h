@@ -8,9 +8,8 @@ struct AABBCollider
 	bool IsColliding(const AABBCollider& _other);
 
 	bool IsInside(const AABBCollider& _other);
+
+	bool IsInside(float _x, float _y);
+
+	void SetPosition(float _x, float _y);
 };
-
-//Deprecated and never used yay
-bool IsCollidingAABB(const AABBCollider& _c1, const AABBCollider& _c2);
-
-bool IsInsideAABBB(const AABBCollider& _c1, const AABBCollider& _c2);
