@@ -15,7 +15,7 @@ bool AABBCollider::IsColliding(const AABBCollider& _other)
     return (x < _other.x + _other.width && x + width > x && y < _other.y + _other.height && y + height > _other.y);
 }
 
-bool AABBCollider::IsInsideAABB(const AABBCollider& _other)
+bool AABBCollider::IsInside(const AABBCollider& _other)
 {
     return (x > _other.x && x + width < _other.x + _other.width && y > _other.y && y + height <= _other.y + _other.height);
 }

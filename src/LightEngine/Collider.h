@@ -7,7 +7,7 @@ struct AABBCollider
 
 	bool IsColliding(const AABBCollider& _other);
 
-	bool IsInsideAABB(const AABBCollider& _other);
+	bool IsInside(const AABBCollider& _other);
 };
 
 //Deprecated and never used yay
