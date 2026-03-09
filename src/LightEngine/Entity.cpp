@@ -7,12 +7,13 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 
-void Entity::Initialize(float radius, const sf::Color& color)
+void Entity::Initialize(float _width, float _height, const sf::Color& color)
 {
 	mDirection = sf::Vector2f(0.0f, 0.0f);
 
 	mShape.setOrigin(0.f, 0.f);
-	mShape.setRadius(radius);
+	//mShape.setRadius(radius);
+	mShape.setSize({ _width, _height });
 	mShape.setFillColor(color);
 	
 	mTarget.isSet = false;
@@ -23,6 +24,13 @@ void Entity::Initialize(float radius, const sf::Color& color)
 void Entity::Repulse(Entity* other) 
 {
 	sf::Vector2f distance = GetPosition(0.5f, 0.5f) - other->GetPosition(0.5f, 0.5f);
+
+
+
+
+	//circle sucks
+
+	/*sf::Vector2f distance = GetPosition(0.5f, 0.5f) - other->GetPosition(0.5f, 0.5f);
 	
 	float sqrLength = (distance.x * distance.x) + (distance.y * distance.y);
 	float length = std::sqrt(sqrLength);
@@ -40,33 +48,41 @@ void Entity::Repulse(Entity* other)
 	sf::Vector2f position2 = other->GetPosition(0.5f, 0.5f) + translation;
 
 	SetPosition(position1.x, position1.y, 0.5f, 0.5f);
-	other->SetPosition(position2.x, position2.y, 0.5f, 0.5f);
+	other->SetPosition(position2.x, position2.y, 0.5f, 0.5f);*/
 }
 
-bool Entity::IsColliding(Entity* other) const
+
+bool Entity::IsColliding(Entity* other)
 {
-	sf::Vector2f distance = GetPosition(0.5f, 0.5f) - other->GetPosition(0.5f, 0.5f);
+	return m_collider.IsColliding(other->GetCollider());
 
-	float sqrLength = (distance.x * distance.x) + (distance.y * distance.y);
+	// Current Archive will be deleted later
+	//sf::Vector2f distance = GetPosition(0.5f, 0.5f) - other->GetPosition(0.5f, 0.5f);
 
-	float radius1 = mShape.getRadius();
-	float radius2 = other->mShape.getRadius();
+	//float sqrLength = (distance.x * distance.x) + (distance.y * distance.y);
 
-	float sqrRadius = (radius1 + radius2) * (radius1 + radius2);
+	//float radius1 = mShape.getRadius();
+	//float radius2 = other->mShape.getRadius();
 
-	return sqrLength < sqrRadius;
+	//float sqrRadius = (radius1 + radius2) * (radius1 + radius2);
+
+	//return sqrLength < sqrRadius;
 }
 
-bool Entity::IsInside(float x, float y) const
+bool Entity::IsInside(Entity* _other)
 {
-	sf::Vector2f position = GetPosition(0.5f, 0.5f);
+	return m_collider.IsInside(_other->GetCollider());
 
-	float dx = x - position.x;
-	float dy = y - position.y;
 
-	float radius = mShape.getRadius();
+	//Current Archive will be deleted later
+	//sf::Vector2f position = GetPosition(0.5f, 0.5f);
 
-	return (dx * dx + dy * dy) < (radius * radius);
+	//float dx = x - position.x;
+	//float dy = y - position.y;
+
+	//float radius = mShape.getRadius();
+
+	//return (dx * dx + dy * dy) < (radius * radius);
 }
 
 void Entity::Destroy()
@@ -78,10 +94,10 @@ void Entity::Destroy()
 
 void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 {
-	float size = mShape.getRadius() * 2;
+	sf::Vector2f size = mShape.getSize();
 
-	x -= size * ratioX;
-	y -= size * ratioY;
+	x -= size.x * ratioX;
+	y -= size.y * ratioY;
 
 	mShape.setPosition(x, y);
 
@@ -97,11 +113,11 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 
 sf::Vector2f Entity::GetPosition(float ratioX, float ratioY) const
 {
-	float size = mShape.getRadius() * 2;
+	sf::Vector2f size = mShape.getSize();
 	sf::Vector2f position = mShape.getPosition();
 
-	position.x += size * ratioX;
-	position.y += size * ratioY;
+	position.x += size.x * ratioX;
+	position.y += size.y * ratioY;
 
 	return position;
 }
@@ -183,4 +199,9 @@ Scene* Entity::GetScene() const
 float Entity::GetDeltaTime() const
 {
 	return GameManager::Get()->GetDeltaTime();
+}
+
+const AABBCollider& Entity::GetCollider()
+{
+	return m_collider;
 }
