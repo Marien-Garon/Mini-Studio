@@ -1,17 +1,19 @@
 #include "SampleScene.h"
 
-#include "DummyEntity.h"
+#include "PhysicalEntity.h"
 
 #include "Debug.h"
 
 void SampleScene::OnInitialize()
 {
-	pEntity1 = CreateEntity<DummyEntity>(100, sf::Color::Red);
+	pEntity1 = CreateEntity<PhysicalEntity>(100, sf::Color::Red);
 	pEntity1->SetPosition(100, 100);
+	pEntity1->SetSpeed(100);
 	pEntity1->SetRigidBody(true);
 
-	pEntity2 = CreateEntity<DummyEntity>(50, sf::Color::Green);
+	pEntity2 = CreateEntity<PhysicalEntity>(50, sf::Color::Green);
 	pEntity2->SetPosition(500, 500);
+	pEntity2->SetSpeed(100);
 	pEntity2->SetRigidBody(true);
 
 	pEntitySelected = nullptr;
@@ -32,12 +34,12 @@ void SampleScene::OnEvent(const sf::Event& event)
 	{
 		if (pEntitySelected != nullptr) 
 		{
-			pEntitySelected->GoToPosition(event.mouseButton.x, event.mouseButton.y, 100.f);
+			pEntitySelected->GoToPosition(event.mouseButton.x, event.mouseButton.y, pEntitySelected->GetSpeed());
 		}
 	}
 }
 
-void SampleScene::TrySetSelectedEntity(DummyEntity* pEntity, int x, int y)
+void SampleScene::TrySetSelectedEntity(PhysicalEntity* pEntity, int x, int y)
 {
 	if (pEntity->IsInside(x, y) == false)
 		return;
@@ -47,6 +49,10 @@ void SampleScene::TrySetSelectedEntity(DummyEntity* pEntity, int x, int y)
 
 void SampleScene::OnUpdate()
 {
+	pEntity1->Fall(GetDeltaTime());
+	pEntity2->Fall(GetDeltaTime());
+
+
 	if(pEntitySelected != nullptr)
 	{
 		sf::Vector2f position = pEntitySelected->GetPosition();
