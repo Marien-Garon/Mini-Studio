@@ -147,7 +147,7 @@ bool InputManager::IskeyReleased(sf::Keyboard::Key _key)
 
 bool InputManager::IsKeyHeld(sf::Keyboard::Key _key)
 {
-	// a little buggy because held is at true at the same frame as pressed should be at minimum the second
+	// a little buggy because held is at true at the same frame as pressed should be at minimum the second nevermind it work i think
 	return m_keyHeld[_key];
 }
 

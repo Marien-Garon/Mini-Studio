@@ -49,7 +49,7 @@ void SampleScene::OnEvent(const sf::Event& event)
 	//	std::cout << "Controller Release" << std::endl;
 
 	/*if (IM.GetJoystickLeftX() >= MAX_JOYSTICK_POS)
-		std::cout << "Right" << std::endl;*/
+	//std::cout << "Right" << std::endl;*/
 	
 	std::cout << IM.GetJoystickLeftX(0) << std::endl;
 

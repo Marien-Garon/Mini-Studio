@@ -7,7 +7,7 @@ class Controller
 {
 public:
 
-	static enum class Button
+	enum class Button
 	{
 		A,
 		B,
@@ -57,6 +57,7 @@ public:
 
 	float GetJoystickRightX() { return sf::Joystick::getAxisPosition(m_id, sf::Joystick::Axis::U); }
 	float GetJoystickRightY() { return sf::Joystick::getAxisPosition(m_id, sf::Joystick::Axis::V); }
+
 
 	float GetTriggerLvl() { return sf::Joystick::getAxisPosition(m_id, sf::Joystick::Axis::Z); };
 
