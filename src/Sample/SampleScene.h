@@ -7,7 +7,6 @@ class Player;
 class SampleScene : public Scene
 {
 	Player* pEntity1;
-	Player* pEntity2;
 
 	Player* pEntitySelected;
 

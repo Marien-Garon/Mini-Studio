@@ -15,7 +15,6 @@ void SampleScene::OnInitialize()
 
 void SampleScene::OnEvent(const sf::Event& event)
 {
-	sf::Vector2f position = pEntity1->GetPosition();
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 	{
