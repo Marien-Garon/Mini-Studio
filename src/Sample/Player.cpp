@@ -43,11 +43,11 @@ void Player::Heal(int _heal)
 void Player::MoveRight(Player* player)
 {
 	sf::Vector2f position = player->GetPosition();
-	player->GoToPosition(position.x - 10.f, position.y, 100);
+	player->GoToPosition(position.x -= 10.f * GetDeltaTime(), position.y, 100);
 }
 
 void Player::MoveLeft(Player* player)
 {
 	sf::Vector2f position = player->GetPosition();
-	player->GoToPosition(position.x + 10.f, position.y, 100);
+	player->GoToPosition(position.x += 10.f * GetDeltaTime(), position.y, 100);
 }
