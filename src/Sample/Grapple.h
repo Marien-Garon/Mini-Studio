@@ -1,5 +1,7 @@
 #pragma once
-class Grapple
+#include "Entity.h"
+
+class Grapple : public Entity
 {
 };
 
