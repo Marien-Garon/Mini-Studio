@@ -2,9 +2,7 @@
 
 #include "Scene.h"
 
-
-
-class Enemy;
+class PhysicalEntity;
 
 class SampleScene : public Scene
 {
@@ -12,6 +10,9 @@ class SampleScene : public Scene
 
 	Enemy* pEntitySelected;
 
+	
+
+	PhysicalEntity* pEntitySelected;
 private:
 	void TrySetSelectedEntity(Enemy* pEntity, int x, int y);
 
