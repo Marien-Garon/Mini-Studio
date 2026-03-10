@@ -2,42 +2,34 @@
 
 #include "DummyEntity.h"
 
+#include"Enemy.h"
+
 #include "Debug.h"
 
 void SampleScene::OnInitialize()
 {
-	pEntity1 = CreateEntity<DummyEntity>(100, sf::Color::Red);
-	pEntity1->SetPosition(100, 100);
-	pEntity1->SetRigidBody(true);
+    pEntity1 = CreateEntity<Enemy>(50, sf::Color::Red);
+    pEntity1->SetPosition(600, 600);
+    pEntity1->SetRigidBody(true);
 
-	pEntity2 = CreateEntity<DummyEntity>(50, sf::Color::Green);
-	pEntity2->SetPosition(500, 500);
-	pEntity2->SetRigidBody(true);
-
-	pEntitySelected = nullptr;
+    pEntity1->Initialize(); 
 }
 
-void SampleScene::OnEvent(const sf::Event& event)
+void SampleScene::OnUpdate()
 {
-	if (event.type != sf::Event::EventType::MouseButtonPressed)
-		return;
+    float dt = GetDeltaTime(); 
 
-	if (event.mouseButton.button == sf::Mouse::Button::Right)
-	{
-		TrySetSelectedEntity(pEntity1, event.mouseButton.x, event.mouseButton.y);
-		TrySetSelectedEntity(pEntity2, event.mouseButton.x, event.mouseButton.y);
-	}
+    pEntity1->Update(dt);
 
-	if (event.mouseButton.button == sf::Mouse::Button::Left)
-	{
-		if (pEntitySelected != nullptr) 
-		{
-			pEntitySelected->GoToPosition(event.mouseButton.x, event.mouseButton.y, 100.f);
-		}
-	}
+    if (pEntitySelected != nullptr)
+    {
+        sf::Vector2f position = pEntitySelected->GetPosition();
+        Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
+    }
 }
 
-void SampleScene::TrySetSelectedEntity(DummyEntity* pEntity, int x, int y)
+
+void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
 {
 	if (pEntity->IsInside(x, y) == false)
 		return;
@@ -50,6 +42,6 @@ void SampleScene::OnUpdate()
 	if(pEntitySelected != nullptr)
 	{
 		sf::Vector2f position = pEntitySelected->GetPosition();
-		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
+		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue); 
 	}
 }
