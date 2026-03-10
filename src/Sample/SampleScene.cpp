@@ -32,8 +32,10 @@ void SampleScene::OnEvent(const sf::Event& event)
         }
     }
 
-    if()
-
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
+    {
+        pEntity1->TakeDamage(10);
+    }
 
 }
 

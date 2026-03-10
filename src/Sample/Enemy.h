@@ -4,7 +4,7 @@
 class Enemy : public Entity
 {
 private:
-    int m_Hpmax;
+    int m_Hpmax = 50;
     int m_damage;
 
     bool EnemyAlive = true;
