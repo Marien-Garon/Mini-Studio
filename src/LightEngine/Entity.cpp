@@ -1,5 +1,7 @@
 #include "Entity.h"
 
+#include <iostream>
+
 #include "GameManager.h"
 #include "Utils.h"
 #include "Debug.h"
@@ -74,6 +76,16 @@ void Entity::Destroy()
 	mToDestroy = true;
 
 	OnDestroy();
+}
+
+void Entity::FixedUpdate(float fixed_DT)
+{
+	if (GetDeltaTime() >= fixed_DT)
+	{
+		countTEMP++;
+		//std::cout << countTEMP << std::endl;
+		Update();
+	}
 }
 
 void Entity::SetPosition(float x, float y, float ratioX, float ratioY)

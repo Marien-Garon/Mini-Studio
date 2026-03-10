@@ -28,6 +28,8 @@ protected:
     bool mToDestroy = false;
     int mTag = -1;
 	bool mRigidBody = false;
+	
+	int countTEMP = 0;
 
 public:
 	bool GoToDirection(int x, int y, float speed = -1.f);
@@ -51,6 +53,8 @@ public:
     void Destroy();
 	bool ToDestroy() const { return mToDestroy; }
 	
+	void FixedUpdate(float fixed_DT);
+
 	template<typename T>
 	T* GetScene() const;
 

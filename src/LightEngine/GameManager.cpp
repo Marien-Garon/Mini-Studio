@@ -144,6 +144,21 @@ void GameManager::Update()
 	}
 
 	mEntitiesToAdd.clear();
+
+	mAccumulatedDeltaTime += mDeltaTime;
+	while (mAccumulatedDeltaTime >= FIXED_DT)
+	{
+		FixedUpdate();
+		mAccumulatedDeltaTime -= FIXED_DT;
+	}
+}
+
+void GameManager::FixedUpdate()
+{
+	for (Entity* entity : mEntities)
+	{
+		entity->FixedUpdate(FIXED_DT);
+	}
 }
 
 void GameManager::Draw()

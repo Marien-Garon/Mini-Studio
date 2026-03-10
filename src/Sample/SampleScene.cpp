@@ -57,6 +57,9 @@ void SampleScene::OnUpdate()
 	pEntity1->OnUpdate();
 	pEntity2->OnUpdate();
 
+	count++;
+	std::cout << count << std::endl;
+
 
 	if(pEntitySelected != nullptr)
 	{

@@ -5,6 +5,8 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Text.hpp>
 
+#define FIXED_DT 0.01667f
+
 class Entity;
 class Scene;
 class Debug;
@@ -27,6 +29,7 @@ class GameManager
 	Scene* mpScene;
 
 	float mDeltaTime;
+	float mAccumulatedDeltaTime;
 
 	int mWindowWidth;
 	int mWindowHeight;
@@ -40,6 +43,7 @@ private:
 	
 	void HandleInput();
 	void Update();
+	void FixedUpdate();
 	void Draw();
 
 	void SetDeltaTime(float deltaTime) { mDeltaTime = deltaTime; }
