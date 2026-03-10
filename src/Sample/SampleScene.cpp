@@ -33,10 +33,6 @@ void SampleScene::OnEvent(const sf::Event& event)
             pEntity1->GoToPosition(position.x, position.y, 100.f);
         }
     }
-
-    if()
-
-
 }
 
 
@@ -63,9 +59,6 @@ void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
 
 void SampleScene::OnUpdate()
 {
-	pEntity1->OnUpdate();
-	pEntity2->OnUpdate();
-
 
 	if(pEntitySelected != nullptr)
 	{

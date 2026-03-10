@@ -1,7 +1,7 @@
 #pragma once
-#include "Entity.h"
+#include "PhysicalEntity.h"
 
-class Enemy : public Entity
+class Enemy : public PhysicalEntity
 {
 private:
     int m_Hpmax;
