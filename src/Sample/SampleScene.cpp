@@ -28,9 +28,6 @@ void SampleScene::OnEvent(const sf::Event& event)
 	{
 		pEntity1->Jump();
 		pEntity2->Jump();
-
-		/*TrySetSelectedEntity(pEntity1, event.mouseButton.x, event.mouseButton.y);
-		TrySetSelectedEntity(pEntity2, event.mouseButton.x, event.mouseButton.y);*/
 	}
 
 	if (event.mouseButton.button == sf::Mouse::Button::Left)
