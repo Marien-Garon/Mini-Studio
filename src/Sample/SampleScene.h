@@ -10,6 +10,9 @@ class SampleScene : public Scene
 
 	Player* pEntitySelected;
 
+	
+
+	PhysicalEntity* pEntitySelected;
 private:
 	void TrySetSelectedEntity(Player* pEntity, int x, int y);
 

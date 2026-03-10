@@ -1,6 +1,12 @@
 #include "SampleScene.h"
+#include <iostream>
+#include "PhysicalEntity.h"
 
 #include "Player.h"
+
+#include"Enemy.h"
+
+#include"Utils.h"
 
 #include "Debug.h"
 
@@ -47,9 +53,10 @@ void SampleScene::TrySetSelectedEntity(Player* pEntity, int x, int y)
 
 void SampleScene::OnUpdate()
 {
+
 	if(pEntitySelected != nullptr)
 	{
 		sf::Vector2f position = pEntitySelected->GetPosition();
-		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
+		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue); 
 	}
 }
