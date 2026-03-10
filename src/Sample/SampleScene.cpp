@@ -1,55 +1,34 @@
 #include "SampleScene.h"
 
-#include "DummyEntity.h"
-
 #include "Debug.h"
+
+#include"Player.h"
+#include "Hook.h"
+
+std::vector<Hook*> SampleScene::GetHooks()
+{
+	return m_hooks;
+}
 
 void SampleScene::OnInitialize()
 {
-	pEntity1 = CreateEntity<DummyEntity>(100, sf::Color::Red);
-	pEntity1->SetPosition(100, 100);
-	pEntity1->SetRigidBody(true);
+	m_player = CreateEntity<Player>(50.f, sf::Color::Cyan);
+	m_player->SetPosition(100, 100);
 
-	pEntity2 = CreateEntity<DummyEntity>(50, sf::Color::Green);
-	pEntity2->SetPosition(500, 500);
-	pEntity2->SetRigidBody(true);
-
-	pEntitySelected = nullptr;
+	for (int i = 0; i < 3; i++) {
+		m_hooks.push_back(CreateEntity<Hook>(20.f, sf::Color::Yellow));
+		m_hooks[i]->SetPosition(200.f + i * 100, 200.f);
+	}
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
 {
-	if (event.type != sf::Event::EventType::MouseButtonPressed)
-		return;
-
-	if (event.mouseButton.button == sf::Mouse::Button::Right)
-	{
-		TrySetSelectedEntity(pEntity1, event.mouseButton.x, event.mouseButton.y);
-		TrySetSelectedEntity(pEntity2, event.mouseButton.x, event.mouseButton.y);
+	if (sf::Keyboard::isKeyPressed) {
+		m_player->LaunchGrapple(m_player->SearchForHook());
 	}
-
-	if (event.mouseButton.button == sf::Mouse::Button::Left)
-	{
-		if (pEntitySelected != nullptr) 
-		{
-			pEntitySelected->GoToPosition(event.mouseButton.x, event.mouseButton.y, 100.f);
-		}
-	}
-}
-
-void SampleScene::TrySetSelectedEntity(DummyEntity* pEntity, int x, int y)
-{
-	if (pEntity->IsInside(x, y) == false)
-		return;
-
-	pEntitySelected = pEntity;
 }
 
 void SampleScene::OnUpdate()
 {
-	if(pEntitySelected != nullptr)
-	{
-		sf::Vector2f position = pEntitySelected->GetPosition();
-		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
-	}
+	
 }

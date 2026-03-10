@@ -2,19 +2,19 @@
 
 #include "Scene.h"
 
-class DummyEntity;
+class Player;
+class Hook;
 
 class SampleScene : public Scene
 {
-	DummyEntity* pEntity1;
-	DummyEntity* pEntity2;
+	Player* m_player;
 
-	DummyEntity* pEntitySelected;
+	std::vector<Hook*> m_hooks;
 
 private:
-	void TrySetSelectedEntity(DummyEntity* pEntity, int x, int y);
 
 public:
+	std::vector<Hook*> GetHooks();
 	void OnInitialize() override;
 	void OnEvent(const sf::Event& event) override;
 	void OnUpdate() override;
