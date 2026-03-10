@@ -41,12 +41,12 @@ void Entity::Repulse(Entity* other)
 	if (std::fabs(moveX) < std::fabs(moveY))
 	{
 		SetPosition(c1.x - moveX / 2.f, c1.y, 0.0f, 0.0f);
-		other->SetPosition(c2.x + moveX / 2.f, c2.y, 0.0f, 0.0f);
+		if (other->IsMoveable()) other->SetPosition(c2.x + moveX / 2.f, c2.y, 0.0f, 0.0f);
 	}
 	else
 	{
 		SetPosition(c1.x, c1.y - moveY / 2.f, 0.0f, 0.0f);
-		other->SetPosition(c2.x, c2.y + moveY / 2.f, 0.0f, 0.0f);
+		if (other->IsMoveable()) other->SetPosition(c2.x, c2.y + moveY / 2.f, 0.0f, 0.0f);
 	}
 
 	//circle sucks
@@ -110,6 +110,11 @@ bool Entity::IsInside(Entity* _other)
 	//float radius = mShape.getRadius();
 
 	//return (dx * dx + dy * dy) < (radius * radius);
+}
+
+Side Entity::GetCollidingSide(Entity* _other)
+{
+	return m_collider.GetCollisionSide(_other->GetCollider());
 }
 
 void Entity::Destroy()

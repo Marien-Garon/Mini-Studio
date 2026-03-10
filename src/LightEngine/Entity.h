@@ -35,6 +35,8 @@ protected:
     int mTag = -1;
 	bool mRigidBody = false;
 
+	bool m_isMoveable = false;
+
 public:
 	bool GoToDirection(int x, int y, float speed = -1.f);
     bool GoToPosition(int x, int y, float speed = -1.f);
@@ -53,6 +55,11 @@ public:
     bool IsColliding(Entity* other);
 	bool IsInside(float _x, float _y);
 	bool IsInside(Entity* _other);
+	Side GetCollidingSide(Entity* _other);
+
+	void SetMoveAble(bool _moveable) { m_isMoveable = _moveable; };
+	bool IsMoveable() { return m_isMoveable; };
+
 
     void Destroy();
 	bool ToDestroy() const { return mToDestroy; }
