@@ -26,12 +26,16 @@ void SampleScene::OnEvent(const sf::Event& event)
 
 	if (event.mouseButton.button == sf::Mouse::Button::Right)
 	{
-		pEntity1->Fall(GetDeltaTime());
-		pEntity2->Fall(GetDeltaTime());
-
 		TrySetSelectedEntity(pEntity1, event.mouseButton.x, event.mouseButton.y);
 		TrySetSelectedEntity(pEntity2, event.mouseButton.x, event.mouseButton.y);
+	}
 
+	if (event.mouseButton.button == sf::Keyboard::A)
+	{
+		if (pEntitySelected != nullptr)
+		{
+			pEntitySelected->Jump();
+		}
 	}
 
 	if (event.mouseButton.button == sf::Mouse::Button::Left)
@@ -44,9 +48,10 @@ void SampleScene::OnEvent(const sf::Event& event)
 
 	if (event.mouseButton.button == sf::Mouse::Button::Middle)
 	{
-		pEntity1->Jump();
-		pEntity2->Jump();
+		pEntity1->Fall(GetDeltaTime());
+		pEntity2->Fall(GetDeltaTime());
 	}
+	
 }
 
 void SampleScene::TrySetSelectedEntity(PhysicalEntity* pEntity, int x, int y)
@@ -59,9 +64,9 @@ void SampleScene::TrySetSelectedEntity(PhysicalEntity* pEntity, int x, int y)
 
 void SampleScene::OnUpdate()
 {
+	pEntity1->OnUpdate();
+	pEntity2->OnUpdate();
 
-	//pEntity1->Fall(GetDeltaTime());
-	//pEntity2->Fall(GetDeltaTime());
 
 	if(pEntitySelected != nullptr)
 	{

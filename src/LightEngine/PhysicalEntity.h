@@ -11,6 +11,10 @@ private:
     bool isFalling = false;
 
 public:     
+    virtual void OnUpdate() override;
+
+
+    float GetGravitySpeed() { return mGravitySpeed; }
     //#TO DO => RigidBody not under
     bool CanFall();
 

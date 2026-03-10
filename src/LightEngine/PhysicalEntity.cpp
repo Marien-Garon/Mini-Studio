@@ -1,6 +1,13 @@
 #include "PhysicalEntity.h"
 
 
+void PhysicalEntity::OnUpdate()
+{
+	if (isFalling == true)
+		GoToDirection(GetPosition().x/* + mTarget.position.x*/, GetPosition().y + mTarget.position.y, mGravitySpeed);
+	
+}
+
 bool PhysicalEntity::CanFall()
 {
 	return false;
@@ -16,7 +23,6 @@ void PhysicalEntity::Fall(float deltaTime)
 	mGravitySpeed += gravityAcceleration * (deltaTime + 0.5);
 	mTarget.position.y += mGravitySpeed * (deltaTime + 0.5);
 
-	GoToDirection(GetPosition().x, GetPosition().y + mTarget.position.y, mGravitySpeed);
 	isFalling = true;
 }
 
@@ -27,6 +33,9 @@ void PhysicalEntity::Fall(float deltaTime)
 void PhysicalEntity::StopFall()
 {
 	mGravitySpeed = 0;
+	mTarget.position.x = 0;
+	mTarget.position.y = 0;
+
 	GoToPosition(GetPosition().x, GetPosition().y, mGravitySpeed);
 
 	isFalling = false;
@@ -38,4 +47,6 @@ void PhysicalEntity::Jump()
 	if (isFalling == true)
 		return;
 	mGravitySpeed = -100;
+	mTarget.position.x = 0;
+	mTarget.position.y = 0;
 }
