@@ -3,6 +3,8 @@
 #include "GameManager.h"
 #include "Utils.h"
 #include "Debug.h"
+#include "iostream"
+#include "stdio.h"
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
@@ -16,7 +18,7 @@ void Entity::Initialize(float _width, float _height, const sf::Color& color)
 	mShape.setSize({ _width, _height });
 	mShape.setFillColor(color);
 
-	m_collider = { 0.0f, 0.0f, _width, _height };
+	m_collider = { GetPosition(0.0f,0.0f).x, GetPosition(0.0f,0.0f).y, _width, _height};
 
 	mTarget.isSet = false;
 
@@ -25,29 +27,27 @@ void Entity::Initialize(float _width, float _height, const sf::Color& color)
 
 void Entity::Repulse(Entity* other) 
 {
-	sf::Vector2f pos1 = GetPosition();
-	sf::Vector2f pos2 = other->GetPosition();
+	AABBCollider c1 = GetCollider();
+	AABBCollider c2 = other->GetCollider();
 
-	float overlapX1 = (pos2.x + other->GetCollider().width) - pos1.x;
-	float overlapX2 = (pos1.x + GetCollider().width)		- pos2.x;
-	float overlapY1 = (pos2.y + other->GetCollider().height)- pos1.y;
-	float overlapY2 = (pos1.y + GetCollider().height)		- pos2.y;
+	float overlapX1 = (c1.x + c1.width) - c2.x; 
+	float overlapX2 = (c2.x + c2.width) - c1.x;
+	float overlapY1 = (c1.y + c1.height) - c2.y;
+	float overlapY2 = (c2.y + c2.height) - c1.y;
 
 	float moveX = (overlapX1 < overlapX2) ? overlapX1 : -overlapX2;
 	float moveY = (overlapY1 < overlapY2) ? overlapY1 : -overlapY2;
 
 	if (std::fabs(moveX) < std::fabs(moveY))
 	{
-		SetPosition(pos1.x + moveX, pos1.y);
-		other->SetPosition(pos2.x + moveX, pos2.y);
-	} 
+		SetPosition(c1.x - moveX / 2.f, c1.y, 0.0f, 0.0f);
+		other->SetPosition(c2.x + moveX / 2.f, c2.y, 0.0f, 0.0f);
+	}
 	else
 	{
-		SetPosition(pos1.x, pos1.y + moveY);
-		other->SetPosition(pos2.x, pos2.y + moveY);
+		SetPosition(c1.x, c1.y - moveY / 2.f, 0.0f, 0.0f);
+		other->SetPosition(c2.x, c2.y + moveY / 2.f, 0.0f, 0.0f);
 	}
-	
-
 
 	//circle sucks
 
@@ -194,6 +194,7 @@ void Entity::Update()
 	float distance = dt * mSpeed;
 	sf::Vector2f translation = distance * mDirection;
 	mShape.move(translation);
+	m_collider.SetPosition(GetPosition(0.0f, 0.0f).x, GetPosition(0.0f, 0.0f).y);
 
 	if (mTarget.isSet) 
 	{
