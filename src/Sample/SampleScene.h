@@ -2,15 +2,15 @@
 
 #include "Scene.h"
 
+
 class PhysicalEntity;
+class Enemy;
 
 class SampleScene : public Scene
 {
 	Enemy* pEntity1;
 
-	Enemy* pEntitySelected;
-
-	
+	//Enemy* pEntitySelected;
 
 	PhysicalEntity* pEntitySelected;
 private:
