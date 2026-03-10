@@ -6,12 +6,15 @@ class PhysicalEntity;
 
 class SampleScene : public Scene
 {
-	PhysicalEntity* pEntity1;
-	PhysicalEntity* pEntity2;
+	Enemy* pEntity1;
+
+	Enemy* pEntitySelected;
+
+	
 
 	PhysicalEntity* pEntitySelected;
 private:
-	void TrySetSelectedEntity(PhysicalEntity* pEntity, int x, int y);
+	void TrySetSelectedEntity(Enemy* pEntity, int x, int y);
 
 public:
 	void OnInitialize() override;

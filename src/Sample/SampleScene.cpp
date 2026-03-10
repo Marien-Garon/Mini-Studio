@@ -2,49 +2,36 @@
 #include <iostream>
 #include "PhysicalEntity.h"
 
+#include "DummyEntity.h"
+
+#include"Enemy.h"
+
 #include "Debug.h"
 
 void SampleScene::OnInitialize()
 {
-	pEntity1 = CreateEntity<PhysicalEntity>(100, sf::Color::Red);
-	pEntity1->SetPosition(100, 100);
-	pEntity1->SetSpeed(100);
-	pEntity1->SetRigidBody(true);
+    pEntity1 = CreateEntity<Enemy>(50, sf::Color::Red);
+    pEntity1->SetPosition(600, 600);
+    pEntity1->SetRigidBody(true);
 
-	pEntity2 = CreateEntity<PhysicalEntity>(50, sf::Color::Green);
-	pEntity2->SetPosition(500, 500);
-	pEntity2->SetSpeed(100);
-	pEntity2->SetRigidBody(true);
-
-	pEntitySelected = nullptr;
+    pEntity1->Initialize(); 
 }
 
-void SampleScene::OnEvent(const sf::Event& event)
+void SampleScene::OnUpdate()
 {
-	if (event.type != sf::Event::EventType::MouseButtonPressed)
-		return;
+    float dt = GetDeltaTime(); 
 
-	if (event.mouseButton.button == sf::Mouse::Button::Right)
-	{
-		pEntity1->Jump();
-		pEntity2->Jump();
-	}
+    pEntity1->Update(dt);
 
-	if (event.mouseButton.button == sf::Mouse::Button::Left)
-	{
-		pEntity1->StopFall();
-		pEntity2->StopFall();
-	}
-
-	if (event.mouseButton.button == sf::Mouse::Button::Middle)
-	{
-		pEntity1->Fall(GetDeltaTime());
-		pEntity2->Fall(GetDeltaTime());
-	}
-	
+    if (pEntitySelected != nullptr)
+    {
+        sf::Vector2f position = pEntitySelected->GetPosition();
+        Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
+    }
 }
 
-void SampleScene::TrySetSelectedEntity(PhysicalEntity* pEntity, int x, int y)
+
+void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
 {
 	if (pEntity->IsInside(x, y) == false)
 		return;
@@ -61,6 +48,6 @@ void SampleScene::OnUpdate()
 	if(pEntitySelected != nullptr)
 	{
 		sf::Vector2f position = pEntitySelected->GetPosition();
-		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
+		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue); 
 	}
 }
