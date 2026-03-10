@@ -19,12 +19,12 @@ void SampleScene::OnEvent(const sf::Event& event)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 	{
-		pEntity1->GoToPosition(position.x - 10.f , position.y, 100);
+		pEntity1->MoveLeft(pEntity1);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		pEntity1->GoToPosition(position.x + 10.f, position.y, 100);
+		pEntity1->MoveRight(pEntity1);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
