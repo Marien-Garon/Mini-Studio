@@ -12,8 +12,6 @@ class SampleScene : public Scene
 
 	Enemy* pEntitySelected;
 
-	
-
 private:
 	void TrySetSelectedEntity(Enemy* pEntity, int x, int y);
 

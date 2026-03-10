@@ -4,6 +4,8 @@
 
 #include"Enemy.h"
 
+#include"Utils.h"
+
 #include "Debug.h"
 
 void SampleScene::OnInitialize()
@@ -15,9 +17,30 @@ void SampleScene::OnInitialize()
     pEntity1->Initialize(); 
 }
 
+void SampleScene::OnEvent(const sf::Event& event)
+{
+    sf::Vector2f position = pEntity1->GetPosition();
+
+    if (event.type == sf::Event::MouseButtonPressed &&
+        event.mouseButton.button == sf::Mouse::Right)
+    {
+        float dist = Utils::GetDistance(position.x, position.y, 100.f, 100.f);
+
+        if (dist > 10)
+        {
+            pEntity1->GoToPosition(position.x, position.y, 100.f);
+        }
+    }
+
+    if()
+
+
+}
+
+
 void SampleScene::OnUpdate()
 {
-    float dt = GetDeltaTime(); 
+    float dt = GetDeltaTime();
 
     pEntity1->Update(dt);
 
@@ -28,7 +51,6 @@ void SampleScene::OnUpdate()
     }
 }
 
-
 void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
 {
 	if (pEntity->IsInside(x, y) == false)
@@ -37,11 +59,3 @@ void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
 	pEntitySelected = pEntity;
 }
 
-void SampleScene::OnUpdate()
-{
-	if(pEntitySelected != nullptr)
-	{
-		sf::Vector2f position = pEntitySelected->GetPosition();
-		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue); 
-	}
-}
