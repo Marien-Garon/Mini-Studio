@@ -57,12 +57,12 @@ void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
 	pEntitySelected = pEntity;
 }
 
-void SampleScene::OnUpdate()
-{
-
-	if(pEntitySelected != nullptr)
-	{
-		sf::Vector2f position = pEntitySelected->GetPosition();
-		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue); 
-	}
-}
+//void SampleScene::OnUpdate()
+//{
+//
+//	if(pEntitySelected != nullptr)
+//	{
+//		sf::Vector2f position = pEntitySelected->GetPosition();
+//		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue); 
+//	}
+//}

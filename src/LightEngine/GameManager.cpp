@@ -6,6 +6,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
+#include "AssetManager.h"
+
 #include <iostream>
 
 GameManager::GameManager()
@@ -61,6 +63,8 @@ void GameManager::Run()
 	_ASSERT(fontLoaded);
 
 	_ASSERT(mpScene != nullptr);
+
+	AssetManager::getInstance().InitTextureInDirectory();
 
 	sf::Clock clock;
 	while (mpWindow->isOpen())

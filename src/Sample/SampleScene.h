@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Scene.h"
+#include "Enemy.h"
 
 class PhysicalEntity;
 
@@ -8,7 +9,7 @@ class SampleScene : public Scene
 {
 	Enemy* pEntity1;
 
-	Enemy* pEntitySelected;
+	//Enemy* pEntitySelected;
 
 	
 
