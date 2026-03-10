@@ -8,43 +8,42 @@
 
 #include "Debug.h"
 
+#include<iostream>
+
 void SampleScene::OnInitialize()
 {
-    pEntity1 = CreateEntity<Enemy>(50, sf::Color::Red);
-    pEntity1->SetPosition(600, 600);
-    pEntity1->SetRigidBody(true);
-
-    pEntity1->Initialize(); 
+    SpawnEnemy(600, 600);
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
 {
-    sf::Vector2f position = pEntity1->GetPosition();
-
     if (event.type == sf::Event::MouseButtonPressed &&
-        event.mouseButton.button == sf::Mouse::Right)
+        event.mouseButton.button == sf::Mouse::Left)
     {
-        float dist = Utils::GetDistance(position.x, position.y, 100.f, 100.f);
+ 
+        for (Enemy* e : m_enemy)
+            e->Destroy();
 
-        if (dist > 10)
-        {
-            pEntity1->GoToPosition(position.x, position.y, 100.f);
-        }
+        m_enemy.clear();
+
+        
+        SpawnEnemy(event.mouseButton.x, event.mouseButton.y);
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
+    
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
-        pEntity1->TakeDamage(10);
+        if (!m_enemy.empty())
+            m_enemy[0]->TakeDamage(10);
     }
-
 }
-
 
 void SampleScene::OnUpdate()
 {
     float dt = GetDeltaTime();
 
-    pEntity1->Update(dt);
+    if (!m_enemy.empty())
+        m_enemy[0]->Update(dt);
 
     if (pEntitySelected != nullptr)
     {
@@ -53,11 +52,14 @@ void SampleScene::OnUpdate()
     }
 }
 
-void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
+Enemy* SampleScene::SpawnEnemy(int x, int y)
 {
-	if (pEntity->IsInside(x, y) == false)
-		return;
+    Enemy* e = CreateEntity<Enemy>(50, sf::Color::Red);
+    e->SetPosition(x, y);
+    e->Initialize();
 
-	pEntitySelected = pEntity;
+    m_enemy.push_back(e);
+    return e;
 }
+
 

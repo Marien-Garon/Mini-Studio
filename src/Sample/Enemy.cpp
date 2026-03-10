@@ -22,21 +22,19 @@ void Enemy::Update(float dt)
     }
 }
 
-
 float Enemy::TakeDamage(int amount)
 {
-    if (m_Hpmax == 0)
+    m_Hpmax -= amount;
+
+    if (m_Hpmax <= 0)
     {
         std::cout << "Enemy died" << std::endl;
         EnemyAlive = false;
         Destroy();
+        return 0;
     }
-    else
-    {
-        m_Hpmax -= amount;
-        std::cout << "Enemy take damage " << std::endl;
-        std::cout << "Current Hp :  " << m_Hpmax << std::endl;
-    }
-   
+
+    std::cout << "Enemy take damage\nCurrent Hp: " << m_Hpmax << std::endl;
     return m_Hpmax;
 }
+
