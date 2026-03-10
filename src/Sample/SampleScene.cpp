@@ -1,43 +1,44 @@
 #include "SampleScene.h"
 
-#include "DummyEntity.h"
+#include "Player.h"
 
 #include "Debug.h"
 
 void SampleScene::OnInitialize()
 {
-	pEntity1 = CreateEntity<DummyEntity>(100, sf::Color::Red);
-	pEntity1->SetPosition(100, 100);
+	pEntity1 = CreateEntity<Player>(100, sf::Color::Red);
+	pEntity1->SetPosition(300, 200);
 	pEntity1->SetRigidBody(true);
-
-	pEntity2 = CreateEntity<DummyEntity>(50, sf::Color::Green);
-	pEntity2->SetPosition(500, 500);
-	pEntity2->SetRigidBody(true);
 
 	pEntitySelected = nullptr;
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
 {
-	if (event.type != sf::Event::EventType::MouseButtonPressed)
-		return;
+	sf::Vector2f position = pEntity1->GetPosition();
 
-	if (event.mouseButton.button == sf::Mouse::Button::Right)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 	{
-		TrySetSelectedEntity(pEntity1, event.mouseButton.x, event.mouseButton.y);
-		TrySetSelectedEntity(pEntity2, event.mouseButton.x, event.mouseButton.y);
+		pEntity1->GoToPosition(position.x - 10.f , position.y, 100);
 	}
 
-	if (event.mouseButton.button == sf::Mouse::Button::Left)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		if (pEntitySelected != nullptr) 
-		{
-			pEntitySelected->GoToPosition(event.mouseButton.x, event.mouseButton.y, 100.f);
-		}
+		pEntity1->GoToPosition(position.x + 10.f, position.y, 100);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	{
+		pEntity1->TakeDamage(10);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		pEntity1->Heal(10);
 	}
 }
 
-void SampleScene::TrySetSelectedEntity(DummyEntity* pEntity, int x, int y)
+void SampleScene::TrySetSelectedEntity(Player* pEntity, int x, int y)
 {
 	if (pEntity->IsInside(x, y) == false)
 		return;
