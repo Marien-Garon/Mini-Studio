@@ -18,6 +18,9 @@ protected:
 public:     
 
     virtual void OnUpdate() override;
+    virtual void OnCollision(Entity* collidedWith) override {};
+    virtual void OnInitialize() override {};
+    virtual void OnDestroy() override {};
 
 
     float GetGravitySpeed() { return mGravitySpeed; }

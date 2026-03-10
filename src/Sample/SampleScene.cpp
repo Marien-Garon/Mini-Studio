@@ -1,13 +1,10 @@
-#include "SampleScene.h"
 #include <iostream>
+
+#include "SampleScene.h"
 #include "PhysicalEntity.h"
-
 #include "Player.h"
-
-#include"Enemy.h"
-
-#include"Utils.h"
-
+#include "Enemy.h"
+#include "Utils.h"
 #include "Debug.h"
 
 void SampleScene::OnInitialize()
@@ -32,7 +29,7 @@ void SampleScene::OnEvent(const sf::Event& event)
 		pEntity1->MoveRight(pEntity1);
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 	{
 		pEntity1->TakeDamage(10);
 	}
@@ -41,6 +38,16 @@ void SampleScene::OnEvent(const sf::Event& event)
 	{
 		pEntity1->Heal(10);
 	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	{
+		pEntity1->Jump();
+	}
+
+	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt))
+	{
+		pEntity1->StopFall();
+	}*/
 }
 
 void SampleScene::TrySetSelectedEntity(Player* pEntity, int x, int y)

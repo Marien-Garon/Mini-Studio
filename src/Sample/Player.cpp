@@ -2,6 +2,11 @@
 
 #include <iostream>
 
+void Player::OnUpdate()
+{
+	m_deltaTime = GetDeltaTime();
+}
+
 void Player::OnCollision(Entity* other)
 {
 	std::cout << "Player::OnCollision" << std::endl;
@@ -42,12 +47,25 @@ void Player::Heal(int _heal)
 
 void Player::MoveRight(Player* player)
 {
-	sf::Vector2f position = player->GetPosition();
-	player->GoToPosition(position.x -= 10.f * GetDeltaTime(), position.y, 100);
+	m_speed += m_acceleration * 100;
+
+	if (m_speed > m_maxSpeed)
+	{
+		m_speed = m_maxSpeed;
+		m_position = player->GetPosition();
+		player->GoToPosition(m_position.x -= 10.f, m_position.y, 100);
+	}
+	
 }
 
 void Player::MoveLeft(Player* player)
 {
-	sf::Vector2f position = player->GetPosition();
-	player->GoToPosition(position.x += 10.f * GetDeltaTime(), position.y, 100);
+	m_speed += m_acceleration;
+
+	if (m_speed > m_maxSpeed)
+	{
+		m_speed = m_maxSpeed;
+		m_position = player->GetPosition();
+		player->GoToPosition(m_position.x += 10.f, m_position.y, 100);
+	}
 }
