@@ -25,8 +25,6 @@ void Enemy::Update(float dt)
 
 float Enemy::TakeDamage(int amount)
 {
-    
-
     if (m_Hpmax == 0)
     {
         std::cout << "Enemy died" << std::endl;
