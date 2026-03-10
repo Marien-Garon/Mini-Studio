@@ -3,9 +3,24 @@
 
 void PhysicalEntity::OnUpdate()
 {
+	if (isJumping == true)
+	{
+		GoToDirection(GetPosition().x, mTarget.position.y, mGravitySpeed);
+		if (GetPosition().y <= mTarget.position.y)
+		{
+			isJumping = false;
+			isFalling = true;
+			mGravitySpeed = 0;
+			Fall(GetDeltaTime());
+		}
+	}
+
 	if (isFalling == true)
-		GoToDirection(GetPosition().x/* + mTarget.position.x*/, GetPosition().y + mTarget.position.y, mGravitySpeed);
-	
+	{
+		Fall(GetDeltaTime());
+		GoToDirection(GetPosition().x, GetPosition().y + mTarget.position.y, mGravitySpeed);
+	}
+
 }
 
 bool PhysicalEntity::CanFall()
@@ -20,8 +35,8 @@ bool PhysicalEntity::CanFall()
 /// </summary>
 void PhysicalEntity::Fall(float deltaTime)
 {
-	mGravitySpeed += gravityAcceleration * (deltaTime + 0.5);
-	mTarget.position.y += mGravitySpeed * (deltaTime + 0.5);
+	mGravitySpeed += gravityAcceleration * (deltaTime + 0.2);
+	mTarget.position.y += mGravitySpeed * (deltaTime + 0.2);
 
 	isFalling = true;
 }
@@ -39,6 +54,7 @@ void PhysicalEntity::StopFall()
 	GoToPosition(GetPosition().x, GetPosition().y, mGravitySpeed);
 
 	isFalling = false;
+	isJumping = false;
 }
 
 
@@ -46,7 +62,10 @@ void PhysicalEntity::Jump()
 {
 	if (isFalling == true)
 		return;
+
 	mGravitySpeed = -100;
 	mTarget.position.x = 0;
-	mTarget.position.y = 0;
+	mTarget.position.y = GetPosition().y - 30;
+
+	isJumping = true;
 }

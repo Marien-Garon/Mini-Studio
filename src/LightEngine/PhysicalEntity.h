@@ -9,6 +9,7 @@ private:
     float mGravitySpeed = 0;
 
     bool isFalling = false;
+    bool isJumping = false;
 
 public:     
     virtual void OnUpdate() override;

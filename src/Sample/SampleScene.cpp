@@ -1,5 +1,5 @@
 #include "SampleScene.h"
-
+#include <iostream>
 #include "PhysicalEntity.h"
 
 #include "Debug.h"
@@ -26,24 +26,17 @@ void SampleScene::OnEvent(const sf::Event& event)
 
 	if (event.mouseButton.button == sf::Mouse::Button::Right)
 	{
-		TrySetSelectedEntity(pEntity1, event.mouseButton.x, event.mouseButton.y);
-		TrySetSelectedEntity(pEntity2, event.mouseButton.x, event.mouseButton.y);
-	}
+		pEntity1->Jump();
+		pEntity2->Jump();
 
-	if (event.mouseButton.button == sf::Keyboard::A)
-	{
-		if (pEntitySelected != nullptr)
-		{
-			pEntitySelected->Jump();
-		}
+		/*TrySetSelectedEntity(pEntity1, event.mouseButton.x, event.mouseButton.y);
+		TrySetSelectedEntity(pEntity2, event.mouseButton.x, event.mouseButton.y);*/
 	}
 
 	if (event.mouseButton.button == sf::Mouse::Button::Left)
 	{
-		if (pEntitySelected != nullptr) 
-		{
-			pEntitySelected->StopFall();
-		}
+		pEntity1->StopFall();
+		pEntity2->StopFall();
 	}
 
 	if (event.mouseButton.button == sf::Mouse::Button::Middle)
