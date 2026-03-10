@@ -63,9 +63,9 @@ void PhysicalEntity::Jump()
 	if (isFalling == true)
 		return;
 
-	mGravitySpeed = -100;
+	mGravitySpeed = 100;
 	mTarget.position.x = 0;
-	mTarget.position.y = GetPosition().y - 30;
+	mTarget.position.y = GetPosition().y - jumpSize;
 
 	isJumping = true;
 }

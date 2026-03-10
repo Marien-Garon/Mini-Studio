@@ -11,7 +11,12 @@ private:
     bool isFalling = false;
     bool isJumping = false;
 
+protected:
+
+    int jumpSize = 50;
+
 public:     
+
     virtual void OnUpdate() override;
 
 
@@ -27,5 +32,6 @@ public:
     bool CanJump();
     void Jump();
 
+    void SetJumpSize(int newJumpSize) { jumpSize = newJumpSize; }
 };
 
