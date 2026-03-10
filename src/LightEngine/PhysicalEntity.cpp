@@ -10,17 +10,14 @@ void PhysicalEntity::OnUpdate()
 		{
 			isJumping = false;
 			isFalling = true;
-			//mGravitySpeed = 0;
 			Fall(GetDeltaTime());
 		}
 	}
-
 	if (isFalling == true)
 	{
 		Fall(GetDeltaTime());
 		GoToDirection(GetPosition().x, GetPosition().y + mTarget.position.y, mGravitySpeed);
 	}
-
 }
 
 bool PhysicalEntity::CanFall()
@@ -53,7 +50,6 @@ void PhysicalEntity::StopFall()
 
 	isFalling = false;
 }
-
 
 void PhysicalEntity::Jump()
 {
