@@ -23,13 +23,12 @@ void AABBCollider::SetPosition(float _x, float _y)
 
 Side AABBCollider::GetCollisionSide(const AABBCollider& _other)
 {
-    if (!IsColliding(_other)) return Side::NONE;
     if (IsInside(_other)) return Side::INSIDE;
 
-    if (x > _other.x && _other.x + _other.width <= x) return Side::RIGHT;
-    if (x < _other.x && _other.x > x + width) return Side::LEFT;
-    if (y < _other.y && _other.y > y + height) return Side::DOWN;
-    if (y > _other.y && _other.y + height <= y) return Side::UP;
+    if (_other.x + _other.width <= x) return Side::LEFT;
+    if (_other.x >= x + width) return Side::RIGHT;
+    if (_other.y >= y + height) return Side::DOWN;
+    if (_other.y + height <= y) return Side::UP;
 
     return Side::NONE;
 }

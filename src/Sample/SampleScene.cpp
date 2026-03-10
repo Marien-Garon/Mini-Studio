@@ -11,6 +11,7 @@ void SampleScene::OnInitialize()
 	pEntity1->SetPosition(100, 100);
 	pEntity1->SetRigidBody(true);
 	pEntity1->SetMoveAble(true);
+	pEntity1->SetTag(1);
 
 	pEntity2 = CreateEntity<DummyEntity>(50,50, sf::Color::Green);
 	pEntity2->SetPosition(500, 500);
@@ -22,23 +23,6 @@ void SampleScene::OnInitialize()
 
 void SampleScene::OnEvent(const sf::Event& event)
 {
-	if (pEntity1->GetCollidingSide(pEntity2) == Side::RIGHT)
-		std::cout << "Collision Right" << std::endl;
-
-	if (pEntity1->GetCollidingSide(pEntity2) == Side::LEFT)
-		std::cout << "Collision Left" << std::endl;
-	
-	if (pEntity1->GetCollidingSide(pEntity2) == Side::UP)
-		std::cout << "Collision Up" << std::endl;
-
-	if (pEntity1->GetCollidingSide(pEntity2) == Side::DOWN)
-		std::cout << "Collision Down" << std::endl;
-
-
-
-	if (pEntity1->GetCollidingSide(pEntity2) == Side::INSIDE)
-		std::cout << "Inside" << std::endl;
-
 	if (event.type != sf::Event::EventType::MouseButtonPressed)
 		return;
 
