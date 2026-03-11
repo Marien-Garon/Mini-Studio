@@ -10,6 +10,7 @@
 
 #include"Platform.h"
 #include"ClassicPlatform.h"
+#include"BreakablePlatform.h"
 
 #include "Debug.h"
 #include "InputManager.h"
@@ -42,10 +43,9 @@ void SampleScene::OnInitialize()
     pPlatform1->SetPosition(200, 300);
     m_Platforms.push_back(pPlatform1);
 
-    Platform* pPlatform2 = CreateEntity<ClassicPlatform>(100, 20, sf::Color::Blue);
+    Platform* pPlatform2 = CreateEntity<BreakablePlatform>(200, 20, sf::Color::Blue);
     pPlatform2->SetPosition(100, 300);
     m_Platforms.push_back(pPlatform2);
-
 
 }
 
