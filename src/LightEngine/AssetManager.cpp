@@ -273,3 +273,18 @@ void AssetManager::StopMusic()
 
     m_musicPlaying->stop();
 }
+
+void AssetManager::SetSoundVolume(float _volume)
+{
+    for (sf::Sound* sound : m_soundPlaying)
+    {
+        sound->setVolume(_volume);
+    }
+}
+
+void AssetManager::SetMusicVolume(float _volume)
+{
+    if (m_musicPlaying == nullptr) return;
+
+    m_musicPlaying->setVolume(_volume);
+}

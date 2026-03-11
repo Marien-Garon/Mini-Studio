@@ -36,7 +36,9 @@ struct TextureData
 	std::unordered_map<std::string, Animation> animations;
 };
 
-
+/// <summary>
+/// Init, store and use all of the assets
+/// </summary>
 class AssetManager
 {
 private:
@@ -73,6 +75,16 @@ public:
 	/// <param name="_id"></param>
 	/// <returns></returns>
 	sf::Texture GetTexture(std::string _id);
+	/// <summary>
+	/// Return a new object Sprite using the texture with the id if it exist if not return a empty Sprite
+	/// Can use only a part of the texture use position and size for that
+	/// </summary>
+	/// <param name="_id -> id of the texture"></param>
+	/// <param name="_posX -> Position in the texture you want to start  for create the sprite"></param>
+	/// <param name="_posY -> Position in the texture you want to start  for create the sprite"></param>
+	/// <param name="_w -> Size of the sprite you want to create from the texture"></param>
+	/// <param name="_h -> Size of the sprite you want to create from the texture"></param>
+	/// <returns></returns>
 	sf::Sprite LoadSprite(std::string _id, int _posX = 0, int _posY = 0, int _w = 0, int _h = 0);
 
 	/// <summary>
@@ -95,6 +107,15 @@ public:
 	/// Stop the music
 	/// </summary>
 	void StopMusic();
+
+	/// <summary>
+	/// Set the volume for the sound the minimum is 0 (no volume) and the maximum is 100
+	/// </summary>
+	void SetSoundVolume(float _volume = 100.f);
+	/// <summary>
+	/// Set the volume for the music the minimum is 0 (no volume) and the maximum is 100
+	/// </summary>
+	void SetMusicVolume(float _volume = 100.f);
 
 
 	//void PauseSound(std::string _id);
