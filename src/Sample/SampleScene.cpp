@@ -15,13 +15,13 @@
 
 void SampleScene::OnInitialize()
 {
-	pEntity1 = CreateEntity<DummyEntity>(20,20, sf::Color::Red);
+	pEntity1 = CreateEntity<Enemy>(20,20, sf::Color::Red);
 	pEntity1->SetPosition(100, 100);
 	pEntity1->SetRigidBody(true);
 	pEntity1->SetMoveAble(true);
 	pEntity1->SetTag(1);
 
-	pEntity2 = CreateEntity<DummyEntity>(50,50, sf::Color::Green);
+	pEntity2 = CreateEntity<Enemy>(50,50, sf::Color::Green);
 	pEntity2->SetPosition(500, 500);
 	pEntity2->SetRigidBody(true);
 	pEntity2->SetMoveAble(true);
@@ -67,12 +67,12 @@ void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
 	pEntitySelected = pEntity;
 }
 
-void SampleScene::OnUpdate()
-{
-
-	if(pEntitySelected != nullptr)
-	{
-		sf::Vector2f position = pEntitySelected->GetPosition();
-		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue); 
-	}
-}
+//void SampleScene::OnUpdate()
+//{
+//
+//	if(pEntitySelected != nullptr)
+//	{
+//		sf::Vector2f position = pEntitySelected->GetPosition();
+//		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue); 
+//	}
+//}
