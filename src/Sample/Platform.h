@@ -1,3 +1,4 @@
+//Class Abstraite
 #pragma once
 
 #include "Entity.h"
