@@ -5,16 +5,33 @@
 #include"Enemy.h"
 #include"Utils.h"
 #include "Debug.h"
+#include "InputManager.h"
+#include <iostream>
+
+#define MAX_JOYSTICK_POS  100
+#define MIN_JOYSTICK_POS -100
+
+
+
+#include <iostream>
+
 
 #include "AssetManager.h"
 
 void SampleScene::OnInitialize()
 {
-    pEntity1 = CreateEntity<Enemy>(50, sf::Color::Red);
-    pEntity1->SetPosition(600, 600);
-    pEntity1->SetRigidBody(true);
+	pEntity1 = CreateEntity<Enemy>(20,20, sf::Color::Red);
+	pEntity1->SetPosition(100, 100);
+	pEntity1->SetRigidBody(true);
+	pEntity1->SetMoveAble(true);
+	pEntity1->SetTag(1);
 
-    pEntity1->Initialize(); 
+	pEntity2 = CreateEntity<Enemy>(50,50, sf::Color::Green);
+	pEntity2->SetPosition(500, 500);
+	pEntity2->SetRigidBody(true);
+	pEntity2->SetMoveAble(true);
+
+	pEntitySelected = nullptr;
 }
 
 void SampleScene::OnEvent(const sf::Event& event)

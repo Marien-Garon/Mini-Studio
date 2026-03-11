@@ -30,6 +30,18 @@ class Debug
 	void Draw(sf::RenderWindow* pRenderWindow);
 
 public:
+
+	static enum class Severity
+	{
+		NONE,
+		INFO,
+		WARN,
+		ERROR,
+		CRITICAL
+	};
+
+
+
 	static Debug* Get();
 
 	static void DrawLine(float x1, float y1, float x2, float y2, const sf::Color& color);
@@ -37,6 +49,8 @@ public:
 	static void DrawCircle(float x, float y, float radius, const sf::Color& color);
 	static void DrawText(float x, float y, const std::string& text, const sf::Color& color);
 	static void DrawText(float x, float y, const std::string& text, float ratioX, float ratioY, const sf::Color& color);
+
+	static void DebugMessage(Severity _sv, const std::string& _type, const std::string& _msg);
 
 	friend GameManager;
 };

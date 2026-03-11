@@ -5,6 +5,8 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include <string>
+#include <iostream>
+
 
 Debug* Debug::Get()
 {
@@ -91,4 +93,31 @@ void Debug::DrawText(float x, float y, const std::string& text, float ratioX, fl
 	sfText.setOrigin(bounds.width * ratioX, bounds.height * ratioY);
 
 	Debug::Get()->mTexts.push_back(sfText);
+}
+
+void Debug::DebugMessage(Severity _sv, const std::string& _type, const std::string& _msg)
+{
+	std::string svText;
+	switch (_sv)
+	{
+	case Debug::Severity::NONE:
+		svText = "NONE";
+		break;
+	case Debug::Severity::INFO:
+		svText = "INFO";
+		break;
+	case Debug::Severity::WARN:
+		svText = "WARN";
+		break;
+	case Debug::Severity::ERROR:
+		svText = "ERROR";
+		break;
+	case Debug::Severity::CRITICAL:
+		svText = "CRITICAL";
+		break;
+	default:
+		break;
+	}
+
+	std::cout << "[" << svText << "]" << "[" << _type << "]" << " : " << _msg << std::endl;
 }

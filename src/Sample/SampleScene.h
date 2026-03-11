@@ -3,17 +3,19 @@
 #include "Scene.h"
 #include "Enemy.h"
 
+#include "Enemy.h"
+
 class PhysicalEntity;
 
 class SampleScene : public Scene
 {
 	Enemy* pEntity1;
 
-	//Enemy* pEntitySelected;
+	Enemy* pEntity2;
+
+	Enemy* pEntitySelected;
 
 	
-
-	PhysicalEntity* pEntitySelected;
 private:
 	void TrySetSelectedEntity(Enemy* pEntity, int x, int y);
 

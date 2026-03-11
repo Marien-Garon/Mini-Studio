@@ -2,6 +2,7 @@
 
 #include "Entity.h"
 #include "Debug.h"
+#include "InputManager.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -90,14 +91,20 @@ void GameManager::Run()
 
 void GameManager::HandleInput()
 {
+	InputManager& IM = InputManager::Get();
+
+
 	sf::Event event;
 	while (mpWindow->pollEvent(event))
 	{
+		IM.Reset();
+
 		if (event.type == sf::Event::Closed)
 		{
 			mpWindow->close();
 		}
 
+		IM.HandleInput(event);
 		mpScene->OnEvent(event);
 	}
 }
