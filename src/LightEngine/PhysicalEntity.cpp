@@ -51,6 +51,11 @@ void PhysicalEntity::StopFall()
 	isFalling = false;
 }
 
+bool PhysicalEntity::CanJump()
+{
+	return false;
+}
+
 void PhysicalEntity::Jump()
 {
 	if (isFalling == true)

@@ -54,7 +54,7 @@ void SampleScene::OnUpdate()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
-		player->Jump();
+		player->Fall(deltaTime);
 	}
 
 	if(pEntitySelected != nullptr)
