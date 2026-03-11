@@ -4,6 +4,7 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 class Entity;
 class Scene;
@@ -54,6 +55,8 @@ public:
 
 	template<typename T>
 	void LaunchScene();
+
+	void DrawSprite(const sf::Sprite& _sprite);
 
 	float GetDeltaTime() const { return mDeltaTime; }
 	Scene* GetScene() const { return mpScene; }

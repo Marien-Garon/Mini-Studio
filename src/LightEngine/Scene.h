@@ -4,6 +4,7 @@ class GameManager;
 
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 class Scene
 {
@@ -22,12 +23,14 @@ protected:
 
 public:
 	template<typename T>
-	T* CreateEntity(float radius, const sf::Color& color);
+	T* CreateEntity(float width, float height, const sf::Color& color);
 
 	float GetDeltaTime() const;
 
 	int GetWindowWidth() const;
 	int GetWindowHeight() const;
+
+	void DrawSprite(const sf::Sprite& _sprite) const;
 
 	friend GameManager;
 };
