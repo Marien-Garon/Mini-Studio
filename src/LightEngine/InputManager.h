@@ -2,7 +2,7 @@
 #include "Controller.h"
 
 /// <summary>
-/// Gestion des inputs autant au clavier qu'a la manettes
+/// Manage input of the controller and the keyboard (not mouse yet)
 /// </summary>
 class InputManager
 {
@@ -34,31 +34,102 @@ public:
 
 	void Init();
 
-
 	void HandleInput(const sf::Event& event);
 
-
+	/// <summary>
+	/// Return if a key was pressed
+	/// </summary>
+	/// <param name="_key -> sf::Keyboard::Key"></param>
+	/// <returns> boolean </returns>
 	bool IsKeyPressed(sf::Keyboard::Key _key);
 	bool IsMousePressed(sf::Mouse::Button _mouseClick);
 
-
+	/// <summary>
+	/// Return if a key was released
+	/// </summary>
+	/// <param name="_key -> sf::Keyboard::Key"></param>
+	/// <returns> boolean </returns>
 	bool IskeyReleased(sf::Keyboard::Key _key);
+
+	/// <summary>
+	/// Return if a key is held
+	/// </summary>
+	/// <param name="_key -> sf::Keyboard::Key"></param>
+	/// <returns> boolean </returns>
 	bool IsKeyHeld(sf::Keyboard::Key _key);
 
-
+	/// <summary>
+	/// Return if a buttton of the controller was pressed
+	/// </summary>
+	/// <param name="_id -> id of the controller use 0 if you don't know"></param>
+	/// <param name="_key -> Controller::Button"></param>
+	/// <returns>boolean</returns>
 	bool IsControllerPressed(unsigned int _id, Controller::Button _key);
+
+	/// <summary>
+	/// Return if a buttton of the controller was released
+	/// </summary>
+	/// <param name="_id -> id of the controller use 0 if you don't know"></param>
+	/// <param name="_key -> Controller::Button"></param>
+	/// <returns>boolean</returns>
 	bool IsControllerReleased(unsigned int _id, Controller::Button _key);
+
+	/// <summary>
+	/// Return if a buttton of the controller is held
+	/// </summary>
+	/// <param name="_id -> id of the controller use 0 if you don't know"></param>
+	/// <param name="_key -> Controller::Button"></param>
+	/// <returns>boolean</returns>
 	bool IsControllerHeld(unsigned int _id, Controller::Button _key);
 
+	/// <summary>
+	/// Return the axis X level of the left joystick
+	/// </summary>
+	/// <param name="_id -> id of the controller 0 by default"></param>
+	/// <returns>boolean</returns>
+	float GetJoystickLeftX(unsigned int  _id  = 0);
 
-	float GetJoystickLeftX(unsigned int _id);
-	float GetJoystickLeftY(unsigned int _id);
-	float GetJoystickRightX(unsigned int _id);
-	float GetJoystickRightY(unsigned int	 _id);
-	float GetTriggerLvl(unsigned int _id);
+	/// <summary>
+	/// Return the axis Y level of the left joystick
+	/// </summary>
+	/// <param name="_id -> id of the controller 0 by default"></param>
+	/// <returns>boolean</returns>
+	float GetJoystickLeftY(unsigned int  _id  = 0);
 
+	/// <summary>
+	/// Return the axis X level of the right joystick
+	/// </summary>
+	/// <param name="_id -> id of the controller 0 by default"></param>
+	/// <returns>boolean</returns>
+	float GetJoystickRightX(unsigned int _id  = 0);
+
+	/// <summary>
+	/// Return the axis Y level of the right joystick
+	/// </summary>
+	/// <param name="_id -> id of the controller 0 by default"></param>
+	/// <returns>boolean</returns>
+	float GetJoystickRightY(unsigned int _id  = 0);
+
+	/// <summary>
+	/// Return the trigger lever of the two trigger L&R
+	/// </summary>
+	/// <param name="_id -> id of the controller 0 by default"></param>
+	/// <returns>boolean</returns>
+	float GetTriggerLvl(unsigned int _id = 0);
+
+	/// <summary>
+	/// Return a vector of all controller available if none return a vector with a length of 0
+	/// </summary>
+	/// <returns> vector of unsigned int</returns>
 	std::vector<unsigned int> GetAvailableController();
 
-	bool IsJoysticConnected(int _id);
+	/// <summary>
+	/// Return true if the controller at the id is connected
+	/// </summary>
+	/// <param name="_id -> id of the controller 0 by default"></param>
+	/// <returns>boolean</returns>
+	bool IsJoysticConnected(int _id = 0);
+
+
 	void Reset();
 };
