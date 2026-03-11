@@ -50,7 +50,7 @@ Hook* Player::SearchForHook()
 
 void Player::LaunchGrapple(Hook* target)
 {
-    if (target == nullptr) {
+    if (target == nullptr || m_grapple != nullptr) {
         return;
     }
     m_grapple = CreateEntity<Grapple>(20.f, sf::Color::Magenta);
