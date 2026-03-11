@@ -4,6 +4,6 @@
 class DummyEntity : public Entity
 {
 public:
-	void OnCollision(Entity* other) override;
+	/*void OnCollision(Entity* other) override;*/
 };
 

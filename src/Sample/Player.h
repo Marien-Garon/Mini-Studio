@@ -24,5 +24,8 @@ private:
 	float m_acceleration = 250.f;
 	float m_deceleration = 200.f;
 
+	// 1 droite, -1 gauche
+	int m_direction = 1;
+
 	sf::Vector2f m_position;
 };

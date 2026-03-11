@@ -79,4 +79,6 @@ void Player::MoveLeft(float deltaTime)
 	{
 		m_speed = -m_maxSpeed;
 	}
+
+	m_direction *= (-1);
 }

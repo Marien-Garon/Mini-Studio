@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include "InputManager.h"
 #include "SampleScene.h"
 #include "PhysicalEntity.h"
 #include "Player.h"
@@ -9,7 +9,7 @@
 
 void SampleScene::OnInitialize()
 {
-	player = CreateEntity<Player>(100, sf::Color::Red);
+	player = CreateEntity<Player>(100, 200, sf::Color::Red);
 	player->SetPosition(300, 200);
 	player->SetRigidBody(true);
 
@@ -18,6 +18,7 @@ void SampleScene::OnInitialize()
 
 void SampleScene::OnEvent(const sf::Event& event)
 {
+	
 }
 
 void SampleScene::TrySetSelectedEntity(Player* pEntity, int x, int y)
@@ -30,8 +31,21 @@ void SampleScene::TrySetSelectedEntity(Player* pEntity, int x, int y)
 
 void SampleScene::OnUpdate()
 {
+	InputManager& in = InputManager::Get();
 	float deltaTime = GetDeltaTime();
 
+	if (in.GetJoystickLeftX(0) >= 100.f)
+	{
+		std::cout << in.GetJoystickLeftX(0);
+		player->MoveRight(deltaTime);
+	}
+
+	if (in.GetJoystickLeftX(0) <= -100.f)
+	{
+		std::cout << in.GetJoystickLeftY(0);
+		player->MoveLeft(deltaTime);
+	}
+	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 	{
 		player->MoveLeft(deltaTime);
@@ -54,12 +68,12 @@ void SampleScene::OnUpdate()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
-		player->Fall(deltaTime);
+		player->Jump();
 	}
 
-	if(pEntitySelected != nullptr)
+	/*if(pEntitySelected != nullptr)
 	{
 		sf::Vector2f position = pEntitySelected->GetPosition();
 		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue); 
-	}
+	}*/
 }
