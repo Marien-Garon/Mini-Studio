@@ -3,22 +3,18 @@
 
 void Camera::OnUpdate()
 {
-	GoToDirection(GetScene()->GetWindowWidth(), GetPosition().y, mSpeed);
+	camera.move(sf::Vector2f(mSpeed, 0));
+}
 
-	camera.setCenter(GetPosition().x, GetPosition().y);
-	camera.move(100, 100);
+void Camera::SetupCamera(int cameraSpeed, Entity* entityToFolow)
+{
+	mSpeed = cameraSpeed;
 
+	camera.setCenter(entityToFolow->GetPosition().x, entityToFolow->GetPosition().y);
 }
 
 void Camera::OnInitialize()
 {
-	mSpeed = 100;
-
-	SetPosition(GetScene()->GetWindowWidth() / 2, GetScene()->GetWindowHeight() / 2);
-	SetDirection(GetScene()->GetWindowWidth(), GetScene()->GetWindowHeight() / 2, mSpeed);
-
-	sf::View view2(sf::Vector2f(GetPosition().x, GetPosition().y), sf::Vector2f(GetScene()->GetWindowHeight(), GetScene()->GetWindowWidth()));
+	sf::View view2(sf::Vector2f(GetScene()->GetWindowWidth() / 2, GetScene()->GetWindowHeight() / 2), sf::Vector2f(GetScene()->GetWindowWidth(), GetScene()->GetWindowHeight()));
 	camera = view2;
-	
-	camera.setSize(200, 200);
 }

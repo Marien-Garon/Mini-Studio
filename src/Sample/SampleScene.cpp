@@ -17,7 +17,8 @@ void SampleScene::OnInitialize()
 
     pEntity1->Initialize(); 
 
-    mCamera = CreateEntity<Camera>(10, sf::Color::Green);
+    mCamera = CreateEntity<Camera>(0, sf::Color::Green);
+    mCamera->SetupCamera(1, pEntity1);
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
@@ -60,7 +61,7 @@ void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
 
 void SampleScene::OnUpdate()
 {
-    mCamera->OnUpdate();
+    GetGameManager()->RefreshCamera(mCamera);
 
 	if(pEntitySelected != nullptr)
 	{

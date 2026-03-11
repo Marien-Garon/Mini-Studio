@@ -10,12 +10,15 @@ public:
 	sf::View camera;
 
 protected:
+public: 
 	virtual void OnCollision(Entity* collidedWith) override {};
 	virtual void OnInitialize() override;
 	virtual void OnDestroy() override {};
-public: 
 	virtual void OnUpdate() override;
 
+	void SetupCamera(int cameraSpeed, Entity* entityToFolow);
+
+	sf::View* GetView() { return &camera; }
 
 
 };
