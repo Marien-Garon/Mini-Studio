@@ -49,6 +49,9 @@ private:
 
 	sf::Music* m_musicPlaying = nullptr;
 
+	void UpdateMusic();
+	void UpdateSounds();
+
 public:
 
 
@@ -58,26 +61,39 @@ public:
 	}
 	
 
-	void UpdateMusic();
-	void UpdateSounds();
 	void UpdateAssets();
-
 
 	bool InitMusicInDirectory(const std::filesystem::path& filename = "../../../assets/musics");
 	bool InitSoundInDirectory(const std::filesystem::path& filename = "../../../assets/sounds");
 	bool InitTextureInDirectory(const std::filesystem::path& filename = "../../../assets/textures");
 
-
+	/// <summary>
+	/// Return texture with id
+	/// </summary>
+	/// <param name="_id"></param>
+	/// <returns></returns>
 	sf::Texture GetTexture(std::string _id);
 	sf::Sprite LoadSprite(std::string _id, int _posX = 0, int _posY = 0, int _w = 0, int _h = 0);
 
-
+	/// <summary>
+	/// Play the sound with id
+	/// </summary>
+	/// <param name="_id -> std::string"></param>
+	/// <returns></returns>
 	sf::Sound* PlaySound(std::string _id);
 	sf::Music* PlayMusic(std::string _id);
 
-
+	/// <summary>
+	/// Pause the music use Resume for replay it
+	/// </summary>
 	void PauseMusic();
+	/// <summary>
+	/// Resume music if music is paused or stopped
+	/// </summary>
 	void ResumeMusic();
+	/// <summary>
+	/// Stop the music
+	/// </summary>
 	void StopMusic();
 
 
