@@ -29,6 +29,8 @@ public:
 	int GetWindowWidth() const;
 	int GetWindowHeight() const;
 
+	GameManager* GetGameManager() { return mpGameManager; }
+
 	friend GameManager;
 };
 

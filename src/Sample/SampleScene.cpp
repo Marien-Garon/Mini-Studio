@@ -2,9 +2,8 @@
 #include <iostream>
 #include "PhysicalEntity.h"
 
-#include "DummyEntity.h"
-
 #include"Enemy.h"
+#include "Camera.h"
 
 #include"Utils.h"
 
@@ -17,6 +16,8 @@ void SampleScene::OnInitialize()
     pEntity1->SetRigidBody(true);
 
     pEntity1->Initialize(); 
+
+    mCamera = CreateEntity<Camera>(10, sf::Color::Green);
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
@@ -36,18 +37,18 @@ void SampleScene::OnEvent(const sf::Event& event)
 }
 
 
-void SampleScene::OnUpdate()
-{
-    float dt = GetDeltaTime();
-
-    pEntity1->Update(dt);
-
-    if (pEntitySelected != nullptr)
-    {
-        sf::Vector2f position = pEntitySelected->GetPosition();
-        Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
-    }
-}
+//void SampleScene::OnUpdate()
+//{
+//    float dt = GetDeltaTime();
+//
+//    pEntity1->Update(dt);
+//
+//    if (pEntitySelected != nullptr)
+//    {
+//        sf::Vector2f position = pEntitySelected->GetPosition();
+//        Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
+//    }
+//}
 
 void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
 {
@@ -59,6 +60,7 @@ void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
 
 void SampleScene::OnUpdate()
 {
+    mCamera->OnUpdate();
 
 	if(pEntitySelected != nullptr)
 	{

@@ -1,16 +1,15 @@
 #pragma once
-
 #include "Scene.h"
 
 class PhysicalEntity;
+class Enemy;
+class Camera;
 
 class SampleScene : public Scene
 {
 	Enemy* pEntity1;
 
-	Enemy* pEntitySelected;
-
-	
+	Camera* mCamera;
 
 	PhysicalEntity* pEntitySelected;
 private:

@@ -58,6 +58,7 @@ public:
 	float GetDeltaTime() const { return mDeltaTime; }
 	Scene* GetScene() const { return mpScene; }
 	sf::Font& GetFont() { return mFont; };
+	sf::RenderWindow* GetWindow() { return mpWindow; }
 
 	friend Debug;
 	friend Scene;
