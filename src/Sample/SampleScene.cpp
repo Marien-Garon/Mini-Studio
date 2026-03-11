@@ -1,14 +1,12 @@
 #include "SampleScene.h"
 #include <iostream>
 #include "PhysicalEntity.h"
-
 #include "DummyEntity.h"
-
 #include"Enemy.h"
-
 #include"Utils.h"
-
 #include "Debug.h"
+
+#include "AssetManager.h"
 
 void SampleScene::OnInitialize()
 {
@@ -41,6 +39,8 @@ void SampleScene::OnUpdate()
     float dt = GetDeltaTime();
 
     pEntity1->Update(dt);
+
+
 
     if (pEntitySelected != nullptr)
     {

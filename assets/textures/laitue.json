@@ -1,7 +1,7 @@
 {"Data" : 
      { 
-     "id" : "test",
-     "width" : 50,
-     "height" : 30
+     "id" : "lettuce",
+     "spritesheet" : false,
+     "size" : { "width": 1840, "height": 2400 }
      }
 }
