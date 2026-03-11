@@ -4,6 +4,8 @@
 
 #include "Enemy.h"
 
+class Platform;
+
 class PhysicalEntity;
 
 class SampleScene : public Scene
@@ -14,6 +16,8 @@ class SampleScene : public Scene
 
 	Enemy* pEntitySelected;
 
+	std::vector<Platform*> m_Platforms;
+	
 	
 private:
 	void TrySetSelectedEntity(Enemy* pEntity, int x, int y);

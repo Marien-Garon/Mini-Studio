@@ -1,15 +1,13 @@
-//Class Abstraite
 #pragma once
-
 #include "Entity.h"
 
-class Platform : public Entity
-{
+class Platform : public Entity {
 public:
-	virtual void OnInitialize() {};
-	virtual void OnUpdate() {};
+    virtual ~Platform() {};
 
-	virtual void Breakable(float dt) {};
-	virtual void Under() {};
+    
+    virtual void OnUpdate(float dt);
+
+    
+    virtual void OnPlayerContact() = 0;
 };
-
