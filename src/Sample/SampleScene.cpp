@@ -9,6 +9,13 @@
 #include"Utils.h"
 
 #include "Debug.h"
+#include "InputManager.h"
+#include <iostream>
+
+#define MAX_JOYSTICK_POS  100
+#define MIN_JOYSTICK_POS -100
+
+
 
 #include <iostream>
 

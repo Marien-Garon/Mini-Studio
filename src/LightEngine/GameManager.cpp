@@ -2,9 +2,11 @@
 
 #include "Entity.h"
 #include "Debug.h"
+#include "InputManager.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+
 
 #include <iostream>
 
@@ -62,6 +64,8 @@ void GameManager::Run()
 
 	_ASSERT(mpScene != nullptr);
 
+	InputManager::Get().Init(); //If you already have a controller connected before launch and you desactivate this ligne the game crash
+
 	sf::Clock clock;
 	while (mpWindow->isOpen())
 	{
@@ -77,14 +81,20 @@ void GameManager::Run()
 
 void GameManager::HandleInput()
 {
+	InputManager& IM = InputManager::Get();
+
+
 	sf::Event event;
 	while (mpWindow->pollEvent(event))
 	{
+		IM.Reset();
+
 		if (event.type == sf::Event::Closed)
 		{
 			mpWindow->close();
 		}
 
+		IM.HandleInput(event);
 		mpScene->OnEvent(event);
 	}
 }
