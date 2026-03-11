@@ -18,6 +18,7 @@ class Entity
 		sf::Vector2i position;
         float distance;
 		bool isSet;
+		bool reached;
     };
 
 protected:
@@ -39,6 +40,8 @@ public:
 	float GetRadius() const { return mShape.getRadius(); }
 	void SetRigidBody(bool isRigitBody) { mRigidBody = isRigitBody; }
 	bool IsRigidBody() const { return mRigidBody; }
+
+	bool AsReachedTarget() { return mTarget.reached; };
 
     sf::Vector2f GetPosition(float ratioX = 0.5f, float ratioY = 0.5f) const;
 	sf::Shape* GetShape() { return &mShape; }

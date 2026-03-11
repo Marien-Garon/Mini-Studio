@@ -130,6 +130,7 @@ bool Entity::GoToPosition(int x, int y, float speed)
 	mTarget.position = { x, y };
 	mTarget.distance = Utils::GetDistance(position.x, position.y, x, y);
 	mTarget.isSet = true;
+	mTarget.reached = false;
 
 	return true;
 }
@@ -150,7 +151,7 @@ void Entity::Update()
 	sf::Vector2f translation = distance * mDirection;
 	mShape.move(translation);
 
-	if (mTarget.isSet) 
+	if (mTarget.isSet)
 	{
 		float x1 = GetPosition(0.5f, 0.5f).x;
 		float y1 = GetPosition(0.5f, 0.5f).y;
@@ -169,8 +170,10 @@ void Entity::Update()
 			SetPosition(mTarget.position.x, mTarget.position.y, 0.5f, 0.5f);
 			mDirection = sf::Vector2f(0.f, 0.f);
 			mTarget.isSet = false;
+			mTarget.reached = true;
 		}
 	}
+	else mTarget.reached = false;
 
 	OnUpdate();
 }

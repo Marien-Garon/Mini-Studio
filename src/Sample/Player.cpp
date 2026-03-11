@@ -3,11 +3,23 @@
 #include "Hook.h"
 #include "SampleScene.h"
 #include "Utils.h"
+#include "Debug.h"
 
 void Player::OnInitialize()
 {
-    m_grapple = CreateEntity<Grapple>(20.f, sf::Color::Magenta);
+    SetSpeed(100.f);
     m_grappleRopeLenght = 200.f;
+}
+
+void Player::OnUpdate()
+{
+    if (m_grapple != nullptr) {
+        if (GetPosition().x == m_grapple->GetPosition().x && GetPosition().y == m_grapple->GetPosition().y) {
+            m_grapple->Destroy();
+            m_grapple = nullptr;
+            GoToPosition(GetPosition().x + 10.f, GetPosition().y);
+        }
+    }
 }
 
 Hook* Player::SearchForHook()
@@ -17,11 +29,11 @@ Hook* Player::SearchForHook()
 	Hook* closestHook = nullptr;
 	float closestDistance = m_grappleRopeLenght;
     for (int i = 0; i < hooks.size(); i++) {
-        if (hooks[i]->GetPosition().y < GetPosition(0.5f, 1.f).y) {
+        if (hooks[i]->GetPosition().y > GetPosition(0.5f, 1.f).y) {
             continue;
         }
 
-        if (hooks[i]->GetPosition().x < GetPosition(0.f, 0.5f).x) {
+        if (hooks[i]->GetPosition().x < GetPosition(0.5f, 1.f).x) {
 			continue;
         }
 
@@ -41,6 +53,9 @@ void Player::LaunchGrapple(Hook* target)
     if (target == nullptr) {
         return;
     }
-    m_grapple->GoToPosition(GetPosition());
-	m_grapple->SetDirection(target->GetPosition().x - GetPosition().x, target->GetPosition().y - GetPosition().y);
+    m_grapple = CreateEntity<Grapple>(20.f, sf::Color::Magenta);
+    m_grapple->SetPosition(GetPosition().x + 1, GetPosition().y + 1);
+    m_grapple->m_Owner = this;
+    
+    m_grapple->GoToPosition(target->GetPosition().x, target->GetPosition().y);
 }

@@ -13,6 +13,8 @@ public :
 
 	void OnInitialize() override;
 
+	void OnUpdate() override;
+
 	Hook* SearchForHook();
 
 	void LaunchGrapple(Hook* target);
