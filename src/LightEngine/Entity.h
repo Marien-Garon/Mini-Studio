@@ -2,6 +2,9 @@
 
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
+
+#include "Collider.h"
 
 namespace sf 
 {
@@ -21,7 +24,10 @@ class Entity
     };
 
 protected:
-    sf::CircleShape mShape;
+
+	AABBCollider m_collider;
+
+	sf::RectangleShape mShape;
     sf::Vector2f mDirection;
 	Target mTarget;
     float mSpeed = 0.f;
@@ -29,14 +35,17 @@ protected:
     int mTag = -1;
 	bool mRigidBody = false;
 
+	bool m_isMoveable = false;
+
 public:
 	bool GoToDirection(int x, int y, float speed = -1.f);
     bool GoToPosition(int x, int y, float speed = -1.f);
     void SetPosition(float x, float y, float ratioX = 0.5f, float ratioY = 0.5f);
 	void SetDirection(float x, float y, float speed = -1.f);
 	void SetSpeed(float speed) { mSpeed = speed; }
+	float GetSpeed() { return mSpeed; }
 	void SetTag(int tag) { mTag = tag; }
-	float GetRadius() const { return mShape.getRadius(); }
+	//float GetRadius() const { return mShape.getRadius(); }
 	void SetRigidBody(bool isRigitBody) { mRigidBody = isRigitBody; }
 	bool IsRigidBody() const { return mRigidBody; }
 
@@ -44,8 +53,14 @@ public:
 	sf::Shape* GetShape() { return &mShape; }
 
 	bool IsTag(int tag) const { return mTag == tag; }
-    bool IsColliding(Entity* other) const;
-	bool IsInside(float x, float y) const;
+    bool IsColliding(Entity* other);
+	bool IsInside(float _x, float _y);
+	bool IsInside(Entity* _other);
+	Side GetCollidingSide(Entity* _other);
+
+	void SetMoveAble(bool _moveable) { m_isMoveable = _moveable; };
+	bool IsMoveable() { return m_isMoveable; };
+
 
     void Destroy();
 	bool ToDestroy() const { return mToDestroy; }
@@ -56,8 +71,10 @@ public:
     Scene* GetScene() const;
 	float GetDeltaTime() const;
 
+	const AABBCollider& GetCollider();
+
     template<typename T>
-    T* CreateEntity(float radius, const sf::Color& color);
+    T* CreateEntity(float width, float height, const sf::Color& color);
 
 protected:
     Entity() = default;
@@ -70,7 +87,7 @@ protected:
 	
 private:
     void Update();
-	void Initialize(float radius, const sf::Color& color);
+	void Initialize(float width, float height, const sf::Color& color);
 	void Repulse(Entity* other);
 
     friend class GameManager;

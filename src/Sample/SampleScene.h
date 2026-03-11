@@ -2,17 +2,21 @@
 
 #include "Scene.h"
 
-class DummyEntity;
+#include "Enemy.h"
+
+class PhysicalEntity;
 
 class SampleScene : public Scene
 {
-	DummyEntity* pEntity1;
-	DummyEntity* pEntity2;
+	Enemy* pEntity1;
 
-	DummyEntity* pEntitySelected;
+	Enemy* pEntity2;
 
+	Enemy* pEntitySelected;
+
+	
 private:
-	void TrySetSelectedEntity(DummyEntity* pEntity, int x, int y);
+	void TrySetSelectedEntity(Enemy* pEntity, int x, int y);
 
 public:
 	void OnInitialize() override;
