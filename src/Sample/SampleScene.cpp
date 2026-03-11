@@ -10,13 +10,23 @@
 
 #include "Debug.h"
 
+#include <iostream>
+
+
 void SampleScene::OnInitialize()
 {
-    pEntity1 = CreateEntity<Enemy>(50, sf::Color::Red);
-    pEntity1->SetPosition(600, 600);
-    pEntity1->SetRigidBody(true);
+	pEntity1 = CreateEntity<DummyEntity>(20,20, sf::Color::Red);
+	pEntity1->SetPosition(100, 100);
+	pEntity1->SetRigidBody(true);
+	pEntity1->SetMoveAble(true);
+	pEntity1->SetTag(1);
 
-    pEntity1->Initialize(); 
+	pEntity2 = CreateEntity<DummyEntity>(50,50, sf::Color::Green);
+	pEntity2->SetPosition(500, 500);
+	pEntity2->SetRigidBody(true);
+	pEntity2->SetMoveAble(true);
+
+	pEntitySelected = nullptr;
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
