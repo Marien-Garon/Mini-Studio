@@ -4,7 +4,22 @@
 
 void Player::OnUpdate()
 {
-	m_deltaTime = GetDeltaTime();
+	float deltaTime = GetDeltaTime();
+	sf::Vector2f position = GetPosition();
+	position.x += m_speed;
+
+	if (m_speed > 0.f)
+	{
+		m_speed -= m_deceleration * deltaTime;
+		if (m_speed < 0.f) m_speed = 0.f;
+	}
+	else if (m_speed < 0.f)
+	{
+		m_speed += m_deceleration * deltaTime;
+		if (m_speed > 0.f) m_speed = 0.f;
+	}
+
+	SetPosition(position.x, position.y);
 }
 
 void Player::OnCollision(Entity* other)
@@ -45,27 +60,23 @@ void Player::Heal(int _heal)
 	}
 }
 
-void Player::MoveRight(Player* player)
+void Player::MoveRight(float deltaTime)
 {
-	m_speed += m_acceleration * 100;
+	m_speed += m_acceleration * deltaTime;
 
 	if (m_speed > m_maxSpeed)
 	{
 		m_speed = m_maxSpeed;
-		m_position = player->GetPosition();
-		player->GoToPosition(m_position.x -= 10.f, m_position.y, 100);
 	}
 	
 }
 
-void Player::MoveLeft(Player* player)
+void Player::MoveLeft(float deltaTime)
 {
-	m_speed += m_acceleration;
+	m_speed -= m_acceleration * deltaTime;
 
-	if (m_speed > m_maxSpeed)
+	if (m_speed < -m_maxSpeed)
 	{
-		m_speed = m_maxSpeed;
-		m_position = player->GetPosition();
-		player->GoToPosition(m_position.x += 10.f, m_position.y, 100);
+		m_speed = -m_maxSpeed;
 	}
 }
