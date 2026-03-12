@@ -7,7 +7,7 @@ void Enemy::Initialize()
     m_startPos = GetPosition();
 }
 
-void Enemy::Update(float dt)
+void Enemy::OnUpdate(float dt)
 {
     float move = m_speed * m_direction * dt;
 

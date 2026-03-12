@@ -45,6 +45,10 @@ void SampleScene::OnEvent(const sf::Event& event)
     {
         mCamera->Shake(10);
     }
+    if (event.mouseButton.button == sf::Mouse::Middle)
+    {
+        pEntity1->Fall(GetDeltaTime());
+    }
 
 
 }
@@ -73,7 +77,8 @@ void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
 
 void SampleScene::OnUpdate()
 {
-    pEntity2->Fall(GetDeltaTime());
+    //pEntity2->Fall(GetDeltaTime());
+    //pEntity1->OnUpdate(GetDeltaTime());
    
     GetGameManager()->RefreshCamera(mCamera);
 
