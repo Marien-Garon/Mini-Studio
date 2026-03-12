@@ -15,8 +15,6 @@ protected:
 	sf::Vector2f m_pos;
 	int m_tag = -1;
 
-	std::vector<Component*> m_componentList;
-
 public:
 
 	void SetPosition(const sf::Vector2f& _pos) { m_pos = _pos; };
@@ -46,5 +44,4 @@ private:
 
 	void Update();
 	void Initialize();
-	//void Initialize(float width, float height, const sf::Color& color);
 };

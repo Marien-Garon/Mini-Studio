@@ -28,5 +28,5 @@ void NewEntity::Update()
 
 void NewEntity::Initialize()
 {
-	OnInitialize():
+	OnInitialize();
 }
