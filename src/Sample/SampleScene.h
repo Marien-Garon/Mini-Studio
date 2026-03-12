@@ -7,6 +7,7 @@ class Companion;
 
 class SampleScene : public Scene
 {
+	PhysicalEntity* kaka;
 	Player* player;
 	Companion* robot;
 	Player* pEntitySelected;

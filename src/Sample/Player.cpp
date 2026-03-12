@@ -4,8 +4,6 @@
 
 void Player::OnUpdate()
 {
-	PhysicalEntity::OnUpdate();
-
 	float deltaTime = GetDeltaTime();
 	sf::Vector2f position = GetPosition();
 	position.x += mSpeed;
@@ -23,7 +21,7 @@ void Player::OnUpdate()
 			mSpeed = 0.f;
 	}
 
-	SetPosition(position.x, position.y);
+	SetPosition(position.x, GetPosition().y);
 }
 
 void Player::TakeDamage(int _damage)
@@ -78,4 +76,10 @@ void Player::MoveLeft(float deltaTime)
 	{
 		mSpeed = -m_maxSpeed;
 	}
+}
+
+void Player::Jump()
+{
+	std::cout << "Player Jump called\n";
+	PhysicalEntity::Jump();
 }

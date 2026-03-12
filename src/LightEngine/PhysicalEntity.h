@@ -30,7 +30,7 @@ public:
 
     //#TO DO => RigidBody under
     bool CanJump();
-    void Jump();
+    virtual void Jump();
 
     void SetJumpSize(int newJumpSize) { jumpSize = newJumpSize; }
 };

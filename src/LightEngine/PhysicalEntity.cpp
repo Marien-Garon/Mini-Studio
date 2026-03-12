@@ -1,6 +1,5 @@
 #include "PhysicalEntity.h"
 
-
 void PhysicalEntity::Update()
 {
 	float dt = GetDeltaTime();

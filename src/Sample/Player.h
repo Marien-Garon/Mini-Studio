@@ -14,6 +14,7 @@ public:
 	void Heal(int heal);
 	void MoveRight(float deltaTime);
 	void MoveLeft(float deltaTime);
+	void Jump() override;
 
 private:
 
@@ -24,11 +25,4 @@ private:
 	float m_maxSpeed = 50.f;
 	float m_acceleration = 250.f;
 	float m_deceleration = 200.f;
-
-	PhysicalEntity* m_attack;
-	Entity* m_received;
-
-	// 1 droite, -1 gauche
-
-	sf::Vector2f m_position;
 };
