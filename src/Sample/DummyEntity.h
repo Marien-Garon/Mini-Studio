@@ -7,5 +7,7 @@ public:
 
 	void OnUpdate() override;
 	void OnCollision(Entity* other) override;
+
+	void SetColor();
 };
 

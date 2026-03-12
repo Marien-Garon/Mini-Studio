@@ -8,10 +8,15 @@ class PhysicalEntity;
 
 class SampleScene : public Scene
 {
+private: 
 	int test_NombreAppuyeAttaque = 0;
-	Enemy* pEntity2;
 
-	Enemy* pEntitySelected;
+	float test_BPMDeLaMusique = 135;
+	float test_tempsEntreLesAttaque = 60 / test_BPMDeLaMusique; //temps entre chaque appuye en seconde
+	float test_timerAttaque = 0;
+
+	DummyEntity* pEntity2;
+	DummyEntity* pEntitySelected;
 
 	
 private:
@@ -21,6 +26,10 @@ public:
 	void OnInitialize() override;
 	void OnEvent(const sf::Event& event) override;
 	void OnUpdate() override;
+
+	bool IsAttackTimingOkay();
+
+	void IncreaseTimer();
 };
 
 

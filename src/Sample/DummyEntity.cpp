@@ -5,10 +5,7 @@
 
 void DummyEntity::OnUpdate()
 {
-	
 
-	if (InputManager::Get().IsControllerPressed(0, Controller::Button::A))
-	std::cout << "ton père" << std::endl;
 }
 
 void DummyEntity::OnCollision(Entity* other)
@@ -36,4 +33,9 @@ void DummyEntity::OnCollision(Entity* other)
 		if (GetCollidingSide(other) == Side::NONE)
 			std::cout << "None" << std::endl;
 	}
+}
+
+void DummyEntity::SetColor()
+{
+
 }
