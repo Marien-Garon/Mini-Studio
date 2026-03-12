@@ -2,19 +2,11 @@
 #include <iostream>
 #include "PhysicalEntity.h"
 #include "DummyEntity.h"
-
 #include"Enemy.h"
-#include "Camera.h"
-
 #include"Utils.h"
 #include "Debug.h"
 #include "InputManager.h"
-
 #include "AssetManager.h"
-
-#define MAX_JOYSTICK_POS  100
-#define MIN_JOYSTICK_POS -100
-
 
 void SampleScene::OnInitialize()
 {
@@ -32,11 +24,6 @@ void SampleScene::OnInitialize()
 	pEntity2->SetRigidBody(true);
 	pEntity2->SetMoveAble(true);
 
-    mCamera = CreateEntity<Camera>(0, 0, sf::Color::Green);
-
-
-    //POUR BLOQUER LA CAMERA => mCamera->SetupCamera(0, pEntity1);
-    mCamera->SetupCamera(2, pEntity1);
 	pEntitySelected = nullptr;
 }
 
@@ -61,38 +48,18 @@ void SampleScene::OnUpdate()
 {
     float dt = GetDeltaTime();
 
-    pEntity1->Update(dt);
+    InputManager& im = InputManager::Get();
 
-    // InputManager& im = InputManager::Get();
+    if (im.IsControllerPressed(0,Controller::Button::A))
+        std::cout << "Test" << std::endl;
 
-    // if (im.IsControllerHeld(0,Controller::Button::A))
-    //     std::cout << "Test" << std::endl;
 
-    if (event.mouseButton.button == sf::Mouse::Left)
+    if (pEntitySelected != nullptr)
     {
-        mCamera->Shake(10);
+        sf::Vector2f position = pEntitySelected->GetPosition();
+        Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
     }
-    if (event.mouseButton.button == sf::Mouse::Middle)
-    {
-        pEntity1->Fall(GetDeltaTime());
-    }
-
-
 }
-
-
-//void SampleScene::OnUpdate()
-//{
-//    float dt = GetDeltaTime();
-//
-//    pEntity1->Update(dt);
-//
-//    if (pEntitySelected != nullptr)
-//    {
-//        sf::Vector2f position = pEntitySelected->GetPosition();
-//        Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
-//    }
-//}
 
 void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
 {
@@ -102,13 +69,12 @@ void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
 	pEntitySelected = pEntity;
 }
 
-// void SampleScene::OnUpdate()
-// {
-//     GetGameManager()->RefreshCamera(mCamera);
-
-// 	if(pEntitySelected != nullptr)
-// 	{
-// 		sf::Vector2f position = pEntitySelected->GetPosition();
-// 		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue); 
-// 	}
-// }
+//void SampleScene::OnUpdate()
+//{
+//
+//	if(pEntitySelected != nullptr)
+//	{
+//		sf::Vector2f position = pEntitySelected->GetPosition();
+//		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue); 
+//	}
+//}

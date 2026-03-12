@@ -92,6 +92,8 @@ void GameManager::Run()
 	InputManager::Get().Init();
 
 	AssetManager::getInstance().PlayMusic("Fight");
+	AssetManager::getInstance().SetMusicVolume(0.f);
+
 
 	sf::Clock clock;
 	while (mpWindow->isOpen())

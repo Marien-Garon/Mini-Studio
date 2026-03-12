@@ -10,7 +10,6 @@ using EventType = sf::Event::EventType;
 
 void InputManager::HandleKeyPressed(const sf::Event& event)
 {
-	//std::cout << event.key.code << std::endl;
 
 	if (m_keyHeld[event.key.code] || m_keyPressed[event.key.code])
 	{
@@ -115,7 +114,6 @@ void InputManager::HandleInput(const sf::Event& event)
 		break;
 
 	case EventType::JoystickButtonPressed:
-		std::cout << event.joystickButton.button << std::endl;
 		HandleJoystickPressed(event);
 		break;
 
