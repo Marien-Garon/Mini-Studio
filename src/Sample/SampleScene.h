@@ -12,7 +12,7 @@ class SampleScene : public Scene
 	Enemy* pEntity1;
 	Enemy* pEntity2;
 
-	Enemy* pEntitySelected;
+	//Enemy* pEntitySelected;
 	Camera* mCamera;
 	
 

@@ -32,7 +32,8 @@ void SampleScene::OnInitialize()
 	pEntity2->SetRigidBody(true);
 	pEntity2->SetMoveAble(true);
 
-    mCamera = CreateEntity<Camera>(0, sf::Color::Green);
+    mCamera = CreateEntity<Camera>(0, 0, sf::Color::Green);
+
     mCamera->SetupCamera(2, pEntity1);
 	pEntitySelected = nullptr;
 }
@@ -85,12 +86,13 @@ void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
 	pEntitySelected = pEntity;
 }
 
-//void SampleScene::OnUpdate()
-//{
-//
-//	if(pEntitySelected != nullptr)
-//	{
-//		sf::Vector2f position = pEntitySelected->GetPosition();
-//		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue); 
-//	}
-//}
+void SampleScene::OnUpdate()
+{
+    GetGameManager()->RefreshCamera(mCamera);
+
+	if(pEntitySelected != nullptr)
+	{
+		sf::Vector2f position = pEntitySelected->GetPosition();
+		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue); 
+	}
+}
