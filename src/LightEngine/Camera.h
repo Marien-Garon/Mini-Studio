@@ -10,6 +10,8 @@ public:
 	sf::View camera;
 	Entity* followedEntity;
 
+	int rotateCount;
+
 protected:
 public: 
 	virtual void OnCollision(Entity* collidedWith) override {};

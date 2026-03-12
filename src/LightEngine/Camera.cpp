@@ -6,9 +6,16 @@ void Camera::OnUpdate()
 	camera.setCenter(camera.getCenter().x, followedEntity->GetPosition().y);
 	camera.move(sf::Vector2f(mSpeed, 0));
 
-	if (camera.getRotation() > 0 /*&& GetDeltaTime() >= 0.01667*/)
+	if (camera.getRotation() != 0 && rotateCount < 3)
 	{
-		camera.rotate(-camera.getRotation()/3);
+		camera.rotate(-camera.getRotation() / 3);
+		rotateCount++;
+	}
+	else if (rotateCount == 3)
+	{
+		rotateCount = 0;
+		camera.rotate(-camera.getRotation());
+
 	}
 }
 
