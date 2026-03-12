@@ -2,6 +2,7 @@
 
 #include "Entity.h"
 #include "Debug.h"
+#include "Camera.h"
 #include "InputManager.h"
 
 #include <SFML/Graphics.hpp>
@@ -50,6 +51,16 @@ void GameManager::CreateWindow(unsigned int width, unsigned int height, const ch
 	mClearColor = clearColor;
 }
 
+void GameManager::RefreshCamera(Camera* camera)
+{
+	if (camera->GetView() == nullptr)
+	{
+		std::cout << "Camera Not Initialized" << std::endl;
+		exit(0);
+	}
+	mpWindow->setView(*camera->GetView());
+}
+
 void GameManager::Run()
 {
 	if (mpWindow == nullptr) 
@@ -57,6 +68,9 @@ void GameManager::Run()
 		std::cout << "Window not created, creating default window" << std::endl;
 		CreateWindow(1280, 720, "Default window");
 	}
+
+	//sf::View view2(sf::Vector2f(mWindowWidth / 2 , mWindowHeight / 2), sf::Vector2f(mWindowWidth  , mWindowHeight));
+	//mCamera = &view2;
 
 	//#TODO : Load somewhere else
 	bool fontLoaded = mFont.loadFromFile("../../../res/Hack-Regular.ttf");
