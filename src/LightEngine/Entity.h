@@ -3,6 +3,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include "Collider.h"
 
@@ -28,13 +29,15 @@ protected:
 	AABBCollider m_collider;
 
 	sf::RectangleShape mShape;
+	sf::Sprite* m_sprite = nullptr;
+
     sf::Vector2f mDirection;
 	Target mTarget;
     float mSpeed = 0.f;
     bool mToDestroy = false;
     int mTag = -1;
 	bool mRigidBody = false;
-
+	bool hasSprite = false;
 	bool m_isMoveable = false;
 
 public:
@@ -64,7 +67,6 @@ public:
 	void SetMoveAble(bool _moveable) { m_isMoveable = _moveable; };
 	bool IsMoveable() { return m_isMoveable; };
 
-
     void Destroy();
 	bool ToDestroy() const { return mToDestroy; }
 	
@@ -78,6 +80,19 @@ public:
 
     template<typename T>
     T* CreateEntity(float width, float height, const sf::Color& color);
+
+	template<typename T>
+	T* CreateEntity(sf::Sprite* _sprite, const sf::Color& color);
+
+	void SetSprite(sf::Sprite* _sprite) { m_sprite = _sprite; hasSprite = true; };
+	void SetSpriteColor(const sf::Color& _color) { m_sprite->setColor(_color); };
+	void SetSpriteScale(float _x, float _y) { m_sprite->setScale(_x, _y); };
+	void SetSpriteScale(const sf::Vector2f& _scale) { m_sprite->setScale(_scale); };
+	void SetSpriteRotation(float _angle) { m_sprite->setRotation(_angle); };
+
+	sf::Sprite* GetSprite() { return m_sprite; };
+
+	bool HasSprite() { return hasSprite; };
 
 protected:
     Entity() = default;

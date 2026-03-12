@@ -3,8 +3,6 @@
 #include "Scene.h"
 #include "Enemy.h"
 
-#include "Enemy.h"
-
 class PhysicalEntity;
 
 class SampleScene : public Scene

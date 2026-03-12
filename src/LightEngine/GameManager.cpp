@@ -18,6 +18,11 @@ GameManager::GameManager()
 	mpScene = nullptr;
 	mWindowWidth = -1;
 	mWindowHeight = -1;
+
+	AssetManager::getInstance().InitMusicInDirectory();
+	AssetManager::getInstance().InitTextureInDirectory();
+	AssetManager::getInstance().InitSoundInDirectory();
+
 }
 
 GameManager* GameManager::Get()
@@ -51,9 +56,9 @@ void GameManager::CreateWindow(unsigned int width, unsigned int height, const ch
 	mClearColor = clearColor;
 }
 
-void GameManager::DrawSprite(const sf::Sprite& _sprite)
+void GameManager::DrawSprite(sf::Sprite* _sprite)
 {
-	mpWindow->draw(_sprite);
+	mpWindow->draw(*_sprite);
 }
 
 void GameManager::Run()
@@ -70,9 +75,7 @@ void GameManager::Run()
 
 	_ASSERT(mpScene != nullptr);
 
-	AssetManager::getInstance().InitMusicInDirectory();
-	AssetManager::getInstance().InitTextureInDirectory();
-	AssetManager::getInstance().InitSoundInDirectory();
+	InputManager::Get().Init();
 
 	AssetManager::getInstance().PlayMusic("Fight");
 
@@ -172,12 +175,13 @@ void GameManager::Draw()
 	
 	for (Entity* entity : mEntities)
 	{
-		mpWindow->draw(*entity->GetShape());
+		if (entity->hasSprite) DrawSprite(entity->GetSprite());
+		else mpWindow->draw(*entity->GetShape());
 	}
 
-	sf::Sprite sprite = AssetManager::getInstance().LoadSprite("sheet", 0, 0, 460, 600);
+	sf::Sprite* sprite = AssetManager::getInstance().LoadSprite("sheet", 0, 0, 460, 600);
 	//std::cout << sprite.getTextureRect().width << std::endl;
-	sprite.setScale(0.1f, 0.1f);
+	sprite->setScale(0.1f, 0.1f);
 	DrawSprite(sprite);
 	Debug::Get()->Draw(mpWindow);
 

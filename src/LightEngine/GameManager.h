@@ -56,7 +56,7 @@ public:
 	template<typename T>
 	void LaunchScene();
 
-	void DrawSprite(const sf::Sprite& _sprite);
+	void DrawSprite(sf::Sprite* _sprite);
 
 	float GetDeltaTime() const { return mDeltaTime; }
 	Scene* GetScene() const { return mpScene; }

@@ -6,22 +6,21 @@
 #include"Utils.h"
 #include "Debug.h"
 #include "InputManager.h"
-#include <iostream>
 
 #define MAX_JOYSTICK_POS  100
 #define MIN_JOYSTICK_POS -100
 
 
 
-#include <iostream>
-
-
 #include "AssetManager.h"
 
 void SampleScene::OnInitialize()
 {
-	pEntity1 = CreateEntity<Enemy>(20,20, sf::Color::Red);
-	pEntity1->SetPosition(100, 100);
+    AssetManager& AM = AssetManager::getInstance();
+
+	pEntity1 = CreateEntity<Enemy>(AM.LoadSprite("sheet", 0, 0, 460, 600), sf::Color::Red);
+    pEntity1->SetSpriteScale(0.5f, 0.5f);
+	pEntity1->SetPosition(500, 500);
 	pEntity1->SetRigidBody(true);
 	pEntity1->SetMoveAble(true);
 	pEntity1->SetTag(1);
@@ -57,6 +56,10 @@ void SampleScene::OnUpdate()
 
     pEntity1->Update(dt);
 
+    InputManager& im = InputManager::Get();
+
+    if (im.IsKeyPressed(sf::Keyboard::A))
+        std::cout << "Test" << std::endl;
 
 
     if (pEntitySelected != nullptr)

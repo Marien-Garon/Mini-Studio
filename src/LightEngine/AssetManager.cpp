@@ -279,14 +279,14 @@ sf::Music* AssetManager::PlayMusic(std::string _id)
 }
 
 
-sf::Sprite AssetManager::LoadSprite(std::string _id, int _posX, int _posY, int _w, int _h)
+sf::Sprite* AssetManager::LoadSprite(std::string _id, int _posX, int _posY, int _w, int _h)
 {
-    if (!m_textureList.contains(_id)) return sf::Sprite();
+    if (!m_textureList.contains(_id)) return nullptr;
 
     if (_w == 0) _w = m_textureList[_id].sizeW;
     if (_h == 0) _h = m_textureList[_id].sizeH;
 
-    return sf::Sprite(m_textureList[_id].texture, sf::IntRect( _posX,_posY ,  _w,_h ));
+    return new sf::Sprite(m_textureList[_id].texture, sf::IntRect(_posX, _posY, _w, _h));
 }
 
 void AssetManager::PauseMusic()

@@ -87,7 +87,7 @@ public:
 	/// <param name="_w -> Size of the sprite you want to create from the texture"></param>
 	/// <param name="_h -> Size of the sprite you want to create from the texture"></param>
 	/// <returns></returns>
-	sf::Sprite LoadSprite(std::string _id, int _posX = 0, int _posY = 0, int _w = 0, int _h = 0);
+	sf::Sprite* LoadSprite(std::string _id, int _posX = 0, int _posY = 0, int _w = 0, int _h = 0);
 
 	/// <summary>
 	/// Play the sound with id

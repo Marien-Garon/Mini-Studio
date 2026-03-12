@@ -25,12 +25,15 @@ public:
 	template<typename T>
 	T* CreateEntity(float width, float height, const sf::Color& color);
 
+	template<typename T>
+	T* CreateEntity(sf::Sprite* _sprite, const sf::Color& color);
+
 	float GetDeltaTime() const;
 
 	int GetWindowWidth() const;
 	int GetWindowHeight() const;
 
-	void DrawSprite(const sf::Sprite& _sprite) const;
+	void DrawSprite(sf::Sprite* _sprite) const;
 
 	friend GameManager;
 };
