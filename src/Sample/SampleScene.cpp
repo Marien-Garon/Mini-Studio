@@ -10,7 +10,8 @@
 void SampleScene::OnInitialize()
 {
 	player = CreateEntity<Player>(100, 200, sf::Color::Red);
-	player->SetPosition(300, 200);
+
+	player->SetPosition(300, 300);
 	player->SetRigidBody(true);
 
 	pEntitySelected = nullptr;
@@ -18,7 +19,10 @@ void SampleScene::OnInitialize()
 
 void SampleScene::OnEvent(const sf::Event& event)
 {
-	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	{
+		player->Jump();
+	}
 }
 
 void SampleScene::TrySetSelectedEntity(Player* pEntity, int x, int y)
@@ -58,17 +62,12 @@ void SampleScene::OnUpdate()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 	{
-		player->TakeDamage(10);
+		player->Attack(0);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		player->Heal(10);
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-	{
-		player->Jump();
 	}
 
 	/*if(pEntitySelected != nullptr)

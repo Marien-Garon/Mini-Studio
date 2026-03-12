@@ -4,27 +4,26 @@
 
 void Player::OnUpdate()
 {
+	PhysicalEntity::OnUpdate();
+
 	float deltaTime = GetDeltaTime();
 	sf::Vector2f position = GetPosition();
-	position.x += m_speed;
+	position.x += mSpeed;
 
-	if (m_speed > 0.f)
+	if (mSpeed > 0.f)
 	{
-		m_speed -= m_deceleration * deltaTime;
-		if (m_speed < 0.f) m_speed = 0.f;
+		mSpeed -= m_deceleration * deltaTime;
+		if (mSpeed < 0.f) 
+			mSpeed = 0.f;
 	}
-	else if (m_speed < 0.f)
+	else if (mSpeed < 0.f)
 	{
-		m_speed += m_deceleration * deltaTime;
-		if (m_speed > 0.f) m_speed = 0.f;
+		mSpeed += m_deceleration * deltaTime;
+		if (mSpeed > 0.f) 
+			mSpeed = 0.f;
 	}
 
 	SetPosition(position.x, position.y);
-}
-
-void Player::OnCollision(Entity* other)
-{
-	std::cout << "Player::OnCollision" << std::endl;
 }
 
 void Player::TakeDamage(int _damage)
@@ -62,23 +61,32 @@ void Player::Heal(int _heal)
 
 void Player::MoveRight(float deltaTime)
 {
-	m_speed += m_acceleration * deltaTime;
+	mSpeed += m_acceleration * deltaTime;
 
-	if (m_speed > m_maxSpeed)
+	if (mSpeed > m_maxSpeed)
 	{
-		m_speed = m_maxSpeed;
+		mSpeed = m_maxSpeed;
 	}
 	
 }
 
 void Player::MoveLeft(float deltaTime)
 {
-	m_speed -= m_acceleration * deltaTime;
+	mSpeed -= m_acceleration * deltaTime;
 
-	if (m_speed < -m_maxSpeed)
+	if (mSpeed < -m_maxSpeed)
 	{
-		m_speed = -m_maxSpeed;
+		mSpeed = -m_maxSpeed;
 	}
+}
 
-	m_direction *= (-1);
+void Player::Attack(int _damage)
+{
+	sf::Vector2f position = GetPosition();
+	float deltaTime = GetDeltaTime();
+
+	m_attack = CreateEntity<PhysicalEntity>(50, 50, sf::Color::Red);
+
+	m_attack->SetPosition(position.x + 150 , position.y - 300);
+	m_attack->Fall(deltaTime);
 }
