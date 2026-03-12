@@ -4,6 +4,7 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/View.hpp>
 
 class Entity;
@@ -57,6 +58,8 @@ public:
 	template<typename T>
 	void LaunchScene();
 	void RefreshCamera(Camera* camera);
+
+	void DrawSprite(sf::Sprite* _sprite);
 
 	float GetDeltaTime() const { return mDeltaTime; }
 	Scene* GetScene() const { return mpScene; }

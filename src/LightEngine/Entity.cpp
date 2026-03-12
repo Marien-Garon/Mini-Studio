@@ -13,10 +13,12 @@ void Entity::Initialize(float _width, float _height, const sf::Color& color)
 {
 	mDirection = sf::Vector2f(0.0f, 0.0f);
 
-	mShape.setOrigin(0.f, 0.f);
-	//mShape.setRadius(radius);
-	mShape.setSize({ _width, _height });
-	mShape.setFillColor(color);
+	if (!hasSprite)
+	{
+		mShape.setOrigin(0.f, 0.f);
+		mShape.setSize({ _width, _height });
+		mShape.setFillColor(color);
+	}
 
 	m_collider = { GetPosition(0.0f,0.0f).x, GetPosition(0.0f,0.0f).y, _width, _height};
 
@@ -48,46 +50,12 @@ void Entity::Repulse(Entity* other)
 		SetPosition(c1.x, c1.y - moveY / 2.f, 0.0f, 0.0f);
 		if (other->IsMoveable()) other->SetPosition(c2.x, c2.y + moveY / 2.f, 0.0f, 0.0f);
 	}
-
-	//circle sucks
-
-	/*sf::Vector2f distance = GetPosition(0.5f, 0.5f) - other->GetPosition(0.5f, 0.5f);
-	
-	float sqrLength = (distance.x * distance.x) + (distance.y * distance.y);
-	float length = std::sqrt(sqrLength);
-
-	float radius1 = mShape.getRadius();
-	float radius2 = other->mShape.getRadius();
-
-	float overlap = (length - (radius1 + radius2)) * 0.5f;
-
-	sf::Vector2f normal = distance / length;
-
-	sf::Vector2f translation = overlap * normal;
-
-	sf::Vector2f position1 = GetPosition(0.5f, 0.5f) - translation;
-	sf::Vector2f position2 = other->GetPosition(0.5f, 0.5f) + translation;
-
-	SetPosition(position1.x, position1.y, 0.5f, 0.5f);
-	other->SetPosition(position2.x, position2.y, 0.5f, 0.5f);*/
 }
 
 
 bool Entity::IsColliding(Entity* other)
 {
 	return m_collider.IsColliding(other->GetCollider());
-
-	// Current Archive will be deleted later
-	//sf::Vector2f distance = GetPosition(0.5f, 0.5f) - other->GetPosition(0.5f, 0.5f);
-
-	//float sqrLength = (distance.x * distance.x) + (distance.y * distance.y);
-
-	//float radius1 = mShape.getRadius();
-	//float radius2 = other->mShape.getRadius();
-
-	//float sqrRadius = (radius1 + radius2) * (radius1 + radius2);
-
-	//return sqrLength < sqrRadius;
 }
 
 bool Entity::IsInside(float _x, float _y)
@@ -99,17 +67,6 @@ bool Entity::IsInside(float _x, float _y)
 bool Entity::IsInside(Entity* _other)
 {
 	return m_collider.IsInside(_other->GetCollider());
-
-
-	//Current Archive will be deleted later
-	//sf::Vector2f position = GetPosition(0.5f, 0.5f);
-
-	//float dx = x - position.x;
-	//float dy = y - position.y;
-
-	//float radius = mShape.getRadius();
-
-	//return (dx * dx + dy * dy) < (radius * radius);
 }
 
 Side Entity::GetCollidingSide(Entity* _other)
@@ -126,12 +83,16 @@ void Entity::Destroy()
 
 void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 {
-	sf::Vector2f size = mShape.getSize();
+	sf::Vector2f size = hasSprite ? sf::Vector2f(m_sprite->getTextureRect().width, m_sprite->getTextureRect().height) : mShape.getSize();
 
 	x -= size.x * ratioX;
 	y -= size.y * ratioY;
 
-	mShape.setPosition(x, y);
+	if (hasSprite)
+		m_sprite->setPosition(x, y);
+	else
+		mShape.setPosition(x, y);
+
 	m_collider.SetPosition(x, y);
 
 
@@ -147,8 +108,8 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 
 sf::Vector2f Entity::GetPosition(float ratioX, float ratioY) const
 {
-	sf::Vector2f size = mShape.getSize();
-	sf::Vector2f position = mShape.getPosition();
+	sf::Vector2f size = hasSprite ? sf::Vector2f(m_sprite->getTextureRect().width, m_sprite->getTextureRect().height) : mShape.getSize();
+	sf::Vector2f position = hasSprite ? m_sprite->getPosition() : mShape.getPosition();
 
 	position.x += size.x * ratioX;
 	position.y += size.y * ratioY;
@@ -198,7 +159,12 @@ void Entity::Update()
 	float dt = GetDeltaTime();
 	float distance = dt * mSpeed;
 	sf::Vector2f translation = distance * mDirection;
-	mShape.move(translation);
+	
+	if (hasSprite)
+		m_sprite->move(translation);
+	else
+		mShape.move(translation);
+
 	m_collider.SetPosition(GetPosition(0.0f, 0.0f).x, GetPosition(0.0f, 0.0f).y);
 
 	if (mTarget.isSet) 

@@ -1,0 +1,33 @@
+{"Data" : 
+     { 
+     "id" : "sheet",
+     "spritesheet" : true,
+     "size" : { "width": 1840, "height": 2400 },
+     "frame_size": { "width": 460, "height": 600 },
+     "animations":
+          {
+               "down":
+               {
+               "frames": [0,1,2,3],
+               "loop": true
+               },
+
+               "right":
+               {
+               "frames": [4,5,6,7],
+               "loop": true
+               },
+
+               "left":
+               {
+               "frames": [8,9,10,11],
+               "loop": false
+               },
+               "up":
+               {
+               "frames": [11,12,13,14],
+               "loop": false
+               }
+          }
+     }
+}

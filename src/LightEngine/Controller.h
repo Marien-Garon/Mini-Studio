@@ -2,11 +2,17 @@
 #include <SFML/Window.hpp>
 #include <unordered_map>
 
+#define MAX_JOYSTICK_AXIS = 100
+#define MIN_JOYSTIK_AXIS = -100
+
 
 class Controller
 {
 public:
 
+	/// <summary>
+	/// All available Button on a Xbox controller
+	/// </summary>
 	enum class Button
 	{
 		A,

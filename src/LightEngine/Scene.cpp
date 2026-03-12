@@ -17,3 +17,7 @@ float Scene::GetDeltaTime() const
 	return mpGameManager->mDeltaTime;
 }
 
+void Scene::DrawSprite(sf::Sprite* _sprite) const
+{
+	mpGameManager->DrawSprite(_sprite);
+}

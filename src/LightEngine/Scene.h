@@ -5,6 +5,7 @@ class Camera;
 
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 class Scene
 {
@@ -26,12 +27,19 @@ public:
 	template<typename T>
 	T* CreateEntity(float width, float height, const sf::Color& color);
 
+	template<typename T>
+	T* CreateEntity(sf::Sprite* _sprite, const sf::Color& color);
+
 	float GetDeltaTime() const;
 
 	int GetWindowWidth() const;
 	int GetWindowHeight() const;
 
+
+	void DrawSprite(sf::Sprite* _sprite) const;
+
 	GameManager* GetGameManager() { return mpGameManager; }
+
 
 	friend GameManager;
 };

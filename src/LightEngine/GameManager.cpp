@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
+#include "AssetManager.h"
 
 #include <iostream>
 
@@ -18,6 +19,11 @@ GameManager::GameManager()
 	mpScene = nullptr;
 	mWindowWidth = -1;
 	mWindowHeight = -1;
+
+	AssetManager::getInstance().InitMusicInDirectory();
+	AssetManager::getInstance().InitTextureInDirectory();
+	AssetManager::getInstance().InitSoundInDirectory();
+
 }
 
 GameManager* GameManager::Get()
@@ -51,6 +57,11 @@ void GameManager::CreateWindow(unsigned int width, unsigned int height, const ch
 	mClearColor = clearColor;
 }
 
+void GameManager::DrawSprite(sf::Sprite* _sprite)
+{
+	mpWindow->draw(*_sprite);
+}
+
 void GameManager::RefreshCamera(Camera* camera)
 {
 	if (camera->GetView() == nullptr)
@@ -78,14 +89,18 @@ void GameManager::Run()
 
 	_ASSERT(mpScene != nullptr);
 
-	InputManager::Get().Init(); //If you already have a controller connected before launch and you desactivate this ligne the game crash
+	InputManager::Get().Init();
+
+	AssetManager::getInstance().PlayMusic("Fight");
+	AssetManager::getInstance().SetMusicVolume(0.f);
+
 
 	sf::Clock clock;
 	while (mpWindow->isOpen())
 	{
 		SetDeltaTime(clock.restart().asSeconds());
 
-		HandleInput();
+		HandleInput(); //OnEvent here
 
 		Update();
 		
@@ -176,9 +191,14 @@ void GameManager::Draw()
 	
 	for (Entity* entity : mEntities)
 	{
-		mpWindow->draw(*entity->GetShape());
+		if (entity->hasSprite) DrawSprite(entity->GetSprite());
+		else mpWindow->draw(*entity->GetShape());
 	}
-	
+
+	sf::Sprite* sprite = AssetManager::getInstance().LoadSprite("sheet", 0, 0, 460, 600);
+	//std::cout << sprite.getTextureRect().width << std::endl;
+	sprite->setScale(0.1f, 0.1f);
+	DrawSprite(sprite);
 	Debug::Get()->Draw(mpWindow);
 
 	mpWindow->display();
