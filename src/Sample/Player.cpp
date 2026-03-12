@@ -79,14 +79,3 @@ void Player::MoveLeft(float deltaTime)
 		mSpeed = -m_maxSpeed;
 	}
 }
-
-void Player::Attack(int _damage)
-{
-	sf::Vector2f position = GetPosition();
-	float deltaTime = GetDeltaTime();
-
-	m_attack = CreateEntity<PhysicalEntity>(50, 50, sf::Color::Red);
-
-	m_attack->SetPosition(position.x + 150 , position.y - 300);
-	m_attack->Fall(deltaTime);
-}

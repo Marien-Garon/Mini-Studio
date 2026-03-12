@@ -11,7 +11,7 @@ void SampleScene::OnInitialize()
 {
 	player = CreateEntity<Player>(100, 200, sf::Color::Red);
 
-	player->SetPosition(300, 300);
+	player->SetPosition(300, 200);
 	player->SetRigidBody(true);
 
 	pEntitySelected = nullptr;
@@ -62,7 +62,7 @@ void SampleScene::OnUpdate()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 	{
-		player->Attack(0);
+		player->TakeDamage(10);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))

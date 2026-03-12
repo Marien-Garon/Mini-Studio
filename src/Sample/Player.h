@@ -14,7 +14,6 @@ public:
 	void Heal(int heal);
 	void MoveRight(float deltaTime);
 	void MoveLeft(float deltaTime);
-	void Attack(int _damage);
 
 private:
 
@@ -27,6 +26,7 @@ private:
 	float m_deceleration = 200.f;
 
 	PhysicalEntity* m_attack;
+	Entity* m_received;
 
 	// 1 droite, -1 gauche
 
