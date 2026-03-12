@@ -8,6 +8,7 @@ class Camera;
 class SampleScene : public Scene
 {
 	Enemy* pEntity1;
+	Enemy* pEntity2;
 
 	Camera* mCamera;
 

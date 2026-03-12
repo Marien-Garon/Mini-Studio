@@ -17,8 +17,14 @@ void SampleScene::OnInitialize()
 
     pEntity1->Initialize(); 
 
+    pEntity2 = CreateEntity<Enemy>(50, sf::Color::Green);
+    pEntity2->SetPosition(500, 500);
+    pEntity2->SetRigidBody(true);
+
+    pEntity2->Initialize();
+
     mCamera = CreateEntity<Camera>(0, sf::Color::Green);
-    mCamera->SetupCamera(1, pEntity1);
+    mCamera->SetupCamera(2, pEntity1);
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
@@ -35,6 +41,12 @@ void SampleScene::OnEvent(const sf::Event& event)
             pEntity1->GoToPosition(position.x, position.y, 100.f);
         }
     }
+    if (event.mouseButton.button == sf::Mouse::Left)
+    {
+        mCamera->Shake(10);
+    }
+
+
 }
 
 
@@ -61,6 +73,8 @@ void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
 
 void SampleScene::OnUpdate()
 {
+    pEntity2->Fall(GetDeltaTime());
+   
     GetGameManager()->RefreshCamera(mCamera);
 
 	if(pEntitySelected != nullptr)

@@ -8,6 +8,7 @@ class Camera :
 {
 public: 
 	sf::View camera;
+	Entity* followedEntity;
 
 protected:
 public: 
@@ -17,6 +18,7 @@ public:
 	virtual void OnUpdate() override;
 
 	void SetupCamera(int cameraSpeed, Entity* entityToFolow);
+	void Shake(int degree);
 
 	sf::View* GetView() { return &camera; }
 
