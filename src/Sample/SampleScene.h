@@ -1,4 +1,5 @@
 #pragma once
+#include "Player.h"
 #include "Scene.h"
 #include "Enemy.h"
 
@@ -8,8 +9,9 @@ class Camera;
 
 class SampleScene : public Scene
 {
-	Enemy* pEntity1;
-	Enemy* pEntity2;
+	Player* test_Entity;
+	/*..Enemy* pEntity1;
+	..Enemy* pEntity2;*/
 
 	//Enemy* pEntitySelected;
 	Camera* mCamera;

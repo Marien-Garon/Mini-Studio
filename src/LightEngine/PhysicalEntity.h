@@ -14,7 +14,7 @@ private:
     virtual void Update() override;
 protected:
 
-    int jumpSize = 50;
+    int jumpSize = 100;
 
 public:     
 

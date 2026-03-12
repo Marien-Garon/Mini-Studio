@@ -29,7 +29,7 @@ void PhysicalEntity::Update()
 
 	if (isJumping == true)
 	{
-		//GoToDirection(GetPosition().x, mTarget.position.y, mGravitySpeed);
+		GoToDirection( mTarget.position.x, mTarget.position.y, mGravitySpeed);
 		if (GetPosition().y <= mTarget.position.y)
 		{
 			isJumping = false;
@@ -83,7 +83,7 @@ void PhysicalEntity::Jump()
 	if (isFalling == true)
 		return;
 
-	mGravitySpeed = 100;
+	mGravitySpeed = 300;
 	mTarget.position.y = GetPosition().y - jumpSize;
 
 	isJumping = true;

@@ -8,11 +8,12 @@
 #include "InputManager.h"
 #include "AssetManager.h"
 
+
 void SampleScene::OnInitialize()
 {
     AssetManager& AM = AssetManager::getInstance();
 
-	pEntity1 = CreateEntity<Enemy>(AM.LoadSprite("sheet", 0, 0, 460, 600), sf::Color::Red);
+	/*pEntity1 = CreateEntity<Enemy>(AM.LoadSprite("sheet", 0, 0, 460, 600), sf::Color::Red);
     pEntity1->SetSpriteScale(0.5f, 0.5f);
 	pEntity1->SetPosition(500, 500);
 	pEntity1->SetRigidBody(true);
@@ -22,25 +23,30 @@ void SampleScene::OnInitialize()
 	pEntity2 = CreateEntity<Enemy>(50,50, sf::Color::Green);
 	pEntity2->SetPosition(500, 500);
 	pEntity2->SetRigidBody(true);
-	pEntity2->SetMoveAble(true);
+	pEntity2->SetMoveAble(true);*/
 
+   test_Entity = CreateEntity<Player>(50, 50, sf::Color::Red);
+   test_Entity->SetPosition(500, 500);
 	pEntitySelected = nullptr;
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
 {
-    sf::Vector2f position = pEntity1->GetPosition();
+    InputManager& im = InputManager::Get();
 
-    if (event.type == sf::Event::MouseButtonPressed &&
-        event.mouseButton.button == sf::Mouse::Right)
-    {
-        float dist = Utils::GetDistance(position.x, position.y, 100.f, 100.f);
+  /*sf::Vector2f position = pEntity1->GetPosition();
+  
+  if (event.type == sf::Event::MouseButtonPressed &&
+      event.mouseButton.button == sf::Mouse::Right)
+  {
+      float dist = Utils::GetDistance(position.x, position.y, 100.f, 100.f);
+  
+      if (dist > 10)
+      {
+          pEntity1->GoToPosition(position.x, position.y, 100.f);
+      }
+  }*/
 
-        if (dist > 10)
-        {
-            pEntity1->GoToPosition(position.x, position.y, 100.f);
-        }
-    }
 }
 
 
@@ -48,10 +54,9 @@ void SampleScene::OnUpdate()
 {
     float dt = GetDeltaTime();
 
-    InputManager& im = InputManager::Get();
+    
 
-    if (im.IsControllerPressed(0,Controller::Button::A))
-        std::cout << "Test" << std::endl;
+    
 
 
     if (pEntitySelected != nullptr)
