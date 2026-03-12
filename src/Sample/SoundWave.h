@@ -11,5 +11,7 @@ public :
 	void OnInitialize() override;
 	void OnUpdate() override;
 	void OnCollision(Entity* other) override;
+
+	void ReduceDamage() { m_damage--; }
 };
 

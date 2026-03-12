@@ -37,7 +37,7 @@ void SampleScene::OnUpdate()
 	InputManager& in = InputManager::Get();
 	float deltaTime = GetDeltaTime();
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	if (in.IsControllerPressed(0, Controller::Button::A))
 	{
 		m_player->Jump();
 	}
@@ -98,7 +98,6 @@ void SampleScene::IncreaseTimer()
 	if (test_timerAttaque >= test_tempsEntreLesAttaque)
 	{
 		test_timerAttaque = 0;
-		std::cout << "\n" << std::endl;
 	}
 
 }

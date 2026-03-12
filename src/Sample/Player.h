@@ -22,6 +22,7 @@ private:
 	int m_health = 100;
 	int m_maxHealth = 100;
 	bool m_playerAlive = true;
+	bool m_directionFacing = true; //true = regarde vers la droite, false = regarde vers la gauche
 
 	float m_maxSpeed = 50.f;
 	float m_acceleration = 250.f;
@@ -29,4 +30,5 @@ private:
 
 	int m_numberOfGoodPress = 0;
 	int m_numberOfBadPress = 0;
+	bool m_nextBeatMustBePressed = 0;
 };

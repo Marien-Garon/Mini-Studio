@@ -4,7 +4,7 @@
 
 void SoundWave::OnInitialize()
 {
-	m_damage = 1;
+	m_damage = 2;
 	SetSpeed(1000);
 	SetMoveAble(true);
 	
@@ -27,3 +27,4 @@ void SoundWave::OnCollision(Entity* other)
 		static_cast<Enemy*>(other)->TakeDamage(m_damage);
 	}
 }
+

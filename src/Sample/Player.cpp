@@ -1,11 +1,14 @@
 #include "Player.h"
 #include "SampleScene.h"
 #include "InputManager.h"
+#include "SoundWave.h"
 
 #include <iostream>
 
 void Player::OnUpdate()
 {
+	InputManager IM = InputManager::Get();
+
 	float deltaTime = GetDeltaTime();
 	sf::Vector2f position = GetPosition();
 	position.x += mSpeed;
@@ -25,6 +28,10 @@ void Player::OnUpdate()
 
 	SetPosition(position.x, GetPosition().y);
 
+	if (IM.IsControllerReleased(0, Controller::Button::A))
+	{
+		Attack();
+	}
 	
 }
 
@@ -96,8 +103,45 @@ void Player::Jump()
 
 void Player::Attack()
 {
-	InputManager IM = InputManager::Get();
+	float windowWidth = GetScene()->GetWindowWidth();
 	bool isAttackingTimingGood = static_cast<SampleScene*>(GetScene())->IsAttackTimingOkay();
 
-	if (IM.)
+	if (isAttackingTimingGood == true)
+		m_numberOfGoodPress++;
+
+	else
+		m_numberOfBadPress++;
+		
+	if (m_numberOfBadPress + m_numberOfGoodPress == 3)
+	{
+		switch (m_numberOfBadPress)
+		{
+		case 0 :
+			{
+				SoundWave* attack = CreateEntity<SoundWave>(100, 50, sf::Color::Cyan);
+				attack->GoToDirection(windowWidth, GetPosition().y);
+				break;
+			}
+			
+
+		case 1 :
+			{
+				SoundWave* attack = CreateEntity<SoundWave>(100, 50, sf::Color::Cyan);
+				attack->GoToDirection(windowWidth * m_directionFacing, GetPosition().y);
+				attack->ReduceDamage();
+				break;
+			}
+			
+
+		case 2 :
+			break;
+		}
+
+		m_numberOfGoodPress = 0;
+		m_numberOfBadPress = 0;
+
+	}
+
+	else
+		m_nextBeatMustBePressed = true;
 }
