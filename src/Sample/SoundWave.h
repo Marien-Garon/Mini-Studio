@@ -1,10 +1,14 @@
 #pragma once
 #include "Entity.h"
 
-class DummyEntity : public Entity
+class SoundWave : public Entity
 {
-public:
+private:
 
+	int m_damage;
+public :
+
+	void OnInitialize() override;
 	void OnUpdate() override;
 	void OnCollision(Entity* other) override;
 };

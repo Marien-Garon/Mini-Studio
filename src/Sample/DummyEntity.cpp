@@ -1,6 +1,15 @@
 #include "DummyEntity.h"
+#include "InputManager.h"
 
 #include <iostream>
+
+void DummyEntity::OnUpdate()
+{
+	
+
+	if (InputManager::Get().IsControllerPressed(0, Controller::Button::A))
+	std::cout << "ton père" << std::endl;
+}
 
 void DummyEntity::OnCollision(Entity* other)
 {

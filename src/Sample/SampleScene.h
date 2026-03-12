@@ -1,15 +1,14 @@
 #pragma once
 
 #include "Scene.h"
-
+#include "DummyEntity.h"
 #include "Enemy.h"
 
 class PhysicalEntity;
 
 class SampleScene : public Scene
 {
-	Enemy* pEntity1;
-
+	int test_NombreAppuyeAttaque = 0;
 	Enemy* pEntity2;
 
 	Enemy* pEntitySelected;
