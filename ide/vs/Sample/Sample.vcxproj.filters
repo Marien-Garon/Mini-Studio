@@ -2,15 +2,15 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
     <ItemGroup>
         <Filter Include="header">
-            <UniqueIdentifier>{B0054AF3-0EF5-4C02-9E12-1511B0538F5A}</UniqueIdentifier>
+            <UniqueIdentifier>{A72AE97F-5387-411B-B347-0E00AC4D8901}</UniqueIdentifier>
             <Extensions>h;hpp</Extensions>
         </Filter>
         <Filter Include="resource">
-            <UniqueIdentifier>{068EE84B-4A6C-47F3-B4FD-74E215A02334}</UniqueIdentifier>
+            <UniqueIdentifier>{5A54FAC0-72FA-4220-803D-A41B4748E23D}</UniqueIdentifier>
             <Extensions>hlsl;jpg;jpeg;png;wav;mp3;ico;dds;rc;obj</Extensions>
         </Filter>
         <Filter Include="source">
-            <UniqueIdentifier>{63BA5F3F-5F79-4296-9EA0-45629E6C5F88}</UniqueIdentifier>
+            <UniqueIdentifier>{E296EB11-88EE-4A5F-BFBE-3B8894E808BA}</UniqueIdentifier>
             <Extensions>cpp;c</Extensions>
         </Filter>
     </ItemGroup>
@@ -33,6 +33,9 @@
         <ClCompile Include="..\..\..\src\Sample\SampleScene.cpp">
             <Filter>source</Filter>
         </ClCompile>
+        <ClCompile Include="..\..\..\src\Sample\SoundWave.cpp">
+            <Filter>source</Filter>
+        </ClCompile>
         <ClInclude Include="..\..\..\src\Sample\Companion.h">
             <Filter>header</Filter>
         </ClInclude>
@@ -46,6 +49,9 @@
             <Filter>header</Filter>
         </ClInclude>
         <ClInclude Include="..\..\..\src\Sample\SampleScene.h">
+            <Filter>header</Filter>
+        </ClInclude>
+        <ClInclude Include="..\..\..\src\Sample\SoundWave.h">
             <Filter>header</Filter>
         </ClInclude>
     </ItemGroup>

@@ -1,4 +1,6 @@
 #include "Player.h"
+#include "SampleScene.h"
+#include "InputManager.h"
 
 #include <iostream>
 
@@ -22,6 +24,14 @@ void Player::OnUpdate()
 	}
 
 	SetPosition(position.x, GetPosition().y);
+
+	
+}
+
+void Player::OnInitialize()
+{
+	SetRigidBody(true);
+	SetPosition(300, 200);
 }
 
 void Player::TakeDamage(int _damage)
@@ -82,4 +92,12 @@ void Player::Jump()
 {
 	std::cout << "Player Jump called\n";
 	PhysicalEntity::Jump();
+}
+
+void Player::Attack()
+{
+	InputManager IM = InputManager::Get();
+	bool isAttackingTimingGood = static_cast<SampleScene*>(GetScene())->IsAttackTimingOkay();
+
+	if (IM.)
 }

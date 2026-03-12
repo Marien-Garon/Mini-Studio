@@ -13,7 +13,7 @@
     <PropertyGroup Label="Globals">
         <VCProjectVersion>17.0</VCProjectVersion>
         <Keyword>Win32Proj</Keyword>
-        <ProjectGuid>{917EC06D-EE6A-452C-808E-5307E2F99554}</ProjectGuid>
+        <ProjectGuid>{CE5B5CEA-D7A5-4105-B860-D66B2B02F303}</ProjectGuid>
         <RootNamespace>Sample</RootNamespace>
         <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     </PropertyGroup>
@@ -100,6 +100,7 @@
         <ClCompile Include="..\..\..\src\Sample\main.cpp"/>
         <ClCompile Include="..\..\..\src\Sample\Player.cpp"/>
         <ClCompile Include="..\..\..\src\Sample\SampleScene.cpp"/>
+        <ClCompile Include="..\..\..\src\Sample\SoundWave.cpp"/>
     </ItemGroup>
     <ItemGroup>
         <ClInclude Include="..\..\..\src\Sample\Companion.h"/>
@@ -107,6 +108,7 @@
         <ClInclude Include="..\..\..\src\Sample\Enemy.h"/>
         <ClInclude Include="..\..\..\src\Sample\Player.h"/>
         <ClInclude Include="..\..\..\src\Sample\SampleScene.h"/>
+        <ClInclude Include="..\..\..\src\Sample\SoundWave.h"/>
     </ItemGroup>
     <ItemGroup/>
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>

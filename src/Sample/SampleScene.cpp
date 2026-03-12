@@ -10,13 +10,12 @@
 
 void SampleScene::OnInitialize()
 {
-	player = CreateEntity<Player>(100, 200, sf::Color::Red);
-	robot = CreateEntity<Companion>(50, 50, sf::Color::Blue);
-	sf::Vector2f position = player->GetPosition();
+	m_player = CreateEntity<Player>(100, 200, sf::Color::Red);
+	m_robot = CreateEntity<Companion>(50, 50, sf::Color::Blue);
 
-	player->SetRigidBody(true);
-	player->SetPosition(300, 200);
-	robot->SetPosition(position.x + 150, position.y + 50);
+	
+	
+	
 	
 	pEntitySelected = nullptr;
 }
@@ -40,38 +39,38 @@ void SampleScene::OnUpdate()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
-		player->Jump();
+		m_player->Jump();
 	}
 	if (in.GetJoystickLeftX(0) >= 100.f)
 	{
 		std::cout << in.GetJoystickLeftX(0);
-		player->MoveRight(deltaTime);
+		m_player->MoveRight(deltaTime);
 	}
 
 	if (in.GetJoystickLeftX(0) <= -100.f)
 	{
 		std::cout << in.GetJoystickLeftY(0);
-		player->MoveLeft(deltaTime);
+		m_player->MoveLeft(deltaTime);
 	}
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 	{
-		player->MoveLeft(deltaTime);
+		m_player->MoveLeft(deltaTime);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		player->MoveRight(deltaTime);
+		m_player->MoveRight(deltaTime);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 	{
-		player->TakeDamage(10);
+		m_player->TakeDamage(10);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		player->Heal(10);
+		m_player->Heal(10);
 	}
 
 	
@@ -80,4 +79,26 @@ void SampleScene::OnUpdate()
 		sf::Vector2f position = pEntitySelected->GetPosition();
 		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue); 
 	}*/
+
+	IncreaseTimer();
+}
+
+bool SampleScene::IsAttackTimingOkay()
+{
+	if (test_timerAttaque >= test_tempsEntreLesAttaque - 5.f / 60.f || test_timerAttaque <= 5.f / 60.F)
+		return true;
+
+	return false;
+}
+
+void SampleScene::IncreaseTimer()
+{
+	test_timerAttaque += GetDeltaTime();
+
+	if (test_timerAttaque >= test_tempsEntreLesAttaque)
+	{
+		test_timerAttaque = 0;
+		std::cout << "\n" << std::endl;
+	}
+
 }

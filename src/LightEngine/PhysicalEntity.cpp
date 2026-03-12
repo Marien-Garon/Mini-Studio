@@ -1,4 +1,5 @@
 #include "PhysicalEntity.h"
+#include <iostream>
 
 void PhysicalEntity::Update()
 {
@@ -88,7 +89,7 @@ void PhysicalEntity::Jump()
 		return;
 
 	mGravitySpeed = 100;
-	mTarget.position.y = GetPosition().y - jumpSize;
+	GoToPosition(0, 0);
 
 	isJumping = true;
 }
