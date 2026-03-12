@@ -9,14 +9,9 @@
 
 #include "Debug.h"
 #include "InputManager.h"
-#include <iostream>
 
 #define MAX_JOYSTICK_POS  100
 #define MIN_JOYSTICK_POS -100
-
-
-
-#include <iostream>
 
 
 void SampleScene::OnInitialize()
@@ -34,6 +29,8 @@ void SampleScene::OnInitialize()
 
     mCamera = CreateEntity<Camera>(0, 0, sf::Color::Green);
 
+
+    //POUR BLOQUER LA CAMERA => mCamera->SetupCamera(0, pEntity1);
     mCamera->SetupCamera(2, pEntity1);
 	pEntitySelected = nullptr;
 }
