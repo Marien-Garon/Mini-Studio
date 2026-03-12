@@ -1,10 +1,12 @@
 #pragma once
-
+#include "PhysicalEntity.h"
 #include "Scene.h"
 #include "DummyEntity.h"
 #include "Enemy.h"
 
 class PhysicalEntity;
+class Player;
+class Companion;
 
 class SampleScene : public Scene
 {
@@ -18,9 +20,13 @@ private:
 	DummyEntity* pEntity2;
 	DummyEntity* pEntitySelected;
 
-	
+	PhysicalEntity* kaka;
+	Player* player;
+	Companion* robot;
+	Player* pEntitySelected;
+
 private:
-	void TrySetSelectedEntity(Enemy* pEntity, int x, int y);
+	void TrySetSelectedEntity(Player* pEntity, int x, int y);
 
 public:
 	void OnInitialize() override;

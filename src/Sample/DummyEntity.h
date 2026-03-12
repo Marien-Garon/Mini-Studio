@@ -9,5 +9,6 @@ public:
 	void OnCollision(Entity* other) override;
 
 	void SetColor();
+	/*void OnCollision(Entity* other) override;*/
 };
 

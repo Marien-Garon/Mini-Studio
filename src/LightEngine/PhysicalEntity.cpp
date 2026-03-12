@@ -1,23 +1,49 @@
 #include "PhysicalEntity.h"
 
-
-void PhysicalEntity::OnUpdate()
+void PhysicalEntity::Update()
 {
+	float dt = GetDeltaTime();
+	float distance = dt * mSpeed;
+
+	sf::Vector2f translation = distance * mDirection;
+	mShape.move(translation);
+
+	if (mTarget.isSet)
+	{
+		float x1 = GetPosition(0.5f, 0.5f).x;
+		float y1 = GetPosition(0.5f, 0.5f).y;
+
+		float x2 = x1 + mDirection.x * mTarget.distance;
+		float y2 = y1 + mDirection.y * mTarget.distance;
+
+		mTarget.distance -= distance;
+
+		if (mTarget.distance <= 0.f)
+		{
+			SetPosition(mTarget.position.x, mTarget.position.y, 0.5f, 0.5f);
+			mDirection = sf::Vector2f(0.f, 0.f);
+			mTarget.isSet = false;
+		}
+	}
+
 	if (isJumping == true)
 	{
-		GoToDirection(GetPosition().x, mTarget.position.y, mGravitySpeed);
+		//GoToDirection(GetPosition().x, mTarget.position.y, mGravitySpeed);
 		if (GetPosition().y <= mTarget.position.y)
 		{
 			isJumping = false;
 			isFalling = true;
-			Fall(GetDeltaTime());
+			Fall(dt);
 		}
 	}
 	if (isFalling == true)
 	{
-		Fall(GetDeltaTime());
+		Fall(dt);
 		GoToDirection(GetPosition().x, GetPosition().y + mTarget.position.y, mGravitySpeed);
 	}
+
+
+	OnUpdate();
 }
 
 bool PhysicalEntity::CanFall()
@@ -33,7 +59,7 @@ bool PhysicalEntity::CanFall()
 void PhysicalEntity::Fall(float deltaTime)
 {
 	mGravitySpeed += gravityAcceleration * (deltaTime + 0.2);
-	mTarget.position.y += mGravitySpeed * (deltaTime + 0.2);
+	mTarget.position.y += mGravitySpeed * (deltaTime + 1);
 
 	isFalling = true;
 }
@@ -49,6 +75,11 @@ void PhysicalEntity::StopFall()
 	GoToPosition(GetPosition().x, GetPosition().y, mGravitySpeed);
 
 	isFalling = false;
+}
+
+bool PhysicalEntity::CanJump()
+{
+	return false;
 }
 
 void PhysicalEntity::Jump()

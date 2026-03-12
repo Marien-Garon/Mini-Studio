@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+    <ItemGroup>
+        <Filter Include="header">
+            <UniqueIdentifier>{B0054AF3-0EF5-4C02-9E12-1511B0538F5A}</UniqueIdentifier>
+            <Extensions>h;hpp</Extensions>
+        </Filter>
+        <Filter Include="resource">
+            <UniqueIdentifier>{068EE84B-4A6C-47F3-B4FD-74E215A02334}</UniqueIdentifier>
+            <Extensions>hlsl;jpg;jpeg;png;wav;mp3;ico;dds;rc;obj</Extensions>
+        </Filter>
+        <Filter Include="source">
+            <UniqueIdentifier>{63BA5F3F-5F79-4296-9EA0-45629E6C5F88}</UniqueIdentifier>
+            <Extensions>cpp;c</Extensions>
+        </Filter>
+    </ItemGroup>
+    <ItemGroup>
+        <ClCompile Include="..\..\..\src\Sample\Companion.cpp">
+            <Filter>source</Filter>
+        </ClCompile>
+        <ClCompile Include="..\..\..\src\Sample\DummyEntity.cpp">
+            <Filter>source</Filter>
+        </ClCompile>
+        <ClCompile Include="..\..\..\src\Sample\Enemy.cpp">
+            <Filter>source</Filter>
+        </ClCompile>
+        <ClCompile Include="..\..\..\src\Sample\main.cpp">
+            <Filter>source</Filter>
+        </ClCompile>
+        <ClCompile Include="..\..\..\src\Sample\Player.cpp">
+            <Filter>source</Filter>
+        </ClCompile>
+        <ClCompile Include="..\..\..\src\Sample\SampleScene.cpp">
+            <Filter>source</Filter>
+        </ClCompile>
+        <ClInclude Include="..\..\..\src\Sample\Companion.h">
+            <Filter>header</Filter>
+        </ClInclude>
+        <ClInclude Include="..\..\..\src\Sample\DummyEntity.h">
+            <Filter>header</Filter>
+        </ClInclude>
+        <ClInclude Include="..\..\..\src\Sample\Enemy.h">
+            <Filter>header</Filter>
+        </ClInclude>
+        <ClInclude Include="..\..\..\src\Sample\Player.h">
+            <Filter>header</Filter>
+        </ClInclude>
+        <ClInclude Include="..\..\..\src\Sample\SampleScene.h">
+            <Filter>header</Filter>
+        </ClInclude>
+    </ItemGroup>
+</Project>
