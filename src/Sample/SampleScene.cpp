@@ -24,7 +24,7 @@ void SampleScene::OnInitialize()
     pEntity2->Initialize();
 
     mCamera = CreateEntity<Camera>(0, sf::Color::Green);
-    mCamera->SetupCamera(2, pEntity1);
+    mCamera->SetupCamera(0, pEntity1);
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
@@ -47,7 +47,8 @@ void SampleScene::OnEvent(const sf::Event& event)
     }
     if (event.mouseButton.button == sf::Mouse::Middle)
     {
-        pEntity1->Fall(GetDeltaTime());
+        pEntity1->Jump();
+        //pEntity1->Fall(GetDeltaTime());
     }
 
 
