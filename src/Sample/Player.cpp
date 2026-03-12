@@ -77,9 +77,3 @@ void Player::MoveLeft(float deltaTime)
 		mSpeed = -m_maxSpeed;
 	}
 }
-
-void Player::Jump()
-{
-	std::cout << "Player Jump called\n";
-	PhysicalEntity::Jump();
-}

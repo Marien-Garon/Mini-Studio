@@ -14,7 +14,6 @@ public:
 	void Heal(int heal);
 	void MoveRight(float deltaTime);
 	void MoveLeft(float deltaTime);
-	void Jump() override;
 
 private:
 
