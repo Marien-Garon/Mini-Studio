@@ -11,14 +11,14 @@ private:
     bool isFalling = false;
     bool isJumping = false;
 
+    virtual void Update() override;
 protected:
 
     int jumpSize = 50;
 
 public:     
 
-    virtual void OnUpdate() override;
-
+    virtual void OnUpdate() override {};
 
     float GetGravitySpeed() { return mGravitySpeed; }
     //#TO DO => RigidBody not under

@@ -86,7 +86,7 @@ protected:
 	virtual void OnDestroy() {};
 	
 private:
-    void Update();
+    virtual void Update();
 	void Initialize(float width, float height, const sf::Color& color);
 	void Repulse(Entity* other);
 

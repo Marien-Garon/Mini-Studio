@@ -2,9 +2,8 @@
 #include <iostream>
 #include "PhysicalEntity.h"
 
-#include "DummyEntity.h"
-
 #include"Enemy.h"
+#include "Camera.h"
 
 #include"Utils.h"
 
@@ -33,6 +32,8 @@ void SampleScene::OnInitialize()
 	pEntity2->SetRigidBody(true);
 	pEntity2->SetMoveAble(true);
 
+    mCamera = CreateEntity<Camera>(0, sf::Color::Green);
+    mCamera->SetupCamera(2, pEntity1);
 	pEntitySelected = nullptr;
 }
 
@@ -50,21 +51,31 @@ void SampleScene::OnEvent(const sf::Event& event)
             pEntity1->GoToPosition(position.x, position.y, 100.f);
         }
     }
-}
-
-
-void SampleScene::OnUpdate()
-{
-    float dt = GetDeltaTime();
-
-    pEntity1->Update(dt);
-
-    if (pEntitySelected != nullptr)
+    if (event.mouseButton.button == sf::Mouse::Left)
     {
-        sf::Vector2f position = pEntitySelected->GetPosition();
-        Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
+        mCamera->Shake(10);
     }
+    if (event.mouseButton.button == sf::Mouse::Middle)
+    {
+        pEntity1->Fall(GetDeltaTime());
+    }
+
+
 }
+
+
+//void SampleScene::OnUpdate()
+//{
+//    float dt = GetDeltaTime();
+//
+//    pEntity1->Update(dt);
+//
+//    if (pEntitySelected != nullptr)
+//    {
+//        sf::Vector2f position = pEntitySelected->GetPosition();
+//        Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
+//    }
+//}
 
 void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
 {

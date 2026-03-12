@@ -16,7 +16,7 @@ private:
 
 public:
     void Initialize();           
-    void Update(float dt);
+    void OnUpdate(float dt);
 
     float TakeDamage(int amount);
 };

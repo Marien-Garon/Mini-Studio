@@ -1,6 +1,7 @@
 #pragma once
 
 class GameManager;
+class Camera;
 
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/Color.hpp>
@@ -9,6 +10,7 @@ class Scene
 {
 private:
 	GameManager* mpGameManager;
+	Camera* mCamera;
 
 private:
 	void SetGameManager(GameManager* pGameManager) { mpGameManager = pGameManager; }
@@ -28,6 +30,8 @@ public:
 
 	int GetWindowWidth() const;
 	int GetWindowHeight() const;
+
+	GameManager* GetGameManager() { return mpGameManager; }
 
 	friend GameManager;
 };
