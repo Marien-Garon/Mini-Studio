@@ -3,11 +3,12 @@
 #include "Scene.h"
 
 class Player;
+class Companion;
 
 class SampleScene : public Scene
 {
 	Player* player;
-
+	Companion* robot;
 	Player* pEntitySelected;
 
 private:

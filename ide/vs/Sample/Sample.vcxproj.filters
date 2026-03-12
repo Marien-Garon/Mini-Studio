@@ -2,19 +2,22 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
     <ItemGroup>
         <Filter Include="header">
-            <UniqueIdentifier>{1982C04D-9D5A-410B-A07C-10D80A53B8CC}</UniqueIdentifier>
+            <UniqueIdentifier>{1E47CC16-36A9-43B5-AE26-91EBDB51E077}</UniqueIdentifier>
             <Extensions>h;hpp</Extensions>
         </Filter>
         <Filter Include="resource">
-            <UniqueIdentifier>{7FC425B4-A857-4FD2-885E-F1157C2C7561}</UniqueIdentifier>
+            <UniqueIdentifier>{25736275-7E0E-4AD7-B053-4DD001E9AE85}</UniqueIdentifier>
             <Extensions>hlsl;jpg;jpeg;png;wav;mp3;ico;dds;rc;obj</Extensions>
         </Filter>
         <Filter Include="source">
-            <UniqueIdentifier>{383A59E2-42A8-46C4-AB34-02C584BA19D8}</UniqueIdentifier>
+            <UniqueIdentifier>{7E912BC9-84EC-4E36-ABD3-76EDF03EFA37}</UniqueIdentifier>
             <Extensions>cpp;c</Extensions>
         </Filter>
     </ItemGroup>
     <ItemGroup>
+        <ClCompile Include="..\..\..\src\Sample\Companion.cpp">
+            <Filter>source</Filter>
+        </ClCompile>
         <ClCompile Include="..\..\..\src\Sample\DummyEntity.cpp">
             <Filter>source</Filter>
         </ClCompile>
@@ -30,6 +33,9 @@
         <ClCompile Include="..\..\..\src\Sample\SampleScene.cpp">
             <Filter>source</Filter>
         </ClCompile>
+        <ClInclude Include="..\..\..\src\Sample\Companion.h">
+            <Filter>header</Filter>
+        </ClInclude>
         <ClInclude Include="..\..\..\src\Sample\DummyEntity.h">
             <Filter>header</Filter>
         </ClInclude>

@@ -2,6 +2,7 @@
 #include "InputManager.h"
 #include "SampleScene.h"
 #include "PhysicalEntity.h"
+#include "Companion.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Utils.h"
@@ -9,9 +10,14 @@
 
 void SampleScene::OnInitialize()
 {
+	
 	player = CreateEntity<Player>(100, 200, sf::Color::Red);
-
+	robot = CreateEntity<Companion>(50, 50, sf::Color::Blue);
+	sf::Vector2f position = player->GetPosition();
+	
 	player->SetPosition(300, 200);
+	robot->SetPosition(position.x + 150, position.y + 50);
+	
 	player->SetRigidBody(true);
 
 	pEntitySelected = nullptr;
