@@ -58,7 +58,7 @@ void SampleScene::OnUpdate()
 
     InputManager& im = InputManager::Get();
 
-    if (im.IsKeyPressed(sf::Keyboard::A))
+    if (im.IsControllerHeld(0,Controller::Button::A))
         std::cout << "Test" << std::endl;
 
 

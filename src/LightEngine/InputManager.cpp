@@ -10,7 +10,9 @@ using EventType = sf::Event::EventType;
 
 void InputManager::HandleKeyPressed(const sf::Event& event)
 {
-	if (m_keyHeld[event.key.code])
+	//std::cout << event.key.code << std::endl;
+
+	if (m_keyHeld[event.key.code] || m_keyPressed[event.key.code])
 	{
 		m_keyPressed[event.key.code] = false;
 		return;
@@ -26,8 +28,11 @@ void InputManager::HandleJoystickPressed(const sf::Event& event)
 	Controller* controller = m_controllerList[id];
 	Controller::Button btn = static_cast<Controller::Button>(event.joystickButton.button);
 
-	if (controller->IsControllerHeld(btn))
+	if (controller->IsControllerHeld(btn)) 
+	{
+		controller->SetPressed(btn, false);  //idk wy it doesn't work
 		return;
+	}
 
 	controller->SetPressed(btn, true);
 	controller->SetHeld(btn, true);
@@ -36,18 +41,18 @@ void InputManager::HandleJoystickPressed(const sf::Event& event)
 void InputManager::HandleKeyReleased(const sf::Event& event)
 {
 	m_keyHeld[event.key.code] = false;
+	m_keyPressed[event.key.code] = false;
 	m_keyReleased[event.key.code] = true;
 }
 
 void InputManager::HandleJoystickReleased(const sf::Event& event)
 {
-	std::cout << "released" << std::endl;
 
 	unsigned int id = event.joystickButton.joystickId;
 	Controller* controller = m_controllerList[id];
 	Controller::Button btn = static_cast<Controller::Button>(event.joystickButton.button);
 
-
+	controller->SetPressed(btn, false);
 	controller->SetHeld(btn, false);
 	controller->SetReleased(btn, true);
 }
@@ -167,7 +172,10 @@ bool InputManager::IsControllerPressed(unsigned int _id, Controller::Button _key
 	if (!m_controllerList.contains(_id))
 		return false;
 
-	return m_controllerList[_id]->IsControllerPressed(_key);
+	bool isPressed = m_controllerList[_id]->IsControllerPressed(_key);  // Ok so i have no idea why it doesn't work so i just do that this way for now
+	m_controllerList[_id]->SetPressed(_key, false);
+
+	return isPressed;
 }
 
 bool InputManager::IsControllerReleased(unsigned int _id, Controller::Button _key)
@@ -255,6 +263,6 @@ void InputManager::Reset()
 	//m_keyReleased.clear();
 	//m_keyPressed.clear();
 
-	for (auto& pair : m_controllerList)
-		pair.second->Reset();
+	//for (auto& pair : m_controllerList)
+	//	pair.second->Reset();
 }

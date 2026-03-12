@@ -41,16 +41,9 @@ bool Controller::IsControllerHeld(Button _btn)
 {
 	if (!m_controllerHeld.contains(_btn)) return false;
 
-	std::cout << "held" << std::endl;
-
 	return 	m_controllerHeld[_btn];
 }
 
-void Controller::Reset()
-{
-	m_controllerPressed.clear();
-	m_controllerReleased.clear();
-}
 
 void Controller::Disconnect()
 {
@@ -63,4 +56,10 @@ void Controller::Disconnect()
 void Controller::Connect()
 {
 	m_isConnected = true;
+}
+
+void Controller::Reset()
+{
+	m_controllerPressed.clear();
+	m_controllerReleased.clear();
 }
