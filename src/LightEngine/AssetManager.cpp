@@ -49,6 +49,42 @@ void AssetManager::UpdateAssets()
     UpdateMusic();
 }
 
+bool AssetManager::InitTileInDirectory(const std::filesystem::path& filename)
+{
+    if (!std::filesystem::exists(filename) || !std::filesystem::is_directory(filename)) {
+        std::cout << "path : " << filename << " doesn't exist" << std::endl;
+        return false;
+    }
+
+    for (auto& entry : std::filesystem::directory_iterator(filename))
+    {
+        if (!entry.is_regular_file())
+        {
+            std::cout << "Not valid file" << std::endl;
+            continue;
+        }
+
+
+        if (entry.path().extension() != ".png")
+        {
+            std::cout << "Not valid extension" << std::endl;
+            continue;
+        }
+
+        std::string id = entry.path().stem().string();
+
+        if (m_tileList.contains(id)) //Only name ?
+        {
+            std::cout << "Already a tile register with this name" << std::endl;
+            continue;
+        }
+        
+        TextureData& data = m_tileList[id];
+
+        data.texture.loadFromFile(entry.path().string());
+    }
+}
+
 bool AssetManager::InitMusicInDirectory(const std::filesystem::path& filename)
 {
     if (!std::filesystem::exists(filename) || !std::filesystem::is_directory(filename)) {

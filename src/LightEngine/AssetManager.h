@@ -47,6 +47,8 @@ private:
 	std::unordered_map<std::string, sf::SoundBuffer> m_soundBuffers;
 	std::unordered_map<std::string, std::string> m_musicList;
 
+	std::unordered_map<std::string, TextureData> m_tileList;
+
 	std::vector<sf::Sound*> m_soundPlaying;
 
 	sf::Music* m_musicPlaying = nullptr;
@@ -62,9 +64,9 @@ public:
 		return instance;
 	}
 	
-
 	void UpdateAssets();
 
+	bool InitTileInDirectory(const std::filesystem::path& filename = "../../../assets/tile");
 	bool InitMusicInDirectory(const std::filesystem::path& filename = "../../../assets/musics");
 	bool InitSoundInDirectory(const std::filesystem::path& filename = "../../../assets/sounds");
 	bool InitTextureInDirectory(const std::filesystem::path& filename = "../../../assets/textures");
