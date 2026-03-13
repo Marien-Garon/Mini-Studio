@@ -14,6 +14,7 @@ public:
 
 	void Movement();
 	void Jump();
+	void Attack();
 
 private:
 
@@ -21,5 +22,6 @@ private:
 	int m_maxHealth = 3;
 	bool m_playerAlive = true;
 	bool m_directionFacing = true; //true = regarde vers la droite, false = regarde vers la gauche
+	int m_numberOfGoodPress = 0;
 
 };
