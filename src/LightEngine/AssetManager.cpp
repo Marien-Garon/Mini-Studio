@@ -1,6 +1,4 @@
 #include "AssetManager.h"
-
-#include <iostream>
 #include "Debug.h"
 
 
@@ -183,8 +181,8 @@ bool AssetManager::InitTextureInDirectory(const std::filesystem::path& filename)
         std::ifstream jsonFile(jsonPath);
 
 
-        if(!jsonFile.is_open()) {
-            std::cout << "Can't open json file" << std::endl;
+        if(!jsonFile.is_open()) 
+        {
             Debug::DebugMessage(Debug::Severity::WARN, "Load JSON", "Can't open JSON file : " + jsonPath);
             continue;
         }
@@ -263,7 +261,6 @@ sf::Sound* AssetManager::PlaySound(std::string _id)
 {
     if (!m_soundBuffers.contains(_id))
     {
-        std::cout << "No sound at id : " << _id << std::endl;
         Debug::DebugMessage(Debug::Severity::WARN, "Play Sound", "Not sound at id : " + _id);
         return nullptr;
     }
