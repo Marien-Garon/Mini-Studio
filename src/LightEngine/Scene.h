@@ -7,6 +7,8 @@ class Camera;
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
+#include "AssetManager.h"
+
 class Scene
 {
 private:
@@ -28,7 +30,7 @@ public:
 	T* CreateEntity(float width, float height, const sf::Color& color);
 
 	template<typename T>
-	T* CreateEntity(sf::Sprite* _sprite, const sf::Color& color);
+	T* CreateEntity(SpriteData* _sprite, const sf::Color& color);
 
 	float GetDeltaTime() const;
 

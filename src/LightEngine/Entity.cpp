@@ -83,13 +83,13 @@ void Entity::Destroy()
 
 void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 {
-	sf::Vector2f size = hasSprite ? sf::Vector2f(m_sprite->getTextureRect().width, m_sprite->getTextureRect().height) : mShape.getSize();
+	sf::Vector2f size = hasSprite ? sf::Vector2f(m_sprite->sprite->getTextureRect().width, m_sprite->sprite->getTextureRect().height) : mShape.getSize();
 
 	x -= size.x * ratioX;
 	y -= size.y * ratioY;
 
 	if (hasSprite)
-		m_sprite->setPosition(x, y);
+		m_sprite->sprite->setPosition(x, y);
 	else
 		mShape.setPosition(x, y);
 
@@ -108,8 +108,8 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 
 sf::Vector2f Entity::GetPosition(float ratioX, float ratioY) const
 {
-	sf::Vector2f size = hasSprite ? sf::Vector2f(m_sprite->getTextureRect().width, m_sprite->getTextureRect().height) : mShape.getSize();
-	sf::Vector2f position = hasSprite ? m_sprite->getPosition() : mShape.getPosition();
+	sf::Vector2f size = hasSprite ? sf::Vector2f(m_sprite->sprite->getTextureRect().width, m_sprite->sprite->getTextureRect().height) : mShape.getSize();
+	sf::Vector2f position = hasSprite ? m_sprite->sprite->getPosition() : mShape.getPosition();
 
 	position.x += size.x * ratioX;
 	position.y += size.y * ratioY;
@@ -160,8 +160,12 @@ void Entity::Update()
 	float distance = dt * mSpeed;
 	sf::Vector2f translation = distance * mDirection;
 	
+
 	if (hasSprite)
-		m_sprite->move(translation);
+	{
+		m_sprite->UpdateAnimation(dt);
+		m_sprite->sprite->move(translation);
+	}
 	else
 		mShape.move(translation);
 
@@ -205,4 +209,9 @@ float Entity::GetDeltaTime() const
 const AABBCollider& Entity::GetCollider()
 {
 	return m_collider;
+}
+
+void Entity::PlayAnimation(const std::string& _id)
+{
+	m_sprite->PlayAnimation(_id);
 }

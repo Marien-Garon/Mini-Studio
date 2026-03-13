@@ -8,24 +8,32 @@
           {
                "down":
                {
-               "frames": [0,1,2,3],
+               "line": 0,
+               "frameNbr" : 4,
+               "duration" : 0.1,
                "loop": true
                },
 
                "right":
                {
-               "frames": [4,5,6,7],
+               "line": 1,
+               "frameNbr" : 4,               
+               "duration" : 0.1,               
                "loop": true
                },
 
                "left":
                {
-               "frames": [8,9,10,11],
+               "line": 2,
+               "frameNbr" : 4,
+               "duration" : 0.1,
                "loop": false
                },
                "up":
                {
-               "frames": [11,12,13,14],
+               "line": 3,
+               "frameNbr" : 4,
+               "duration" : 0.1,
                "loop": false
                }
           }

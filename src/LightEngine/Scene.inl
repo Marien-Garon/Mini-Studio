@@ -25,7 +25,7 @@ T* Scene::CreateEntity(float width, float height, const sf::Color& color)
 
 
 template<typename T>
-T* Scene::CreateEntity(sf::Sprite* _sprite, const sf::Color& color)
+T* Scene::CreateEntity(SpriteData* _sprite, const sf::Color& color)
 {
 	static_assert(std::is_base_of<Entity, T>::value, "T must be derived from Entity");
 
@@ -36,7 +36,7 @@ T* Scene::CreateEntity(sf::Sprite* _sprite, const sf::Color& color)
 
 	if (_sprite == nullptr) std::cout << "ALERTE " << std::endl;
 
-	entity->Initialize(_sprite->getTextureRect().width, _sprite->getTextureRect().height, color);
+	entity->Initialize(_sprite->sprite->getTextureRect().width, _sprite->sprite->getTextureRect().height, color);
 	entity->SetSprite(_sprite);
 
 	mpGameManager->mEntitiesToAdd.push_back(newEntity);

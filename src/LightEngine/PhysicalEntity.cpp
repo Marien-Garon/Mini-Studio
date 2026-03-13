@@ -7,7 +7,17 @@ void PhysicalEntity::Update()
 	float distance = dt * mSpeed;
 
 	sf::Vector2f translation = distance * mDirection;
-	mShape.move(translation);
+
+
+	if (hasSprite)
+	{
+		m_sprite->UpdateAnimation(dt);
+		m_sprite->sprite->move(translation);
+	}
+	else
+		mShape.move(translation);
+
+	m_collider.SetPosition(GetPosition(0.0f, 0.0f).x, GetPosition(0.0f, 0.0f).y);
 
 	if (mTarget.isSet)
 	{

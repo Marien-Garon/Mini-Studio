@@ -7,6 +7,8 @@
 
 #include "Collider.h"
 
+#include "AssetManager.h"
+
 namespace sf 
 {
 	class Shape;
@@ -29,7 +31,7 @@ protected:
 	AABBCollider m_collider;
 
 	sf::RectangleShape mShape;
-	sf::Sprite* m_sprite = nullptr;
+	SpriteData* m_sprite = nullptr;
 
     sf::Vector2f mDirection;
 	Target mTarget;
@@ -84,13 +86,15 @@ public:
 	template<typename T>
 	T* CreateEntity(sf::Sprite* _sprite, const sf::Color& color);
 
-	void SetSprite(sf::Sprite* _sprite) { m_sprite = _sprite; hasSprite = true; };
-	void SetSpriteColor(const sf::Color& _color) { m_sprite->setColor(_color); };
-	void SetSpriteScale(float _x, float _y) { m_sprite->setScale(_x, _y); };
-	void SetSpriteScale(const sf::Vector2f& _scale) { m_sprite->setScale(_scale); };
-	void SetSpriteRotation(float _angle) { m_sprite->setRotation(_angle); };
+	void SetSprite(SpriteData* _sprite) { m_sprite = _sprite; hasSprite = true; };
+	void SetSpriteColor(const sf::Color& _color) { m_sprite->sprite->setColor(_color); };
+	void SetSpriteScale(float _x, float _y) { m_sprite->sprite->setScale(_x, _y); };
+	void SetSpriteScale(const sf::Vector2f& _scale) { m_sprite->sprite->setScale(_scale); };
+	void SetSpriteRotation(float _angle) { m_sprite->sprite->setRotation(_angle); };
 
-	sf::Sprite* GetSprite() { return m_sprite; };
+	void PlayAnimation(const std::string& _id);
+
+	sf::Sprite* GetSprite() { return m_sprite->sprite; };
 
 	bool HasSprite() { return hasSprite; };
 

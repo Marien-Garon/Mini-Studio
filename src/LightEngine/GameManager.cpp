@@ -195,11 +195,6 @@ void GameManager::Draw()
 		else mpWindow->draw(*entity->GetShape());
 	}
 
-	sf::Sprite* sprite = AssetManager::getInstance().LoadSprite("sheet", 0, 0, 460, 600);
-	//std::cout << sprite.getTextureRect().width << std::endl;
-	sprite->setScale(0.1f, 0.1f);
-	DrawSprite(sprite);
 	Debug::Get()->Draw(mpWindow);
-
 	mpWindow->display();
 }

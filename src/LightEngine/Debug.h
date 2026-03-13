@@ -31,7 +31,7 @@ class Debug
 
 public:
 
-	static enum class Severity
+	enum class Severity
 	{
 		NONE,
 		INFO,
@@ -39,8 +39,6 @@ public:
 		ERROR,
 		CRITICAL
 	};
-
-
 
 	static Debug* Get();
 

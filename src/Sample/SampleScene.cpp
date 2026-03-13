@@ -12,17 +12,18 @@ void SampleScene::OnInitialize()
 {
     AssetManager& AM = AssetManager::getInstance();
 
-	pEntity1 = CreateEntity<Enemy>(AM.LoadSprite("sheet", 0, 0, 460, 600), sf::Color::Red);
-    pEntity1->SetSpriteScale(0.5f, 0.5f);
-	pEntity1->SetPosition(500, 500);
+	pEntity1 = CreateEntity<Enemy>(AM.CreateSprite("sheet"/*, 0, 0, 460, 600 */ ), sf::Color::Red);
+    pEntity1->PlayAnimation("right");
+    //pEntity1->SetSpriteScale(0.5f, 0.5f);
+    pEntity1->SetPosition(0, 0, 0.f, 0.f);
 	pEntity1->SetRigidBody(true);
 	pEntity1->SetMoveAble(true);
 	pEntity1->SetTag(1);
 
-	pEntity2 = CreateEntity<Enemy>(50,50, sf::Color::Green);
-	pEntity2->SetPosition(500, 500);
-	pEntity2->SetRigidBody(true);
-	pEntity2->SetMoveAble(true);
+	//pEntity2 = CreateEntity<Enemy>(50,50, sf::Color::Green);
+	//pEntity2->SetPosition(500, 500);
+	//pEntity2->SetRigidBody(true);
+	//pEntity2->SetMoveAble(true);
 
 	pEntitySelected = nullptr;
 }
