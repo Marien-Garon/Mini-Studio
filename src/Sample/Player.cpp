@@ -6,6 +6,7 @@
 void Player::OnInitialize()
 {
 	SetSpeed(300);
+	m_Translation = { 0,0 };
 }
 
 void Player::OnUpdate()
@@ -39,7 +40,21 @@ void Player::OnUpdate()
 	//		mSpeed = 0.f;
 	//}
 
+	if (isJumping == true)
+	{
+		if (GetPosition().y <= mTarget.position.y)
+		{
+			isJumping = false;
+			isFalling = true;
+			Fall(GetDeltaTime());
+		}
+	}
 
+	GoToPosition(GetPosition().x + m_Translation.x, GetPosition().y + m_Translation.y);
+
+
+
+	m_Translation = { 0, (m_Translation.y + mSpeed * deltaTime) * isJumping};
 
 }
 
@@ -88,23 +103,22 @@ void Player::Movement()
 
 	if (in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D))
 	{
-		GoToPosition(GetPosition().x + mSpeed/* * deltaTime*/, GetPosition().y);
+		m_Translation.x += mSpeed * deltaTime;
 	}
 
 	if (in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q))
 	{
-		GoToPosition(GetPosition().x - mSpeed/* * deltaTime*/, GetPosition().y);
+		m_Translation.x -= mSpeed * deltaTime;
 	}
 }
 
 void Player::Jump()
 {
-	if (isFalling == true)
+	if (isFalling == true || isJumping == true)
 		return;
 
-	mGravitySpeed = 300;
-	mTarget.position.y = GetPosition().y - jumpSize;
-	GoToDirection(GetPosition().x, mTarget.position.y);
+	m_Translation.y -= jumpSize;
+	GoToPosition(GetPosition().x, GetPosition().y - jumpSize);
 
 	isJumping = true;
 }

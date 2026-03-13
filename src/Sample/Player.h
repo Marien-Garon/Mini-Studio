@@ -21,6 +21,8 @@ private:
 	int m_health = 3;
 	int m_maxHealth = 3;
 	bool m_playerAlive = true;
+	sf::Vector2f m_Translation;
+	bool m_directionFacing = true; //true = regarde vers la droite, false = regarde vers la gauche
 
 	float m_maxSpeed = 50.f;
 	float m_acceleration = 250.f;

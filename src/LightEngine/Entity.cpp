@@ -207,18 +207,6 @@ void Entity::Update()
 		}
 	}
 
-	if (isJumping == true)
-	{
-		GoToDirection(mTarget.position.x, mTarget.position.y, mGravitySpeed);
-
-		if (GetPosition().y <= mTarget.position.y)
-		{
-			isJumping = false;
-			isFalling = true;
-			Fall(GetDeltaTime());
-		}
-	}
-
 	if (isFalling == true)
 	{
 		Fall(GetDeltaTime());
