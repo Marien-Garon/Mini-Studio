@@ -11,6 +11,8 @@
 #include"Platform.h"
 #include"BreakablePlatform.h"
 
+#include"Entity.h"
+
 #include "Debug.h"
 #include "InputManager.h"
 
@@ -35,7 +37,7 @@ void SampleScene::OnInitialize()
 	m_Platforms[0]->SetPosition(500, 550);
 
 	m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 35, sf::Color::Cyan));
-	m_Platforms[1]->SetPosition(100, 105);
+	m_Platforms[1]->SetPosition(100, 101);
 	
 	pEntitySelected = nullptr;
 }
@@ -56,11 +58,24 @@ void SampleScene::OnEvent(const sf::Event& event)
     }
 }
 
-
 void SampleScene::OnUpdate()
 {
 	float dt = GetDeltaTime();
 
+	for (auto* p : m_Platforms)
+	{
+		p->OnUpdate();
+	}
+
+	for (auto* p : m_Platforms)
+	{
+		if (pEntity1->IsColliding(p))
+		{
+			std::cout << "Collision détectée avec plateforme !" << std::endl;
+
+			p->OnCollision(pEntity1);
+		}
+	}
 }
 
 void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)

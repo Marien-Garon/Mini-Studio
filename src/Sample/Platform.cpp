@@ -10,5 +10,6 @@ void Platform::OnUpdate()
 {
 	float dt = GetDeltaTime();
 
-
 }
+
+
