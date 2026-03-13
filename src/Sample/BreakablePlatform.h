@@ -10,6 +10,6 @@ private:
 	float m_timer = 2.0f;
 
 public:
-	void OnCollision(Entity* player) override;
+	void OnCollision(Entity* entity) override;
 };
 

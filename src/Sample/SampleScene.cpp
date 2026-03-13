@@ -71,9 +71,9 @@ void SampleScene::OnUpdate()
 	{
 		if (pEntity1->IsColliding(p))
 		{
-			std::cout << "Collision détectée avec plateforme !" << std::endl;
+			std::cout << "Collision detectee avec plateforme !" << std::endl;
 
-			p->OnCollision(pEntity1);
+			/*p->OnCollision(pEntity1);*/
 		}
 	}
 }
