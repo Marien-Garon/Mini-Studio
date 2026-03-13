@@ -15,11 +15,21 @@ public:
 	void Movement();
 	void Jump();
 
+	void MoveRight();
+	void MoveLeft();
+
+
 private:
 
 	int m_health = 3;
 	int m_maxHealth = 3;
 	bool m_playerAlive = true;
 	bool m_directionFacing = true; //true = regarde vers la droite, false = regarde vers la gauche
+
+	float mAcceleration = 0.f;
+	float mDecceleration = 0.f;
+	float mBaseSpeed = 0.f;
+	float mMaxSpeed = 0.f;
+
 
 };
