@@ -65,7 +65,8 @@ void Player::MoveRight(float deltaTime)
 	{
 		mSpeed = m_maxSpeed;
 	}
-	
+
+	m_direction *= (-1);
 }
 
 void Player::MoveLeft(float deltaTime)
@@ -76,4 +77,5 @@ void Player::MoveLeft(float deltaTime)
 	{
 		mSpeed = -m_maxSpeed;
 	}
+	
 }

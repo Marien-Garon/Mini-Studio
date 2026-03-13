@@ -12,12 +12,12 @@ void SampleScene::OnInitialize()
 {
 	player = CreateEntity<Player>(100, 200, sf::Color::Red);
 	robot = CreateEntity<Companion>(50, 50, sf::Color::Blue);
-	sf::Vector2f position = player->GetPosition();
 
 	player->SetRigidBody(true);
 	player->SetPosition(300, 200);
-	robot->SetPosition(position.x + 150, position.y + 50);
-	
+
+	robot->SetRigidBody(true);
+
 	pEntitySelected = nullptr;
 }
 
@@ -37,6 +37,8 @@ void SampleScene::OnUpdate()
 {
 	InputManager& in = InputManager::Get();
 	float deltaTime = GetDeltaTime();
+
+	robot->Follow(player);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
@@ -73,7 +75,6 @@ void SampleScene::OnUpdate()
 	{
 		player->Heal(10);
 	}
-
 	
 	/*if(pEntitySelected != nullptr)
 	{
