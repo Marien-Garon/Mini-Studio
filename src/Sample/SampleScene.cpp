@@ -24,7 +24,7 @@ void SampleScene::OnInitialize()
 	pEntity1->SetPosition(100, 100);
 	pEntity1->SetRigidBody(true);
 	pEntity1->SetMoveAble(true);
-	/*pEntity1->SetTag(1);*/
+	pEntity1->SetTag(1);
 
 	pEntity2 = CreateEntity<Enemy>(50,50, sf::Color::Green);
 	pEntity2->SetPosition(500, 500);
@@ -60,7 +60,6 @@ void SampleScene::OnEvent(const sf::Event& event)
 void SampleScene::OnUpdate()
 {
 	float dt = GetDeltaTime();
-
 
 }
 

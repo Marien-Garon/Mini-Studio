@@ -4,5 +4,6 @@
 class Platform : public Entity
 {
 	void OnInitialize() override;
+	void OnUpdate() override;
 };
-
+	
