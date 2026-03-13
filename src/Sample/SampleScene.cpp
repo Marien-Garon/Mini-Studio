@@ -13,30 +13,28 @@
 
 #include "Debug.h"
 #include "InputManager.h"
-#include <iostream>
 
 #define MAX_JOYSTICK_POS  100
 #define MIN_JOYSTICK_POS -100
 
 
-
-#include <iostream>
-
-
 void SampleScene::OnInitialize()
 {
-	//pEntity1 = CreateEntity<Enemy>(20,20, sf::Color::Red);
-	//pEntity1->SetPosition(100, 100);
-	//pEntity1->SetRigidBody(true);
-	//pEntity1->SetMoveAble(true);
-	//pEntity1->SetTag(1);
+	pEntity1 = CreateEntity<Enemy>(20,20, sf::Color::Red);
+	pEntity1->SetPosition(100, 100);
+	pEntity1->SetRigidBody(true);
+	pEntity1->SetMoveAble(true);
+	pEntity1->SetTag(1);
 
-	//pEntity2 = CreateEntity<Enemy>(50,50, sf::Color::Green);
-	//pEntity2->SetPosition(500, 500);
-	//pEntity2->SetRigidBody(true);
-	//pEntity2->SetMoveAble(true);
+	pEntity2 = CreateEntity<Enemy>(50,50, sf::Color::Green);
+	pEntity2->SetPosition(500, 500);
+	pEntity2->SetRigidBody(true);
+	pEntity2->SetMoveAble(true);
 
-	//pEntitySelected = nullptr;
+	m_Platforms.push_back(CreateEntity<Platform>(200, 50, sf::Color::Blue));
+	m_Platforms[0]->SetPosition(500, 550);
+
+	pEntitySelected = nullptr;
 
 }
 
