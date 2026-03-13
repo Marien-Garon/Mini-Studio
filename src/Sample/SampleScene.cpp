@@ -1,6 +1,5 @@
 #include "SampleScene.h"
 #include <iostream>
-#include "PhysicalEntity.h"
 #include "DummyEntity.h"
 #include"Enemy.h"
 #include"Utils.h"
@@ -54,10 +53,6 @@ void SampleScene::OnUpdate()
 {
     float dt = GetDeltaTime();
 
-    
-
-    
-
 
     if (pEntitySelected != nullptr)
     {
@@ -66,7 +61,7 @@ void SampleScene::OnUpdate()
     }
 }
 
-void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
+void SampleScene::TrySetSelectedEntity(Entity* pEntity, int x, int y)
 {
 	if (pEntity->IsInside(x, y) == false)
 		return;

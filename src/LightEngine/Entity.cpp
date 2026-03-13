@@ -154,6 +154,24 @@ void Entity::SetDirection(float x, float y, float speed)
 	mTarget.isSet = false;
 }
 
+void Entity::Fall(float deltaTime)
+{
+	mGravitySpeed += gravityAcceleration * (deltaTime + 0.2);
+	mTarget.position.y += mGravitySpeed * (deltaTime + 1);
+
+	isFalling = true;
+}
+
+void Entity::StopFall()
+{
+	mGravitySpeed = 0;
+	mTarget.position.y = 0;
+	GoToPosition(GetPosition().x, GetPosition().y, mGravitySpeed);
+
+	isFalling = false;
+}
+
+
 void Entity::Update()
 {
 	float dt = GetDeltaTime();
@@ -188,6 +206,25 @@ void Entity::Update()
 			mTarget.isSet = false;
 		}
 	}
+
+	if (isJumping == true)
+	{
+		GoToDirection(mTarget.position.x, mTarget.position.y, mGravitySpeed);
+
+		if (GetPosition().y <= mTarget.position.y)
+		{
+			isJumping = false;
+			isFalling = true;
+			Fall(GetDeltaTime());
+		}
+	}
+
+	if (isFalling == true)
+	{
+		Fall(GetDeltaTime());
+		GoToDirection(GetPosition().x, GetPosition().y + mTarget.position.y, mGravitySpeed);
+	}
+
 
 	OnUpdate();
 }

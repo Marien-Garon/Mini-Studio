@@ -17,9 +17,9 @@ class SampleScene : public Scene
 	Camera* mCamera;
 	
 
-	PhysicalEntity* pEntitySelected;
+	Entity* pEntitySelected;
 private:
-	void TrySetSelectedEntity(Enemy* pEntity, int x, int y);
+	void TrySetSelectedEntity(Entity* pEntity, int x, int y);
 
 public:
 	void OnInitialize() override;

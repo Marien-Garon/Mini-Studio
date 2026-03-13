@@ -1,6 +1,6 @@
 #pragma once
-#include "PhysicalEntity.h"
-class Player : public PhysicalEntity
+#include "Entity.h"
+class Player : public Entity
 {
 public:
 
@@ -14,6 +14,7 @@ public:
 
 	void Movement();
 
+	void Jump();
 
 private:
 

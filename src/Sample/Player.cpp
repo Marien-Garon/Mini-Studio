@@ -83,14 +83,28 @@ void Player::Movement()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		Jump();
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		StopFall();
 
 	if (in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D))
 	{
-		GoToPosition(GetPosition().x + mSpeed * deltaTime, GetPosition().y);
+		GoToPosition(GetPosition().x + mSpeed/* * deltaTime*/, GetPosition().y);
 	}
 
 	if (in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q))
 	{
-		GoToPosition(GetPosition().x - mSpeed * deltaTime, GetPosition().y);
+		GoToPosition(GetPosition().x - mSpeed/* * deltaTime*/, GetPosition().y);
 	}
+}
+
+void Player::Jump()
+{
+	if (isFalling == true)
+		return;
+
+	mGravitySpeed = 300;
+	mTarget.position.y = GetPosition().y - jumpSize;
+	GoToDirection(GetPosition().x, mTarget.position.y);
+
+	isJumping = true;
 }
