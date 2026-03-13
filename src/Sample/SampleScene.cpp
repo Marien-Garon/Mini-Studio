@@ -6,45 +6,39 @@
 #include "Debug.h"
 #include "InputManager.h"
 #include "AssetManager.h"
+#include "Camera.h"
 
 
 void SampleScene::OnInitialize()
 {
     AssetManager& AM = AssetManager::getInstance();
 
-	/*pEntity1 = CreateEntity<Enemy>(AM.LoadSprite("sheet", 0, 0, 460, 600), sf::Color::Red);
-    pEntity1->SetSpriteScale(0.5f, 0.5f);
-	pEntity1->SetPosition(500, 500);
-	pEntity1->SetRigidBody(true);
-	pEntity1->SetMoveAble(true);
-	pEntity1->SetTag(1);
+   m_player= CreateEntity<Player>(50, 50, sf::Color::Red);
+   m_player->SetPosition(500, 500);
 
-	pEntity2 = CreateEntity<Enemy>(50,50, sf::Color::Green);
-	pEntity2->SetPosition(500, 500);
-	pEntity2->SetRigidBody(true);
-	pEntity2->SetMoveAble(true);*/
+   m_robot = CreateEntity<Companion>(50, 50, sf::Color::Blue);
+   m_robot->SetPosition(m_player->GetPosition().x - 150.f, m_player->GetPosition().y - 150.f);
+   m_robot->SetOwner(m_player);
 
-   test_Entity = CreateEntity<Player>(50, 50, sf::Color::Red);
-   test_Entity->SetPosition(500, 500);
-	pEntitySelected = nullptr;
+   mCamera = CreateEntity<Camera>(0, 0, sf::Color::Black);
+   mCamera->SetupCamera(0, m_player);
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
 {
     InputManager& im = InputManager::Get();
 
-  /*sf::Vector2f position = pEntity1->GetPosition();
-  
-  if (event.type == sf::Event::MouseButtonPressed &&
-      event.mouseButton.button == sf::Mouse::Right)
-  {
-      float dist = Utils::GetDistance(position.x, position.y, 100.f, 100.f);
-  
-      if (dist > 10)
-      {
-          pEntity1->GoToPosition(position.x, position.y, 100.f);
-      }
-  }*/
+	if (im.IsKeyPressed(sf::Keyboard::E))
+	{
+		m_player->TakeDamage(1);
+	}
+
+	if (im.IsKeyPressed(sf::Keyboard::A))
+	{
+		m_player->Heal(1);
+	}
+
+	m_player->Movement();
 
 }
 
@@ -53,12 +47,15 @@ void SampleScene::OnUpdate()
 {
     float dt = GetDeltaTime();
 
+	GetGameManager()->RefreshCamera(mCamera);
 
     if (pEntitySelected != nullptr)
     {
         sf::Vector2f position = pEntitySelected->GetPosition();
         Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
     }
+
+	IncreaseTimer();
 }
 
 void SampleScene::TrySetSelectedEntity(Entity* pEntity, int x, int y)
@@ -69,12 +66,21 @@ void SampleScene::TrySetSelectedEntity(Entity* pEntity, int x, int y)
 	pEntitySelected = pEntity;
 }
 
-//void SampleScene::OnUpdate()
-//{
-//
-//	if(pEntitySelected != nullptr)
-//	{
-//		sf::Vector2f position = pEntitySelected->GetPosition();
-//		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue); 
-//	}
-//}
+bool SampleScene::IsAttackTimingOkay()
+{
+	if (test_timerAttaque >= test_tempsEntreLesAttaque - 5.f / 60.f || test_timerAttaque <= 5.f / 60.F)
+		return true;
+
+	return false;
+}
+
+void SampleScene::IncreaseTimer()
+{
+	test_timerAttaque += GetDeltaTime();
+
+	if (test_timerAttaque >= test_tempsEntreLesAttaque)
+	{
+		test_timerAttaque = 0;
+	}
+
+}

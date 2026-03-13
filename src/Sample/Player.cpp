@@ -6,55 +6,10 @@
 void Player::OnInitialize()
 {
 	SetSpeed(300);
-	m_Translation = { 0,0 };
 }
 
 void Player::OnUpdate()
 {
-	InputManager& in = InputManager::Get();
-	float deltaTime = GetDeltaTime();
-
-	
-	Movement();
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-	{
-		TakeDamage(1);
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-	{
-		Heal(1);
-	}
-
-	//if (mSpeed > 0.f)
-	//{
-	//	mSpeed -= m_deceleration * deltaTime;
-	//	if (mSpeed < 0.f)
-	//		mSpeed = 0.f;
-	//}
-	//else if (mSpeed < 0.f)
-	//{
-	//	mSpeed += m_deceleration * deltaTime;
-	//	if (mSpeed > 0.f)
-	//		mSpeed = 0.f;
-	//}
-
-	if (isJumping == true)
-	{
-		if (GetPosition().y <= mTarget.position.y)
-		{
-			isJumping = false;
-			isFalling = true;
-			Fall(GetDeltaTime());
-		}
-	}
-
-	GoToPosition(GetPosition().x + m_Translation.x, GetPosition().y + m_Translation.y);
-
-
-
-	m_Translation = { 0, (m_Translation.y + mSpeed * deltaTime) * isJumping};
 
 }
 
@@ -98,27 +53,21 @@ void Player::Movement()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		Jump();
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		StopFall();
+
+	SetDirection(0, 0);
 
 	if (in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D))
 	{
-		m_Translation.x += mSpeed * deltaTime;
+		SetDirection(1, 0);
 	}
 
 	if (in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q))
 	{
-		m_Translation.x -= mSpeed * deltaTime;
+		SetDirection(-1, 0);
 	}
 }
 
 void Player::Jump()
 {
-	if (isFalling == true || isJumping == true)
-		return;
-
-	m_Translation.y -= jumpSize;
-	GoToPosition(GetPosition().x, GetPosition().y - jumpSize);
-
-	isJumping = true;
+	StartGravity(-200);
 }

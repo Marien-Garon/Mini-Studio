@@ -40,16 +40,11 @@ protected:
 	bool hasSprite = false;
 	bool m_isMoveable = false;
 
-	float gravityAcceleration = 9.81f;
+	bool mIsGravity = false;
+	float mGravityAcceleration = 100.f;
 	float mGravitySpeed = 0;
 
-	bool isFalling = false;
-	bool isJumping = false;
-
-	int jumpSize = 100;
-
 public:
-
 	bool GoToDirection(int x, int y, float speed = -1.f);
     bool GoToPosition(int x, int y, float speed = -1.f);
     void SetPosition(float x, float y, float ratioX = 0.5f, float ratioY = 0.5f);
@@ -58,12 +53,8 @@ public:
 	float GetSpeed() { return mSpeed; }
 	void SetTag(int tag) { mTag = tag; }
 
-	bool IsFalling() { return isFalling; }
-	void Fall(float deltaTime);
-	void StopFall();
-
-	float GetGravitySpeed() { return mGravitySpeed; }
-	void SetJumpSize(int newJumpSize) { jumpSize = newJumpSize; }
+	void StartGravity(float startSpeed);
+	void StopGravity() { mIsGravity = false; }
 
 	//float GetRadius() const { return mShape.getRadius(); }
 
