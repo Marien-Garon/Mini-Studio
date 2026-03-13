@@ -34,8 +34,11 @@ void SampleScene::OnInitialize()
 	m_Platforms.push_back(CreateEntity<Platform>(200, 50, sf::Color::Blue));
 	m_Platforms[0]->SetPosition(500, 550);
 
-	pEntitySelected = nullptr;
+	m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 50, sf::Color::Cyan));
+	m_Platforms[1]->SetPosition(100, 105);
+	m_Platforms[1]->SetRigidBody(true);
 
+	pEntitySelected = nullptr;
 }
 
 void SampleScene::OnEvent(const sf::Event& event)

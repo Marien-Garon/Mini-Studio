@@ -3,6 +3,13 @@
 
 class BreakablePlatform : public Platform
 {
+private:
+	float m_timer = 2.0f;
 
+	bool isBroken;
+	bool isSteppedOn;
+
+public:
+	void OnCollision(Entity* player) override;
 };
 
