@@ -8,6 +8,11 @@
 
 void Player::OnInitialize()
 {
+	mBaseSpeed = 300;
+	mAcceleration = 0.f;
+	mDecceleration = 0.f;
+	mMaxSpeed = 0.f;
+
 	SetSpeed(300);
 }
 
@@ -62,13 +67,13 @@ void Player::Movement()
 	if (in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D))
 	{
 		m_directionFacing = true;
-		SetDirection(1, 0);
+		MoveRight();
 	}
 
 	if (in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q))	
 	{
 		m_directionFacing = false;
-		SetDirection(-1, 0);
+		MoveLeft();
 	}
 
 	if (in.IsControllerPressed(0, Controller::Button::LB) || in.IsKeyPressed(sf::Keyboard::Enter))
@@ -121,4 +126,20 @@ void Player::Attack()
 	}
 
 	
+void Player::MoveRight()
+{
+	float deltaTime = GetDeltaTime();
+
+	mSpeed += mAcceleration * deltaTime;
+	SetDirection(1, 0, mBaseSpeed + (mAcceleration * deltaTime));
+
+}
+
+void Player::MoveLeft()
+{
+	float deltaTime = GetDeltaTime();
+
+	mSpeed += mAcceleration * deltaTime;
+	SetDirection(-1, 0, mBaseSpeed + (mAcceleration * deltaTime));
+
 }

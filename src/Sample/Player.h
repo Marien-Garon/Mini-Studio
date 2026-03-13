@@ -16,6 +16,10 @@ public:
 	void Jump();
 	void Attack();
 
+	void MoveRight();
+	void MoveLeft();
+
+
 private:
 
 	int m_health = 3;
@@ -23,5 +27,11 @@ private:
 	bool m_playerAlive = true;
 	bool m_directionFacing = true; //true = regarde vers la droite, false = regarde vers la gauche
 	int m_numberOfGoodPress = 0;
+
+	float mAcceleration = 0.f;
+	float mDecceleration = 0.f;
+	float mBaseSpeed = 0.f;
+	float mMaxSpeed = 0.f;
+
 
 };
