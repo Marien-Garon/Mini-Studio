@@ -68,7 +68,7 @@ void SampleScene::TrySetSelectedEntity(Entity* pEntity, int x, int y)
 
 bool SampleScene::IsAttackTimingOkay()
 {
-	if (test_timerAttaque >= test_tempsEntreLesAttaque - 5.f / 60.f || test_timerAttaque <= 5.f / 60.F)
+	if (test_timerAttaque >= test_tempsEntreLesAttaque - m_pityFrames / 60.f || test_timerAttaque <= m_pityFrames / 60.F)
 		return true;
 
 	return false;
