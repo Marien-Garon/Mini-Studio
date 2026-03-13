@@ -12,6 +12,7 @@ void PhysicalEntity::Update()
 	if (hasSprite)
 	{
 		m_sprite->UpdateAnimation(dt);
+		SetSpriteScale(m_Scale.x, m_Scale.y);
 		m_sprite->sprite->move(translation);
 	}
 	else

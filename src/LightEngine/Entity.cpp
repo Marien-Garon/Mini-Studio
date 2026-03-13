@@ -164,6 +164,7 @@ void Entity::Update()
 	if (hasSprite)
 	{
 		m_sprite->UpdateAnimation(dt);
+		SetSpriteScale(m_Scale.x, m_Scale.y);
 		m_sprite->sprite->move(translation);
 	}
 	else
@@ -213,5 +214,7 @@ const AABBCollider& Entity::GetCollider()
 
 void Entity::PlayAnimation(const std::string& _id)
 {
+	if (!hasSprite) return;
+	if (m_sprite->currentAnimation == _id) return;
 	m_sprite->PlayAnimation(_id);
 }

@@ -113,7 +113,7 @@ void Debug::DebugMessage(Severity _sv, const std::string& _type, const std::stri
 		svText = "ERROR";
 		break;
 	case Debug::Severity::CRITICAL:
-		svText = "CRITICAL";
+		svText = "CRITICAL ERROR";
 		break;
 	default:
 		break;

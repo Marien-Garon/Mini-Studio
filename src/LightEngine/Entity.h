@@ -34,6 +34,8 @@ protected:
 	SpriteData* m_sprite = nullptr;
 
     sf::Vector2f mDirection;
+	sf::Vector2f m_Scale;
+
 	Target mTarget;
     float mSpeed = 0.f;
     bool mToDestroy = false;
@@ -88,7 +90,7 @@ public:
 
 	void SetSprite(SpriteData* _sprite) { m_sprite = _sprite; hasSprite = true; };
 	void SetSpriteColor(const sf::Color& _color) { m_sprite->sprite->setColor(_color); };
-	void SetSpriteScale(float _x, float _y) { m_sprite->sprite->setScale(_x, _y); };
+	void SetSpriteScale(float _x, float _y) { m_sprite->sprite->setScale(_x, _y); m_Scale = sf::Vector2f(_x, _y); };
 	void SetSpriteScale(const sf::Vector2f& _scale) { m_sprite->sprite->setScale(_scale); };
 	void SetSpriteRotation(float _angle) { m_sprite->sprite->setRotation(_angle); };
 

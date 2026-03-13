@@ -3,8 +3,7 @@
 #include "Scene.h"
 #include "GameManager.h"
 #include "Entity.h"
-
-#include <iostream>
+#include "Debug.h"
 
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -25,8 +24,15 @@ T* Scene::CreateEntity(float width, float height, const sf::Color& color)
 
 
 template<typename T>
-T* Scene::CreateEntity(SpriteData* _sprite, const sf::Color& color)
+T* Scene::CreateEntity(SpriteData* _sprite)
 {
+	if (_sprite->sprite == nullptr)
+	{
+		Debug::DebugMessage(Debug::Severity::CRITICAL, "Create Entity", "Received a nullptr Sprite ABORT MISSION ABPORT MISSION MAYDAY MAYDA EZ-5 AAAAAAAAH");
+		return nullptr;
+	}
+
+
 	static_assert(std::is_base_of<Entity, T>::value, "T must be derived from Entity");
 
 	T* newEntity = new T();
@@ -34,9 +40,7 @@ T* Scene::CreateEntity(SpriteData* _sprite, const sf::Color& color)
 
 	Entity* entity = newEntity;
 
-	if (_sprite == nullptr) std::cout << "ALERTE " << std::endl;
-
-	entity->Initialize(_sprite->sprite->getTextureRect().width, _sprite->sprite->getTextureRect().height, color);
+	entity->Initialize(_sprite->sprite->getTextureRect().width, _sprite->sprite->getTextureRect().height, sf::Color::Transparent);
 	entity->SetSprite(_sprite);
 
 	mpGameManager->mEntitiesToAdd.push_back(newEntity);

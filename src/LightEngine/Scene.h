@@ -30,7 +30,7 @@ public:
 	T* CreateEntity(float width, float height, const sf::Color& color);
 
 	template<typename T>
-	T* CreateEntity(SpriteData* _sprite, const sf::Color& color);
+	T* CreateEntity(SpriteData* _sprite);
 
 	float GetDeltaTime() const;
 

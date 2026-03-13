@@ -12,9 +12,9 @@ void SampleScene::OnInitialize()
 {
     AssetManager& AM = AssetManager::getInstance();
 
-	pEntity1 = CreateEntity<Enemy>(AM.CreateSprite("sheet"/*, 0, 0, 460, 600 */ ), sf::Color::Red);
-    pEntity1->PlayAnimation("right");
-    //pEntity1->SetSpriteScale(0.5f, 0.5f);
+    pEntity1 = CreateEntity<Enemy>(AM.CreateSprite("mob", 0,0, 1084, 1438));
+    pEntity1->SetSpriteScale(0.2f, 0.2f);
+    pEntity1->PlayAnimation("walk");
     pEntity1->SetPosition(0, 0, 0.f, 0.f);
 	pEntity1->SetRigidBody(true);
 	pEntity1->SetMoveAble(true);
@@ -48,11 +48,22 @@ void SampleScene::OnEvent(const sf::Event& event)
 void SampleScene::OnUpdate()
 {
     float dt = GetDeltaTime();
-
     InputManager& im = InputManager::Get();
 
-    if (im.IsControllerPressed(0,Controller::Button::A))
-        std::cout << "Test" << std::endl;
+    //if (im.GetJoystickLeftX(0) <= -100)
+    //    pEntity1->PlayAnimation("left");
+
+    //else if (im.GetJoystickLeftX(0) >= 100)
+    //    pEntity1->PlayAnimation("right");
+
+    //else if (im.GetJoystickLeftY(0) <= -100)
+    //    pEntity1->PlayAnimation("up");
+
+    //else if (im.GetJoystickLeftY(0) >= 100)
+    //    pEntity1->PlayAnimation("down");
+
+    //else
+    //    pEntity1->PlayAnimation("right");
 
 
     if (pEntitySelected != nullptr)

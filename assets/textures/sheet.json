@@ -10,7 +10,7 @@
                {
                "line": 0,
                "frameNbr" : 4,
-               "duration" : 0.1,
+               "duration" : 0.2,
                "loop": true
                },
 
@@ -18,7 +18,7 @@
                {
                "line": 1,
                "frameNbr" : 4,               
-               "duration" : 0.1,               
+               "duration" : 0.2,               
                "loop": true
                },
 
@@ -26,15 +26,15 @@
                {
                "line": 2,
                "frameNbr" : 4,
-               "duration" : 0.1,
-               "loop": false
+               "duration" : 0.2,
+               "loop": true
                },
                "up":
                {
                "line": 3,
                "frameNbr" : 4,
-               "duration" : 0.1,
-               "loop": false
+               "duration" : 0.2,
+               "loop": true
                }
           }
      }
