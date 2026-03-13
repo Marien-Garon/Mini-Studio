@@ -21,8 +21,6 @@ void BreakablePlatform::OnCollision(Entity* player)
 			{
 				SetRigidBody(false);
 			}
-
 		}
-	  
 	}
 }

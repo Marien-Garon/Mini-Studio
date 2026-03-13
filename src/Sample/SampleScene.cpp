@@ -24,7 +24,7 @@ void SampleScene::OnInitialize()
 	pEntity1->SetPosition(100, 100);
 	pEntity1->SetRigidBody(true);
 	pEntity1->SetMoveAble(true);
-	pEntity1->SetTag(1);
+	/*pEntity1->SetTag(1);*/
 
 	pEntity2 = CreateEntity<Enemy>(50,50, sf::Color::Green);
 	pEntity2->SetPosition(500, 500);
@@ -34,10 +34,9 @@ void SampleScene::OnInitialize()
 	m_Platforms.push_back(CreateEntity<Platform>(200, 50, sf::Color::Blue));
 	m_Platforms[0]->SetPosition(500, 550);
 
-	m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 50, sf::Color::Cyan));
+	m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 35, sf::Color::Cyan));
 	m_Platforms[1]->SetPosition(100, 105);
-	m_Platforms[1]->SetRigidBody(true);
-
+	
 	pEntitySelected = nullptr;
 }
 
@@ -62,10 +61,7 @@ void SampleScene::OnUpdate()
 {
 	float dt = GetDeltaTime();
 
-	for (Platform* p : m_Platforms)
-	{
-		p->IsColliding(p);
-	}
+
 }
 
 void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
