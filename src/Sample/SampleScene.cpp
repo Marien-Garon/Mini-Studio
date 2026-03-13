@@ -60,7 +60,12 @@ void SampleScene::OnEvent(const sf::Event& event)
 
 void SampleScene::OnUpdate()
 {
+	float dt = GetDeltaTime();
 
+	for (Platform* p : m_Platforms)
+	{
+		p->IsColliding(p);
+	}
 }
 
 void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)

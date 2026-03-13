@@ -3,19 +3,17 @@
 
 void BreakablePlatform::OnCollision(Entity* player)
 {
-	if (!isBroken) return;
-
-	if (GetCollidingSide(player) == Side::UP)
+	while (isSteppedOn)
 	{
-		if (isSteppedOn)
+		if (GetCollidingSide(player) == Side::UP)
 		{
-			isSteppedOn = true;
+			std::cout << "Timer : " << m_timer << std::endl;
 
 			m_timer -= 0.2f;
 
 			if (m_timer <= 0.5f)
 			{
-				std::cout << m_timer << std::endl;
+				
 				mShape.setFillColor(sf::Color(255 / m_timer, 0, 0, 255));
 			}
 
@@ -23,6 +21,8 @@ void BreakablePlatform::OnCollision(Entity* player)
 			{
 				SetRigidBody(false);
 			}
+
 		}
+	  
 	}
 }

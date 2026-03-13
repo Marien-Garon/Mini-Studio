@@ -6,7 +6,6 @@ void DummyEntity::OnCollision(Entity* other)
 {
 	//std::cout << "DummyEntity::OnCollision" << std::endl;
 
-	
 	if (mTag == 1)
 	{
 		if (GetCollidingSide(other) == Side::RIGHT)
