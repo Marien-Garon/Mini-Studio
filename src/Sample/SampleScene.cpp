@@ -69,15 +69,15 @@ void SampleScene::OnUpdate()
 		p->OnUpdate();
 	}
 
-	for (auto* p : m_Platforms)
-	{
-		if (pEntity1->IsColliding(p))
-		{
-			std::cout << "Collision detectee avec plateforme !" << std::endl;
+	//for (auto* p : m_Platforms)
+	//{
+	//	if (pEntity1->IsColliding(p))
+	//	{
+	//		std::cout << "Collision detectee avec plateforme !" << std::endl;
 
-			/*p->OnCollision(pEntity1);*/
-		}
-	}
+	//		/*p->OnCollision(pEntity1);*/
+	//	}
+	//}
 }
 
 void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
