@@ -100,13 +100,13 @@ void Player::Attack()
 	{
 		m_numberOfGoodPress++;
 	}
-		
+
 
 	else
 	{
 		m_numberOfGoodPress = 0;
 	}
-		
+
 
 
 	if (m_numberOfGoodPress == 1)
@@ -114,7 +114,7 @@ void Player::Attack()
 		SoundWave* attack = CreateEntity<SoundWave>(50, 50, sf::Color::Cyan);
 		attack->SetPosition(GetPosition().x, GetPosition().y);
 		attack->GoToDirection(windowWidth * m_directionFacing, GetPosition().y);
-		
+
 	}
 
 	else if (m_numberOfGoodPress == 3)
@@ -125,7 +125,8 @@ void Player::Attack()
 		m_numberOfGoodPress = 0;
 	}
 
-	
+}
+
 void Player::MoveRight()
 {
 	float deltaTime = GetDeltaTime();
