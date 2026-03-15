@@ -12,6 +12,12 @@ int Scene::GetWindowHeight() const
 	return mpGameManager->mWindowHeight;
 }
 
+Scene::~Scene()
+{
+	delete mCamera;
+	OnDestroy();
+}
+
 float Scene::GetDeltaTime() const
 {
 	return mpGameManager->mDeltaTime;

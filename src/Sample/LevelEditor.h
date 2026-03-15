@@ -29,8 +29,8 @@ public:
 
 	void CreateEntityCopy(Entity* _entity, int _x, int _y);
 
+	virtual void OnDestroy() override;
 	virtual void OnInitialize() override;
 	virtual void OnEvent(const sf::Event& event) override;
 	virtual void OnUpdate() override;
-
 };

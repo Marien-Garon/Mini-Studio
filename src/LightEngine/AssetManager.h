@@ -35,6 +35,8 @@ struct TextureData
 	bool spritesheet;
 
 	std::unordered_map<std::string, Animation> animations;
+
+	~TextureData();
 };
 
 struct SpriteData
@@ -49,6 +51,7 @@ struct SpriteData
 	std::string currentAnimation;
 
 	SpriteData(std::string _id, int _posX = 0, int _posY = 0, int _w = 0, int _h = 0, bool isTile = false);
+	~SpriteData();
 
 	void PlayAnimation(const std::string& _id);
 	void UpdateAnimation(float deltaTime);
@@ -159,6 +162,11 @@ public:
 	/// Set the volume for the music the minimum is 0 (no volume) and the maximum is 100
 	/// </summary>
 	void SetMusicVolume(float _volume = 100.f);
+
+
+
+	~AssetManager();
+
 
 
 	//Rest in peace

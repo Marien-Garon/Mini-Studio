@@ -363,6 +363,36 @@ void AssetManager::SetMusicVolume(float _volume)
     m_musicPlaying->setVolume(_volume);
 }
 
+AssetManager::~AssetManager()
+{
+    std::unordered_map<std::string, TextureData> m_textureList;
+    std::unordered_map<std::string, sf::SoundBuffer> m_soundBuffers;
+    std::unordered_map<std::string, std::string> m_musicList;
+
+    std::unordered_map<std::string, TextureData> m_tileList;
+
+    std::vector<sf::Sound*> m_soundPlaying;
+
+    sf::Music* m_musicPlaying = nullptr;
+
+    if (m_musicPlaying != nullptr)
+    {
+        m_musicPlaying->stop();
+        delete m_musicPlaying;
+    }
+
+    m_textureList.clear();
+    m_soundBuffers.clear();
+    m_musicList.clear();
+
+    for (sf::Sound* s : m_soundPlaying)
+    {
+        s->stop();
+        delete s;
+    }
+
+}
+
 SpriteData::SpriteData(std::string _id, int _posX, int _posY, int _w, int _h,bool isTile)
 {
     if(isTile)
@@ -371,6 +401,11 @@ SpriteData::SpriteData(std::string _id, int _posX, int _posY, int _w, int _h,boo
         data = AssetManager::getInstance().GetTextureData(_id);
     textureID = _id;
     sprite = AssetManager::getInstance().LoadSprite(_id, _posX, _posY, _w, _h, isTile);
+}
+
+SpriteData::~SpriteData()
+{
+    delete sprite;
 }
 
 
@@ -400,4 +435,9 @@ void SpriteData::UpdateAnimation(float deltaTime)
 
     delete sprite;
     sprite = AssetManager::getInstance().LoadSprite(textureID,posX,posY,data->frameSizeW, data->frameSizeH);
+}
+
+TextureData::~TextureData()
+{
+    animations.clear();
 }

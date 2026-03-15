@@ -53,6 +53,23 @@ void LevelEditor::InitTileBlock()
 	}
 }
 
+void LevelEditor::OnDestroy()
+{
+	pEntitySelected = nullptr;
+
+	for (TileBlock* tile : m_tileList)
+		tile->Destroy();
+	m_tileList.clear();
+
+	for (Entity* e : m_entityToPlace)
+		e->Destroy();
+	m_entityToPlace.clear();
+
+	for (TileBlock* tileP : m_posedBlock)
+		tileP->Destroy();
+	m_posedBlock.clear();
+}
+
 void LevelEditor::OnInitialize()
 {
 	InitTileBlock();

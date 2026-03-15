@@ -77,7 +77,7 @@ Side Entity::GetCollidingSide(Entity* _other)
 void Entity::Destroy()
 {
 	mToDestroy = true;
-	delete m_sprite;
+	if(m_sprite != nullptr) delete m_sprite;
 	OnDestroy();
 }
 
