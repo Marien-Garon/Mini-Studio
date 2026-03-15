@@ -92,8 +92,6 @@ void LevelEditor::OnEvent(const sf::Event& event)
 		int posX = (int)event.mouseButton.x;
 		int posY = (int)event.mouseButton.y;
 
-		m_posedBlock.size();
-
 		if (pEntitySelected != nullptr && CanPoseTile(posX, posY))
 			CreateEntityCopy(pEntitySelected,(posX / (int)TILE_SIZE) * TILE_SIZE, (posY / (int)TILE_SIZE) * TILE_SIZE);
 	}
@@ -106,7 +104,6 @@ void LevelEditor::OnUpdate()
 		sf::Vector2f position = pEntitySelected->GetPosition();
 		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
 	}
-	m_posedBlock.size();
 }
 
 void LevelEditor::TrySetSelectedEntity(Entity* pEntity, int x, int y)

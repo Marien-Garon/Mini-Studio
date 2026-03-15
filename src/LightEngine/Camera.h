@@ -24,6 +24,6 @@ public:
 
 	sf::View* GetView() { return &camera; }
 
-
+	~Camera() = default;
 };
 
