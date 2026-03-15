@@ -48,7 +48,7 @@ struct SpriteData
 	float frameTime = 0.f;
 	std::string currentAnimation;
 
-	SpriteData(std::string _id, int _posX = 0, int _posY = 0, int _w = 0, int _h = 0);
+	SpriteData(std::string _id, int _posX = 0, int _posY = 0, int _w = 0, int _h = 0, bool isTile = false);
 
 	void PlayAnimation(const std::string& _id);
 	void UpdateAnimation(float deltaTime);
@@ -89,8 +89,11 @@ public:
 	bool InitSoundInDirectory(const std::filesystem::path& filename = "../../../assets/sounds");
 	bool InitTextureInDirectory(const std::filesystem::path& filename = "../../../assets/textures");
 	
+	const std::unordered_map<std::string, TextureData>& GetTileBlockList() { return m_tileList; };
+
 
 	TextureData* GetTextureData(std::string _id);
+	TextureData* GetTileData(std::string _id);
 
 	/// <summary>
 	/// Return texture with id
@@ -109,6 +112,8 @@ public:
 	/// <param name="int _h : height of the sprite"></param>
 	/// <returns></returns>
 	SpriteData* CreateSprite(std::string _id, int _posX = 0, int _posY = 0, int _w = 0, int _h = 0);
+	SpriteData* CreateTile(std::string _id);
+
 
 	/// <summary>
 	/// Return a new object Sprite using the texture with the id if it exist if not return a empty Sprite
@@ -120,7 +125,7 @@ public:
 	/// <param name="_w -> Size of the sprite you want to create from the texture"></param>
 	/// <param name="_h -> Size of the sprite you want to create from the texture"></param>
 	/// <returns></returns>
-	sf::Sprite* LoadSprite(std::string _id, int _posX = 0, int _posY = 0, int _w = 0, int _h = 0);
+	sf::Sprite* LoadSprite(std::string _id, int _posX = 0, int _posY = 0, int _w = 0, int _h = 0, bool isTile = false);
 
 	/// <summary>
 	/// Play the sound with id

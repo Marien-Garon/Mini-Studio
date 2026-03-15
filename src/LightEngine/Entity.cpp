@@ -20,7 +20,7 @@ void Entity::Initialize(float _width, float _height, const sf::Color& color)
 		mShape.setFillColor(color);
 	}
 
-	m_collider = { GetPosition(0.0f,0.0f).x, GetPosition(0.0f,0.0f).y, _width, _height};
+	m_collider = AABBCollider(GetPosition(0.0f,0.0f).x, GetPosition(0.0f,0.0f).y, _width, _height);
 
 	mTarget.isSet = false;
 
@@ -42,12 +42,12 @@ void Entity::Repulse(Entity* other)
 
 	if (std::fabs(moveX) < std::fabs(moveY))
 	{
-		SetPosition(c1.x - moveX / 2.f, c1.y, 0.0f, 0.0f);
+		if (m_isMoveable) SetPosition(c1.x - moveX / 2.f, c1.y, 0.0f, 0.0f);
 		if (other->IsMoveable()) other->SetPosition(c2.x + moveX / 2.f, c2.y, 0.0f, 0.0f);
 	}
 	else
 	{
-		SetPosition(c1.x, c1.y - moveY / 2.f, 0.0f, 0.0f);
+		if (m_isMoveable) SetPosition(c1.x, c1.y - moveY / 2.f, 0.0f, 0.0f);
 		if (other->IsMoveable()) other->SetPosition(c2.x, c2.y + moveY / 2.f, 0.0f, 0.0f);
 	}
 }
@@ -77,7 +77,7 @@ Side Entity::GetCollidingSide(Entity* _other)
 void Entity::Destroy()
 {
 	mToDestroy = true;
-
+	delete m_sprite;
 	OnDestroy();
 }
 
@@ -164,7 +164,7 @@ void Entity::Update()
 	if (hasSprite)
 	{
 		m_sprite->UpdateAnimation(dt);
-		SetSpriteScale(m_Scale.x, m_Scale.y);
+		//SetSpriteScale(m_Scale.x, m_Scale.y); i was drunk when i write that ? 
 		m_sprite->sprite->move(translation);
 	}
 	else
@@ -217,4 +217,24 @@ void Entity::PlayAnimation(const std::string& _id)
 	if (!hasSprite) return;
 	if (m_sprite->currentAnimation == _id) return;
 	m_sprite->PlayAnimation(_id);
+}
+
+Entity* Entity::Clone()
+{
+	return CreateClonedEntity<Entity>();
+}
+
+
+void Entity::SetSpriteScale(float _x, float _y)
+{
+	m_sprite->sprite->setScale(_x, _y); 
+	m_Scale = sf::Vector2f(_x, _y);
+	m_collider.SetScale(_x, _y);
+}
+
+void Entity::SetSpriteScale(const sf::Vector2f& _scale)
+{
+	m_sprite->sprite->setScale(_scale);
+	m_Scale = _scale;
+	m_collider.SetScale(_scale);
 }

@@ -53,6 +53,7 @@ public:
 	void SetSpeed(float speed) { mSpeed = speed; }
 	float GetSpeed() { return mSpeed; }
 	void SetTag(int tag) { mTag = tag; }
+	int GetTag() { return mTag; }
 
 	//float GetRadius() const { return mShape.getRadius(); }
 
@@ -86,12 +87,12 @@ public:
     T* CreateEntity(float width, float height, const sf::Color& color);
 
 	template<typename T>
-	T* CreateEntity(sf::Sprite* _sprite, const sf::Color& color);
+	T* CreateEntity(SpriteData* _sprite);
 
 	void SetSprite(SpriteData* _sprite) { m_sprite = _sprite; hasSprite = true; };
 	void SetSpriteColor(const sf::Color& _color) { m_sprite->sprite->setColor(_color); };
-	void SetSpriteScale(float _x, float _y) { m_sprite->sprite->setScale(_x, _y); m_Scale = sf::Vector2f(_x, _y); };
-	void SetSpriteScale(const sf::Vector2f& _scale) { m_sprite->sprite->setScale(_scale); };
+	void SetSpriteScale(float _x, float _y);
+	void SetSpriteScale(const sf::Vector2f& _scale);
 	void SetSpriteRotation(float _angle) { m_sprite->sprite->setRotation(_angle); };
 
 	void PlayAnimation(const std::string& _id);
@@ -99,6 +100,11 @@ public:
 	sf::Sprite* GetSprite() { return m_sprite->sprite; };
 
 	bool HasSprite() { return hasSprite; };
+
+	template<typename T>
+	Entity* CreateClonedEntity();
+
+	virtual Entity* Clone();
 
 protected:
     Entity() = default;

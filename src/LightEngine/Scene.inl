@@ -40,8 +40,8 @@ T* Scene::CreateEntity(SpriteData* _sprite)
 
 	Entity* entity = newEntity;
 
-	entity->Initialize(_sprite->sprite->getTextureRect().width, _sprite->sprite->getTextureRect().height, sf::Color::Transparent);
 	entity->SetSprite(_sprite);
+	entity->Initialize(_sprite->sprite->getTextureRect().width, _sprite->sprite->getTextureRect().height, sf::Color::Transparent);
 
 	mpGameManager->mEntitiesToAdd.push_back(newEntity);
 

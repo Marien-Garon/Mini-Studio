@@ -82,6 +82,9 @@ bool AssetManager::InitTileInDirectory(const std::filesystem::path& filename)
         TextureData& data = m_tileList[id];
 
         data.texture.loadFromFile(entry.path().string());
+        data.spritesheet = false;
+        data.sizeW = data.texture.getSize().x;
+        data.sizeH = data.texture.getSize().y;
         Debug::DebugMessage(Debug::Severity::INFO, "Register Tile", "Successfully register : " + id);
     }
 }
@@ -246,6 +249,12 @@ TextureData* AssetManager::GetTextureData(std::string _id)
     return &m_textureList[_id];
 }
 
+TextureData* AssetManager::GetTileData(std::string _id)
+{
+    if (!m_tileList.contains(_id)) return nullptr;
+    return &m_tileList[_id];
+}
+
 sf::Texture AssetManager::GetTexture(std::string _id)
 {
     if (!m_textureList.contains(_id)) return sf::Texture();
@@ -254,8 +263,14 @@ sf::Texture AssetManager::GetTexture(std::string _id)
 
 SpriteData* AssetManager::CreateSprite(std::string _id, int _posX, int _posY, int _w, int _h)
 {
-    return new SpriteData(_id,_posX,_posY,_w,_h);
+    return new SpriteData(_id, _posX, _posY, _w, _h);
 }
+
+SpriteData* AssetManager::CreateTile(std::string _id)
+{
+    return new SpriteData(_id, 0,0,0,0, true);
+}
+
 
 sf::Sound* AssetManager::PlaySound(std::string _id)
 {
@@ -300,14 +315,16 @@ sf::Music* AssetManager::PlayMusic(std::string _id)
 }
 
 
-sf::Sprite* AssetManager::LoadSprite(std::string _id, int _posX, int _posY, int _w, int _h)
+sf::Sprite* AssetManager::LoadSprite(std::string _id, int _posX, int _posY, int _w, int _h, bool isTile)
 {
-    if (!m_textureList.contains(_id)) return nullptr;
+    if (!m_textureList.contains(_id) && !m_tileList.contains(_id)) return nullptr;
 
-    if (_w == 0) _w = m_textureList[_id].sizeW;
-    if (_h == 0) _h = m_textureList[_id].sizeH;
+    if (_w == 0) _w = isTile ? m_tileList[_id].sizeW : m_textureList[_id].sizeW;
+    if (_h == 0) _h = isTile ? m_tileList[_id].sizeH : m_textureList[_id].sizeH;
 
-    return new sf::Sprite(m_textureList[_id].texture, sf::IntRect(_posX, _posY, _w, _h));
+    sf::Texture& texture = isTile ? m_tileList[_id].texture : m_textureList[_id].texture;
+
+    return new sf::Sprite(texture, sf::IntRect(_posX, _posY, _w, _h));
 }
 
 void AssetManager::PauseMusic()
@@ -346,11 +363,14 @@ void AssetManager::SetMusicVolume(float _volume)
     m_musicPlaying->setVolume(_volume);
 }
 
-SpriteData::SpriteData(std::string _id, int _posX, int _posY, int _w, int _h)
+SpriteData::SpriteData(std::string _id, int _posX, int _posY, int _w, int _h,bool isTile)
 {
-    data = AssetManager::getInstance().GetTextureData(_id);
+    if(isTile)
+        data = AssetManager::getInstance().GetTileData(_id);
+    else
+        data = AssetManager::getInstance().GetTextureData(_id);
     textureID = _id;
-    sprite = AssetManager::getInstance().LoadSprite(_id, _posX, _posY, _w, _h);
+    sprite = AssetManager::getInstance().LoadSprite(_id, _posX, _posY, _w, _h, isTile);
 }
 
 

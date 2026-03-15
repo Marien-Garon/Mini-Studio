@@ -20,9 +20,10 @@ GameManager::GameManager()
 	mWindowWidth = -1;
 	mWindowHeight = -1;
 
-	AssetManager::getInstance().InitMusicInDirectory();
+	AssetManager::getInstance().InitTileInDirectory();
 	AssetManager::getInstance().InitTextureInDirectory();
 	AssetManager::getInstance().InitSoundInDirectory();
+	AssetManager::getInstance().InitMusicInDirectory();
 
 }
 
