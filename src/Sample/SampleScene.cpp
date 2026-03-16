@@ -34,9 +34,6 @@ void SampleScene::OnEvent(const sf::Event& event)
         if (!m_enemy.empty())
             m_enemy[0]->TakeDamage(10);
     }
-
-    for (auto* attack : m_enemy)
-        attack->Attack();
 }
 
 void SampleScene::OnUpdate()

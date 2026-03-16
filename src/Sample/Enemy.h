@@ -1,18 +1,19 @@
 #pragma once
-#include "PhysicalEntity.h"
+#include "Entity.h"
 
-class Enemy : public PhysicalEntity
+class Enemy : public Entity
 {
 private:
     int m_Hpmax = 50;
     int m_damage;
+    int m_direction = 1;
+
+    float m_speed = 100.f;
+    float m_maxDistance = 200.f;
 
     bool EnemyAlive = true;
-
-    float m_speed = 100.f;       
-    int m_direction = 1; 
     bool m_directionAttack = true;
-    float m_maxDistance = 200.f; 
+
     sf::Vector2f m_startPos;     
 
 public:
@@ -20,5 +21,5 @@ public:
     void Update(float dt);
 
     float TakeDamage(int amount);
-    void Attack();
+    virtual void Attack();
 };

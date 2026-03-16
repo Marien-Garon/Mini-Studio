@@ -40,14 +40,4 @@ float Enemy::TakeDamage(int amount)
     return m_Hpmax;
 }
 
-void Enemy::Attack()
-{
-    float windowWidth = GetScene()->GetWindowWidth();
-
-    Enemy* attack = CreateEntity<Enemy>(20, 10, sf::Color::Blue);
-    attack->SetPosition(GetPosition().x, GetPosition().y);
-    attack->GoToDirection(windowWidth * m_directionAttack, GetPosition().y);
-}
-
-
 
