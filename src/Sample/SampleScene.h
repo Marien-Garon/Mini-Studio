@@ -6,6 +6,8 @@
 
 class Enemy;
 class Camera;
+class Platform;
+
 
 class SampleScene : public Scene
 {
@@ -17,6 +19,8 @@ class SampleScene : public Scene
 	Player* m_player;
 	Companion* m_robot;
 	Camera* mCamera;
+	std::vector<Platform*> m_Platforms;
+	
 	
 	std::vector<Hook*> m_hooks;
 private:

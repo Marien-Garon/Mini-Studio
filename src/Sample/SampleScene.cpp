@@ -10,6 +10,17 @@
 #include "Hook.h"
 
 
+#include"Platform.h"
+#include"BreakablePlatform.h"
+
+#include"Entity.h"
+
+#include "Debug.h"
+#include "InputManager.h"
+
+#define MAX_JOYSTICK_POS  100
+#define MIN_JOYSTICK_POS -100
+
 
 void SampleScene::OnInitialize()
 {
@@ -29,6 +40,14 @@ void SampleScene::OnInitialize()
 	   m_hooks.push_back(CreateEntity<Hook>(20.f, 20.f, sf::Color::Yellow));
 	   m_hooks[i]->SetPosition(400.f - i * 100, 200.f + i * 100);
    }
+	m_Platforms.push_back(CreateEntity<Platform>(200, 50, sf::Color::Blue));
+	m_Platforms[0]->SetPosition(500, 550);
+	m_Platforms[0]->SetRigidBody(true);
+
+	m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 35, sf::Color::Cyan));
+	m_Platforms[1]->SetPosition(100, 101);
+	m_Platforms[1]->SetRigidBody(true);
+	
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
@@ -49,10 +68,9 @@ void SampleScene::OnEvent(const sf::Event& event)
 
 }
 
-
 void SampleScene::OnUpdate()
 {
-    float dt = GetDeltaTime();
+	float dt = GetDeltaTime();
 
 	GetGameManager()->RefreshCamera(mCamera);
 
@@ -63,6 +81,10 @@ void SampleScene::OnUpdate()
     }*/
 
 	IncreaseTimer();
+	// for (auto* p : m_Platforms)
+	// {
+	// 	p->OnUpdate();
+	// }
 }
 
 void SampleScene::TrySetSelectedEntity(Entity* pEntity, int x, int y)
