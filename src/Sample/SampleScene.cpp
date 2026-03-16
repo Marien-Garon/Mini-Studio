@@ -3,8 +3,7 @@
 #include "DummyEntity.h"
 #include"Enemy.h"
 #include"Utils.h"
-#include "Debug.h"
-#include "InputManager.h"
+
 #include "AssetManager.h"
 #include "Camera.h"
 #include "Hook.h"
@@ -48,6 +47,13 @@ void SampleScene::OnInitialize()
 	m_Platforms[1]->SetPosition(100, 101);
 	m_Platforms[1]->SetRigidBody(true);
 	
+
+	//AM.InitTextureInDirectory("coeur.png");
+	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
+	m_UI[0]->SetPosition(m_player->GetPosition().x, m_player->GetPosition().y, 0.0F, 0.0F);
+	//m_UI[0]->SetSprite(AM.LoadSprite("coeur.png",0,0,26,22));
+
+
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
@@ -72,6 +78,7 @@ void SampleScene::OnUpdate()
 {
 	float dt = GetDeltaTime();
 
+	m_UI[0]->SetPosition(0, 0, 0, 0);
 	GetGameManager()->RefreshCamera(mCamera);
 
   /*  if (pEntitySelected != nullptr)

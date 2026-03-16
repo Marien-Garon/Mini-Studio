@@ -26,6 +26,11 @@ void Camera::SetupCamera(int cameraSpeed, Entity* entityToFolow)
 
 	camera.setCenter(followedEntity->GetPosition().x, followedEntity->GetPosition().y);
 }
+void Camera::AddElementToCamera(Entity* newEntityOnCamera)
+{
+	heart = newEntityOnCamera;
+}
+
 
 void Camera::Shake(int degree)
 {

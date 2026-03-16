@@ -20,6 +20,7 @@ class SampleScene : public Scene
 	Companion* m_robot;
 	Camera* mCamera;
 	std::vector<Platform*> m_Platforms;
+	std::vector<Entity*> m_UI;
 	
 	
 	std::vector<Hook*> m_hooks;

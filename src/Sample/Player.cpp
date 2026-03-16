@@ -61,10 +61,12 @@ void Player::TakeDamage(int _damage)
 
 	else {
 
+
 		m_health -= _damage;
 		std::cout << "Player take damage : " << _damage << std::endl;
 		std::cout << "Current Health : " << m_health << std::endl;
 	}
+		
 }
 
 void Player::Heal(int _heal)

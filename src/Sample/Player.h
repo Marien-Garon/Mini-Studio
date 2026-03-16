@@ -6,7 +6,6 @@ class Hook;
 class Player : public Entity
 {
 public:
-
 	void OnInitialize() override;
 	void OnUpdate() override;
 	void OnCollision(Entity* collidedWith) override ;
