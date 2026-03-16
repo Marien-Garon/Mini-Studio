@@ -1,6 +1,7 @@
 #include "Entity.h"
 
 #include "GameManager.h"
+#include <SFML/Graphics/Sprite.hpp>
 
 template<typename T>
 T* Entity::GetScene() const
@@ -14,7 +15,13 @@ T* Entity::GetScene() const
 
 
 template<typename T>
-T* Entity::CreateEntity(float radius, const sf::Color& color)
+T* Entity::CreateEntity(float width, float height, const sf::Color& color)
 {
-	return GetScene()->CreateEntity<T>(radius, color);
+	return GetScene()->CreateEntity<T>(width, height, color);
+}
+
+template<typename T>
+T* Entity::CreateEntity(sf::Sprite* _sprite, const sf::Color& color)
+{
+	return GetScene()->CreateEntity<T>(_sprite, color);
 }

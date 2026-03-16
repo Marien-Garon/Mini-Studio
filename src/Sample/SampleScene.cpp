@@ -1,18 +1,35 @@
 #include "SampleScene.h"
-
+#include <iostream>
+#include "PhysicalEntity.h"
 #include "DummyEntity.h"
-
 #include"Enemy.h"
-
 #include"Utils.h"
-
 #include "Debug.h"
+#include "InputManager.h"
+#include "AssetManager.h"
 
 #include<iostream>
 
 void SampleScene::OnInitialize()
 {
     SpawnEnemy(600, 600);
+
+    AssetManager& AM = AssetManager::getInstance();
+
+	pEntity1 = CreateEntity<Enemy>(AM.LoadSprite("sheet", 0, 0, 460, 600), sf::Color::Red);
+    pEntity1->SetSpriteScale(0.5f, 0.5f);
+	pEntity1->SetPosition(500, 500);
+	pEntity1->SetRigidBody(true);
+	pEntity1->SetMoveAble(true);
+	pEntity1->SetTag(1);
+
+	pEntity2 = CreateEntity<Enemy>(50,50, sf::Color::Green);
+	pEntity2->SetPosition(500, 500);
+	pEntity2->SetRigidBody(true);
+	pEntity2->SetMoveAble(true);
+
+	pEntitySelected = nullptr;
+
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
@@ -68,5 +85,4 @@ Enemy* SampleScene::SpawnEnemy(int x, int y)
     m_enemy.push_back(e);
     return e;
 }
-
 

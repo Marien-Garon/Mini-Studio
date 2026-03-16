@@ -1,7 +1,7 @@
 #pragma once
-#include "Entity.h"
+#include "PhysicalEntity.h"
 
-class Enemy : public Entity
+class Enemy : public PhysicalEntity
 {
 private:
     int m_Hpmax = 50;
@@ -16,7 +16,7 @@ private:
 
 public:
     void Initialize();           
-    void Update(float dt);
+    void OnUpdate(float dt);
 
     float TakeDamage(int amount);
     void Attack();

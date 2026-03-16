@@ -3,18 +3,25 @@
 #include "GameManager.h"
 #include "Utils.h"
 #include "Debug.h"
+#include "iostream"
+#include "stdio.h"
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 
-void Entity::Initialize(float radius, const sf::Color& color)
+void Entity::Initialize(float _width, float _height, const sf::Color& color)
 {
 	mDirection = sf::Vector2f(0.0f, 0.0f);
 
-	mShape.setOrigin(0.f, 0.f);
-	mShape.setRadius(radius);
-	mShape.setFillColor(color);
-	
+	if (!hasSprite)
+	{
+		mShape.setOrigin(0.f, 0.f);
+		mShape.setSize({ _width, _height });
+		mShape.setFillColor(color);
+	}
+
+	m_collider = { GetPosition(0.0f,0.0f).x, GetPosition(0.0f,0.0f).y, _width, _height};
+
 	mTarget.isSet = false;
 
 	OnInitialize();
@@ -22,51 +29,49 @@ void Entity::Initialize(float radius, const sf::Color& color)
 
 void Entity::Repulse(Entity* other) 
 {
-	sf::Vector2f distance = GetPosition(0.5f, 0.5f) - other->GetPosition(0.5f, 0.5f);
-	
-	float sqrLength = (distance.x * distance.x) + (distance.y * distance.y);
-	float length = std::sqrt(sqrLength);
+	AABBCollider c1 = GetCollider();
+	AABBCollider c2 = other->GetCollider();
 
-	float radius1 = mShape.getRadius();
-	float radius2 = other->mShape.getRadius();
+	float overlapX1 = (c1.x + c1.width) - c2.x; 
+	float overlapX2 = (c2.x + c2.width) - c1.x;
+	float overlapY1 = (c1.y + c1.height) - c2.y;
+	float overlapY2 = (c2.y + c2.height) - c1.y;
 
-	float overlap = (length - (radius1 + radius2)) * 0.5f;
+	float moveX = (overlapX1 < overlapX2) ? overlapX1 : -overlapX2;
+	float moveY = (overlapY1 < overlapY2) ? overlapY1 : -overlapY2;
 
-	sf::Vector2f normal = distance / length;
-
-	sf::Vector2f translation = overlap * normal;
-
-	sf::Vector2f position1 = GetPosition(0.5f, 0.5f) - translation;
-	sf::Vector2f position2 = other->GetPosition(0.5f, 0.5f) + translation;
-
-	SetPosition(position1.x, position1.y, 0.5f, 0.5f);
-	other->SetPosition(position2.x, position2.y, 0.5f, 0.5f);
+	if (std::fabs(moveX) < std::fabs(moveY))
+	{
+		SetPosition(c1.x - moveX / 2.f, c1.y, 0.0f, 0.0f);
+		if (other->IsMoveable()) other->SetPosition(c2.x + moveX / 2.f, c2.y, 0.0f, 0.0f);
+	}
+	else
+	{
+		SetPosition(c1.x, c1.y - moveY / 2.f, 0.0f, 0.0f);
+		if (other->IsMoveable()) other->SetPosition(c2.x, c2.y + moveY / 2.f, 0.0f, 0.0f);
+	}
 }
 
-bool Entity::IsColliding(Entity* other) const
+
+bool Entity::IsColliding(Entity* other)
 {
-	sf::Vector2f distance = GetPosition(0.5f, 0.5f) - other->GetPosition(0.5f, 0.5f);
-
-	float sqrLength = (distance.x * distance.x) + (distance.y * distance.y);
-
-	float radius1 = mShape.getRadius();
-	float radius2 = other->mShape.getRadius();
-
-	float sqrRadius = (radius1 + radius2) * (radius1 + radius2);
-
-	return sqrLength < sqrRadius;
+	return m_collider.IsColliding(other->GetCollider());
 }
 
-bool Entity::IsInside(float x, float y) const
+bool Entity::IsInside(float _x, float _y)
 {
-	sf::Vector2f position = GetPosition(0.5f, 0.5f);
+	return m_collider.IsInside(_x, _y);
+}
 
-	float dx = x - position.x;
-	float dy = y - position.y;
 
-	float radius = mShape.getRadius();
+bool Entity::IsInside(Entity* _other)
+{
+	return m_collider.IsInside(_other->GetCollider());
+}
 
-	return (dx * dx + dy * dy) < (radius * radius);
+Side Entity::GetCollidingSide(Entity* _other)
+{
+	return m_collider.GetCollisionSide(_other->GetCollider());
 }
 
 void Entity::Destroy()
@@ -78,12 +83,18 @@ void Entity::Destroy()
 
 void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 {
-	float size = mShape.getRadius() * 2;
+	sf::Vector2f size = hasSprite ? sf::Vector2f(m_sprite->getTextureRect().width, m_sprite->getTextureRect().height) : mShape.getSize();
 
-	x -= size * ratioX;
-	y -= size * ratioY;
+	x -= size.x * ratioX;
+	y -= size.y * ratioY;
 
-	mShape.setPosition(x, y);
+	if (hasSprite)
+		m_sprite->setPosition(x, y);
+	else
+		mShape.setPosition(x, y);
+
+	m_collider.SetPosition(x, y);
+
 
 	//#TODO Optimise
 	if (mTarget.isSet) 
@@ -97,11 +108,11 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 
 sf::Vector2f Entity::GetPosition(float ratioX, float ratioY) const
 {
-	float size = mShape.getRadius() * 2;
-	sf::Vector2f position = mShape.getPosition();
+	sf::Vector2f size = hasSprite ? sf::Vector2f(m_sprite->getTextureRect().width, m_sprite->getTextureRect().height) : mShape.getSize();
+	sf::Vector2f position = hasSprite ? m_sprite->getPosition() : mShape.getPosition();
 
-	position.x += size * ratioX;
-	position.y += size * ratioY;
+	position.x += size.x * ratioX;
+	position.y += size.y * ratioY;
 
 	return position;
 }
@@ -148,7 +159,13 @@ void Entity::Update()
 	float dt = GetDeltaTime();
 	float distance = dt * mSpeed;
 	sf::Vector2f translation = distance * mDirection;
-	mShape.move(translation);
+	
+	if (hasSprite)
+		m_sprite->move(translation);
+	else
+		mShape.move(translation);
+
+	m_collider.SetPosition(GetPosition(0.0f, 0.0f).x, GetPosition(0.0f, 0.0f).y);
 
 	if (mTarget.isSet) 
 	{
@@ -183,4 +200,9 @@ Scene* Entity::GetScene() const
 float Entity::GetDeltaTime() const
 {
 	return GameManager::Get()->GetDeltaTime();
+}
+
+const AABBCollider& Entity::GetCollider()
+{
+	return m_collider;
 }

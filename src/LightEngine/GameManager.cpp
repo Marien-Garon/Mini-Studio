@@ -2,9 +2,13 @@
 
 #include "Entity.h"
 #include "Debug.h"
+#include "Camera.h"
+#include "InputManager.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+
+#include "AssetManager.h"
 
 #include <iostream>
 
@@ -15,6 +19,11 @@ GameManager::GameManager()
 	mpScene = nullptr;
 	mWindowWidth = -1;
 	mWindowHeight = -1;
+
+	AssetManager::getInstance().InitMusicInDirectory();
+	AssetManager::getInstance().InitTextureInDirectory();
+	AssetManager::getInstance().InitSoundInDirectory();
+
 }
 
 GameManager* GameManager::Get()
@@ -48,6 +57,21 @@ void GameManager::CreateWindow(unsigned int width, unsigned int height, const ch
 	mClearColor = clearColor;
 }
 
+void GameManager::DrawSprite(sf::Sprite* _sprite)
+{
+	mpWindow->draw(*_sprite);
+}
+
+void GameManager::RefreshCamera(Camera* camera)
+{
+	if (camera->GetView() == nullptr)
+	{
+		std::cout << "Camera Not Initialized" << std::endl;
+		exit(0);
+	}
+	mpWindow->setView(*camera->GetView());
+}
+
 void GameManager::Run()
 {
 	if (mpWindow == nullptr) 
@@ -56,18 +80,27 @@ void GameManager::Run()
 		CreateWindow(1280, 720, "Default window");
 	}
 
+	//sf::View view2(sf::Vector2f(mWindowWidth / 2 , mWindowHeight / 2), sf::Vector2f(mWindowWidth  , mWindowHeight));
+	//mCamera = &view2;
+
 	//#TODO : Load somewhere else
 	bool fontLoaded = mFont.loadFromFile("../../../res/Hack-Regular.ttf");
 	_ASSERT(fontLoaded);
 
 	_ASSERT(mpScene != nullptr);
 
+	InputManager::Get().Init();
+
+	AssetManager::getInstance().PlayMusic("Fight");
+	AssetManager::getInstance().SetMusicVolume(0.f);
+
+
 	sf::Clock clock;
 	while (mpWindow->isOpen())
 	{
 		SetDeltaTime(clock.restart().asSeconds());
 
-		HandleInput();
+		HandleInput(); //OnEvent here
 
 		Update();
 		
@@ -77,14 +110,20 @@ void GameManager::Run()
 
 void GameManager::HandleInput()
 {
+	InputManager& IM = InputManager::Get();
+
+
 	sf::Event event;
 	while (mpWindow->pollEvent(event))
 	{
+		IM.Reset();
+
 		if (event.type == sf::Event::Closed)
 		{
 			mpWindow->close();
 		}
 
+		IM.HandleInput(event);
 		mpScene->OnEvent(event);
 	}
 }
@@ -152,9 +191,14 @@ void GameManager::Draw()
 	
 	for (Entity* entity : mEntities)
 	{
-		mpWindow->draw(*entity->GetShape());
+		if (entity->hasSprite) DrawSprite(entity->GetSprite());
+		else mpWindow->draw(*entity->GetShape());
 	}
-	
+
+	sf::Sprite* sprite = AssetManager::getInstance().LoadSprite("sheet", 0, 0, 460, 600);
+	//std::cout << sprite.getTextureRect().width << std::endl;
+	sprite->setScale(0.1f, 0.1f);
+	DrawSprite(sprite);
 	Debug::Get()->Draw(mpWindow);
 
 	mpWindow->display();
