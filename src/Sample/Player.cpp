@@ -40,9 +40,36 @@ void Player::OnCollision(Entity* collidedWith)
 {
 	if (collidedWith->IsTag(0))
 	{
-		if (collidedWith->GetCollidingSide(this) == Side::UP)
+		Side side = collidedWith->GetCollidingSide(this);
+
+		switch (side) 
 		{
-			StopGravity();
+		case Side::INSIDE:
+			std::cout << "INSIDE" << std::endl;
+			break;
+		case Side::DOWN:
+			std::cout << "DOWN" << std::endl;
+			break;
+
+		case Side::UP:
+			std::cout << "UP" << std::endl;
+			break;
+
+		case Side::RIGHT:
+			std::cout << "RIGHT" << std::endl;
+			break;
+
+		case Side::LEFT:
+			std::cout << "LEFT" << std::endl;
+			break;
+		case Side::NONE:
+			std::cout << "NONE" << std::endl;
+			break;
+		}
+
+		if (side == Side::UP)
+		{
+ 			StopGravity();
 			m_isJumping = false;
 		}
 			
@@ -92,7 +119,7 @@ void Player::Actions()
 		ThrowGrapple(SearchForHook());
 	}
 
-	if ((in.IsControllerPressed(0, Controller::Button::A) || in.IsKeyHeld(sf::Keyboard::Space)) && m_isJumping == false)
+	if ((in.IsControllerPressed(0, Controller::Button::A) || in.IsKeyHeld(sf::Keyboard::Space)) && m_isJumping == false && mIsGravity == false)
 		Jump();
 
 	SetDirection(0, 0);
