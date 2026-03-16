@@ -1,6 +1,6 @@
 #pragma once
 #include "Entity.h"
-class Grapple;
+
 class Hook;
 
 class Player : public Entity
@@ -28,11 +28,14 @@ public:
 
 private:
 
+	friend class Grapple;
+
 	int m_health = 3;
 	int m_maxHealth = 3;
 	bool m_playerAlive = true;
 	bool m_directionFacing = true; //true = regarde vers la droite, false = regarde vers la gauche
 	bool m_isJumping = false;
+	bool m_isTravelling = false;
 	int m_numberOfGoodPress = 0;
 
 	float mAcceleration = 0.f;
@@ -42,5 +45,7 @@ private:
 
 	Grapple* m_grapple;
 	float m_grappleRopeLenght;
+
+	
 
 };

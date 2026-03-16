@@ -41,7 +41,7 @@ protected:
 	bool m_isMoveable = false;
 
 	bool mIsGravity = false;
-	float mGravityAcceleration = 100.f;
+	float mGravityAcceleration = 150.f;
 	float mGravitySpeed = 0;
 
 public:

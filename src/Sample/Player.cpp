@@ -40,7 +40,7 @@ void Player::OnCollision(Entity* collidedWith)
 {
 	if (collidedWith->IsTag(0))
 	{
-		Side side = collidedWith->GetCollidingSide(this);
+		Side side = GetCollidingSide(collidedWith);
 
 		switch (side) 
 		{
@@ -67,7 +67,7 @@ void Player::OnCollision(Entity* collidedWith)
 			break;
 		}
 
-		if (side == Side::UP)
+		if (side == Side::DOWN)
 		{
  			StopGravity();
 			m_isJumping = false;
@@ -124,13 +124,13 @@ void Player::Actions()
 
 	SetDirection(0, 0);
 
-	if (in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D))
+	if ((in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D)) && m_isTravelling == false)
 	{
 		m_directionFacing = true;
 		MoveRight();
 	}
 
-	if (in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q))	
+	if ((in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q)) && m_isTravelling == false)
 	{
 		m_directionFacing = false;
 		MoveLeft();
@@ -218,9 +218,18 @@ Hook* Player::SearchForHook()
 			continue;
 		}
 
-		if (hooks[i]->GetPosition().x < GetPosition(0.5f, 1.f).x) {
-			continue;
+		if (m_directionFacing == true)
+		{
+			if (hooks[i]->GetPosition().x < GetPosition(0.5f, 1.f).x) {
+				continue;
+			}
 		}
+
+		else
+			if (hooks[i]->GetPosition().x > GetPosition(0.5f, 1.f).x) {
+				continue;
+			}
+		
 
 		float currentDistance = Utils::GetDistance(GetPosition().x, GetPosition().y, hooks[i]->GetPosition().x, hooks[i]->GetPosition().y);
 		if (currentDistance <= m_grappleRopeLenght) {
@@ -243,4 +252,8 @@ void Player::ThrowGrapple(Hook* target)
 	m_grapple->m_Owner = this;
 
 	m_grapple->GoToPosition(target->GetPosition().x, target->GetPosition().y);
+
+	m_isJumping = false;
+	mIsGravity = true;
+	m_isTravelling = true;
 }

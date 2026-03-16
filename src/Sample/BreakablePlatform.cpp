@@ -22,6 +22,7 @@ void BreakablePlatform::OnCollision(Entity* entity)
 		if (m_timer <= 0.f)
 		{
 			SetRigidBody(false);
+			entity->StartGravity(0);
 		}
 	}
 }
