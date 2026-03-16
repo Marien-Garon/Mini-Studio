@@ -167,7 +167,7 @@ bool AssetManager::InitTextureInDirectory(const std::filesystem::path& filename)
             continue;
         }
 
-        if (entry.path().extension() != ".png" || entry.path().extension() != ".PNG")
+        if (entry.path().extension() != ".png" && entry.path().extension() != ".PNG")
         {
             std::cout << "Not valid extension" << std::endl;
             continue;
