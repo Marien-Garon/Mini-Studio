@@ -43,9 +43,12 @@ float Enemy::TakeDamage(int amount)
 
 void Enemy::Attack()
 {
-    Enemy* e = CreateEntity<Enemy>(20, 10, sf::Color::Blue);
-    e->SetRigidBody(true);
-    e->SetMoveAble(true);
+    float windowWidth = GetScene()->GetWindowWidth();
+
+
+    Enemy* attack = CreateEntity<Enemy>(20, 10, sf::Color::Blue);
+    attack->SetPosition();
+    attack->GoToDirection(windowWidth * m_directionAttack, 0);
 }
 
 
