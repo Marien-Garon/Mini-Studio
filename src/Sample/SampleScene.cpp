@@ -55,8 +55,6 @@ void SampleScene::OnUpdate()
 
 Enemy* SampleScene::SpawnEnemy(int x, int y)
 {
-    AssetManager& AM = AssetManager::getInstance();
-
     Enemy* e = CreateEntity<Enemy>(50,30, sf::Color::Red);
     e->SetPosition(x, y);
     e->Initialize();
