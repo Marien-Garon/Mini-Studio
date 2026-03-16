@@ -26,7 +26,7 @@ void SampleScene::OnEvent(const sf::Event& event)
             e->Destroy();
         }
            
-        /*m_enemy.clear();*/
+        m_enemy.clear();
 
         SpawnEnemy(event.mouseButton.x, event.mouseButton.y);
     }

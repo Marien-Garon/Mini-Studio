@@ -41,10 +41,13 @@ float Enemy::TakeDamage(int amount)
     return m_Hpmax;
 }
 
-float Enemy::Attack(int dmg)
+void Enemy::Attack()
 {
-    m_damage = dmg;
-    
-    return m_damage;
+
+
+
+
 }
+
+
 

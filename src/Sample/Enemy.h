@@ -19,5 +19,5 @@ public:
     void Update(float dt);
 
     float TakeDamage(int amount);
-    float Attack(int dmg);
+    void Attack();
 };
