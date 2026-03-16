@@ -11,6 +11,7 @@
 
 void Player::OnInitialize()
 {
+	SetRigidBody(true);
 	mBaseSpeed = 300;
 	mAcceleration = 0.f;
 	mDecceleration = 0.f;
@@ -23,6 +24,9 @@ void Player::OnInitialize()
 
 void Player::OnUpdate()
 {
+	if (!m_isJumping && !mIsGravity)
+		StartGravity(0.f);
+
 	if (m_grapple != nullptr) {
 		if (GetPosition().x == m_grapple->GetPosition().x && GetPosition().y == m_grapple->GetPosition().y) {
 			m_grapple->Destroy();
@@ -30,6 +34,20 @@ void Player::OnUpdate()
 			GoToPosition(GetPosition().x + 10.f, GetPosition().y);
 		}
 	}
+}
+
+void Player::OnCollision(Entity* collidedWith)
+{
+	if (collidedWith->IsTag(0))
+	{
+		if (collidedWith->GetCollidingSide(this) == Side::UP)
+		{
+			StopGravity();
+			m_isJumping = false;
+		}
+			
+	}
+		
 }
 
 void Player::TakeDamage(int _damage)
@@ -74,7 +92,7 @@ void Player::Actions()
 		ThrowGrapple(SearchForHook());
 	}
 
-	if (in.IsControllerPressed(0, Controller::Button::A) || in.IsKeyHeld(sf::Keyboard::Space))
+	if ((in.IsControllerPressed(0, Controller::Button::A) || in.IsKeyHeld(sf::Keyboard::Space)) && m_isJumping == false)
 		Jump();
 
 	SetDirection(0, 0);
@@ -104,6 +122,7 @@ void Player::Actions()
 void Player::Jump()
 {
 	StartGravity(-200);
+	m_isJumping = true;
 }
 
 void Player::Attack()

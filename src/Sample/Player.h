@@ -9,7 +9,7 @@ public:
 
 	void OnInitialize() override;
 	void OnUpdate() override;
-	void OnCollision(Entity* collidedWith) override {};
+	void OnCollision(Entity* collidedWith) override ;
 	void OnDestroy() override {} ;
 
 	void TakeDamage(int damage);
@@ -32,6 +32,7 @@ private:
 	int m_maxHealth = 3;
 	bool m_playerAlive = true;
 	bool m_directionFacing = true; //true = regarde vers la droite, false = regarde vers la gauche
+	bool m_isJumping = false;
 	int m_numberOfGoodPress = 0;
 
 	float mAcceleration = 0.f;
