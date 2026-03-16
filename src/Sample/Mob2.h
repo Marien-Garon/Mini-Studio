@@ -2,9 +2,9 @@
 #include"Enemy.h"
 #include"Entity.h"
 
-
-class Mob1 : public Enemy
+class Mob2: public Enemy
 {
-public:
+public: 
 	void Attack() override;
 };
+

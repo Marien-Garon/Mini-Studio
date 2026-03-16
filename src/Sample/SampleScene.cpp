@@ -9,6 +9,7 @@
 #include "InputManager.h"
 #include "AssetManager.h"
 
+
 void SampleScene::OnInitialize()
 {
     SpawnEnemy(600, 600);
@@ -54,13 +55,20 @@ void SampleScene::OnUpdate()
     }
 }
 
+void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
+{
+    if (pEntitySelected != nullptr)
+        return;
+}
+
+
 Enemy* SampleScene::SpawnEnemy(int x, int y)
 {
-    Enemy* e = CreateEntity<Enemy>(50,30, sf::Color::Red);
-    e->SetPosition(x, y);
-    e->Initialize();
+   m_enemy.push_back(CreateEntity<Mob1>(50,30, sf::Color::Red));
+   m_enemy[0]->SetPosition(x, y);
+   m_enemy[0]->Initialize();
 
-    m_enemy.push_back(e);
-    return e;
+  
+    return m_enemy[0];
 }
 

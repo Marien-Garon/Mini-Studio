@@ -2,15 +2,15 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <ItemGroup>
     <Filter Include="header">
-      <UniqueIdentifier>{F4EF4845-1B13-4538-888E-52A6ABB2A110}</UniqueIdentifier>
+      <UniqueIdentifier>{6723CB3B-8A43-4533-9D8E-B3875F0C3179}</UniqueIdentifier>
       <Extensions>h;hpp</Extensions>
     </Filter>
     <Filter Include="resource">
-      <UniqueIdentifier>{521A9F23-4B85-4E96-9C30-FABE6E0D65CA}</UniqueIdentifier>
+      <UniqueIdentifier>{827BB68D-8F17-40A1-BB14-6D65C815704B}</UniqueIdentifier>
       <Extensions>hlsl;jpg;jpeg;png;wav;mp3;ico;dds;rc;obj</Extensions>
     </Filter>
     <Filter Include="source">
-      <UniqueIdentifier>{4DEDA610-E1C4-4B18-B134-9232925202F0}</UniqueIdentifier>
+      <UniqueIdentifier>{E28C8A53-423A-4A5E-A05D-458B646A443F}</UniqueIdentifier>
       <Extensions>cpp;c</Extensions>
     </Filter>
   </ItemGroup>
@@ -24,6 +24,9 @@
     <ClCompile Include="..\..\..\src\Sample\main.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Sample\Mob1.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\Sample\SampleScene.cpp">
       <Filter>source</Filter>
     </ClCompile>
@@ -33,15 +36,18 @@
     <ClInclude Include="..\..\..\src\Sample\Enemy.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\Sample\Mob1.h">
+      <Filter>header</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\Sample\SampleScene.h">
       <Filter>header</Filter>
     </ClInclude>
-    <ClCompile Include="..\..\..\src\Sample\Mob1.cpp">
+    <ClCompile Include="..\..\..\src\Sample\Mob2.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\Sample\Mob1.h">
+    <ClInclude Include="..\..\..\src\Sample\Mob2.h">
       <Filter>header</Filter>
     </ClInclude>
   </ItemGroup>

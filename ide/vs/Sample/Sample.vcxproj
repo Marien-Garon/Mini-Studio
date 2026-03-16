@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{CD8E730B-BE26-4268-97E3-DD3A023421E5}</ProjectGuid>
+    <ProjectGuid>{E0D26F77-64DF-4289-97AF-021F2864A567}</ProjectGuid>
     <RootNamespace>Sample</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -98,12 +98,14 @@
     <ClCompile Include="..\..\..\src\Sample\Enemy.cpp" />
     <ClCompile Include="..\..\..\src\Sample\main.cpp" />
     <ClCompile Include="..\..\..\src\Sample\Mob1.cpp" />
+    <ClCompile Include="..\..\..\src\Sample\Mob2.cpp" />
     <ClCompile Include="..\..\..\src\Sample\SampleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Sample\DummyEntity.h" />
     <ClInclude Include="..\..\..\src\Sample\Enemy.h" />
     <ClInclude Include="..\..\..\src\Sample\Mob1.h" />
+    <ClInclude Include="..\..\..\src\Sample\Mob2.h" />
     <ClInclude Include="..\..\..\src\Sample\SampleScene.h" />
   </ItemGroup>
   <ItemGroup />
