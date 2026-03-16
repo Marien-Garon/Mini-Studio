@@ -43,10 +43,9 @@ float Enemy::TakeDamage(int amount)
 
 void Enemy::Attack()
 {
-
-
-
-
+    Enemy* e = CreateEntity<Enemy>(20, 10, sf::Color::Blue);
+    e->SetRigidBody(true);
+    e->SetMoveAble(true);
 }
 
 

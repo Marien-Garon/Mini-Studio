@@ -13,7 +13,7 @@
     <PropertyGroup Label="Globals">
         <VCProjectVersion>17.0</VCProjectVersion>
         <Keyword>Win32Proj</Keyword>
-        <ProjectGuid>{EC9AACBC-F140-4800-A5BA-DF62F670E499}</ProjectGuid>
+        <ProjectGuid>{2EBBC422-386E-4999-BF78-0549E4261D6A}</ProjectGuid>
         <RootNamespace>Sample</RootNamespace>
         <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     </PropertyGroup>
@@ -68,13 +68,13 @@
             <PrecompiledHeader>NotUsing</PrecompiledHeader>
             <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
             <LanguageStandard>stdcpp20</LanguageStandard>
-            <AdditionalIncludeDirectories>$(SolutionDir)../../SFML-2.5.1/include; $(SolutionDir)../../src/LightEngine</AdditionalIncludeDirectories>
+            <AdditionalIncludeDirectories>$(SolutionDir)../../SFML-2.5.1/include; $(SolutionDir)../../src/LightEngine; $(SolutionDir)../../include</AdditionalIncludeDirectories>
         </ClCompile>
         <Link>
             <SubSystem>Console</SubSystem>
             <GenerateDebugInformation>true</GenerateDebugInformation>
             <AdditionalLibraryDirectories>$(SolutionDir)../../SFML-2.5.1/lib; $(SolutionDir)../../ide/vs/LightEngine/Build/Debug</AdditionalLibraryDirectories>
-            <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;opengl32.lib;glu32.lib;gdi32.lib;winmm.lib;dwmapi.lib;freetype.lib;LightEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+            <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;opengl32.lib;glu32.lib;gdi32.lib;winmm.lib;dwmapi.lib;openal32.lib;vorbis.lib;vorbisfile.lib;vorbisenc.lib;ogg.lib;flac.lib;freetype.lib;LightEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
         </Link>
     </ItemDefinitionGroup>
     <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">
