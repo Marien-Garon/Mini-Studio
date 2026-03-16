@@ -14,7 +14,7 @@ void SampleScene::OnInitialize()
 {
     SpawnEnemy(600, 600);
 
-    AssetManager& AM = AssetManager::getInstance();
+    /*AssetManager& AM = AssetManager::getInstance();
 
 	pEntity1 = CreateEntity<Enemy>(AM.LoadSprite("sheet", 0, 0, 460, 600), sf::Color::Red);
     pEntity1->SetSpriteScale(0.5f, 0.5f);
@@ -26,9 +26,9 @@ void SampleScene::OnInitialize()
 	pEntity2 = CreateEntity<Enemy>(50,50, sf::Color::Green);
 	pEntity2->SetPosition(500, 500);
 	pEntity2->SetRigidBody(true);
-	pEntity2->SetMoveAble(true);
+	pEntity2->SetMoveAble(true);*/
 
-	pEntitySelected = nullptr;
+	/*pEntitySelected = nullptr;*/
 
 }
 
@@ -58,7 +58,7 @@ void SampleScene::OnEvent(const sf::Event& event)
     if (event.type == sf::Event::MouseButtonPressed &&
         event.mouseButton.button == sf::Mouse::Right)
     {
-        m_enemy[0]->Attack(2);
+        m_enemy[0]->Attack();
     }
 }
 
@@ -67,7 +67,7 @@ void SampleScene::OnUpdate()
     float dt = GetDeltaTime();
 
     if (!m_enemy.empty())
-        m_enemy[0]->Update(dt);
+        m_enemy[0]->OnUpdate(dt);
 
     if (pEntitySelected != nullptr)
     {
@@ -78,7 +78,7 @@ void SampleScene::OnUpdate()
 
 Enemy* SampleScene::SpawnEnemy(int x, int y)
 {
-    Enemy* e = CreateEntity<Enemy>(50, sf::Color::Red);
+    Enemy* e = CreateEntity<Enemy>(50,30, sf::Color::Red);
     e->SetPosition(x, y);
     e->Initialize();
 
