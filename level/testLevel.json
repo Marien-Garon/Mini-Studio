@@ -2,25 +2,41 @@
     "Tiles": [
         {
             "Type": "TileBlocks",
-            "id": "Tile1",
+            "id": "Tile2",
             "position": [
-                384.0,
-                192.0
-            ]
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "Tile1",
-            "position": [
-                192.0,
+                576.0,
                 256.0
             ]
         },
         {
             "Type": "TileBlocks",
-            "id": "Tile1",
+            "id": "Tile2",
             "position": [
-                512.0,
+                448.0,
+                128.0
+            ]
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "Tile2",
+            "position": [
+                320.0,
+                256.0
+            ]
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "Tile2",
+            "position": [
+                320.0,
+                384.0
+            ]
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "Tile2",
+            "position": [
+                320.0,
                 320.0
             ]
         },
@@ -28,7 +44,15 @@
             "Type": "TileBlocks",
             "id": "Tile1",
             "position": [
-                640.0,
+                256.0,
+                64.0
+            ]
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "Tile1",
+            "position": [
+                64.0,
                 256.0
             ]
         }

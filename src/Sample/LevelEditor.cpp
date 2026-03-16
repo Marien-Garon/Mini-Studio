@@ -8,7 +8,24 @@
 
 void LevelEditor::SaveLevel()
 {
+	if (m_posedBlock.empty())
+	{
+		Debug::DebugMessage(Debug::Severity::WARN, "Saving Level", "Can't save level is empty");
+		return;
+	}
+
+	std::filesystem::path filePath = "../../../level/Level0.json";
+
+	int i = 0;
+	while (std::filesystem::exists(filePath))
+	{
+		i++;
+		filePath = "../../../level/Level" + std::to_string(i) + ".json";
+	}
+
+
 	json data;
+	data["Data"] = json::array();
 	data["Tiles"] = json::array();
 
 	for (TileBlock* tile : m_posedBlock)
@@ -26,13 +43,14 @@ void LevelEditor::SaveLevel()
 		data["Tiles"].push_back(tileData);
 	}
 
-	std::ofstream file("../../../level/testLevel.json");
+	std::ofstream file(filePath);
 	if (!file.is_open())
 		Debug::DebugMessage(Debug::Severity::WARN, "Saving Level", "Can't open file");
 	else 
 	{
 		file << data.dump(4);
 		file.close();
+		Debug::DebugMessage(Debug::Severity::INFO, "Saving Level", "Level saved as : " + filePath.string());
 	}
 }
 
@@ -136,8 +154,6 @@ void LevelEditor::InitTileBlock()
 		newTile->GetSprite();
 		newTile->SetSpriteScale(GetScale(newTile->GetCollider().width, TILE_SIZE), GetScale(newTile->GetCollider().height, TILE_SIZE));
 		newTile->SetPosition(-5000, -5000);
-		/*newTile->SetPosition(GetWindowWidth() - (3 * TILE_SIZE), i*128, 0.0f, 0.0f);*/
-
 
 		if (m_page.empty() || m_page.back().size() >= 3)
 			m_page.emplace_back();  //Mystic dark magic vector (vector has function you absolutely don't know what's they are doing but it work it's magic i swear)
@@ -241,6 +257,7 @@ void LevelEditor::OnEvent(const sf::Event& event)
 						std::remove(m_posedBlock.begin(), m_posedBlock.end(), tile),  //Really the guy who invented std::remove & remove_if go fuck yourself i never understand how the fuck does it works it's dark magic at this level
 						m_posedBlock.end());
 					Debug::DebugMessage(Debug::Severity::DEBUG, "Tile", "Deleted Tile");
+					if (tile == pEntitySelected) pEntitySelected = nullptr;
 				}
 			}
 			else
@@ -260,7 +277,6 @@ void LevelEditor::OnEvent(const sf::Event& event)
 
 void LevelEditor::OnUpdate()
 {
-	std::cout << currentIndex << std::endl;
 	DrawGrid();
 	if (pEntitySelected != nullptr)
 	{
