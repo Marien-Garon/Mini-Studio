@@ -12,6 +12,8 @@ class SampleScene : public Scene
 {
 	Enemy* pEntity1;
 	Enemy* pEntity2;
+	
+	std::vector<Platform*> m_Platforms;
 
 	//Enemy* pEntitySelected;
 	Camera* mCamera;

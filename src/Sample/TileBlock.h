@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Entity.h"
+#include "Platform.h"
 
-class TileBlock : public Entity
+class TileBlock : public Platform
 {
 public:
 	
