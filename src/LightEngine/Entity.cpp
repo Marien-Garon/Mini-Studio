@@ -213,7 +213,7 @@ float Entity::GetDeltaTime() const
 	return GameManager::Get()->GetDeltaTime();
 }
 
-const AABBCollider& Entity::GetCollider()
+AABBCollider& Entity::GetCollider()
 {
 	return m_collider;
 }

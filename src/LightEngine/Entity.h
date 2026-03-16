@@ -82,7 +82,7 @@ public:
     Scene* GetScene() const;
 	float GetDeltaTime() const;
 
-	const AABBCollider& GetCollider();
+	AABBCollider& GetCollider();
 
     template<typename T>
     T* CreateEntity(float width, float height, const sf::Color& color);

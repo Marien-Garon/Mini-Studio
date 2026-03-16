@@ -30,7 +30,7 @@ public:
 	bool IsInside(float _x, float _y);
 	bool IsInside(NewEntity* _other);
 	Side GetCollidingSide(NewEntity* _other);
-	const AABBCollider& GetCollider() { return m_collider; };
+	AABBCollider& GetCollider() { return m_collider; };
 
 
 protected:
