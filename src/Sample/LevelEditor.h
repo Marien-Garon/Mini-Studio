@@ -45,6 +45,7 @@ public:
 	float GetScale(float size, float target);
 	//float truc2(float size, float target); //Le premier qui delete ça aura affaire a moi
 
+	void InitEntity();
 	void InitTileBlock();
 
 	void TrySetSelectedEntity(Entity* pEntity, int x, int y);

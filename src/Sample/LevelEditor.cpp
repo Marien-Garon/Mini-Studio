@@ -143,6 +143,10 @@ void LevelEditor::DrawGrid()
 		Debug::DrawLine(0 ,TILE_SIZE * j, windW - (4 * TILE_SIZE), TILE_SIZE * j, sf::Color::White);
 }
 
+void LevelEditor::InitEntity()
+{
+}
+
 void LevelEditor::InitTileBlock()
 {
 	AssetManager& AM = AssetManager::getInstance();
@@ -192,6 +196,7 @@ void LevelEditor::OnDestroy()
 void LevelEditor::OnInitialize()
 {
 	InitTileBlock();
+	InitEntity();
 
 	Button* btn1 = CreateEntity<Button>(100, 40, sf::Color::Yellow);
 	btn1->SetPosition(GetWindowWidth() - 2 * TILE_SIZE, TILE_SIZE);
