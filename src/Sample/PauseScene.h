@@ -10,6 +10,7 @@ private:
 	Entity* m_buttonRestart;
 	Entity* m_buttonSave;
 	Entity* m_buttonSettings;
+	Entity* m_buttonExit;
 
 public:
 	void OnInitialize() override;
