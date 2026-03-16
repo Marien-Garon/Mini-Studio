@@ -1,0 +1,36 @@
+{
+    "Tiles": [
+        {
+            "Type": "TileBlocks",
+            "id": "Tile1",
+            "position": [
+                384.0,
+                192.0
+            ]
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "Tile1",
+            "position": [
+                192.0,
+                256.0
+            ]
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "Tile1",
+            "position": [
+                512.0,
+                320.0
+            ]
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "Tile1",
+            "position": [
+                640.0,
+                256.0
+            ]
+        }
+    ]
+}

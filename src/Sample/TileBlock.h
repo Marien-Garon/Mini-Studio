@@ -4,11 +4,10 @@
 
 class TileBlock : public Entity
 {
-private:
-
-
-
 public:
+	
+	bool IsSameTile(TileBlock* _tile);
+
 
 	void OnUpdate() override;
 	void OnCollision(Entity* collidedWith) override;

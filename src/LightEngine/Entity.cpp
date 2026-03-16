@@ -77,7 +77,6 @@ Side Entity::GetCollidingSide(Entity* _other)
 void Entity::Destroy()
 {
 	mToDestroy = true;
-	if(m_sprite != nullptr) delete m_sprite;
 	OnDestroy();
 }
 
@@ -152,6 +151,16 @@ void Entity::SetDirection(float x, float y, float speed)
 
 	mDirection = sf::Vector2f(x, y);
 	mTarget.isSet = false;
+}
+
+void Entity::SetOpacity(float _alpha)
+{
+	if (hasSprite) m_sprite->sprite->setColor(sf::Color(255, 255, 255, _alpha));
+	else
+	{
+		sf::Color color = mShape.getFillColor();
+		mShape.setFillColor(sf::Color(color.r, color.g, color.b, _alpha));
+	}
 }
 
 void Entity::Update()

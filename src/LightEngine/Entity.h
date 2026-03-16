@@ -51,6 +51,7 @@ public:
     void SetPosition(float x, float y, float ratioX = 0.5f, float ratioY = 0.5f);
 	void SetDirection(float x, float y, float speed = -1.f);
 	void SetSpeed(float speed) { mSpeed = speed; }
+	void SetOpacity(float _alpha);
 	float GetSpeed() { return mSpeed; }
 	void SetTag(int tag) { mTag = tag; }
 	int GetTag() { return mTag; }
@@ -97,6 +98,7 @@ public:
 
 	void PlayAnimation(const std::string& _id);
 
+	SpriteData* GetSpriteData() { return m_sprite; };
 	sf::Sprite* GetSprite() { return m_sprite->sprite; };
 
 	bool HasSprite() { return hasSprite; };
@@ -108,7 +110,7 @@ public:
 
 protected:
     Entity() = default;
-    ~Entity() = default;
+	~Entity() { if (m_sprite != nullptr) delete m_sprite; };
 
     virtual void OnUpdate() {};
     virtual void OnCollision(Entity* collidedWith) {};

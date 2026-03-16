@@ -37,7 +37,8 @@ public:
 		INFO,
 		WARN,
 		ERROR,
-		CRITICAL
+		CRITICAL,
+		DEBUG
 	};
 
 	static Debug* Get();

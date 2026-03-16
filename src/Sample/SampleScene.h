@@ -20,6 +20,8 @@ private:
 	void TrySetSelectedEntity(Enemy* pEntity, int x, int y);
 
 public:
+	
+	void OnDestroy() override {};
 	void OnInitialize() override;
 	void OnEvent(const sf::Event& event) override;
 	void OnUpdate() override;

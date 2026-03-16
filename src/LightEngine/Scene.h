@@ -22,7 +22,7 @@ protected:
 	Scene() = default;
 	~Scene();
 
-	virtual void OnDestroy() = 0;
+	virtual void OnDestroy() {};
 	virtual void OnInitialize() = 0;
 	virtual void OnEvent(const sf::Event& event) = 0;
 	virtual void OnUpdate() = 0;

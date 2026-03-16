@@ -1,5 +1,10 @@
 #include "TileBlock.h"
 
+bool TileBlock::IsSameTile(TileBlock* _tile)
+{
+	return _tile->GetSpriteData()->textureID == GetSpriteData()->textureID;
+}
+
 void TileBlock::OnUpdate()
 {
 }
