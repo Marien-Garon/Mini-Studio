@@ -10,7 +10,7 @@ class SampleScene : public Scene
     Enemy* pEntitySelected;
     std::vector<Enemy*> m_enemy;
 
-	PhysicalEntity* pEntitySelected;
+	/*PhysicalEntity* pEntitySelected;*/
 private:
     void TrySetSelectedEntity(Enemy* pEntity, int x, int y);
 
