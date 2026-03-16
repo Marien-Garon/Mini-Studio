@@ -3,6 +3,7 @@
 #include "PhysicalEntity.h"
 #include "DummyEntity.h"
 #include"Enemy.h"
+#include"Mob1.h"
 #include"Utils.h"
 #include "Debug.h"
 #include "InputManager.h"
@@ -34,6 +35,9 @@ void SampleScene::OnEvent(const sf::Event& event)
         if (!m_enemy.empty())
             m_enemy[0]->TakeDamage(10);
     }
+    
+    for (auto* e : m_enemy)
+        e->Attack();
 }
 
 void SampleScene::OnUpdate()

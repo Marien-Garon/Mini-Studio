@@ -21,5 +21,6 @@ public:
     void Update(float dt);
 
     float TakeDamage(int amount);
+
     virtual void Attack();
 };
