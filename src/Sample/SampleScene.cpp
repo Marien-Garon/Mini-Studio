@@ -55,8 +55,7 @@ void SampleScene::OnEvent(const sf::Event& event)
             m_enemy[0]->TakeDamage(10);
     }
 
-    if (event.type == sf::Event::MouseButtonPressed &&
-        event.mouseButton.button == sf::Mouse::Right)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
     {
         m_enemy[0]->Attack();
     }
