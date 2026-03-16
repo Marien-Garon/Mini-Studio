@@ -8,28 +8,9 @@
 #include "InputManager.h"
 #include "AssetManager.h"
 
-#include<iostream>
-
 void SampleScene::OnInitialize()
 {
     SpawnEnemy(600, 600);
-
-    /*AssetManager& AM = AssetManager::getInstance();
-
-	pEntity1 = CreateEntity<Enemy>(AM.LoadSprite("sheet", 0, 0, 460, 600), sf::Color::Red);
-    pEntity1->SetSpriteScale(0.5f, 0.5f);
-	pEntity1->SetPosition(500, 500);
-	pEntity1->SetRigidBody(true);
-	pEntity1->SetMoveAble(true);
-	pEntity1->SetTag(1);
-
-	pEntity2 = CreateEntity<Enemy>(50,50, sf::Color::Green);
-	pEntity2->SetPosition(500, 500);
-	pEntity2->SetRigidBody(true);
-	pEntity2->SetMoveAble(true);*/
-
-	/*pEntitySelected = nullptr;*/
-
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
@@ -47,7 +28,6 @@ void SampleScene::OnEvent(const sf::Event& event)
 
         SpawnEnemy(event.mouseButton.x, event.mouseButton.y);
     }
-
     
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
@@ -75,6 +55,8 @@ void SampleScene::OnUpdate()
 
 Enemy* SampleScene::SpawnEnemy(int x, int y)
 {
+    AssetManager& AM = AssetManager::getInstance();
+
     Enemy* e = CreateEntity<Enemy>(50,30, sf::Color::Red);
     e->SetPosition(x, y);
     e->Initialize();
