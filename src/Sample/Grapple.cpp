@@ -17,7 +17,10 @@ bool Grapple::AsReachedTarget()
 {
 
 	if (GetPosition().x == mTarget.position.x && GetPosition().y == mTarget.position.y)
+	{
+		m_Owner->StopGravity();
 		return true;
+	}
 
 	return false;
 }
