@@ -11,7 +11,7 @@ AABBCollider::AABBCollider(float _x, float _y, float _w, float _h) :
 
 bool AABBCollider::IsColliding(const AABBCollider& _other)
 {
-    return (x < _other.x + _other.width && x + width > _other.x && y < _other.y + _other.height && y + height > _other.y);
+    return (x <= _other.x + _other.width && x + width >= _other.x && y <= _other.y + _other.height && y + height >= _other.y);
 }
 
 bool AABBCollider::IsInside(const AABBCollider& _other)
@@ -46,10 +46,12 @@ Side AABBCollider::GetCollisionSide(const AABBCollider& _other)
 {
     if (IsInside(_other)) return Side::INSIDE;
 
-    if (_other.x + _other.width <= x) return Side::LEFT;
-    if (_other.x >= x + width) return Side::RIGHT;
-    if (_other.y >= y + height) return Side::DOWN;
-    if (_other.y + height <= y) return Side::UP;
+
+    //Temporary because i don't like this way
+    if ((int)_other.x + (int)_other.width <= (int)x) return Side::LEFT;
+    if ((int)_other.x >= (int)x + (int)width) return Side::RIGHT;
+    if ((int)_other.y >= (int)y + (int)height) return Side::DOWN;
+    if ((int)_other.y + (int)_other.height <= (int)y) return Side::UP;
 
     return Side::NONE;
 }

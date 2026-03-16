@@ -4,9 +4,15 @@
 #include "DummyEntity.h"
 #include"Enemy.h"
 #include"Utils.h"
-#include "Debug.h"
 #include "InputManager.h"
 #include "AssetManager.h"
+#include"Platform.h"
+#include"BreakablePlatform.h"
+#include"Entity.h"
+#include "Debug.h"
+
+#define MAX_JOYSTICK_POS  100
+#define MIN_JOYSTICK_POS -100
 
 void SampleScene::OnInitialize()
 {
@@ -25,6 +31,14 @@ void SampleScene::OnInitialize()
 	//pEntity2->SetRigidBody(true);
 	//pEntity2->SetMoveAble(true);
 
+	m_Platforms.push_back(CreateEntity<Platform>(200, 50, sf::Color::Blue));
+	m_Platforms[0]->SetPosition(500, 550);
+	m_Platforms[0]->SetRigidBody(true);
+
+	m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 35, sf::Color::Cyan));
+	m_Platforms[1]->SetPosition(100, 101);
+	m_Platforms[1]->SetRigidBody(true);
+	
 	pEntitySelected = nullptr;
 }
 
@@ -43,7 +57,6 @@ void SampleScene::OnEvent(const sf::Event& event)
         }
     }
 }
-
 
 void SampleScene::OnUpdate()
 {
@@ -81,12 +94,3 @@ void SampleScene::TrySetSelectedEntity(Enemy* pEntity, int x, int y)
 	pEntitySelected = pEntity;
 }
 
-//void SampleScene::OnUpdate()
-//{
-//
-//	if(pEntitySelected != nullptr)
-//	{
-//		sf::Vector2f position = pEntitySelected->GetPosition();
-//		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue); 
-//	}
-//}

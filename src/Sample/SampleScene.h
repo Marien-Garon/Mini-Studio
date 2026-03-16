@@ -2,6 +2,8 @@
 #include "Scene.h"
 #include "Enemy.h"
 
+class Platform;
+
 class PhysicalEntity;
 class Enemy;
 class Camera;
