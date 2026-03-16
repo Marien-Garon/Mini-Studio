@@ -55,10 +55,8 @@ void SampleScene::OnEvent(const sf::Event& event)
             m_enemy[0]->TakeDamage(10);
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-    {
-        m_enemy[0]->Attack();
-    }
+    for (auto* attack : m_enemy)
+        attack->Attack();
 }
 
 void SampleScene::OnUpdate()
@@ -66,7 +64,7 @@ void SampleScene::OnUpdate()
     float dt = GetDeltaTime();
 
     if (!m_enemy.empty())
-        m_enemy[0]->OnUpdate(dt);
+        m_enemy[0]->Update(dt);
 
     if (pEntitySelected != nullptr)
     {

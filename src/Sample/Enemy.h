@@ -17,7 +17,7 @@ private:
 
 public:
     void Initialize();           
-    void OnUpdate(float dt);
+    void Update(float dt);
 
     float TakeDamage(int amount);
     void Attack();
