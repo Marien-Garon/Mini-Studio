@@ -18,8 +18,7 @@ class SampleScene : public Scene
 	Companion* m_robot;
 	Camera* mCamera;
 	
-
-	Entity* pEntitySelected;
+	std::vector<Hook*> m_hooks;
 private:
 	void TrySetSelectedEntity(Entity* pEntity, int x, int y);
 
@@ -28,7 +27,9 @@ public:
 	void OnEvent(const sf::Event& event) override;
 	void OnUpdate() override;
 
+	std::vector<Hook*> GetHooks() { return m_hooks; };
 	Player* GetPlayer() { return m_player; }
+
 	bool IsAttackTimingOkay();
 	void IncreaseTimer();
 };

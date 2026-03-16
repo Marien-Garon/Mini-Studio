@@ -1,5 +1,8 @@
 #pragma once
 #include "Entity.h"
+class Grapple;
+class Hook;
+
 class Player : public Entity
 {
 public:
@@ -12,12 +15,15 @@ public:
 	void TakeDamage(int damage);
 	void Heal(int heal);
 
-	void Movement();
+	void Actions();
 	void Jump();
 	void Attack();
 
 	void MoveRight();
 	void MoveLeft();
+
+	Hook* SearchForHook();
+	void ThrowGrapple(Hook* target);
 
 
 private:
@@ -33,5 +39,7 @@ private:
 	float mBaseSpeed = 0.f;
 	float mMaxSpeed = 0.f;
 
+	Grapple* m_grapple;
+	float m_grappleRopeLenght;
 
 };
