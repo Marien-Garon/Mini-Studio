@@ -21,10 +21,12 @@ void SampleScene::OnEvent(const sf::Event& event)
         event.mouseButton.button == sf::Mouse::Left)
     {
  
-        for (Enemy* e : m_enemy)
+        for (auto* e : m_enemy)
+        {
             e->Destroy();
-
-        m_enemy.clear();
+        }
+           
+        /*m_enemy.clear();*/
 
         SpawnEnemy(event.mouseButton.x, event.mouseButton.y);
     }
@@ -34,6 +36,12 @@ void SampleScene::OnEvent(const sf::Event& event)
     {
         if (!m_enemy.empty())
             m_enemy[0]->TakeDamage(10);
+    }
+
+    if (event.type == sf::Event::MouseButtonPressed &&
+        event.mouseButton.button == sf::Mouse::Right)
+    {
+        m_enemy[0]->Attack(2);
     }
 }
 

@@ -31,10 +31,16 @@ float Enemy::TakeDamage(int amount)
         std::cout << "Enemy died" << std::endl;
         EnemyAlive = false;
         Destroy();
-        return 0;
     }
 
-    std::cout << "Enemy take damage\nCurrent Hp: " << m_Hpmax << std::endl;
+    std::cout << "Enemy take damage\n Current Hp: " << m_Hpmax << std::endl;
     return m_Hpmax;
+}
+
+float Enemy::Attack(int dmg)
+{
+    m_damage = dmg;
+    
+    return m_damage;
 }
 
