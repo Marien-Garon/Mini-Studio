@@ -21,7 +21,10 @@ void SampleScene::OnInitialize()
    m_robot->SetOwner(m_player);
 
    mCamera = CreateEntity<Camera>(0, 0, sf::Color::Black);
-   mCamera->SetupCamera(0, m_player);
+   mCamera->SetupCamera(10, m_player);
+
+   m_parallaxe = CreateEntity<Parallaxe>(0, 0, sf::Color::Black);
+   m_parallaxe->Start();
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
@@ -83,4 +86,9 @@ void SampleScene::IncreaseTimer()
 		test_timerAttaque = 0;
 	}
 
+}
+
+int SampleScene::GetCameraSpeed() const
+{
+	return mCamera->GetSpeed();
 }

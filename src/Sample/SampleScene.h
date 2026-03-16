@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Enemy.h"
 #include "Companion.h"
+#include "Parallaxe.h"
 
 class Enemy;
 class Camera;
@@ -16,7 +17,7 @@ class SampleScene : public Scene
 	Player* m_player;
 	Companion* m_robot;
 	Camera* mCamera;
-	
+	Parallaxe* m_parallaxe;
 
 	Entity* pEntitySelected;
 private:
@@ -30,6 +31,7 @@ public:
 	Player* GetPlayer() { return m_player; }
 	bool IsAttackTimingOkay();
 	void IncreaseTimer();
+	int GetCameraSpeed() const;
 };
 
 

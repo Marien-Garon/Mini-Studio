@@ -3,5 +3,7 @@
 
 class Background : public Entity
 {
+public :
+	void OnUpdate() override;
 };
 
