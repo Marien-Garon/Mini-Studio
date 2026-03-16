@@ -9,6 +9,9 @@ class Camera :
 public: 
 	sf::View camera;
 	Entity* followedEntity;
+
+
+	sf::View UIView;
 	Entity* heart;
 
 	int rotateCount;
@@ -21,11 +24,13 @@ public:
 	virtual void OnUpdate() override;
 
 	void SetupCamera(int cameraSpeed, Entity* entityToFolow);
+	void SetupUICamera(Entity* entityToFolow);
+
 	void AddElementToCamera(Entity* newEntityOnCamera);
 	void Shake(int degree);
 
 	sf::View* GetView() { return &camera; }
-
+	sf::View* GetUIView() { return &UIView; }
 
 };
 

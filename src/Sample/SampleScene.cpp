@@ -33,7 +33,8 @@ void SampleScene::OnInitialize()
    m_robot->SetOwner(m_player);
 
    mCamera = CreateEntity<Camera>(0, 0, sf::Color::Black);
-   mCamera->SetupCamera(0, m_player);
+   mCamera->SetupCamera(3, m_player);
+   /*CAMERA SPEED HERE*/
 
    for (int i = 0; i < 3; i++) {
 	   m_hooks.push_back(CreateEntity<Hook>(20.f, 20.f, sf::Color::Yellow));
@@ -78,8 +79,13 @@ void SampleScene::OnUpdate()
 {
 	float dt = GetDeltaTime();
 
-	m_UI[0]->SetPosition(0, 0, 0, 0);
+	float j = mCamera->GetView()->getCenter().x - (mCamera->GetView()->getCenter().x / 2) + 10;
+
+	
+
+	m_UI[0]->SetPosition(j, m_player->GetPosition().y - 300, 0.0F, 0.0F);
 	GetGameManager()->RefreshCamera(mCamera);
+
 
   /*  if (pEntitySelected != nullptr)
     {
