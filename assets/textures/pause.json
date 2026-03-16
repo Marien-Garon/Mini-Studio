@@ -1,0 +1,10 @@
+{
+  "Data": {
+    "id": "pause",
+    "spritesheet": false,
+    "size": {
+      "width": 2545,
+      "height": 720
+    }
+  }
+}
