@@ -41,6 +41,10 @@ void Player::OnCollision(Entity* collidedWith)
 	if (collidedWith->IsTag(0))
 	{
 		Side side = GetCollidingSide(collidedWith);
+		
+		std::cout << "Platform : " << collidedWith->GetCollider().x << "/" << collidedWith->GetCollider().y << std::endl;
+		std::cout << "Player   : " << GetCollider().x << "/" << GetCollider().y + GetCollider().height << std::endl;
+
 
 		switch (side) 
 		{
