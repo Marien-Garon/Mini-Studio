@@ -10,7 +10,8 @@ private:
     bool EnemyAlive = true;
 
     float m_speed = 100.f;       
-    int m_direction = 1;         
+    int m_direction = 1; 
+    bool m_directionAttack = true;
     float m_maxDistance = 200.f; 
     sf::Vector2f m_startPos;     
 
