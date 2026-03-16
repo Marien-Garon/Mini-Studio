@@ -13,6 +13,10 @@ void PauseScene::OnInitialize()
 {
 	AssetManager& AM = AssetManager::getInstance();
 	m_pauseMenu = CreateEntity<Entity>(AM.LoadSprite("pause"), sf::Color::Red);
+	m_pauseMenu->SetSpriteScale(0.333, 0.333);
+
+	m_buttonContinue->CreateEntity<Entity>(100, 50, sf::Color::Red);
+	m_buttonContinue->SetPosition(GetWindowWidth() / 2, GetWindowHeight() / 2);
 }
 
 void PauseScene::OnEvent(const sf::Event& event)
