@@ -28,7 +28,7 @@ void LevelEditor::SaveLevel()
 	data["Data"] = json::array();
 	data["Tiles"] = json::array();
 
-	for (TileBlock* tile : m_posedBlock)
+	for (Entity* tile : m_posedBlock)
 	{
 		sf::Vector2f pos = tile->GetPosition(0.f, 0.f);
 		std::string id = tile->GetSpriteData()->textureID;
@@ -62,7 +62,7 @@ bool LevelEditor::CanPoseTile(float _x, float _y)
 {
 	if (_x >= (GetWindowWidth() - (4 * TILE_SIZE))) return false;
 
-	for (TileBlock* tile : m_posedBlock)
+	for (Entity* tile : m_posedBlock)
 	{
 		if (tile->IsInside(_x, _y))
 		{
@@ -77,7 +77,7 @@ bool LevelEditor::CanPoseTile(float _x, float _y)
 void LevelEditor::ReplaceTile()
 {
 	int i = 1;
-	for (TileBlock* tile : m_page[currentIndex])
+	for (Entity* tile : m_page[currentIndex])
 	{
 		tile->SetPosition(GetWindowWidth() - (3 * TILE_SIZE), i * 128, 0.0f, 0.0f);
 		i++;
@@ -86,7 +86,7 @@ void LevelEditor::ReplaceTile()
 
 void LevelEditor::RemoveTile(int _index)
 {
-	for (TileBlock* tile : m_page[_index])
+	for (Entity* tile : m_page[_index])
 		tile->SetPosition(-5000, -5000);
 }
 
@@ -103,9 +103,9 @@ void LevelEditor::IndexMove(int _movement)
 	ReplaceTile();
 }
 
-TileBlock* LevelEditor::GetPresentTile(float _x, float _y)
+Entity* LevelEditor::GetPresentTile(float _x, float _y)
 {
-	for (TileBlock* tile : m_posedBlock)
+	for (Entity* tile : m_posedBlock)
 	{
 		if (tile->IsInside(_x, _y))
 			return tile;
@@ -145,6 +145,16 @@ void LevelEditor::DrawGrid()
 
 void LevelEditor::InitEntity()
 {
+	//m_entityToPlace.push_back(CreateEntity<BreakablePlatform>(120, 60, sf::Color::Cyan));
+
+	BreakablePlatform* platform = CreateEntity<BreakablePlatform>(120, 60, sf::Color::Cyan);
+	platform->SetScale(GetScale(platform->GetCollider().width, TILE_SIZE), GetScale(platform->GetCollider().height, TILE_SIZE));
+
+	if (m_page.empty() || m_page.back().size() >= 3)
+		m_page.emplace_back();
+
+	m_page.back().push_back(platform);
+
 }
 
 void LevelEditor::InitTileBlock()
@@ -156,7 +166,7 @@ void LevelEditor::InitTileBlock()
 		TileBlock* newTile = CreateEntity<TileBlock>(AM.CreateTile(tileData.first));
 		newTile->SetTag(10);
 		newTile->GetSprite();
-		newTile->SetSpriteScale(GetScale(newTile->GetCollider().width, TILE_SIZE), GetScale(newTile->GetCollider().height, TILE_SIZE));
+		newTile->SetScale(GetScale(newTile->GetCollider().width, TILE_SIZE), GetScale(newTile->GetCollider().height, TILE_SIZE));
 		newTile->SetPosition(-5000, -5000);
 
 		if (m_page.empty() || m_page.back().size() >= 3)
@@ -176,7 +186,7 @@ void LevelEditor::OnDestroy()
 {
 	pEntitySelected = nullptr;
 
-	for (TileBlock* tile : m_tileList)
+	for (Entity* tile : m_tileList)
 		tile->Destroy();
 	m_tileList.clear();
 
@@ -184,7 +194,7 @@ void LevelEditor::OnDestroy()
 		e->Destroy();
 	m_entityToPlace.clear();
 
-	for (TileBlock* tileP : m_posedBlock)
+	for (Entity* tileP : m_posedBlock)
 		tileP->Destroy();
 	m_posedBlock.clear();
 
@@ -235,11 +245,15 @@ void LevelEditor::OnEvent(const sf::Event& event)
 	if (event.type == sf::Event::MouseButtonPressed &&
 		event.mouseButton.button == sf::Mouse::Right)
 	{
-		//3 loop because one is not enough grougrou
-		for (auto& e : m_entityToPlace)
+
+		for (Entity* e : m_page[currentIndex])
 			TrySetSelectedEntity(e, event.mouseButton.x, event.mouseButton.y);
-		for (auto& tile : m_tileList)
-			TrySetSelectedEntity(tile, event.mouseButton.x, event.mouseButton.y);
+
+		//3 loop because one is not enough grougrou
+		//for (auto& e : m_entityToPlace)
+		//	TrySetSelectedEntity(e, event.mouseButton.x, event.mouseButton.y);
+		//for (auto& tile : m_tileList)
+		//	TrySetSelectedEntity(tile, event.mouseButton.x, event.mouseButton.y);
 		for (auto& tile : m_posedBlock)
 			TrySetSelectedEntity(tile, event.mouseButton.x, event.mouseButton.y);
 	}
@@ -252,9 +266,9 @@ void LevelEditor::OnEvent(const sf::Event& event)
 
 		if (pEntitySelected != nullptr)
 		{
-			if (TileBlock* tile = GetPresentTile(posX, posY))
+			if (Entity* tile = GetPresentTile(posX, posY))
 			{
-				if (tile->IsSameTile(static_cast<TileBlock*>(pEntitySelected)))
+				if (tile->IsSameTexture(pEntitySelected))
 				{
 					tile->Destroy();
 
@@ -300,10 +314,10 @@ void LevelEditor::TrySetSelectedEntity(Entity* pEntity, int x, int y)
 
 void LevelEditor::CreateEntityCopy(Entity* _entity, int _x, int _y)
 {
-	if (_entity->GetTag() == 10)
-	{
-		TileBlock* newEntity = static_cast<TileBlock*>(_entity->Clone());
+	/*if (_entity->GetTag() == 10)
+	{*/
+		Entity* newEntity = _entity->Clone();
 		newEntity->SetPosition(_x, _y, 0.0f, 0.0f);
 		m_posedBlock.push_back(newEntity);
-	}
+	//}
 }

@@ -74,6 +74,13 @@ Side Entity::GetCollidingSide(Entity* _other)
 	return m_collider.GetCollisionSide(_other->GetCollider());
 }
 
+bool Entity::IsSameTexture(Entity* _other)
+{
+	if (!hasSprite) return false;
+
+	return m_sprite->textureID == _other->GetSpriteData()->textureID;
+}
+
 void Entity::Destroy()
 {
 	mToDestroy = true;
@@ -234,16 +241,20 @@ Entity* Entity::Clone()
 }
 
 
-void Entity::SetSpriteScale(float _x, float _y)
+void Entity::SetScale(float _x, float _y)
 {
-	m_sprite->sprite->setScale(_x, _y); 
+	if(hasSprite) m_sprite->sprite->setScale(_x, _y); 
+	else mShape.setScale(_x, _y);
+
 	m_Scale = sf::Vector2f(_x, _y);
 	m_collider.SetScale(_x, _y);
 }
 
-void Entity::SetSpriteScale(const sf::Vector2f& _scale)
+void Entity::SetScale(const sf::Vector2f& _scale)
 {
-	m_sprite->sprite->setScale(_scale);
+	if (hasSprite) m_sprite->sprite->setScale(_scale);
+	else mShape.setScale(_scale);
+
 	m_Scale = _scale;
 	m_collider.SetScale(_scale);
 }

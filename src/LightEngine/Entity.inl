@@ -40,12 +40,13 @@ inline Entity* Entity::CreateClonedEntity()
 		int h = m_sprite->data->spritesheet ? m_sprite->data->frameSizeH : m_sprite->data->sizeH;
 
 		newEntity = CreateEntity<T>(am.CreateSprite(m_sprite->textureID, 0, 0, w, h));
-		newEntity->SetSpriteScale(m_sprite->sprite->getScale().x, m_sprite->sprite->getScale().y);
+		newEntity->SetScale(m_sprite->sprite->getScale().x, m_sprite->sprite->getScale().y);
 		newEntity->SetSpriteRotation(m_sprite->sprite->getRotation());
 	}
 	else
 	{
 		newEntity = CreateEntity<T>(mShape.getSize().x, mShape.getSize().y, mShape.getFillColor());
+		newEntity->SetScale(mShape.getScale().x, mShape.getScale().y);
 	}
 
 	newEntity->SetTag(mTag);

@@ -33,7 +33,7 @@ Entity* TileBlock::Clone()
 	int h = m_sprite->data->spritesheet ? m_sprite->data->frameSizeH : m_sprite->data->sizeH;
 
 	newEntity = CreateEntity<TileBlock>(am.CreateTile(m_sprite->textureID));
-	newEntity->SetSpriteScale(m_sprite->sprite->getScale().x, m_sprite->sprite->getScale().y);
+	newEntity->SetScale(m_sprite->sprite->getScale().x, m_sprite->sprite->getScale().y);
 	newEntity->SetSpriteRotation(m_sprite->sprite->getRotation());
 
 	newEntity->SetTag(mTag);

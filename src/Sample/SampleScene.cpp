@@ -19,7 +19,7 @@ void SampleScene::OnInitialize()
     AssetManager& AM = AssetManager::getInstance();
 
     pEntity1 = CreateEntity<Enemy>(AM.CreateSprite("mob", 0,0, 1084, 1438));
-    pEntity1->SetSpriteScale(0.2f, 0.2f);
+    pEntity1->SetScale(0.2f, 0.2f);
     pEntity1->PlayAnimation("walk");
     pEntity1->SetPosition(0, 0, 0.f, 0.f);
 	pEntity1->SetRigidBody(true);

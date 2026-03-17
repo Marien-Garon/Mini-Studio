@@ -7,6 +7,8 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/View.hpp>
 
+#include "SceneManager.h"
+
 class Entity;
 class Scene;
 class Debug;
@@ -27,6 +29,7 @@ class GameManager
 	sf::RenderWindow* mpWindow;
 	sf::Font mFont;
 
+	SceneManager sceneManager;
 	Scene* mpScene;
 
 	float mDeltaTime;

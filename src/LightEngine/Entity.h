@@ -70,6 +70,8 @@ public:
 	bool IsInside(Entity* _other);
 	Side GetCollidingSide(Entity* _other);
 
+	bool IsSameTexture(Entity* _other);
+
 	void SetMoveAble(bool _moveable) { m_isMoveable = _moveable; };
 	bool IsMoveable() { return m_isMoveable; };
 
@@ -92,8 +94,8 @@ public:
 
 	void SetSprite(SpriteData* _sprite) { m_sprite = _sprite; hasSprite = true; };
 	void SetSpriteColor(const sf::Color& _color) { m_sprite->sprite->setColor(_color); };
-	void SetSpriteScale(float _x, float _y);
-	void SetSpriteScale(const sf::Vector2f& _scale);
+	void SetScale(float _x, float _y);
+	void SetScale(const sf::Vector2f& _scale);
 	void SetSpriteRotation(float _angle) { m_sprite->sprite->setRotation(_angle); };
 
 	void PlayAnimation(const std::string& _id);

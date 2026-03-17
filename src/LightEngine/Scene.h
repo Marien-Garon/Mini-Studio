@@ -19,8 +19,6 @@ private:
 	void SetGameManager(GameManager* pGameManager) { mpGameManager = pGameManager; }
 	
 protected:
-	Scene() = default;
-	~Scene();
 
 	virtual void OnDestroy() {};
 	virtual void OnInitialize() = 0;
@@ -28,6 +26,10 @@ protected:
 	virtual void OnUpdate() = 0;
 
 public:
+
+	Scene() = default;
+	~Scene();
+
 	template<typename T>
 	T* CreateEntity(float width, float height, const sf::Color& color);
 

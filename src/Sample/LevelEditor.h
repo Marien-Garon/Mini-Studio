@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include "TileBlock.h"
+#include "BreakablePlatform.h"
 
 #include <filesystem>
 #include <fstream>
@@ -15,12 +16,12 @@ class LevelEditor : public Scene
 {
 private:
 
-	std::vector<std::vector<TileBlock*>> m_page;
+	std::vector<std::vector<Entity*>> m_page;
 
 	std::vector<TileBlock*> m_tileList;
 	std::vector<Entity*> m_entityToPlace;
 
-	std::vector<TileBlock*> m_posedBlock;
+	std::vector<Entity*> m_posedBlock;
 
 	std::vector<Button*> btnList;
 
@@ -39,7 +40,7 @@ public:
 	
 	void IndexMove(int _movement);
 
-	TileBlock* GetPresentTile(float _x, float _y);
+	Entity* GetPresentTile(float _x, float _y);
 
 
 	float GetScale(float size, float target);
