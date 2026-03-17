@@ -1,9 +1,12 @@
 #include "Mob2.h"
 
-#include "Mob2.h"
+#include "Enemy.h"
 
 void Mob2::Attack()
 {
+    if (!m_isAlive)
+        return;
+
     sf::Vector2f pos = GetPosition();
 
     // Projectile 1 : tout droit

@@ -12,15 +12,34 @@ void Enemy::Update(float dt)
     if (!m_isAlive)
         return;
 
+    m_attackTimer += dt;
+
     float move = m_speed * m_direction * dt;
 
     sf::Vector2f pos = GetPosition();
     SetPosition(pos.x + move, pos.y);
 
+    float width = GetScene()->GetWindowWidth();
+    float height = GetScene()->GetWindowHeight();
+
+    sf::Vector2f pos1 = GetPosition(0.5f, 0.5f); 
+
+    if (pos1.x < -20 || pos1.x > width + 20 ||
+        pos1.y < -20 || pos1.y > height + 20)
+    {
+        Destroy();
+    }
+
     float dist = Utils::GetDistance(GetPosition().x, 0, m_startPos.x, 0);
 
     if (dist >= m_maxDistance)
         m_direction *= -1;
+
+    if (m_attackTimer >= m_attackCooldown)
+    {
+        Attack();            
+        m_attackTimer = 0.f; 
+    }
 }
 
 float Enemy::TakeDamage(int amount)
@@ -44,5 +63,5 @@ float Enemy::TakeDamage(int amount)
 
 void Enemy::Attack()
 {
-   
+
 }

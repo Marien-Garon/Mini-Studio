@@ -66,9 +66,9 @@ Enemy* SampleScene::SpawnEnemy(int x, int y)
     mob1->Initialize();
     m_enemy.push_back(mob1);
 
-    
+
     Enemy* mob2 = CreateEntity<Mob2>(50, 30, sf::Color::Blue);
-    mob2->SetPosition(x + 80, y); 
+    mob2->SetPosition(x + 80, y - 80); 
     mob2->Initialize();
     m_enemy.push_back(mob2);
 
