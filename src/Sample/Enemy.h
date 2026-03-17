@@ -1,5 +1,8 @@
 #pragma once
 #include "Entity.h"
+#include"Platform.h"
+
+class Platform;
 
 class Enemy : public Entity
 {
@@ -16,11 +19,15 @@ protected:
     bool m_isAlive = true;
 
     sf::Vector2f m_startPos;
+
+    Platform* m_platform = nullptr;
+
 protected:
     void UpdateMovementAndTimers();
 
 public:
-    
+    void SetPlatform(Platform* p) { m_platform = p; }
+
     void Initialize();
     void OnUpdate() override;
 

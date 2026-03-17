@@ -12,6 +12,24 @@ void Enemy::UpdateMovementAndTimers()
     sf::Vector2f pos = GetPosition();
     SetPosition(pos.x + move, pos.y);
 
+   
+    if (m_platform != nullptr)
+    {
+        float left = m_platform->GetTopLeft().x;
+        float right = left + m_platform->GetSize().x;
+
+        float enemyLeft = GetPosition(0.f, 0.5f).x;
+        float enemyRight = GetPosition(1.f, 0.5f).x;
+
+        if (enemyLeft < left)
+            m_direction = 1;
+
+        if (enemyRight > right)
+            m_direction = -1;
+    }
+
+
+    
     float width = GetScene()->GetWindowWidth();
     float height = GetScene()->GetWindowHeight();
 
@@ -22,12 +40,8 @@ void Enemy::UpdateMovementAndTimers()
     {
         Destroy();
     }
-
-    float dist = Utils::GetDistance(GetPosition().x, 0, m_startPos.x, 0);
-
-    if (dist >= m_maxDistance)
-        m_direction *= -1;
 }
+
 
 void Enemy::Initialize()
 {

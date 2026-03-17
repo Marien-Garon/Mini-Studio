@@ -4,6 +4,8 @@
 #include "DummyEntity.h"
 
 #include"Enemy.h"
+#include"Mob1.h"
+#include"Mob2.h"
 
 #include"Utils.h"
 
@@ -22,13 +24,15 @@
 void SampleScene::OnInitialize()
 {
 	m_Platforms.push_back(CreateEntity<Platform>(200, 50, sf::Color::Blue));
-	m_Platforms[0]->SetPosition(500, 550);
+    m_Platforms[0]->SetPosition(500, 550);
 	m_Platforms[0]->SetRigidBody(true);
-
+    
 	m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 35, sf::Color::Cyan));
-	m_Platforms[1]->SetPosition(100, 101);
+	m_Platforms[1]->SetPosition(200, 201);
 	m_Platforms[1]->SetRigidBody(true);
-	
+
+    SpawnEnemy(200, 170);
+
 	pEntitySelected = nullptr;
 }
 
@@ -74,21 +78,42 @@ void SampleScene::OnUpdate()
 	{
 		p->OnUpdate();
 	}
+
+	for (auto* e : m_enemy)
+	{
+		e->OnUpdate();
+	}
 }
 
 Enemy* SampleScene::SpawnEnemy(int x, int y)
 {
+    
+    Platform* p1 = m_Platforms[0];
+    float px1 = p1->GetTopLeft().x;
+    float py1 = p1->GetTopLeft().y;
+    float width1 = p1->GetSize().x;
+
    
+    Platform* p2 = m_Platforms[1];
+    float px2 = p2->GetTopLeft().x;
+    float py2 = p2->GetTopLeft().y;
+    float width2 = p2->GetSize().x;
+
+    
     Enemy* mob1 = CreateEntity<Mob1>(50, 30, sf::Color::Red);
-    mob1->SetPosition(x, y);
+    mob1->SetPlatform(p1);
+    mob1->SetPosition(px1 + width1 * 0.5f, py1 - 1, 0.5f, 1.f);
     mob1->Initialize();
     m_enemy.push_back(mob1);
 
-
+    
     Enemy* mob2 = CreateEntity<Mob2>(50, 20, sf::Color::Blue);
-    mob2->SetPosition(x + 90, y - 80); 
+    mob2->SetPlatform(p2);
+    mob2->SetPosition(px2 + width2 * 0.5f, py2 - 1, 0.5f, 1.f);
     mob2->Initialize();
     m_enemy.push_back(mob2);
 
-    return mob1; 
+    return mob1;
 }
+
+

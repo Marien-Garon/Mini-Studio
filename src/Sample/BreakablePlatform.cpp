@@ -4,8 +4,11 @@
 
 void BreakablePlatform::OnCollision(Entity* entity)
 {
+	std::cout << "Side : " << (int)GetCollidingSide(entity);
+
 	if (GetCollidingSide(entity) == Side::UP)
 	{
+		std::cout << "Timer : "<<m_timer;
 	    m_timer -= GetDeltaTime();
 
 		if (m_timer <= 0.5f)

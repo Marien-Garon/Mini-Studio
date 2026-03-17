@@ -13,7 +13,7 @@
     <PropertyGroup Label="Globals">
         <VCProjectVersion>17.0</VCProjectVersion>
         <Keyword>Win32Proj</Keyword>
-        <ProjectGuid>{6BF2A216-0933-4C21-9211-7EDC10A1B636}</ProjectGuid>
+        <ProjectGuid>{8C0FC5FD-63F9-42B7-AB9C-1A76DF425D14}</ProjectGuid>
         <RootNamespace>Sample</RootNamespace>
         <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     </PropertyGroup>
@@ -94,19 +94,25 @@
         </Link>
     </ItemDefinitionGroup>
     <ItemGroup>
+        <ClCompile Include="..\..\..\src\Sample\BreakablePlatform.cpp"/>
         <ClCompile Include="..\..\..\src\Sample\DummyEntity.cpp"/>
         <ClCompile Include="..\..\..\src\Sample\Enemy.cpp"/>
         <ClCompile Include="..\..\..\src\Sample\main.cpp"/>
         <ClCompile Include="..\..\..\src\Sample\Mob1.cpp"/>
         <ClCompile Include="..\..\..\src\Sample\Mob2.cpp"/>
+        <ClCompile Include="..\..\..\src\Sample\Platform.cpp"/>
         <ClCompile Include="..\..\..\src\Sample\SampleScene.cpp"/>
+        <ClCompile Include="..\..\..\src\Sample\UnderPlatform.cpp"/>
     </ItemGroup>
     <ItemGroup>
+        <ClInclude Include="..\..\..\src\Sample\BreakablePlatform.h"/>
         <ClInclude Include="..\..\..\src\Sample\DummyEntity.h"/>
         <ClInclude Include="..\..\..\src\Sample\Enemy.h"/>
         <ClInclude Include="..\..\..\src\Sample\Mob1.h"/>
         <ClInclude Include="..\..\..\src\Sample\Mob2.h"/>
+        <ClInclude Include="..\..\..\src\Sample\Platform.h"/>
         <ClInclude Include="..\..\..\src\Sample\SampleScene.h"/>
+        <ClInclude Include="..\..\..\src\Sample\UnderPlatform.h"/>
     </ItemGroup>
     <ItemGroup/>
     <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>

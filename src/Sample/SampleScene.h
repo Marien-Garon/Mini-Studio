@@ -1,9 +1,10 @@
 #pragma once
 #include "Scene.h"
 #include "Enemy.h"
-#include"Mob1.h"
+#include"Platform.h"
 
 class Enemy;
+class Platform;
 class Camera;
 
 class SampleScene : public Scene

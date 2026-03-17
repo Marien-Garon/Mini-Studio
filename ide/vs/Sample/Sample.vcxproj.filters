@@ -2,19 +2,22 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
     <ItemGroup>
         <Filter Include="header">
-            <UniqueIdentifier>{78C59454-B47B-43BC-8E4D-554008719CE7}</UniqueIdentifier>
+            <UniqueIdentifier>{5EC6904D-C136-4FAC-B317-83DB29FA50A2}</UniqueIdentifier>
             <Extensions>h;hpp</Extensions>
         </Filter>
         <Filter Include="resource">
-            <UniqueIdentifier>{5C6D1452-D29E-4B65-9BA1-CCAA587E9579}</UniqueIdentifier>
+            <UniqueIdentifier>{DEAD1A58-21A6-4AC4-8024-780844A5D3C2}</UniqueIdentifier>
             <Extensions>hlsl;jpg;jpeg;png;wav;mp3;ico;dds;rc;obj</Extensions>
         </Filter>
         <Filter Include="source">
-            <UniqueIdentifier>{FDFC4ED2-C327-4A00-9F52-A90F66C8F9DD}</UniqueIdentifier>
+            <UniqueIdentifier>{384B1A15-4DB7-4ECA-9EE3-5EC6F72DCB99}</UniqueIdentifier>
             <Extensions>cpp;c</Extensions>
         </Filter>
     </ItemGroup>
     <ItemGroup>
+        <ClCompile Include="..\..\..\src\Sample\BreakablePlatform.cpp">
+            <Filter>source</Filter>
+        </ClCompile>
         <ClCompile Include="..\..\..\src\Sample\DummyEntity.cpp">
             <Filter>source</Filter>
         </ClCompile>
@@ -30,9 +33,18 @@
         <ClCompile Include="..\..\..\src\Sample\Mob2.cpp">
             <Filter>source</Filter>
         </ClCompile>
+        <ClCompile Include="..\..\..\src\Sample\Platform.cpp">
+            <Filter>source</Filter>
+        </ClCompile>
         <ClCompile Include="..\..\..\src\Sample\SampleScene.cpp">
             <Filter>source</Filter>
         </ClCompile>
+        <ClCompile Include="..\..\..\src\Sample\UnderPlatform.cpp">
+            <Filter>source</Filter>
+        </ClCompile>
+        <ClInclude Include="..\..\..\src\Sample\BreakablePlatform.h">
+            <Filter>header</Filter>
+        </ClInclude>
         <ClInclude Include="..\..\..\src\Sample\DummyEntity.h">
             <Filter>header</Filter>
         </ClInclude>
@@ -45,7 +57,13 @@
         <ClInclude Include="..\..\..\src\Sample\Mob2.h">
             <Filter>header</Filter>
         </ClInclude>
+        <ClInclude Include="..\..\..\src\Sample\Platform.h">
+            <Filter>header</Filter>
+        </ClInclude>
         <ClInclude Include="..\..\..\src\Sample\SampleScene.h">
+            <Filter>header</Filter>
+        </ClInclude>
+        <ClInclude Include="..\..\..\src\Sample\UnderPlatform.h">
             <Filter>header</Filter>
         </ClInclude>
     </ItemGroup>
