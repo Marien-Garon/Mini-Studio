@@ -61,11 +61,5 @@ Side AABBCollider::GetCollisionSide(const AABBCollider& _other)
     if (overlapMin == overlapY1)    return Side::UP;
     if (overlapMin == overlapY2) return Side::DOWN;
 
-    ////Temporary because i don't like this way
-    //if ((int)_other.x + (int)_other.width <= (int)x) return Side::LEFT;
-    //if ((int)_other.x >= (int)x + (int)width) return Side::RIGHT;
-    //if ((int)_other.y >= (int)y + (int)height) return Side::DOWN;
-    //if ((int)_other.y + (int)_other.height <= (int)y) return Side::UP;
-
     return Side::NONE;
 }

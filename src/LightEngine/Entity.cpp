@@ -52,6 +52,11 @@ void Entity::Repulse(Entity* other)
 	}
 }
 
+void Entity::StartGravity(float startSpeed)
+{
+	mGravitySpeed = startSpeed;
+	mIsGravity = true;
+}
 
 bool Entity::IsColliding(Entity* other)
 {
@@ -62,7 +67,6 @@ bool Entity::IsInside(float _x, float _y)
 {
 	return m_collider.IsInside(_x, _y);
 }
-
 
 bool Entity::IsInside(Entity* _other)
 {
@@ -100,7 +104,6 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 		mShape.setPosition(x, y);
 
 	m_collider.SetPosition(x, y);
-
 
 	//#TODO Optimise
 	if (mTarget.isSet) 
@@ -174,8 +177,8 @@ void Entity::Update()
 {
 	float dt = GetDeltaTime();
 	float distance = dt * mSpeed;
+
 	sf::Vector2f translation = distance * mDirection;
-	
 
 	if (hasSprite)
 	{
@@ -186,7 +189,9 @@ void Entity::Update()
 	else
 		mShape.move(translation);
 
-	m_collider.SetPosition(GetPosition(0.0f, 0.0f).x, GetPosition(0.0f, 0.0f).y);
+	sf::Vector2f newPos = GetPosition() + translation;
+
+	SetPosition(newPos.x, newPos.y);
 
 	if (mTarget.isSet) 
 	{
@@ -210,6 +215,17 @@ void Entity::Update()
 		}
 	}
 
+	if (mIsGravity)
+	{
+		mGravitySpeed += mGravityAcceleration * dt;
+		float transY = mGravitySpeed * dt;
+
+		sf::Vector2f newPos = GetPosition();
+		newPos.y += transY;
+
+		SetPosition(newPos.x, newPos.y);
+	}
+
 	OnUpdate();
 }
 
@@ -223,7 +239,7 @@ float Entity::GetDeltaTime() const
 	return GameManager::Get()->GetDeltaTime();
 }
 
-const AABBCollider& Entity::GetCollider()
+AABBCollider& Entity::GetCollider()
 {
 	return m_collider;
 }
