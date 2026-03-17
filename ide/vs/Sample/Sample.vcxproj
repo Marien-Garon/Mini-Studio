@@ -13,7 +13,7 @@
     <PropertyGroup Label="Globals">
         <VCProjectVersion>17.0</VCProjectVersion>
         <Keyword>Win32Proj</Keyword>
-        <ProjectGuid>{1C2271B3-DE5A-47AE-9DD0-290985000C40}</ProjectGuid>
+        <ProjectGuid>{1F27C5B7-567C-4BFD-9345-A268F07BE7F7}</ProjectGuid>
         <RootNamespace>Sample</RootNamespace>
         <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     </PropertyGroup>
@@ -94,24 +94,40 @@
         </Link>
     </ItemDefinitionGroup>
     <ItemGroup>
+        <ClCompile Include="..\..\..\src\Sample\Background.cpp"/>
         <ClCompile Include="..\..\..\src\Sample\BreakablePlatform.cpp"/>
+        <ClCompile Include="..\..\..\src\Sample\Companion.cpp"/>
         <ClCompile Include="..\..\..\src\Sample\DummyEntity.cpp"/>
         <ClCompile Include="..\..\..\src\Sample\Enemy.cpp"/>
+        <ClCompile Include="..\..\..\src\Sample\Grapple.cpp"/>
+        <ClCompile Include="..\..\..\src\Sample\Hook.cpp"/>
         <ClCompile Include="..\..\..\src\Sample\main.cpp"/>
         <ClCompile Include="..\..\..\src\Sample\Mob1.cpp"/>
         <ClCompile Include="..\..\..\src\Sample\Mob2.cpp"/>
+        <ClCompile Include="..\..\..\src\Sample\Parallaxe.cpp"/>
         <ClCompile Include="..\..\..\src\Sample\Platform.cpp"/>
+        <ClCompile Include="..\..\..\src\Sample\Player.cpp"/>
         <ClCompile Include="..\..\..\src\Sample\SampleScene.cpp"/>
+        <ClCompile Include="..\..\..\src\Sample\SoundBlast.cpp"/>
+        <ClCompile Include="..\..\..\src\Sample\SoundWave.cpp"/>
         <ClCompile Include="..\..\..\src\Sample\UnderPlatform.cpp"/>
     </ItemGroup>
     <ItemGroup>
+        <ClInclude Include="..\..\..\src\Sample\Background.h"/>
         <ClInclude Include="..\..\..\src\Sample\BreakablePlatform.h"/>
+        <ClInclude Include="..\..\..\src\Sample\Companion.h"/>
         <ClInclude Include="..\..\..\src\Sample\DummyEntity.h"/>
         <ClInclude Include="..\..\..\src\Sample\Enemy.h"/>
+        <ClInclude Include="..\..\..\src\Sample\Grapple.h"/>
+        <ClInclude Include="..\..\..\src\Sample\Hook.h"/>
         <ClInclude Include="..\..\..\src\Sample\Mob1.h"/>
         <ClInclude Include="..\..\..\src\Sample\Mob2.h"/>
+        <ClInclude Include="..\..\..\src\Sample\Parallaxe.h"/>
         <ClInclude Include="..\..\..\src\Sample\Platform.h"/>
+        <ClInclude Include="..\..\..\src\Sample\Player.h"/>
         <ClInclude Include="..\..\..\src\Sample\SampleScene.h"/>
+        <ClInclude Include="..\..\..\src\Sample\SoundBlast.h"/>
+        <ClInclude Include="..\..\..\src\Sample\SoundWave.h"/>
         <ClInclude Include="..\..\..\src\Sample\UnderPlatform.h"/>
     </ItemGroup>
     <ItemGroup/>

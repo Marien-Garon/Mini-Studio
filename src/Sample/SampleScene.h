@@ -17,8 +17,6 @@ class Platform;
 
 class SampleScene : public Scene
 {
-
-    Enemy* pEntitySelected;
     
     std::vector<Enemy*> m_enemy;
 
@@ -53,10 +51,6 @@ private:
 	void TrySetSelectedEntity(Entity* pEntity, int x, int y);
 
 public:
-	void OnInitialize() override;
-	void OnEvent(const sf::Event& event) override;
-	void OnUpdate() override;
-
 	std::vector<Hook*> GetHooks() { return m_hooks; };
 	Player* GetPlayer() { return m_player; }
 
