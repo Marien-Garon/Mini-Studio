@@ -1,6 +1,7 @@
 #include "Parallaxe.h"
 #include "SampleScene.h"
 #include "AssetManager.h"
+#include "Camera.h"
 
 void Parallaxe::OnInitialize()
 {
@@ -8,37 +9,36 @@ void Parallaxe::OnInitialize()
 
 	// Background
 	m_backgrounds.push_back(CreateEntity<Background>(AM.LoadSprite("fond"), sf::Color::Green));
-
-	int cameraSpeed = GetScene<SampleScene>()->GetCameraSpeed();
-
+	m_backgrounds[0]->SetSpeed(0);
+	
 	// Layer 1
 	m_backgrounds.push_back(CreateEntity<Background>(AM.LoadSprite("layer1"), sf::Color::Green));
 	m_backgrounds.push_back(CreateEntity<Background>(AM.LoadSprite("layer1"), sf::Color::Green));
-	m_backgrounds[1]->SetSpeed(cameraSpeed * 0.25f);
-	m_backgrounds[2]->SetSpeed(cameraSpeed * 0.25f);
+	m_backgrounds[1]->SetSpeed(25.f);
+	m_backgrounds[2]->SetSpeed(25.f);
 
 	// Layer 2
 	m_backgrounds.push_back(CreateEntity<Background>(AM.LoadSprite("layer2"), sf::Color::Green));
 	m_backgrounds.push_back(CreateEntity<Background>(AM.LoadSprite("layer2"), sf::Color::Green));
-	m_backgrounds[3]->SetSpeed(cameraSpeed * 0.5f);
-	m_backgrounds[4]->SetSpeed(cameraSpeed * 0.5f);
+	m_backgrounds[3]->SetSpeed(50.f);
+	m_backgrounds[4]->SetSpeed(50.f);
 
 	// Layer 3
 	m_backgrounds.push_back(CreateEntity<Background>(AM.LoadSprite("layer3"), sf::Color::Green));
 	m_backgrounds.push_back(CreateEntity<Background>(AM.LoadSprite("layer3"), sf::Color::Green));
-	m_backgrounds[5]->SetSpeed(cameraSpeed * 0.75f);
-	m_backgrounds[6]->SetSpeed(cameraSpeed * 0.75f);
+	m_backgrounds[5]->SetSpeed(75.f);
+	m_backgrounds[6]->SetSpeed(75.f);
 
+	sf::Vector2f cameraPos = GetScene<SampleScene>()->GetCamera()->GetView()->getCenter();
+	float windowWidth = GetScene<SampleScene>()->GetWindowWidth();
 	for (int i = 0; i < m_backgrounds.size(); i++) {
 		if (i == 0) {
-			m_backgrounds[i]->SetPosition(0, 0, 0, 0);
-		}
-		
-		if (i % 2  != 0) {
-			m_backgrounds[i]->SetPosition(0, 0, 0, 0);
+			m_backgrounds[i]->SetPosition(cameraPos.x, cameraPos.y);
+		}else if (i % 2  != 0) {
+			m_backgrounds[i]->SetPosition(cameraPos.x, cameraPos.y);
 		}
 		else {
-			m_backgrounds[i]->SetPosition(m_backgrounds[0]->GetPosition(0, 1).x, 0, 0, 0);
+			m_backgrounds[i]->SetPosition(cameraPos.x + windowWidth / 2, cameraPos.y, 0.f, 0.5f);
 		}
 	}
 }

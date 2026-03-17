@@ -13,18 +13,18 @@ void SampleScene::OnInitialize()
 {
     AssetManager& AM = AssetManager::getInstance();
 
-   m_player= CreateEntity<Player>(50, 50, sf::Color::Red);
-   m_player->SetPosition(500, 500);
+	m_player= CreateEntity<Player>(50, 50, sf::Color::Red);
+	m_player->SetPosition(500, 500);
 
-   m_robot = CreateEntity<Companion>(50, 50, sf::Color::Blue);
-   m_robot->SetPosition(m_player->GetPosition().x - 150.f, m_player->GetPosition().y - 150.f);
-   m_robot->SetOwner(m_player);
+	m_robot = CreateEntity<Companion>(50, 50, sf::Color::Blue);
+	m_robot->SetPosition(m_player->GetPosition().x - 150.f, m_player->GetPosition().y - 150.f);
+	m_robot->SetOwner(m_player);
 
-   mCamera = CreateEntity<Camera>(0, 0, sf::Color::Black);
-   mCamera->SetupCamera(10, m_player);
+	mCamera = CreateEntity<Camera>(0, 0, sf::Color::Black);
+	 mCamera->SetupCamera(0, m_player);
 
-   m_parallaxe = CreateEntity<Parallaxe>(0, 0, sf::Color::Black);
-   m_parallaxe->Start();
+	 m_parallaxe = CreateEntity<Parallaxe>(0, 0, sf::Color::Black);
+	 m_parallaxe->Start();
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
@@ -88,7 +88,7 @@ void SampleScene::IncreaseTimer()
 
 }
 
-int SampleScene::GetCameraSpeed() const
+Camera* SampleScene::GetCamera() const
 {
-	return mCamera->GetSpeed();
+	return mCamera;
 }

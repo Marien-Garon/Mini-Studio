@@ -31,7 +31,7 @@ public:
 	Player* GetPlayer() { return m_player; }
 	bool IsAttackTimingOkay();
 	void IncreaseTimer();
-	int GetCameraSpeed() const;
+	Camera* GetCamera() const;
 };
 
 
