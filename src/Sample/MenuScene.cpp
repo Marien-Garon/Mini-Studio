@@ -12,6 +12,7 @@
 void MenuScene::OnInitialize()
 {
 	AssetManager& AM = AssetManager::getInstance();
+
 	m_menuScreen = CreateEntity<Entity>(AM.LoadSprite("menu"), sf::Color::Red);
 	m_menuScreen->SetSpriteScale(0.333, 0.333);
 
@@ -23,6 +24,9 @@ void MenuScene::OnInitialize()
    
    m_arrowRight = CreateEntity<Entity>(50, 50, sf::Color::Red);
    m_arrowRight->SetPosition((GetWindowWidth() / 2) + 75, (GetWindowHeight() / 2) - 79);
+
+   m_buttonExit = CreateEntity<Entity>(50, 50, sf::Color::Red);
+   m_buttonExit->SetPosition((GetWindowWidth() / 2) - 106, (GetWindowHeight() / 2) + 63);
 
 }
 
