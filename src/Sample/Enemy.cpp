@@ -1,6 +1,6 @@
 #include "Enemy.h"
 #include "Utils.h"
-#include<iostream>
+#include <iostream>
 
 void Enemy::Initialize()
 {
@@ -9,6 +9,9 @@ void Enemy::Initialize()
 
 void Enemy::Update(float dt)
 {
+    if (!m_isAlive)
+        return;
+
     float move = m_speed * m_direction * dt;
 
     sf::Vector2f pos = GetPosition();
@@ -17,27 +20,29 @@ void Enemy::Update(float dt)
     float dist = Utils::GetDistance(GetPosition().x, 0, m_startPos.x, 0);
 
     if (dist >= m_maxDistance)
-    {
         m_direction *= -1;
-    }
 }
 
 float Enemy::TakeDamage(int amount)
 {
+    if (!m_isAlive)
+        return 0;
+
+    m_Hpmax -= amount;
+
+    std::cout << "Enemy takes " << amount << " damage. HP = " << m_Hpmax << std::endl;
+
     if (m_Hpmax <= 0)
     {
+        m_isAlive = false;
         std::cout << "Enemy died" << std::endl;
-        EnemyAlive = false;
         Destroy();
     }
-    else
-    {
-        m_Hpmax -= amount;
-        std::cout << "Enemy take damage " << std::endl;
-        std::cout << "Current Hp: " << m_Hpmax << std::endl;
-    }
-   
+
     return m_Hpmax;
 }
 
-
+void Enemy::Attack()
+{
+   
+}

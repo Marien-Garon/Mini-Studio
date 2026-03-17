@@ -1,54 +1,52 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
-  <ItemGroup>
-    <Filter Include="header">
-      <UniqueIdentifier>{6723CB3B-8A43-4533-9D8E-B3875F0C3179}</UniqueIdentifier>
-      <Extensions>h;hpp</Extensions>
-    </Filter>
-    <Filter Include="resource">
-      <UniqueIdentifier>{827BB68D-8F17-40A1-BB14-6D65C815704B}</UniqueIdentifier>
-      <Extensions>hlsl;jpg;jpeg;png;wav;mp3;ico;dds;rc;obj</Extensions>
-    </Filter>
-    <Filter Include="source">
-      <UniqueIdentifier>{E28C8A53-423A-4A5E-A05D-458B646A443F}</UniqueIdentifier>
-      <Extensions>cpp;c</Extensions>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\src\Sample\DummyEntity.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\Sample\Enemy.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\Sample\main.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\Sample\Mob1.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\Sample\SampleScene.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClInclude Include="..\..\..\src\Sample\DummyEntity.h">
-      <Filter>header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\Sample\Enemy.h">
-      <Filter>header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\Sample\Mob1.h">
-      <Filter>header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\Sample\SampleScene.h">
-      <Filter>header</Filter>
-    </ClInclude>
-    <ClCompile Include="..\..\..\src\Sample\Mob2.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\src\Sample\Mob2.h">
-      <Filter>header</Filter>
-    </ClInclude>
-  </ItemGroup>
+    <ItemGroup>
+        <Filter Include="header">
+            <UniqueIdentifier>{78C59454-B47B-43BC-8E4D-554008719CE7}</UniqueIdentifier>
+            <Extensions>h;hpp</Extensions>
+        </Filter>
+        <Filter Include="resource">
+            <UniqueIdentifier>{5C6D1452-D29E-4B65-9BA1-CCAA587E9579}</UniqueIdentifier>
+            <Extensions>hlsl;jpg;jpeg;png;wav;mp3;ico;dds;rc;obj</Extensions>
+        </Filter>
+        <Filter Include="source">
+            <UniqueIdentifier>{FDFC4ED2-C327-4A00-9F52-A90F66C8F9DD}</UniqueIdentifier>
+            <Extensions>cpp;c</Extensions>
+        </Filter>
+    </ItemGroup>
+    <ItemGroup>
+        <ClCompile Include="..\..\..\src\Sample\DummyEntity.cpp">
+            <Filter>source</Filter>
+        </ClCompile>
+        <ClCompile Include="..\..\..\src\Sample\Enemy.cpp">
+            <Filter>source</Filter>
+        </ClCompile>
+        <ClCompile Include="..\..\..\src\Sample\main.cpp">
+            <Filter>source</Filter>
+        </ClCompile>
+        <ClCompile Include="..\..\..\src\Sample\Mob1.cpp">
+            <Filter>source</Filter>
+        </ClCompile>
+        <ClCompile Include="..\..\..\src\Sample\Mob2.cpp">
+            <Filter>source</Filter>
+        </ClCompile>
+        <ClCompile Include="..\..\..\src\Sample\SampleScene.cpp">
+            <Filter>source</Filter>
+        </ClCompile>
+        <ClInclude Include="..\..\..\src\Sample\DummyEntity.h">
+            <Filter>header</Filter>
+        </ClInclude>
+        <ClInclude Include="..\..\..\src\Sample\Enemy.h">
+            <Filter>header</Filter>
+        </ClInclude>
+        <ClInclude Include="..\..\..\src\Sample\Mob1.h">
+            <Filter>header</Filter>
+        </ClInclude>
+        <ClInclude Include="..\..\..\src\Sample\Mob2.h">
+            <Filter>header</Filter>
+        </ClInclude>
+        <ClInclude Include="..\..\..\src\Sample\SampleScene.h">
+            <Filter>header</Filter>
+        </ClInclude>
+    </ItemGroup>
 </Project>
