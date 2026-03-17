@@ -18,12 +18,17 @@ private:
 	std::unordered_map<unsigned int, Controller*> m_controllerList;
 
 	void HandleMousePressed(const sf::Event& event);
+	void HandleMouseReleased(const sf::Event& event);
 	void HandleKeyPressed(const sf::Event& event);
 	void HandleJoystickPressed(const sf::Event& event);
 	void HandleKeyReleased(const sf::Event& event);
 	void HandleJoystickReleased(const sf::Event& event);
 	void HandleJoystickConnection(const sf::Event& event);
 	void HandleJoystickDisconnection(const sf::Event& event);
+
+	sf::Vector2i m_mousePos;
+
+	sf::Vector2i m_clickPos;
 
 
 public:
@@ -40,7 +45,8 @@ public:
 	void HandleInput(const sf::Event& event);
 
 
-	//ssf::Vector2f GetMousePos();
+	sf::Vector2i GetMousePos() { return m_mousePos; };
+	sf::Vector2i GetMouseClickPos() { return m_clickPos; };
 
 	/// <summary>
 	/// Return if a key was pressed

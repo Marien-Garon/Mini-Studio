@@ -298,10 +298,10 @@ void LevelEditor::OnInitialize()
 
 void LevelEditor::OnEvent(const sf::Event& event)
 {
-	for (Button* btn : btnList)
-	{
-		btn->UpdateEvent(event);
-	}
+	//for (Button* btn : btnList)
+	//{
+	//	btn->UpdateEvent(event);
+	//}
 
 	if (event.type == sf::Event::MouseButtonPressed &&
 		event.mouseButton.button == sf::Mouse::Right)

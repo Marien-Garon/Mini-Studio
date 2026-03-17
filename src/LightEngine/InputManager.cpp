@@ -10,6 +10,8 @@ using EventType = sf::Event::EventType;
 
 void InputManager::HandleMousePressed(const sf::Event& event)
 {
+	m_clickPos = { (int)event.mouseButton.x, (int)event.mouseButton.y };
+
 	if (m_mouseHeld[event.mouseButton.button])
 	{
 		m_mousePressed[event.mouseButton.button] = false;
@@ -18,6 +20,13 @@ void InputManager::HandleMousePressed(const sf::Event& event)
 
 	m_mousePressed[event.mouseButton.button] = true;
 	m_mouseHeld[event.mouseButton.button] = true;
+}
+
+void InputManager::HandleMouseReleased(const sf::Event& event)
+{
+	m_mouseHeld[event.mouseButton.button] = false;
+	m_mousePressed[event.mouseButton.button] = false;
+	m_mouseReleased[event.mouseButton.button] = true;
 }
 
 void InputManager::HandleKeyPressed(const sf::Event& event)
@@ -120,6 +129,10 @@ void InputManager::HandleInput(const sf::Event& event)
 		HandleMousePressed(event);
 //		m_mousePressed[event.mouseButton.button] = true;
 		break;
+	
+	case EventType::MouseButtonReleased:
+		HandleMouseReleased(event);
+		break;
 
 	case EventType::KeyPressed:
 		HandleKeyPressed(event);
@@ -146,6 +159,7 @@ void InputManager::HandleInput(const sf::Event& event)
 		break;
 	}
 
+	m_mousePos = { (int)event.mouseMove.x, (int)event.mouseMove.y };
 	sf::Joystick::update();
 }
 
@@ -163,9 +177,9 @@ bool InputManager::IsKeyPressed(sf::Keyboard::Key _key)
 bool InputManager::IsMousePressed(sf::Mouse::Button _mouseClick)
 {
 	bool isPressed = m_mousePressed[_mouseClick];
-	m_mousePressed[_mouseClick] = false;
+	if(isPressed) m_mousePressed[_mouseClick] = false;
 
-	return m_mousePressed[_mouseClick];
+	return isPressed;
 }
 
 bool InputManager::IsMouseHeld(sf::Mouse::Button _mouseClick)
