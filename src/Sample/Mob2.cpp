@@ -2,7 +2,11 @@
 
 #include "Enemy.h"
 
-
+void Mob2::OnInitialize()
+{
+    m_Hpmax = 80;
+    m_speed = 70.f;
+}
 
 void Mob2::Attack()
 {
@@ -32,5 +36,7 @@ void Mob2::Attack()
         bullet->SetDirection(1.f, 0.5f, 400.f);
     }
 }
+
+
 
 

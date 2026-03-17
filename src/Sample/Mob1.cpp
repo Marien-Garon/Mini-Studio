@@ -2,7 +2,8 @@
 
 void Mob1::OnInitialize()
 {
-    m_attackTimer = 0.f;   
+    m_Hpmax = 30;
+    m_speed = 150.f;  
 }
 
 void Mob1::Attack()

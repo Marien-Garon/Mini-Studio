@@ -31,13 +31,18 @@ void SampleScene::OnEvent(const sf::Event& event)
     }
 
     
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         if (!m_enemy.empty())
         {
-            if (m_enemy[0]->TakeDamage(10) <= 0)
+            for (int i = 0; i < m_enemy.size(); i++)
             {
-                m_enemy.erase(std::remove(m_enemy.begin(), m_enemy.end(), m_enemy[0]), m_enemy.end());
+                if (m_enemy[i]->TakeDamage(10) <= 0)
+                {
+                    m_enemy[i]->Destroy();
+                    m_enemy.erase(m_enemy.begin() + i);
+                    i--; 
+                }
             }
         }
 
