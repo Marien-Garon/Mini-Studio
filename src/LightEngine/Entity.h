@@ -40,8 +40,11 @@ protected:
 	bool hasSprite = false;
 	bool m_isMoveable = false;
 
-public:
+	bool mIsGravity = false;
+	float mGravityAcceleration = 150.f;
+	float mGravitySpeed = 0;
 
+public:
 	bool GoToDirection(int x, int y, float speed = -1.f);
     bool GoToPosition(int x, int y, float speed = -1.f);
     void SetPosition(float x, float y, float ratioX = 0.5f, float ratioY = 0.5f);
@@ -49,6 +52,9 @@ public:
 	void SetSpeed(float speed) { mSpeed = speed; }
 	float GetSpeed() { return mSpeed; }
 	void SetTag(int tag) { mTag = tag; }
+
+	void StartGravity(float startSpeed);
+	void StopGravity() { mIsGravity = false; }
 
 	//float GetRadius() const { return mShape.getRadius(); }
 
@@ -76,7 +82,7 @@ public:
     Scene* GetScene() const;
 	float GetDeltaTime() const;
 
-	const AABBCollider& GetCollider();
+	AABBCollider& GetCollider();
 
     template<typename T>
     T* CreateEntity(float width, float height, const sf::Color& color);

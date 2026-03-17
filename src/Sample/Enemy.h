@@ -4,6 +4,9 @@
 
 class Platform;
 
+
+
+
 class Enemy : public Entity
 {
 protected:
