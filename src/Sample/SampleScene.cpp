@@ -8,7 +8,6 @@
 #include "Camera.h"
 #include "Hook.h"
 
-
 #include"Platform.h"
 #include"BreakablePlatform.h"
 
@@ -47,13 +46,10 @@ void SampleScene::OnInitialize()
 	m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 35, sf::Color::Cyan));
 	m_Platforms[1]->SetPosition(100, 101);
 	m_Platforms[1]->SetRigidBody(true);
-	
 
-	//AM.InitTextureInDirectory("coeur.png");
 	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
-	m_UI[0]->SetPosition(m_player->GetPosition().x, m_player->GetPosition().y, 0.0F, 0.0F);
-	//m_UI[0]->SetSprite(AM.LoadSprite("coeur.png",0,0,26,22));
-
+	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
+	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
 
 }
 
@@ -79,11 +75,13 @@ void SampleScene::OnUpdate()
 {
 	float dt = GetDeltaTime();
 
-	float j = mCamera->GetView()->getCenter().x - (mCamera->GetView()->getCenter().x / 2) + 10;
+	float i = mCamera->GetView()->getCenter().y - (GetWindowHeight() / 2);
+	float j = mCamera->GetView()->getCenter().x - (GetWindowWidth() / 2);
 
-	
+	m_UI[0]->SetPosition(j,i, 0.0F, 0.0F);
+	m_UI[1]->SetPosition(j + 30, i, 0.0F, 0.0F);
+	m_UI[2]->SetPosition(j + 60, i, 0.0F, 0.0F);
 
-	m_UI[0]->SetPosition(j, m_player->GetPosition().y - 300, 0.0F, 0.0F);
 	GetGameManager()->RefreshCamera(mCamera);
 
 
