@@ -26,5 +26,5 @@ public:
 
 	void SetPosition(float _x, float _y);
 
-	Side GetCollisionSide(AABBCollider& _other);
+	Side GetCollisionSide(const AABBCollider& _other);
 };
