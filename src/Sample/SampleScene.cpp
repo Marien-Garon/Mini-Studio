@@ -52,7 +52,7 @@ void SampleScene::OnEvent(const sf::Event& event)
     }
 
     
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::A)
     {
         if (!m_enemy.empty())
         {
