@@ -6,6 +6,7 @@ class Player;
 class Grapple : public Entity
 {
 	Player* m_Owner;
+	
 
 	friend Player;
 public:

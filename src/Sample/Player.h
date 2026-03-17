@@ -43,6 +43,9 @@ private:
 	float mBaseSpeed = 0.f;
 	float mMaxSpeed = 0.f;
 
+	float m_baseGrappleCooldown = 2;
+	float m_grappleCooldown = m_baseGrappleCooldown;
+
 	Grapple* m_grapple;
 	float m_grappleRopeLenght;
 

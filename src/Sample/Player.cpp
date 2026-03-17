@@ -34,6 +34,8 @@ void Player::OnUpdate()
 			GoToPosition(GetPosition().x + 10.f, GetPosition().y);
 		}
 	}
+	
+	m_grappleCooldown -= GetDeltaTime();
 }
 
 void Player::OnCollision(Entity* collidedWith)
@@ -119,7 +121,7 @@ void Player::Actions()
 	InputManager& in = InputManager::Get();
 	float deltaTime = GetDeltaTime();
 
-	if (in.IsControllerPressed(0, Controller::Button::RB) || in.IsKeyPressed(sf::Keyboard::LShift)) {
+	if ((in.IsControllerPressed(0, Controller::Button::RB) || in.IsKeyPressed(sf::Keyboard::LShift)) && m_grappleCooldown <= 0) {
 		ThrowGrapple(SearchForHook());
 	}
 
@@ -260,4 +262,5 @@ void Player::ThrowGrapple(Hook* target)
 	m_isJumping = false;
 	mIsGravity = true;
 	m_isTravelling = true;
+	m_grappleCooldown = m_baseGrappleCooldown;
 }
