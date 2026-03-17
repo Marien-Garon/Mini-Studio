@@ -21,6 +21,168 @@ void Player::OnInitialize()
 	SetSpeed(300);
 	m_grappleRopeLenght = 200.f;
 	SetTag(1);
+
+	//STATE MACHINE
+
+	//IdleState
+	{
+		m_stateMachine.AddState(new IdleState());
+
+		//->Avance si une commande de mouvement est appuyer
+		Transition<Player>* t_moving = m_stateMachine.AddTransition((int)State::Idle, (int)State::Moving);
+		t_moving->AddCondition(new MovingCommandCondition());
+
+		//->Saute si une commande de saut est appuyer
+		Transition<Player>* t_jumping = m_stateMachine.AddTransition((int)State::Idle, (int)State::Jumping);
+		t_jumping->AddCondition(new JumpingCommandCondition());
+		t_jumping->AddCondition(new IsGravityOffCondition());
+
+		//->Attaque si une commande de d'attaque est appuyer
+		Transition<Player>* t_attacking = m_stateMachine.AddTransition((int)State::Idle, (int)State::Attacking);
+		t_attacking->AddCondition(new AttackCommandCondition());
+
+		//->Lance le grappin si une commande de de lancement de grappin est appuyer
+		Transition<Player>* t_launchingGrapple = m_stateMachine.AddTransition((int)State::Idle, (int)State::LaunchingGrapple);
+		t_launchingGrapple->AddCondition(new GrappleCommandCondition);
+		t_launchingGrapple->AddCondition(new IsGrappleCooldownBelowZeroCondition);
+
+		//->Va la ou le grappin lui a dit d'aller si il est au bon endroit
+		Transition<Player>* t_travelling = m_stateMachine.AddTransition((int)State::Idle, (int)State::Travelling);
+		t_travelling->AddCondition(new GrappleHasReachedTargetCondition());
+
+		//->Tombe si la gravité est activé
+		Transition<Player>* t_falling = m_stateMachine.AddTransition((int)State::Idle, (int)State::Falling);
+		t_falling->AddCondition(new IsGravityPositiveCondition());
+	}
+
+	//MovingState
+	{
+		m_stateMachine.AddState(new MovingState());
+
+		//->S'arrète si on avance plus
+		Transition<Player>* t_idle = m_stateMachine.AddTransition((int)State::Moving, (int)State::Idle);
+		t_idle->AddCondition(new NoMoveCommandCondition());
+
+		//->Saute si une commande de saut est appuyer
+		Transition<Player>* t_jumping = m_stateMachine.AddTransition((int)State::Moving, (int)State::Jumping);
+		t_jumping->AddCondition(new JumpingCommandCondition());
+		t_jumping->AddCondition(new IsGravityOffCondition());
+
+		//->Attaque si une commande de d'attaque est appuyer
+		Transition<Player>* t_attacking = m_stateMachine.AddTransition((int)State::Moving, (int)State::Attacking);
+		t_attacking->AddCondition(new AttackCommandCondition());
+
+		//->Lance le grappin si une commande de de lancement de grappin est appuyer
+		Transition<Player>* t_launchingGrapple = m_stateMachine.AddTransition((int)State::Moving, (int)State::LaunchingGrapple);
+		t_launchingGrapple->AddCondition(new GrappleCommandCondition);
+		t_launchingGrapple->AddCondition(new IsGrappleCooldownBelowZeroCondition);
+
+		//->Va la ou le grappin lui a dit d'aller si il est au bon endroit
+		Transition<Player>* t_travelling = m_stateMachine.AddTransition((int)State::Moving, (int)State::Travelling);
+		t_travelling->AddCondition(new GrappleHasReachedTargetCondition());
+
+		//->Tombe si la gravité est positive
+		Transition<Player>* t_falling = m_stateMachine.AddTransition((int)State::Moving, (int)State::Falling);
+		t_falling->AddCondition(new IsGravityPositiveCondition());
+	}
+
+	//JumpingState
+	{
+		m_stateMachine.AddState(new JumpingState());
+
+		//->Attaque si une commande de d'attaque est appuyer
+		Transition<Player>* t_attacking = m_stateMachine.AddTransition((int)State::Jumping, (int)State::Attacking);
+		t_attacking->AddCondition(new AttackCommandCondition());
+
+		//->Lance le grappin si une commande de de lancement de grappin est appuyer
+		Transition<Player>* t_launchingGrapple = m_stateMachine.AddTransition((int)State::Jumping, (int)State::LaunchingGrapple);
+		t_launchingGrapple->AddCondition(new GrappleCommandCondition);
+		t_launchingGrapple->AddCondition(new IsGrappleCooldownBelowZeroCondition);
+
+		//->Va la ou le grappin lui a dit d'aller si il est au bon endroit
+		Transition<Player>* t_travelling = m_stateMachine.AddTransition((int)State::Jumping, (int)State::Travelling);
+		t_travelling->AddCondition(new GrappleHasReachedTargetCondition());
+
+		//->Tombe si la gravité est positive
+		Transition<Player>* t_falling = m_stateMachine.AddTransition((int)State::Jumping, (int)State::Falling);
+		t_falling->AddCondition(new IsGravityPositiveCondition());
+	}
+
+	//AttackingState
+
+	{
+		m_stateMachine.AddState(new AttackingState());
+
+		//->S'arrète si on avance plus
+		Transition<Player>* t_idle = m_stateMachine.AddTransition((int)State::Attacking, (int)State::Idle);
+		t_idle->AddCondition(new NoMoveCommandCondition());
+		t_idle->AddCondition(new IsAnimationCooldownBelowZero());
+
+		//->Saute si une commande de saut est appuyer
+		Transition<Player>* t_jumping = m_stateMachine.AddTransition((int)State::Attacking, (int)State::Jumping);
+		t_jumping->AddCondition(new IsGravityNegativeCondition());
+
+		//->Va la ou le grappin lui a dit d'aller si il est au bon endroit
+		Transition<Player>* t_travelling = m_stateMachine.AddTransition((int)State::Attacking, (int)State::Travelling);
+		t_travelling->AddCondition(new GrappleHasReachedTargetCondition());
+
+		//->Tombe si la gravité est positive
+		Transition<Player>* t_falling = m_stateMachine.AddTransition((int)State::Attacking, (int)State::Falling);
+		t_falling->AddCondition(new IsGravityPositiveCondition());
+	}
+
+	//LaunchingGrappleState
+
+	{
+		m_stateMachine.AddState(new LaunchingGrappleState());
+
+		
+		//->S'arrète si on avance plus
+		Transition<Player>* t_idle = m_stateMachine.AddTransition((int)State::LaunchingGrapple, (int)State::Idle);
+		t_idle->AddCondition(new NoMoveCommandCondition());
+		t_idle->AddCondition(new IsAnimationCooldownBelowZero());
+
+		//->Saute si une commande de saut est appuyer
+		Transition<Player>* t_jumping = m_stateMachine.AddTransition((int)State::LaunchingGrapple, (int)State::Jumping);
+		t_jumping->AddCondition(new JumpingCommandCondition());
+		t_jumping->AddCondition(new IsGravityOffCondition());
+
+		//->Tombe si la gravité est positive
+		Transition<Player>* t_falling = m_stateMachine.AddTransition((int)State::LaunchingGrapple, (int)State::Falling);
+		t_falling->AddCondition(new IsGravityPositiveCondition());
+	}
+
+	//TravellingState
+	{
+		m_stateMachine.AddState(new TravellingState());
+
+		//->S'arrète si on avance plus
+		Transition<Player>* t_idle = m_stateMachine.AddTransition((int)State::Moving, (int)State::Idle);
+		t_idle->AddCondition(new IsPlayerAtGrappleDestination());
+	}
+
+	//FallingState
+	{
+		m_stateMachine.AddState(new FallingState());
+
+		//->S'arrète si on avance plus
+		Transition<Player>* t_idle = m_stateMachine.AddTransition((int)State::Falling, (int)State::Idle);
+		t_idle->AddCondition(new IsGravityOffCondition);
+
+		//->Attaque si une commande de d'attaque est appuyer
+		Transition<Player>* t_attacking = m_stateMachine.AddTransition((int)State::Falling, (int)State::Attacking);
+		t_attacking->AddCondition(new AttackCommandCondition());
+
+		//->Lance le grappin si une commande de de lancement de grappin est appuyer
+		Transition<Player>* t_launchingGrapple = m_stateMachine.AddTransition((int)State::Falling, (int)State::LaunchingGrapple);
+		t_launchingGrapple->AddCondition(new GrappleCommandCondition);
+		t_launchingGrapple->AddCondition(new IsGrappleCooldownBelowZeroCondition);
+
+		//->Va la ou le grappin lui a dit d'aller si il est au bon endroit
+		Transition<Player>* t_travelling = m_stateMachine.AddTransition((int)State::Falling, (int)State::Travelling);
+		t_travelling->AddCondition(new GrappleHasReachedTargetCondition());
+
+	}
 }
 
 
@@ -139,13 +301,13 @@ void Player::Actions()
 
 	if ((in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D)) && m_isTravelling == false)
 	{
-		m_directionFacing = true;
+		m_directionFacing = 1;
 		MoveRight();
 	}
 
 	if ((in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q)) && m_isTravelling == false)
 	{
-		m_directionFacing = false;
+		m_directionFacing = -1;
 		MoveLeft();
 	}
 
@@ -231,7 +393,7 @@ Hook* Player::SearchForHook()
 			continue;
 		}
 
-		if (m_directionFacing == true)
+		if (m_directionFacing == 1)
 		{
 			if (hooks[i]->GetPosition().x < GetPosition(0.5f, 1.f).x) {
 				continue;
@@ -270,4 +432,135 @@ void Player::ThrowGrapple(Hook* target)
 	mIsGravity = true;
 	m_isTravelling = true;
 	m_grappleCooldown = m_baseGrappleCooldown;
+}
+
+void Player::SetDirectionFacing(int direction)
+{
+	m_directionFacing = direction;
+}
+
+Grapple* Player::GetGrapple()
+{
+	return m_grapple;
+}
+
+float Player::GetGrappleCooldown()
+{
+	return m_grappleCooldown;
+}
+
+bool Player::GetIsGravity()
+{
+	return mIsGravity;
+}
+
+float Player::GetGravitySpeed()
+{
+	return mGravitySpeed;
+}
+
+bool NoMoveCommandCondition::Test(Player* player)
+{
+	InputManager& in = InputManager::Get();
+
+	if (in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D) || in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q))
+		return false;
+	
+	return true;
+}
+
+bool MovingCommandCondition::Test(Player* player)
+{
+	InputManager& in = InputManager::Get();
+
+	if (in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D))
+	{
+		player->SetDirectionFacing(1);
+		return true;
+	}
+
+	if (in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q))
+	{
+		player->SetDirectionFacing(-1);
+		return true;
+	}
+
+	return false;
+}
+
+bool JumpingCommandCondition::Test(Player* player)
+{
+	InputManager& in = InputManager::Get();
+
+	if (in.IsControllerPressed(0, Controller::Button::A) || in.IsKeyHeld(sf::Keyboard::Space))
+		return true;
+
+	return false;
+}
+
+bool AttackCommandCondition::Test(Player* player)
+{
+	InputManager& in = InputManager::Get();
+
+	if (in.IsControllerPressed(0, Controller::Button::LB) || in.IsKeyPressed(sf::Keyboard::Enter))
+		return true;
+
+	return false;
+}
+
+bool GrappleCommandCondition::Test(Player* player)
+{
+	InputManager& in = InputManager::Get();
+
+	if (in.IsControllerPressed(0, Controller::Button::RB) || in.IsKeyPressed(sf::Keyboard::LShift))
+		return true;
+
+	return false;
+}
+
+bool GrappleHasReachedTargetCondition::Test(Player* player)
+{
+	return player->GetGrapple()->AsReachedTarget();
+}
+
+bool IsGravityPositiveCondition::Test(Player* player)
+{
+	if (player->GetGravitySpeed() >= 0)
+		return true;
+
+	return false;
+}
+
+bool IsGravityNegativeCondition::Test(Player* player)
+{
+	if (player->GetGravitySpeed() < 0)
+		return true;
+
+	return false;
+}
+
+bool IsGravityOffCondition::Test(Player* player)
+{
+	return !player->GetIsGravity();
+}
+
+bool IsGrappleCooldownBelowZeroCondition::Test(Player* player)
+{
+	if (player->GetGrappleCooldown() <= 0)
+		return true;
+
+	return false;
+}
+
+bool IsAnimationCooldownBelowZero::Test(Player* player)
+{
+	return true;
+}
+
+bool IsPlayerAtGrappleDestination::Test(Player* player)
+{
+	Grapple* grapple = player->GetGrapple();
+	if (player->GetPosition().x == grapple->GetPosition().x && player->GetPosition().y == grapple->GetPosition().y)
+		return true;
+	return false;
 }
