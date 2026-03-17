@@ -52,6 +52,11 @@ void Entity::Repulse(Entity* other)
 	}
 }
 
+void Entity::StartGravity(float startSpeed)
+{
+	mGravitySpeed = startSpeed;
+	mIsGravity = true;
+}
 
 bool Entity::IsColliding(Entity* other)
 {
@@ -62,7 +67,6 @@ bool Entity::IsInside(float _x, float _y)
 {
 	return m_collider.IsInside(_x, _y);
 }
-
 
 bool Entity::IsInside(Entity* _other)
 {
@@ -94,7 +98,6 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 		mShape.setPosition(x, y);
 
 	m_collider.SetPosition(x, y);
-
 
 	//#TODO Optimise
 	if (mTarget.isSet) 
@@ -154,36 +157,15 @@ void Entity::SetDirection(float x, float y, float speed)
 	mTarget.isSet = false;
 }
 
-void Entity::Fall(float deltaTime)
-{
-	mGravitySpeed += gravityAcceleration * (deltaTime + 0.2);
-	mTarget.position.y += mGravitySpeed * (deltaTime + 1);
-
-	isFalling = true;
-}
-
-void Entity::StopFall()
-{
-	mGravitySpeed = 0;
-	mTarget.position.y = 0;
-	GoToPosition(GetPosition().x, GetPosition().y, mGravitySpeed);
-
-	isFalling = false;
-}
-
-
 void Entity::Update()
 {
 	float dt = GetDeltaTime();
 	float distance = dt * mSpeed;
-	sf::Vector2f translation = distance * mDirection;
-	
-	if (hasSprite)
-		m_sprite->move(translation);
-	else
-		mShape.move(translation);
 
-	m_collider.SetPosition(GetPosition(0.0f, 0.0f).x, GetPosition(0.0f, 0.0f).y);
+	sf::Vector2f translation = distance * mDirection;
+	sf::Vector2f newPos = GetPosition() + translation;
+
+	SetPosition(newPos.x, newPos.y);
 
 	if (mTarget.isSet) 
 	{
@@ -207,24 +189,16 @@ void Entity::Update()
 		}
 	}
 
-	if (isJumping == true)
+	if (mIsGravity)
 	{
-		GoToDirection(mTarget.position.x, mTarget.position.y, mGravitySpeed);
+		mGravitySpeed += mGravityAcceleration * dt;
+		float transY = mGravitySpeed * dt;
 
-		if (GetPosition().y <= mTarget.position.y)
-		{
-			isJumping = false;
-			isFalling = true;
-			Fall(GetDeltaTime());
-		}
+		sf::Vector2f newPos = GetPosition();
+		newPos.y += transY;
+
+		SetPosition(newPos.x, newPos.y);
 	}
-
-	if (isFalling == true)
-	{
-		Fall(GetDeltaTime());
-		GoToDirection(GetPosition().x, GetPosition().y + mTarget.position.y, mGravitySpeed);
-	}
-
 
 	OnUpdate();
 }
@@ -239,7 +213,7 @@ float Entity::GetDeltaTime() const
 	return GameManager::Get()->GetDeltaTime();
 }
 
-const AABBCollider& Entity::GetCollider()
+AABBCollider& Entity::GetCollider()
 {
 	return m_collider;
 }

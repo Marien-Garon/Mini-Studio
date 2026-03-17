@@ -58,6 +58,7 @@ public:
 	template<typename T>
 	void LaunchScene();
 	void RefreshCamera(Camera* camera);
+	void RefreshUI(Camera* camera);
 
 	void DrawSprite(sf::Sprite* _sprite);
 

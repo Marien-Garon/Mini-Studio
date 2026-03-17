@@ -1,46 +1,93 @@
 #include "Player.h"
 #include "InputManager.h"
+#include "SoundWave.h"
+#include "SoundBlast.h"
+#include "SampleScene.h"
+#include "Grapple.h"
+#include "Hook.h"
+#include "Utils.h"
+#include "Platform.h"
 
 #include <iostream>
 
 void Player::OnInitialize()
 {
+	SetRigidBody(true);
+	mBaseSpeed = 300;
+	mAcceleration = 0.f;
+	mDecceleration = 0.f;
+	mMaxSpeed = 0.f;
+
 	SetSpeed(300);
+	m_grappleRopeLenght = 200.f;
+	SetTag(1);
 }
+
 
 void Player::OnUpdate()
 {
-	InputManager& in = InputManager::Get();
-	float deltaTime = GetDeltaTime();
+	if (!m_isJumping && !mIsGravity)
+		StartGravity(0.f);
 
+	if (m_grapple != nullptr) {
+		if (GetPosition().x == m_grapple->GetPosition().x && GetPosition().y == m_grapple->GetPosition().y) {
+			m_grapple->Destroy();
+			m_grapple = nullptr;
+			GoToPosition(GetPosition().x + 10.f, GetPosition().y);
+		}
+	}
 	
-	Movement();
+	m_grappleCooldown -= GetDeltaTime();
+}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+void Player::OnCollision(Entity* collidedWith)
+{
+	if (collidedWith->IsTag(0))
 	{
-		TakeDamage(1);
+		Platform* pf = (Platform*)collidedWith;
+
+		if (pf->IsActive() == false)
+			return;
+
+		Side side = GetCollidingSide(collidedWith);
+		
+		std::cout << "Platform : " << collidedWith->GetCollider().x << "/" << collidedWith->GetCollider().y << std::endl;
+		std::cout << "Player   : " << GetCollider().x << "/" << GetCollider().y + GetCollider().height << std::endl;
+
+
+		switch (side) 
+		{
+		case Side::INSIDE:
+			std::cout << "INSIDE" << std::endl;
+			break;
+		case Side::DOWN:
+			std::cout << "DOWN" << std::endl;
+			break;
+
+		case Side::UP:
+			std::cout << "UP" << std::endl;
+			break;
+
+		case Side::RIGHT:
+			std::cout << "RIGHT" << std::endl;
+			break;
+
+		case Side::LEFT:
+			std::cout << "LEFT" << std::endl;
+			break;
+		case Side::NONE:
+			std::cout << "NONE" << std::endl;
+			break;
+		}
+
+		if (side == Side::DOWN)
+		{
+ 			StopGravity();
+			m_isJumping = false;
+		}
+			
 	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-	{
-		Heal(1);
-	}
-
-	//if (mSpeed > 0.f)
-	//{
-	//	mSpeed -= m_deceleration * deltaTime;
-	//	if (mSpeed < 0.f)
-	//		mSpeed = 0.f;
-	//}
-	//else if (mSpeed < 0.f)
-	//{
-	//	mSpeed += m_deceleration * deltaTime;
-	//	if (mSpeed > 0.f)
-	//		mSpeed = 0.f;
-	//}
-
-
-
+		
 }
 
 void Player::TakeDamage(int _damage)
@@ -54,10 +101,12 @@ void Player::TakeDamage(int _damage)
 
 	else {
 
+
 		m_health -= _damage;
 		std::cout << "Player take damage : " << _damage << std::endl;
 		std::cout << "Current Health : " << m_health << std::endl;
 	}
+		
 }
 
 void Player::Heal(int _heal)
@@ -76,30 +125,54 @@ void Player::Heal(int _heal)
 	}
 }
 
-void Player::Movement()
+void Player::Actions()
 {
 	InputManager& in = InputManager::Get();
 	float deltaTime = GetDeltaTime();
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	if ((in.IsControllerPressed(0, Controller::Button::RB) || in.IsKeyPressed(sf::Keyboard::LShift)) && m_grappleCooldown <= 0) {
+		ThrowGrapple(SearchForHook());
+	}
+
+	if ((in.IsControllerPressed(0, Controller::Button::A) || in.IsKeyHeld(sf::Keyboard::Space)) && m_isJumping == false && mIsGravity == false)
 		Jump();
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		StopFall();
 
-	if (in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D))
+	SetDirection(0, 0);
+
+	if ((in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D)) && m_isTravelling == false)
 	{
-		GoToPosition(GetPosition().x + mSpeed/* * deltaTime*/, GetPosition().y);
+		m_directionFacing = true;
+		MoveRight();
 	}
 
-	if (in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q))
+	if ((in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q)) && m_isTravelling == false)
 	{
-		GoToPosition(GetPosition().x - mSpeed/* * deltaTime*/, GetPosition().y);
+		m_directionFacing = false;
+		MoveLeft();
 	}
+
+	if (in.IsControllerPressed(0, Controller::Button::LB) || in.IsKeyPressed(sf::Keyboard::Enter))
+	{
+		Attack();
+	}
+	/*if (in.IsKeyPressed(sf::Keyboard::E))
+	{
+		Heal(1);
+	}
+
+	if (in.IsKeyPressed(sf::Keyboard::A))
+	{
+		TakeDamage(1);
+	}*/
+
+	else if (static_cast<SampleScene*>(GetScene())->IsAttackTimingOkay())
+		m_numberOfGoodPress = 0;
+
 }
 
 void Player::Jump()
 {
-	StartGravity(-150);
+	StartGravity(-200);
 	m_isJumping = true;
 }
 
@@ -197,10 +270,15 @@ void Player::ThrowGrapple(Hook* target)
 {
 	if (target == nullptr || m_grapple != nullptr) {
 		return;
+	}
+	m_grapple = CreateEntity<Grapple>(20.f, 20.f, sf::Color::Magenta);
+	m_grapple->SetPosition(GetPosition().x + 1, GetPosition().y + 1);
+	m_grapple->m_Owner = this;
 
-	mGravitySpeed = 300;
-	mTarget.position.y = GetPosition().y - jumpSize;
-	GoToDirection(GetPosition().x, mTarget.position.y);
+	m_grapple->GoToPosition(target->GetPosition().x, target->GetPosition().y);
 
-	isJumping = true;
+	m_isJumping = false;
+	mIsGravity = true;
+	m_isTravelling = true;
+	m_grappleCooldown = m_baseGrappleCooldown;
 }

@@ -3,7 +3,7 @@
 
 void Camera::OnUpdate()
 {
-	camera.setCenter(camera.getCenter().x, followedEntity->GetPosition().y);
+	camera.setCenter(camera.getCenter().x, camera.getCenter().y);
 	camera.move(sf::Vector2f(mSpeed, 0));
 
 	if (camera.getRotation() != 0 && rotateCount < 3)
@@ -25,7 +25,18 @@ void Camera::SetupCamera(int cameraSpeed, Entity* entityToFolow)
 	followedEntity = entityToFolow;
 
 	camera.setCenter(followedEntity->GetPosition().x, followedEntity->GetPosition().y);
+
 }
+
+void Camera::SetupUICamera(Entity* entityToFolow)
+{
+	heart = entityToFolow;
+}
+void Camera::AddElementToCamera(Entity* newEntityOnCamera)
+{
+	heart = newEntityOnCamera;
+}
+
 
 void Camera::Shake(int degree)
 {
@@ -34,6 +45,9 @@ void Camera::Shake(int degree)
 
 void Camera::OnInitialize()
 {
+	sf::View view1(sf::Vector2f(GetScene()->GetWindowWidth() / 2, GetScene()->GetWindowHeight() / 2), sf::Vector2f(GetScene()->GetWindowWidth(), GetScene()->GetWindowHeight()));
+	camera = view1;
+
 	sf::View view2(sf::Vector2f(GetScene()->GetWindowWidth() / 2, GetScene()->GetWindowHeight() / 2), sf::Vector2f(GetScene()->GetWindowWidth(), GetScene()->GetWindowHeight()));
-	camera = view2;
+	UIView = view2;
 }

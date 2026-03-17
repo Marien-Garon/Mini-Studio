@@ -1,31 +1,49 @@
 #include "SampleScene.h"
 #include <iostream>
 #include "DummyEntity.h"
+
 #include"Enemy.h"
+#include"Mob1.h"
+#include"Mob2.h"
+
 #include"Utils.h"
+
+
+#include "AssetManager.h"
+#include "Camera.h"
+#include "Hook.h"
+
+
+#include"Platform.h"
+#include"BreakablePlatform.h"
+
+#include"Entity.h"
+
 #include "Debug.h"
 #include "InputManager.h"
-#include "AssetManager.h"
+
+#define MAX_JOYSTICK_POS  100
+#define MIN_JOYSTICK_POS -100
 
 
 void SampleScene::OnInitialize()
 {
+	m_Platforms.push_back(CreateEntity<Platform>(200, 50, sf::Color::Blue));
+    m_Platforms[0]->SetPosition(500, 550);
+
     AssetManager& AM = AssetManager::getInstance();
+	m_parallaxe = CreateEntity<Parallaxe>(0, 0, sf::Color::Black);
+	m_parallaxe->Start();
 
-	/*pEntity1 = CreateEntity<Enemy>(AM.LoadSprite("sheet", 0, 0, 460, 600), sf::Color::Red);
-    pEntity1->SetSpriteScale(0.5f, 0.5f);
-	pEntity1->SetPosition(500, 500);
-	pEntity1->SetRigidBody(true);
-	pEntity1->SetMoveAble(true);
-	pEntity1->SetTag(1);
+	m_player= CreateEntity<Player>(50, 50, sf::Color::Red);
+	m_player->SetPosition(0, 0);
 
-	pEntity2 = CreateEntity<Enemy>(50,50, sf::Color::Green);
-	pEntity2->SetPosition(500, 500);
-	pEntity2->SetRigidBody(true);
-	pEntity2->SetMoveAble(true);*/
+	m_robot = CreateEntity<Companion>(50, 50, sf::Color::Blue);
+	m_robot->SetPosition(m_player->GetPosition().x - 150.f, m_player->GetPosition().y - 150.f);
+	m_robot->SetOwner(m_player);
 
    mCamera = CreateEntity<Camera>(0, 0, sf::Color::Black);
-   mCamera->SetupCamera(3, m_player);
+   mCamera->SetupCamera(0, m_player);
    /*CAMERA SPEED HERE*/
 
    for (int i = 0; i < 3; i++) {
@@ -34,33 +52,57 @@ void SampleScene::OnInitialize()
    }
 
 	m_Platforms.push_back(CreateEntity<BreakablePlatform>(200, 50, sf::Color::Cyan));
-	m_Platforms[0]->SetPosition(0,50);
+	m_Platforms[0]->SetPosition(500, 550);
+
 	m_Platforms[0]->SetRigidBody(true);
     
-	m_Platforms.push_back(CreateEntity<Platform>(100, 35, sf::Color::Cyan));
-	m_Platforms[1]->SetPosition(m_Platforms[0]->GetPosition().x + m_Platforms[0]->GetSize().x, 50);
+	m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 35, sf::Color::Cyan));
+	m_Platforms[1]->SetPosition(200, 201);
 	m_Platforms[1]->SetRigidBody(true);
-
-	m_Platforms.push_back(CreateEntity<Platform>(100, 35, sf::Color::Cyan));
-	m_Platforms[2]->SetPosition(m_Platforms[1]->GetPosition().x + m_Platforms[1]->GetSize().x, 50);
-	m_Platforms[2]->SetRigidBody(true);
-
-	m_Platforms.push_back(CreateEntity<Platform>(100, 35, sf::Color::Cyan));
-	m_Platforms[3]->SetPosition(m_Platforms[2]->GetPosition().x + m_Platforms[2]->GetSize().x, 50);
-	m_Platforms[3]->SetRigidBody(true);
-
-	m_Platforms.push_back(CreateEntity<Platform>(100, 35, sf::Color::Cyan));
-	m_Platforms[4]->SetPosition(m_Platforms[3]->GetPosition().x + m_Platforms[3]->GetSize().x, 50);
-	m_Platforms[4]->SetRigidBody(true);
 
 
     SpawnEnemy(200, 170);
 
 	pEntitySelected = nullptr;
+
+	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
+	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
+	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
 {
+    if (event.type == sf::Event::MouseButtonPressed &&
+        event.mouseButton.button == sf::Mouse::Left)
+    {
+        
+        for (auto* e : m_enemy)
+            e->Destroy();
+
+        m_enemy.clear();
+
+        
+        SpawnEnemy(event.mouseButton.x, event.mouseButton.y);
+    }
+
+    
+    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::A)
+    {
+        if (!m_enemy.empty())
+        {
+            for (int i = 0; i < m_enemy.size(); i++)
+            {
+                if (m_enemy[i]->TakeDamage(10) <= 0)
+                {
+                    m_enemy[i]->Destroy();
+                    m_enemy.erase(m_enemy.begin() + i);
+                    i--; 
+                }
+            }
+        }
+
+    }
+
 	float dt = GetDeltaTime();
     InputManager& im = InputManager::Get();
 
@@ -69,15 +111,27 @@ void SampleScene::OnEvent(const sf::Event& event)
 		m_player->TakeDamage(1);
 	}
 
-}
+	if (event.mouseButton.button == sf::Mouse::Button::Right)
+	{
+		m_player->Heal(1);
+	}
 
 	m_player->Actions();
+
+
 }
 
 void SampleScene::OnUpdate()
 {
-    float dt = GetDeltaTime();
+	float i = mCamera->GetView()->getCenter().y - (GetWindowHeight() / 2);
+	float j = mCamera->GetView()->getCenter().x - (GetWindowWidth() / 2);
 
+	switch (m_player->GetHealth())
+	{
+	case(3):
+		m_UI[0]->SetPosition(j, i, 0.0F, 0.0F);
+		m_UI[1]->SetPosition(j + 30, i, 0.0F, 0.0F);
+		m_UI[1]->SetSpriteColor(sf::Color::White);
 
 		m_UI[2]->SetPosition(j + 60, i, 0.0F, 0.0F);
 		m_UI[2]->SetSpriteColor(sf::Color::White);
@@ -102,6 +156,16 @@ void SampleScene::OnUpdate()
 	GetGameManager()->RefreshCamera(mCamera);
 
 	IncreaseTimer();
+
+	for (auto* p : m_Platforms)
+	{
+		p->OnUpdate();
+	}
+
+	for (auto* e : m_enemy)
+	{
+		e->OnUpdate();
+	}
 }
 
 Enemy* SampleScene::SpawnEnemy(int x, int y)
@@ -139,23 +203,34 @@ void SampleScene::TrySetSelectedEntity(Entity* pEntity, int x, int y)
     {
         sf::Vector2f position = pEntitySelected->GetPosition();
         Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
-    }
+    }*/
+    
 }
 
-void SampleScene::TrySetSelectedEntity(Entity* pEntity, int x, int y)
+
+bool SampleScene::IsAttackTimingOkay()
 {
-	if (pEntity->IsInside(x, y) == false)
-		return;
-
-	pEntitySelected = pEntity;
+	if (test_timerAttaque >= test_tempsEntreLesAttaque - m_pityFrames / 60.f || test_timerAttaque <= m_pityFrames / 60.F)
+	{
+		return true;
+	}
+		
+	return false;
 }
 
-//void SampleScene::OnUpdate()
-//{
-//
-//	if(pEntitySelected != nullptr)
-//	{
-//		sf::Vector2f position = pEntitySelected->GetPosition();
-//		Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue); 
-//	}
-//}
+void SampleScene::IncreaseTimer()
+{
+	test_timerAttaque += GetDeltaTime();
+
+	if (test_timerAttaque >= test_tempsEntreLesAttaque)
+	{
+		test_timerAttaque = 0;
+	}
+
+}
+
+Camera* SampleScene::GetCamera() const
+{
+	return mCamera;
+}
+
