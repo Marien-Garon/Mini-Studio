@@ -111,7 +111,7 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 
 void Entity::SetOpacity(float _alpha)
 {
-	if (hasSprite) m_sprite->sprite->setColor(sf::Color(255, 255, 255, _alpha));
+	if (hasSprite) m_sprite->setColor(sf::Color(255, 255, 255, _alpha));
 	else
 	{
 		sf::Color color = mShape.getFillColor();
