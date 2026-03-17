@@ -2,17 +2,34 @@
 #include <iostream>
 #include "PhysicalEntity.h"
 #include "DummyEntity.h"
-#include "Enemy.h"
-#include "Mob1.h"
-#include "Mob2.h"
-#include "Utils.h"
+
+#include"Enemy.h"
+
+#include"Utils.h"
+
+#include"Platform.h"
+#include"BreakablePlatform.h"
+
+#include"Entity.h"
+
 #include "Debug.h"
 #include "InputManager.h"
-#include "AssetManager.h"
+
+#define MAX_JOYSTICK_POS  100
+#define MIN_JOYSTICK_POS -100
+
 
 void SampleScene::OnInitialize()
 {
-    SpawnEnemy(600, 600);
+	m_Platforms.push_back(CreateEntity<Platform>(200, 50, sf::Color::Blue));
+	m_Platforms[0]->SetPosition(500, 550);
+	m_Platforms[0]->SetRigidBody(true);
+
+	m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 35, sf::Color::Cyan));
+	m_Platforms[1]->SetPosition(100, 101);
+	m_Platforms[1]->SetRigidBody(true);
+	
+	pEntitySelected = nullptr;
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
@@ -51,18 +68,12 @@ void SampleScene::OnEvent(const sf::Event& event)
 
 void SampleScene::OnUpdate()
 {
-    float dt = GetDeltaTime();
+	float dt = GetDeltaTime();
 
-    
-    for (auto* e : m_enemy)
-        e->OnUpdate();
-
-    
-    if (pEntitySelected != nullptr)
-    {
-        sf::Vector2f position = pEntitySelected->GetPosition();
-        Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
-    }
+	for (auto* p : m_Platforms)
+	{
+		p->OnUpdate();
+	}
 }
 
 Enemy* SampleScene::SpawnEnemy(int x, int y)
