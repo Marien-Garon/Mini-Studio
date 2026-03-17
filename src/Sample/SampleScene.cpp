@@ -55,14 +55,15 @@ void SampleScene::OnInitialize()
 
 void SampleScene::OnEvent(const sf::Event& event)
 {
+	float dt = GetDeltaTime();
     InputManager& im = InputManager::Get();
 
-	if (im.IsKeyPressed(sf::Keyboard::E))
+	if (event.mouseButton.button == sf::Mouse::Button::Left)
 	{
 		m_player->TakeDamage(1);
 	}
 
-	if (im.IsKeyPressed(sf::Keyboard::A))
+	if (event.mouseButton.button == sf::Mouse::Button::Right)
 	{
 		m_player->Heal(1);
 	}
@@ -73,14 +74,38 @@ void SampleScene::OnEvent(const sf::Event& event)
 
 void SampleScene::OnUpdate()
 {
-	float dt = GetDeltaTime();
-
 	float i = mCamera->GetView()->getCenter().y - (GetWindowHeight() / 2);
 	float j = mCamera->GetView()->getCenter().x - (GetWindowWidth() / 2);
 
-	m_UI[0]->SetPosition(j,i, 0.0F, 0.0F);
-	m_UI[1]->SetPosition(j + 30, i, 0.0F, 0.0F);
-	m_UI[2]->SetPosition(j + 60, i, 0.0F, 0.0F);
+	switch (m_player->GetHealth())
+	{
+	case(3):
+		m_UI[0]->SetPosition(j, i, 0.0F, 0.0F);
+		m_UI[1]->SetPosition(j + 30, i, 0.0F, 0.0F);
+		m_UI[1]->SetSpriteColor(sf::Color::White);
+
+		m_UI[2]->SetPosition(j + 60, i, 0.0F, 0.0F);
+		m_UI[2]->SetSpriteColor(sf::Color::White);
+		break;
+
+	case(2):
+		m_UI[0]->SetPosition(j, i, 0.0F, 0.0F);
+		m_UI[1]->SetPosition(j + 30, i, 0.0F, 0.0F);
+		m_UI[1]->SetSpriteColor(sf::Color::White);
+
+		m_UI[2]->SetSpriteColor(sf::Color::Transparent);
+		break;
+	case(1):
+		m_UI[0]->SetPosition(j, i, 0.0F, 0.0F);
+		m_UI[1]->SetSpriteColor(sf::Color::Transparent);
+		m_UI[2]->SetSpriteColor(sf::Color::Transparent);
+		break;
+
+
+	}
+
+
+
 
 	GetGameManager()->RefreshCamera(mCamera);
 

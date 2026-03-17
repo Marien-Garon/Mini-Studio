@@ -115,6 +115,15 @@ void Player::Actions()
 	{
 		Attack();
 	}
+	/*if (in.IsKeyPressed(sf::Keyboard::E))
+	{
+		Heal(1);
+	}
+
+	if (in.IsKeyPressed(sf::Keyboard::A))
+	{
+		TakeDamage(1);
+	}*/
 
 	else if (static_cast<SampleScene*>(GetScene())->IsAttackTimingOkay())
 		m_numberOfGoodPress = 0;

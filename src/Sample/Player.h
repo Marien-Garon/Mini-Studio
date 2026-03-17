@@ -13,6 +13,8 @@ public:
 
 	void TakeDamage(int damage);
 	void Heal(int heal);
+	int GetHealth() { return m_health; }
+
 
 	void Actions();
 	void Jump();
