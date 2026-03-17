@@ -28,6 +28,16 @@ void Camera::SetupCamera(int cameraSpeed, Entity* entityToFolow)
 
 }
 
+void Camera::SetupUICamera(Entity* entityToFolow)
+{
+	heart = entityToFolow;
+}
+void Camera::AddElementToCamera(Entity* newEntityOnCamera)
+{
+	heart = newEntityOnCamera;
+}
+
+
 void Camera::Shake(int degree)
 {
 	camera.rotate(degree);
@@ -35,6 +45,9 @@ void Camera::Shake(int degree)
 
 void Camera::OnInitialize()
 {
+	sf::View view1(sf::Vector2f(GetScene()->GetWindowWidth() / 2, GetScene()->GetWindowHeight() / 2), sf::Vector2f(GetScene()->GetWindowWidth(), GetScene()->GetWindowHeight()));
+	camera = view1;
+
 	sf::View view2(sf::Vector2f(GetScene()->GetWindowWidth() / 2, GetScene()->GetWindowHeight() / 2), sf::Vector2f(GetScene()->GetWindowWidth(), GetScene()->GetWindowHeight()));
-	camera = view2;
+	UIView = view2;
 }

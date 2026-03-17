@@ -1,8 +1,10 @@
 #include "Collider.h"
 
+#include <iostream>
+
 bool AABBCollider::IsColliding(const AABBCollider& _other)
 {
-    return (x < _other.x + _other.width && x + width > _other.x && y < _other.y + _other.height && y + height > _other.y);
+    return (x <= _other.x + _other.width && x + width >= _other.x && y <= _other.y + _other.height && y + height >= _other.y);
 }
 
 bool AABBCollider::IsInside(const AABBCollider& _other)
@@ -25,10 +27,19 @@ Side AABBCollider::GetCollisionSide(const AABBCollider& _other)
 {
     if (IsInside(_other)) return Side::INSIDE;
 
-    if (_other.x + _other.width <= x) return Side::LEFT;
-    if (_other.x >= x + width) return Side::RIGHT;
-    if (_other.y >= y + height) return Side::DOWN;
-    if (_other.y + height <= y) return Side::UP;
+    //Idk if it work but yeah there is this way i think
+    float overlapX1 = (_other.x + _other.width) - x;
+    float overlapX2 = (x + width) - _other.x;
+    float overlapY1 = (_other.y + _other.height) - y;
+    float overlapY2 = (y + height) - _other.y;
+
+    float overlapMin = std::min({ overlapX1, overlapX2, overlapY1, overlapY2 });
+
+    if (overlapMin == overlapX1)   return Side::LEFT;
+    if (overlapMin == overlapX2)  return Side::RIGHT;
+    if (overlapMin == overlapY1)    return Side::UP;
+    if (overlapMin == overlapY2) return Side::DOWN;
+
 
     return Side::NONE;
 }
