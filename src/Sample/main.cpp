@@ -1,4 +1,4 @@
-#include "SampleScene.h"
+#include "SceneManager.h"
 #include "GameManager.h"
 
 int main()
@@ -7,7 +7,7 @@ int main()
 
 	pInstance->CreateWindow(1280, 720, "Sample", 60, {0,0,0});
 
-	pInstance->LaunchScene<SampleScene>();
+	pInstance->LaunchScene<SceneManager>();
 
 	return 0;
 }
