@@ -34,7 +34,7 @@ void SampleScene::OnInitialize()
 	m_robot->SetOwner(m_player);
 
    mCamera = CreateEntity<Camera>(0, 0, sf::Color::Black);
-   mCamera->SetupCamera(3, m_player);
+   mCamera->SetupCamera(0, m_player);
    /*CAMERA SPEED HERE*/
 
    for (int i = 0; i < 3; i++) {
