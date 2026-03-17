@@ -99,7 +99,103 @@ void Player::Movement()
 
 void Player::Jump()
 {
-	if (isFalling == true)
+	StartGravity(-150);
+	m_isJumping = true;
+}
+
+void Player::Attack()
+{
+	float windowWidth = GetScene()->GetWindowWidth();
+	bool isAttackingTimingGood = static_cast<SampleScene*>(GetScene())->IsAttackTimingOkay();
+
+	if (isAttackingTimingGood)
+	{
+		m_numberOfGoodPress++;
+		
+	}
+
+
+	else
+	{
+		m_numberOfGoodPress = 0;
+	}
+
+
+
+	if (m_numberOfGoodPress == 1)
+	{
+		SoundWave* attack = CreateEntity<SoundWave>(50, 50, sf::Color::Cyan);
+		attack->SetPosition(GetPosition().x, GetPosition().y);
+		attack->GoToDirection(windowWidth * m_directionFacing, GetPosition().y);
+
+	}
+
+	else if (m_numberOfGoodPress == 3)
+	{
+		SoundBlast* attack = CreateEntity<SoundBlast>(50, 100, sf::Color::Cyan);
+		attack->SetPosition(GetPosition().x, GetPosition().y);
+		attack->GoToDirection(windowWidth * m_directionFacing, GetPosition().y);
+		m_numberOfGoodPress = 0;
+	}
+
+}
+
+void Player::MoveRight()
+{
+	float deltaTime = GetDeltaTime();
+
+	mSpeed += mAcceleration * deltaTime;
+	SetDirection(1, 0, mBaseSpeed + (mAcceleration * deltaTime));
+
+}
+
+void Player::MoveLeft()
+{
+	float deltaTime = GetDeltaTime();
+
+	mSpeed += mAcceleration * deltaTime;
+	SetDirection(-1, 0, mBaseSpeed + (mAcceleration * deltaTime));
+
+}
+
+Hook* Player::SearchForHook()
+{
+	std::vector<Hook*> hooks = GetScene<SampleScene>()->GetHooks();
+
+	Hook* closestHook = nullptr;
+	float closestDistance = m_grappleRopeLenght;
+	for (int i = 0; i < hooks.size(); i++) {
+		if (hooks[i]->GetPosition().y > GetPosition(0.5f, 1.f).y) {
+			continue;
+		}
+
+		if (m_directionFacing == true)
+		{
+			if (hooks[i]->GetPosition().x < GetPosition(0.5f, 1.f).x) {
+				continue;
+			}
+		}
+
+		else
+			if (hooks[i]->GetPosition().x > GetPosition(0.5f, 1.f).x) {
+				continue;
+			}
+		
+
+		float currentDistance = Utils::GetDistance(GetPosition().x, GetPosition().y, hooks[i]->GetPosition().x, hooks[i]->GetPosition().y);
+		if (currentDistance <= m_grappleRopeLenght) {
+			if (currentDistance < closestDistance) {
+				closestDistance = currentDistance;
+				closestHook = hooks[i];
+			}
+		}
+	}
+	return closestHook;
+}
+
+void Player::ThrowGrapple(Hook* target)
+{
+	if (target == nullptr || m_grapple != nullptr) {
 		return;
 
 	mGravitySpeed = 300;
