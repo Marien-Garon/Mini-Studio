@@ -7,8 +7,38 @@
 #include "Hook.h"
 #include "Utils.h"
 #include "Platform.h"
+#include "Debug.h"
 
 #include <iostream>
+
+const char* Player::StateToStr() const
+{
+	switch ((State)m_stateMachine.GetState())
+	{
+
+	case State::Idle:
+		return "Idle";
+
+	case State::Moving:
+		return "Moving";
+
+	case State::Jumping:
+		return "Jumping";
+
+	case State::Attacking:
+		return "Attacking";
+
+	case State::LaunchingGrapple:
+		return "LaunchingGrapple";
+
+	case State::Travelling:
+		return "Travelling";
+
+	case State::Falling:
+		return "Falling ";
+
+	}
+}
 
 void Player::OnInitialize()
 {
@@ -19,7 +49,7 @@ void Player::OnInitialize()
 	mMaxSpeed = 0.f;
 
 	SetSpeed(300);
-	m_grappleRopeLenght = 200.f;
+	m_grappleRopeLenght = 500.f;
 	SetTag(1);
 
 	//STATE MACHINE
@@ -157,7 +187,7 @@ void Player::OnInitialize()
 		m_stateMachine.AddState(new TravellingState());
 
 		//->S'arrète si on avance plus
-		Transition<Player>* t_idle = m_stateMachine.AddTransition((int)State::Moving, (int)State::Idle);
+		Transition<Player>* t_idle = m_stateMachine.AddTransition((int)State::Travelling, (int)State::Idle);
 		t_idle->AddCondition(new IsPlayerAtGrappleDestination());
 	}
 
@@ -187,18 +217,13 @@ void Player::OnInitialize()
 
 
 void Player::OnUpdate()
-{
-	if (!m_isJumping && !mIsGravity)
-		StartGravity(0.f);
+{	
+	SetDirection(0, 0);
 
-	if (m_grapple != nullptr) {
-		if (GetPosition().x == m_grapple->GetPosition().x && GetPosition().y == m_grapple->GetPosition().y) {
-			m_grapple->Destroy();
-			m_grapple = nullptr;
-			GoToPosition(GetPosition().x + 10.f, GetPosition().y);
-		}
-	}
-	
+	Debug::DrawText(GetPosition().x, GetPosition().y - 50, StateToStr(), 0.5f, 0.5f, sf::Color::White);
+
+	m_stateMachine.Update(this, GetDeltaTime());
+
 	m_grappleCooldown -= GetDeltaTime();
 }
 
@@ -243,10 +268,7 @@ void Player::OnCollision(Entity* collidedWith)
 		}
 
 		if (side == Side::DOWN)
-		{
  			StopGravity();
-			m_isJumping = false;
-		}
 			
 	}
 		
@@ -294,18 +316,18 @@ void Player::Actions()
 		ThrowGrapple(SearchForHook());
 	}
 
-	if ((in.IsControllerPressed(0, Controller::Button::A) || in.IsKeyHeld(sf::Keyboard::Space)) && m_isJumping == false && mIsGravity == false)
+	if (in.IsControllerPressed(0, Controller::Button::A) || in.IsKeyHeld(sf::Keyboard::Space))
 		Jump();
 
 	SetDirection(0, 0);
 
-	if ((in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D)) && m_isTravelling == false)
+	if (in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D))
 	{
 		m_directionFacing = 1;
 		MoveRight();
 	}
 
-	if ((in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q)) && m_isTravelling == false)
+	if (in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q))
 	{
 		m_directionFacing = -1;
 		MoveLeft();
@@ -324,7 +346,6 @@ void Player::Actions()
 void Player::Jump()
 {
 	StartGravity(-200);
-	m_isJumping = true;
 }
 
 void Player::Attack()
@@ -333,16 +354,11 @@ void Player::Attack()
 	bool isAttackingTimingGood = static_cast<SampleScene*>(GetScene())->IsAttackTimingOkay();
 
 	if (isAttackingTimingGood)
-	{
 		m_numberOfGoodPress++;
-		
-	}
 
 
 	else
-	{
 		m_numberOfGoodPress = 0;
-	}
 
 
 
@@ -428,15 +444,29 @@ void Player::ThrowGrapple(Hook* target)
 
 	m_grapple->GoToPosition(target->GetPosition().x, target->GetPosition().y);
 
-	m_isJumping = false;
 	mIsGravity = true;
-	m_isTravelling = true;
 	m_grappleCooldown = m_baseGrappleCooldown;
 }
 
 void Player::SetDirectionFacing(int direction)
 {
 	m_directionFacing = direction;
+}
+
+void Player::ControlSetDirectionFacing()
+{
+	InputManager& in = InputManager::Get();
+
+	if (in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D))
+		m_directionFacing = 1;
+
+	if (in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q))
+		m_directionFacing = -1;
+}
+
+void Player::SetGrapple(Grapple* newGrapple)
+{
+	m_grapple = newGrapple;
 }
 
 Grapple* Player::GetGrapple()
@@ -459,6 +489,8 @@ float Player::GetGravitySpeed()
 	return mGravitySpeed;
 }
 
+
+
 bool NoMoveCommandCondition::Test(Player* player)
 {
 	InputManager& in = InputManager::Get();
@@ -473,17 +505,8 @@ bool MovingCommandCondition::Test(Player* player)
 {
 	InputManager& in = InputManager::Get();
 
-	if (in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D))
-	{
-		player->SetDirectionFacing(1);
+	if (in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D) || in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q))
 		return true;
-	}
-
-	if (in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q))
-	{
-		player->SetDirectionFacing(-1);
-		return true;
-	}
 
 	return false;
 }
@@ -520,12 +543,15 @@ bool GrappleCommandCondition::Test(Player* player)
 
 bool GrappleHasReachedTargetCondition::Test(Player* player)
 {
+	if (player->GetGrapple() == nullptr)
+		return false;
+
 	return player->GetGrapple()->AsReachedTarget();
 }
 
 bool IsGravityPositiveCondition::Test(Player* player)
 {
-	if (player->GetGravitySpeed() >= 0)
+	if (player->GetGravitySpeed() > 0)
 		return true;
 
 	return false;
@@ -560,7 +586,152 @@ bool IsAnimationCooldownBelowZero::Test(Player* player)
 bool IsPlayerAtGrappleDestination::Test(Player* player)
 {
 	Grapple* grapple = player->GetGrapple();
+	
+	if (grapple == nullptr)
+		return false;
+
 	if (player->GetPosition().x == grapple->GetPosition().x && player->GetPosition().y == grapple->GetPosition().y)
 		return true;
 	return false;
+}
+
+
+
+void IdleState::Start(Player* type)
+{
+	//Animation à mettre ici
+}
+
+void IdleState::Update(Player* type, float dt)
+{
+}
+
+void IdleState::End(Player* type)
+{
+
+}
+
+
+
+void MovingState::Start(Player* type)
+{
+}
+
+void MovingState::Update(Player* type, float dt)
+{
+	//Animation a mettre ici
+
+	type->ControlSetDirectionFacing();
+
+	if (type->GetDirectionFacing() == 1)
+		type->MoveRight();
+
+	else if (type->GetDirectionFacing() == -1)
+		type->MoveLeft();
+}
+
+void MovingState::End(Player* type)
+{
+}
+
+
+
+void JumpingState::Start(Player* type)
+{
+	type->SetPosition(type->GetPosition().x, type->GetPosition().y - 1);
+	type->Jump();
+}
+
+void JumpingState::Update(Player* type, float dt)
+{
+	type->ControlSetDirectionFacing();
+
+	InputManager& in = InputManager::Get();
+
+	if (in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D))
+		type->MoveRight();
+
+	if (in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q))
+		type->MoveLeft();
+}
+
+void JumpingState::End(Player* type)
+{
+}
+
+
+
+void AttackingState::Start(Player* type)
+{
+	// animation ici
+	type->Attack();
+}
+
+void AttackingState::Update(Player* type, float dt)
+{
+}
+
+void AttackingState::End(Player* type)
+{
+}
+
+
+
+void LaunchingGrappleState::Start(Player* type)
+{
+	//Animation ici
+	type->ThrowGrapple(type->SearchForHook());
+}
+
+void LaunchingGrappleState::Update(Player* type, float dt)
+{
+}
+
+void LaunchingGrappleState::End(Player* type)
+{
+}
+
+
+
+void TravellingState::Start(Player* type)
+{
+	//Animation ici
+}
+
+void TravellingState::Update(Player* type, float dt)
+{
+
+}
+
+void TravellingState::End(Player* type)
+{
+	type->GetGrapple()->Destroy();
+	type->SetGrapple(nullptr);
+	type->GoToPosition(type->GetPosition().x + 20.f * type->GetDirectionFacing(), type->GetPosition().y);
+	type->StartGravity(0);
+}
+
+
+
+void FallingState::Start(Player* type)
+{
+	//animation ici
+}
+
+void FallingState::Update(Player* type, float dt)
+{
+	type->ControlSetDirectionFacing();
+
+	InputManager& in = InputManager::Get();
+
+	if (in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D))
+		type->MoveRight();
+
+	if (in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q))
+		type->MoveLeft();
+}
+
+void FallingState::End(Player* type)
+{
+
 }

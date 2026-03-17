@@ -64,7 +64,6 @@ void SampleScene::OnEvent(const sf::Event& event)
 		m_player->Heal(1);
 	}
 
-	m_player->Actions();
 
 }
 

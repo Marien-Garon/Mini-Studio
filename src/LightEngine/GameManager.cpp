@@ -201,5 +201,5 @@ void GameManager::Draw()
 	DrawSprite(sprite);
 	Debug::Get()->Draw(mpWindow);
 
-	mpWindow->display();
+ 	mpWindow->display();
 }

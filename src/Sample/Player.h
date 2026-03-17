@@ -22,6 +22,8 @@ class Player : public Entity
 
 public:
 
+	
+
 	void OnInitialize() override;
 	void OnUpdate() override;
 	void OnCollision(Entity* collidedWith) override ;
@@ -41,6 +43,9 @@ public:
 	void ThrowGrapple(Hook* target);
 
 	void SetDirectionFacing(int direction);
+	void ControlSetDirectionFacing();
+	int GetDirectionFacing() { return m_directionFacing; };
+	void SetGrapple(Grapple* newGrapple);
 	Grapple* GetGrapple();
 	float GetGrappleCooldown();
 	bool GetIsGravity();
@@ -48,14 +53,12 @@ public:
 
 private:
 
-	
+	const char* StateToStr() const; //debug
 
 	int m_health = 3;
 	int m_maxHealth = 3;
 	bool m_playerAlive = true;
 	int m_directionFacing = 1; //1 = regarde vers la droite, -1 = regarde vers la gauche
-	bool m_isJumping = false;
-	bool m_isTravelling = false;
 	int m_numberOfGoodPress = 0;
 
 	float mAcceleration = 0.f;

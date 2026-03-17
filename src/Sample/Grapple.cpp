@@ -11,7 +11,6 @@ void Grapple::OnUpdate()
 
 	if (AsReachedTarget()) {
 		m_Owner->GoToPosition(GetPosition().x, GetPosition().y);
-		m_Owner->m_isTravelling = false;
 	}
 }
 
