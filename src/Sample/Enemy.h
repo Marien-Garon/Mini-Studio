@@ -16,11 +16,13 @@ protected:
     bool m_isAlive = true;
 
     sf::Vector2f m_startPos;
+protected:
+    void UpdateMovementAndTimers();
 
 public:
     
     void Initialize();
-    void Update(float dt);
+    void OnUpdate() override;
 
     float TakeDamage(int amount);
 

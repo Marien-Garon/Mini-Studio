@@ -1,5 +1,10 @@
 #include "Mob1.h"
 
+void Mob1::OnInitialize()
+{
+    m_attackTimer = 0.f;   
+}
+
 void Mob1::Attack()
 {
     if (!m_isAlive)

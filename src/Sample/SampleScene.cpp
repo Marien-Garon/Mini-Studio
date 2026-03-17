@@ -34,12 +34,14 @@ void SampleScene::OnEvent(const sf::Event& event)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
         if (!m_enemy.empty())
-            m_enemy[0]->TakeDamage(10);
-    }
+        {
+            if (m_enemy[0]->TakeDamage(10) <= 0)
+            {
+                m_enemy.erase(std::remove(m_enemy.begin(), m_enemy.end(), m_enemy[0]), m_enemy.end());
+            }
+        }
 
-    
-    for (auto* e : m_enemy)
-        e->Attack();
+    }
 }
 
 void SampleScene::OnUpdate()
@@ -48,7 +50,7 @@ void SampleScene::OnUpdate()
 
     
     for (auto* e : m_enemy)
-        e->Update(dt);
+        e->OnUpdate();
 
     
     if (pEntitySelected != nullptr)
@@ -67,10 +69,10 @@ Enemy* SampleScene::SpawnEnemy(int x, int y)
     m_enemy.push_back(mob1);
 
 
-    Enemy* mob2 = CreateEntity<Mob2>(50, 30, sf::Color::Blue);
-    mob2->SetPosition(x + 80, y - 80); 
+    Enemy* mob2 = CreateEntity<Mob2>(50, 20, sf::Color::Blue);
+    mob2->SetPosition(x + 90, y - 80); 
     mob2->Initialize();
     m_enemy.push_back(mob2);
 
-    return mob1,mob2; 
+    return mob1; 
 }

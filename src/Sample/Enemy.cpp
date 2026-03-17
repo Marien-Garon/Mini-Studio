@@ -2,27 +2,20 @@
 #include "Utils.h"
 #include <iostream>
 
-void Enemy::Initialize()
+void Enemy::UpdateMovementAndTimers()
 {
-    m_startPos = GetPosition();
-}
-
-void Enemy::Update(float dt)
-{
-    if (!m_isAlive)
-        return;
+    float dt = GetDeltaTime();
 
     m_attackTimer += dt;
 
     float move = m_speed * m_direction * dt;
-
     sf::Vector2f pos = GetPosition();
     SetPosition(pos.x + move, pos.y);
 
     float width = GetScene()->GetWindowWidth();
     float height = GetScene()->GetWindowHeight();
 
-    sf::Vector2f pos1 = GetPosition(0.5f, 0.5f); 
+    sf::Vector2f pos1 = GetPosition();
 
     if (pos1.x < -20 || pos1.x > width + 20 ||
         pos1.y < -20 || pos1.y > height + 20)
@@ -34,17 +27,31 @@ void Enemy::Update(float dt)
 
     if (dist >= m_maxDistance)
         m_direction *= -1;
+}
+
+void Enemy::Initialize()
+{
+    m_startPos = GetPosition();
+}
+
+void Enemy::OnUpdate()
+{
+    if (!m_isAlive)
+        return;
+
+    UpdateMovementAndTimers();
 
     if (m_attackTimer >= m_attackCooldown)
     {
-        Attack();            
-        m_attackTimer = 0.f; 
+        Attack();
+        m_attackTimer = 0.f;
     }
 }
 
+
 float Enemy::TakeDamage(int amount)
 {
-    if (!m_isAlive)
+     if (!m_isAlive)
         return 0;
 
     m_Hpmax -= amount;

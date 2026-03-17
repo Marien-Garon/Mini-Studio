@@ -2,6 +2,8 @@
 
 #include "Enemy.h"
 
+
+
 void Mob2::Attack()
 {
     if (!m_isAlive)
@@ -30,4 +32,5 @@ void Mob2::Attack()
         bullet->SetDirection(1.f, 0.5f, 400.f);
     }
 }
+
 
