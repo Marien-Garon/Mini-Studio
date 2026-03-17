@@ -70,7 +70,7 @@ float Enemy::TakeDamage(int amount)
 
     m_Hpmax -= amount;
 
-    std::cout << "Enemy takes " << amount << " damage. HP = " << m_Hpmax << std::endl;
+    std::cout << m_name << " Take : " << amount << " damage. HP = " << m_Hpmax << std::endl;
 
     if (m_Hpmax <= 0)
     {

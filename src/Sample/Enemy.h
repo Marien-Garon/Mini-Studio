@@ -18,6 +18,8 @@ protected:
 
     bool m_isAlive = true;
 
+    std::string m_name = "Enemy";
+
     sf::Vector2f m_startPos;
 
     Platform* m_platform = nullptr;
@@ -27,6 +29,7 @@ protected:
 
 public:
     void SetPlatform(Platform* p) { m_platform = p; }
+    void SetName(const std::string& name) { m_name = name; }
 
     void Initialize();
     void OnUpdate() override;

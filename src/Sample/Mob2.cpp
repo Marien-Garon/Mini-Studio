@@ -4,6 +4,7 @@
 
 void Mob2::OnInitialize()
 {
+    SetName("Mob2");
     m_Hpmax = 80;
     m_speed = 70.f;
 }
