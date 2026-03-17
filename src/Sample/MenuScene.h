@@ -6,10 +6,11 @@
 
 class Enemy;
 class Camera;
+class Button;
 
 class MenuScene : public Scene
 {
-	Entity* m_buttonPlay;
+	Button* m_buttonPlay;
 	Entity* m_menuScreen;
 	Entity* m_arrowLeft;
 	Entity* m_arrowRight;

@@ -12,6 +12,11 @@ public:
 	void AddScene(const std::string& _num, Scene* _scene);
 	void SetStartScene(const std::string& _num);
 
+	static SceneManager& getInstance() {
+		static SceneManager instance;
+		return instance;
+	}
+
 private:
 
 	std::map<std::string, Scene*> m_scene;

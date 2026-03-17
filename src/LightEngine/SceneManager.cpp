@@ -24,8 +24,15 @@ void SceneManager::SetStartScene(const std::string& _num)
 
 void SceneManager::Update()
 {
-    if (m_changeScene)
-    {
-        
-    }
+	if (m_changeScene)
+	{
+		m_scene[m_currentScene]->Exit();
+
+		m_currentScene = m_nextScene;
+
+		m_scene[m_currentScene]->Enter();
+
+		m_changeScene = false;
+	}
+	m_scene[m_currentScene]->Update(_dt);
 }
