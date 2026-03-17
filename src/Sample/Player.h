@@ -6,7 +6,6 @@ class Hook;
 class Player : public Entity
 {
 public:
-
 	void OnInitialize() override;
 	void OnUpdate() override;
 	void OnCollision(Entity* collidedWith) override ;
@@ -14,6 +13,8 @@ public:
 
 	void TakeDamage(int damage);
 	void Heal(int heal);
+	int GetHealth() { return m_health; }
+
 
 	void Actions();
 	void Jump();

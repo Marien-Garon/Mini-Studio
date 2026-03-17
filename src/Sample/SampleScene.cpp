@@ -3,12 +3,10 @@
 #include "DummyEntity.h"
 #include"Enemy.h"
 #include"Utils.h"
-#include "Debug.h"
-#include "InputManager.h"
+
 #include "AssetManager.h"
 #include "Camera.h"
 #include "Hook.h"
-
 
 #include"Platform.h"
 #include"BreakablePlatform.h"
@@ -34,7 +32,8 @@ void SampleScene::OnInitialize()
    m_robot->SetOwner(m_player);
 
    mCamera = CreateEntity<Camera>(0, 0, sf::Color::Black);
-   mCamera->SetupCamera(0, m_player);
+   mCamera->SetupCamera(3, m_player);
+   /*CAMERA SPEED HERE*/
 
    for (int i = 0; i < 3; i++) {
 	   m_hooks.push_back(CreateEntity<Hook>(20.f, 20.f, sf::Color::Yellow));
@@ -47,19 +46,28 @@ void SampleScene::OnInitialize()
 	m_Platforms.push_back(CreateEntity<BreakablePlatform>(200, 50, sf::Color::Cyan));
 	m_Platforms[0]->SetPosition(500, 550);
 	m_Platforms[0]->SetRigidBody(true);
-	
+
+	m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 35, sf::Color::Cyan));
+	m_Platforms[1]->SetPosition(100, 101);
+	m_Platforms[1]->SetRigidBody(true);
+
+	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
+	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
+	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
+
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
 {
+	float dt = GetDeltaTime();
     InputManager& im = InputManager::Get();
 
-	if (im.IsKeyPressed(sf::Keyboard::E))
+	if (event.mouseButton.button == sf::Mouse::Button::Left)
 	{
 		m_player->TakeDamage(1);
 	}
 
-	if (im.IsKeyPressed(sf::Keyboard::A))
+	if (event.mouseButton.button == sf::Mouse::Button::Right)
 	{
 		m_player->Heal(1);
 	}
@@ -70,9 +78,41 @@ void SampleScene::OnEvent(const sf::Event& event)
 
 void SampleScene::OnUpdate()
 {
-	float dt = GetDeltaTime();
+	float i = mCamera->GetView()->getCenter().y - (GetWindowHeight() / 2);
+	float j = mCamera->GetView()->getCenter().x - (GetWindowWidth() / 2);
+
+	switch (m_player->GetHealth())
+	{
+	case(3):
+		m_UI[0]->SetPosition(j, i, 0.0F, 0.0F);
+		m_UI[1]->SetPosition(j + 30, i, 0.0F, 0.0F);
+		m_UI[1]->SetSpriteColor(sf::Color::White);
+
+		m_UI[2]->SetPosition(j + 60, i, 0.0F, 0.0F);
+		m_UI[2]->SetSpriteColor(sf::Color::White);
+		break;
+
+	case(2):
+		m_UI[0]->SetPosition(j, i, 0.0F, 0.0F);
+		m_UI[1]->SetPosition(j + 30, i, 0.0F, 0.0F);
+		m_UI[1]->SetSpriteColor(sf::Color::White);
+
+		m_UI[2]->SetSpriteColor(sf::Color::Transparent);
+		break;
+	case(1):
+		m_UI[0]->SetPosition(j, i, 0.0F, 0.0F);
+		m_UI[1]->SetSpriteColor(sf::Color::Transparent);
+		m_UI[2]->SetSpriteColor(sf::Color::Transparent);
+		break;
+
+
+	}
+
+
+
 
 	GetGameManager()->RefreshCamera(mCamera);
+
 
   /*  if (pEntitySelected != nullptr)
     {

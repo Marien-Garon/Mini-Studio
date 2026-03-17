@@ -101,10 +101,12 @@ void Player::TakeDamage(int _damage)
 
 	else {
 
+
 		m_health -= _damage;
 		std::cout << "Player take damage : " << _damage << std::endl;
 		std::cout << "Current Health : " << m_health << std::endl;
 	}
+		
 }
 
 void Player::Heal(int _heal)
@@ -153,6 +155,15 @@ void Player::Actions()
 	{
 		Attack();
 	}
+	/*if (in.IsKeyPressed(sf::Keyboard::E))
+	{
+		Heal(1);
+	}
+
+	if (in.IsKeyPressed(sf::Keyboard::A))
+	{
+		TakeDamage(1);
+	}*/
 
 	else if (static_cast<SampleScene*>(GetScene())->IsAttackTimingOkay())
 		m_numberOfGoodPress = 0;
