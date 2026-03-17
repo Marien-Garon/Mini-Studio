@@ -6,6 +6,7 @@
 #include "Grapple.h"
 #include "Hook.h"
 #include "Utils.h"
+#include "Platform.h"
 
 #include <iostream>
 
@@ -19,6 +20,7 @@ void Player::OnInitialize()
 
 	SetSpeed(300);
 	m_grappleRopeLenght = 200.f;
+	SetTag(1);
 }
 
 
@@ -42,6 +44,11 @@ void Player::OnCollision(Entity* collidedWith)
 {
 	if (collidedWith->IsTag(0))
 	{
+		Platform* pf = (Platform*)collidedWith;
+
+		if (pf->IsActive() == false)
+			return;
+
 		Side side = GetCollidingSide(collidedWith);
 		
 		std::cout << "Platform : " << collidedWith->GetCollider().x << "/" << collidedWith->GetCollider().y << std::endl;
