@@ -3,7 +3,7 @@
 
 void Camera::OnUpdate()
 {
-	camera.setCenter(camera.getCenter().x, followedEntity->GetPosition().y);
+	camera.setCenter(camera.getCenter().x, camera.getCenter().y);
 	camera.move(sf::Vector2f(mSpeed, 0));
 
 	if (camera.getRotation() != 0 && rotateCount < 3)
@@ -25,6 +25,7 @@ void Camera::SetupCamera(int cameraSpeed, Entity* entityToFolow)
 	followedEntity = entityToFolow;
 
 	camera.setCenter(followedEntity->GetPosition().x, followedEntity->GetPosition().y);
+
 }
 
 void Camera::Shake(int degree)

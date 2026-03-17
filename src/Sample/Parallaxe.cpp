@@ -29,16 +29,16 @@ void Parallaxe::OnInitialize()
 	m_backgrounds[5]->SetSpeed(75.f);
 	m_backgrounds[6]->SetSpeed(75.f);
 
-	sf::Vector2f cameraPos = GetScene<SampleScene>()->GetCamera()->GetView()->getCenter();
+	//sf::Vector2f cameraPos = GetScene<SampleScene>()->GetCamera()->GetView()->getCenter();
 	float windowWidth = GetScene<SampleScene>()->GetWindowWidth();
 	for (int i = 0; i < m_backgrounds.size(); i++) {
 		if (i == 0) {
-			m_backgrounds[i]->SetPosition(cameraPos.x, cameraPos.y);
+			m_backgrounds[i]->SetPosition(0, 0);
 		}else if (i % 2  != 0) {
-			m_backgrounds[i]->SetPosition(cameraPos.x, cameraPos.y);
+			m_backgrounds[i]->SetPosition(0, 0);
 		}
 		else {
-			m_backgrounds[i]->SetPosition(cameraPos.x + windowWidth / 2, cameraPos.y, 0.f, 0.5f);
+			m_backgrounds[i]->SetPosition(windowWidth / 2, 0, 0.f, 0.5f);
 		}
 	}
 }
