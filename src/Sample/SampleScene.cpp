@@ -10,51 +10,54 @@
 #include"BreakablePlatform.h"
 #include"Entity.h"
 #include "Debug.h"
+#include "LevelEditor.h"
 
 #define MAX_JOYSTICK_POS  100
 #define MIN_JOYSTICK_POS -100
 
 void SampleScene::OnInitialize()
 {
-    AssetManager& AM = AssetManager::getInstance();
+    LevelEditor::LoadLevel(this,"Level0");
 
-    pEntity1 = CreateEntity<Enemy>(AM.CreateSprite("mob", 0,0, 1084, 1438));
-    pEntity1->SetScale(0.2f, 0.2f);
-    pEntity1->PlayAnimation("walk");
-    pEntity1->SetPosition(0, 0, 0.f, 0.f);
-	pEntity1->SetRigidBody(true);
-	pEntity1->SetMoveAble(true);
-	pEntity1->SetTag(1);
+ //   AssetManager& AM = AssetManager::getInstance();
 
-	//pEntity2 = CreateEntity<Enemy>(50,50, sf::Color::Green);
-	//pEntity2->SetPosition(500, 500);
-	//pEntity2->SetRigidBody(true);
-	//pEntity2->SetMoveAble(true);
+ //   pEntity1 = CreateEntity<Enemy>(AM.CreateSprite("mob", 0,0, 1084, 1438));
+ //   pEntity1->SetScale(0.2f, 0.2f);
+ //   pEntity1->PlayAnimation("walk");
+ //   pEntity1->SetPosition(0, 0, 0.f, 0.f);
+	//pEntity1->SetRigidBody(true);
+	//pEntity1->SetMoveAble(true);
+	//pEntity1->SetTag(1);
 
-	m_Platforms.push_back(CreateEntity<Platform>(200, 50, sf::Color::Blue));
-	m_Platforms[0]->SetPosition(500, 550);
-	m_Platforms[0]->SetRigidBody(true);
+	////pEntity2 = CreateEntity<Enemy>(50,50, sf::Color::Green);
+	////pEntity2->SetPosition(500, 500);
+	////pEntity2->SetRigidBody(true);
+	////pEntity2->SetMoveAble(true);
 
-	m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 35, sf::Color::Cyan));
-	m_Platforms[1]->SetPosition(100, 101);
-	m_Platforms[1]->SetRigidBody(true);
+	//m_Platforms.push_back(CreateEntity<Platform>(200, 50, sf::Color::Blue));
+	//m_Platforms[0]->SetPosition(500, 550);
+	//m_Platforms[0]->SetRigidBody(true);
+
+	//m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 35, sf::Color::Cyan));
+	//m_Platforms[1]->SetPosition(100, 101);
+	//m_Platforms[1]->SetRigidBody(true);
 	
 	pEntitySelected = nullptr;
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
 {
-    sf::Vector2f position = pEntity1->GetPosition();
+    //sf::Vector2f position = pEntity1->GetPosition();
 
     if (event.type == sf::Event::MouseButtonPressed &&
         event.mouseButton.button == sf::Mouse::Right)
     {
-        float dist = Utils::GetDistance(position.x, position.y, 100.f, 100.f);
+        //float dist = Utils::GetDistance(position.x, position.y, 100.f, 100.f);
 
-        if (dist > 10)
-        {
-            pEntity1->GoToPosition(position.x, position.y, 100.f);
-        }
+        //if (dist > 10)
+        //{
+        //    pEntity1->GoToPosition(position.x, position.y, 100.f);
+        //}
     }
 }
 

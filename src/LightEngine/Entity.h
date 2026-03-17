@@ -96,6 +96,7 @@ public:
 	void SetSpriteColor(const sf::Color& _color) { m_sprite->sprite->setColor(_color); };
 	void SetScale(float _x, float _y);
 	void SetScale(const sf::Vector2f& _scale);
+	sf::Vector2f GetScale();
 	void SetSpriteRotation(float _angle) { m_sprite->sprite->setRotation(_angle); };
 
 	void PlayAnimation(const std::string& _id);

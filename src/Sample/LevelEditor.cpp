@@ -3,8 +3,54 @@
 #include "Debug.h"
 #include "Button.h"
 #include <iostream>
+#include "InputManager.h"
 
 #define TILE_SIZE 64.f
+
+std::vector<Entity*> LevelEditor::LoadLevel(Scene* scene, std::string _id)
+{
+	std::filesystem::path levelPath = "../../../level/" + _id;
+	if (levelPath.extension() != ".json") levelPath += ".json";
+
+	if (!std::filesystem::exists(levelPath))
+	{
+		Debug::DebugMessage(Debug::Severity::WARN, "Load Level", "Level doesn't exist");
+		return {};
+	}
+
+	std::ifstream jsonFile(levelPath);
+
+	if (!jsonFile.is_open())
+	{
+		Debug::DebugMessage(Debug::Severity::WARN, "Load JSON", "Can't open JSON file : " + levelPath.string());
+		return {};
+	}
+
+	json jsonData;
+	jsonFile >> jsonData;
+	jsonFile.close();
+
+	std::vector<Entity*> m_entity;
+
+	for (auto& [key, tile] : jsonData["Tiles"].items())
+	{
+		unsigned int tag = tile.value("tag", -1);
+		std::string id = tile.value("id", "");
+		sf::Vector2f pos = { tile["position"].value("x",0.f), tile["position"].value("y",0.f) };
+		sf::Vector2f scale = { tile["scale"].value("width",1.f), tile["scale"].value("height",1.f) };
+
+		if (tag == 10)
+		{
+			TileBlock* newTile = scene->CreateEntity<TileBlock>(AssetManager::getInstance().CreateTile(id));
+			newTile->SetTag(tag);
+			newTile->SetScale(scale);
+			newTile->SetPosition(pos.x, pos.y, 0.0f, 0.0f);
+			m_entity.push_back(newTile);
+		}
+	}
+	
+	return m_entity;
+}
 
 void LevelEditor::SaveLevel()
 {
@@ -31,13 +77,23 @@ void LevelEditor::SaveLevel()
 	for (Entity* tile : m_posedBlock)
 	{
 		sf::Vector2f pos = tile->GetPosition(0.f, 0.f);
+		sf::Vector2f scale = tile->GetScale();
 		std::string id = tile->GetSpriteData()->textureID;
 		std::string type = "TileBlocks";
+		unsigned int tag = tile->GetTag();
 
 		json tileData = {
 			{"Type", type},
 			{"id", id},
-			{"position", {pos.x, pos.y}}
+			{"tag",tag},
+			{"position", {
+				{"x", pos.x},
+				{"y", pos.y}
+			}},
+			{"scale",{
+				{"width",scale.x},
+				{"height",scale.y}
+			}}
 		};
 
 		data["Tiles"].push_back(tileData);
@@ -62,22 +118,27 @@ bool LevelEditor::CanPoseTile(float _x, float _y)
 {
 	if (_x >= (GetWindowWidth() - (4 * TILE_SIZE))) return false;
 
-	for (Entity* tile : m_posedBlock)
+	/*for (Entity* tile : m_posedBlock)
 	{
 		if (tile->IsInside(_x, _y))
 		{
 			Debug::DebugMessage(Debug::Severity::DEBUG, "Tile", "A Tile is already present here");
 			return false;
 		}
-	}
+	}*/
 
 	return true;
+}
+
+void LevelEditor::ReplaceGrid()
+{
+	
 }
 
 void LevelEditor::ReplaceTile()
 {
 	int i = 1;
-	for (Entity* tile : m_page[currentIndex])
+	for (Entity* tile : m_SelectionPage[currentSelectionIndex])
 	{
 		tile->SetPosition(GetWindowWidth() - (3 * TILE_SIZE), i * 128, 0.0f, 0.0f);
 		i++;
@@ -86,32 +147,34 @@ void LevelEditor::ReplaceTile()
 
 void LevelEditor::RemoveTile(int _index)
 {
-	for (Entity* tile : m_page[_index])
+	for (Entity* tile : m_SelectionPage[_index])
 		tile->SetPosition(-5000, -5000);
 }
 
 void LevelEditor::IndexMove(int _movement)
 {   
-	int oldIndex = currentIndex;
-	if (_movement + currentIndex <= 0) currentIndex = 0;
-	else if (_movement + currentIndex >= m_page.size()) currentIndex = m_page.size() - 1;
-	else currentIndex += _movement;
+	int oldIndex = currentSelectionIndex;
+	if (_movement + currentSelectionIndex <= 0) currentSelectionIndex = 0;
+	else if (_movement + currentSelectionIndex >= m_SelectionPage.size()) currentSelectionIndex = m_SelectionPage.size() - 1;
+	else currentSelectionIndex += _movement;
 
-	if (oldIndex == currentIndex) return;
+	if (oldIndex == currentSelectionIndex) return;
 
 	RemoveTile(oldIndex);
 	ReplaceTile();
 }
 
-Entity* LevelEditor::GetPresentTile(float _x, float _y)
+std::vector<Entity*> LevelEditor::GetPresentTile(float _x, float _y)
 {
+	std::vector<Entity*> tilePresent;
+
 	for (Entity* tile : m_posedBlock)
 	{
 		if (tile->IsInside(_x, _y))
-			return tile;
+			tilePresent.push_back(tile);
 	}
 
-	return nullptr;
+	return tilePresent;
 }
 
 float LevelEditor::GetScale(float size, float target)
@@ -149,12 +212,12 @@ void LevelEditor::InitEntity()
 
 	BreakablePlatform* platform = CreateEntity<BreakablePlatform>(120, 60, sf::Color::Cyan);
 	platform->SetScale(GetScale(platform->GetCollider().width, TILE_SIZE), GetScale(platform->GetCollider().height, TILE_SIZE));
+	platform->SetPosition(-5000, -5000);
 
-	if (m_page.empty() || m_page.back().size() >= 3)
-		m_page.emplace_back();
+	if (m_SelectionPage.empty() || m_SelectionPage.back().size() >= 3)
+		m_SelectionPage.emplace_back();
 
-	m_page.back().push_back(platform);
-
+	m_SelectionPage.back().push_back(platform);
 }
 
 void LevelEditor::InitTileBlock()
@@ -169,15 +232,13 @@ void LevelEditor::InitTileBlock()
 		newTile->SetScale(GetScale(newTile->GetCollider().width, TILE_SIZE), GetScale(newTile->GetCollider().height, TILE_SIZE));
 		newTile->SetPosition(-5000, -5000);
 
-		if (m_page.empty() || m_page.back().size() >= 3)
-			m_page.emplace_back();  //Mystic dark magic vector (vector has function you absolutely don't know what's they are doing but it work it's magic i swear)
+		if (m_SelectionPage.empty() || m_SelectionPage.back().size() >= 3)
+			m_SelectionPage.emplace_back();  //Mystic dark magic vector (vector has function you absolutely don't know what's they are doing but it work it's magic i swear)
 		//so it's like push back + ultra premium extra croquette
-		m_page.back().push_back(newTile);
-
-		m_tileList.push_back(newTile);
+		m_SelectionPage.back().push_back(newTile);
 	}
 
-	if (m_page.empty()) return;
+	if (m_SelectionPage.empty()) return;
 
 	ReplaceTile();
 }
@@ -186,13 +247,13 @@ void LevelEditor::OnDestroy()
 {
 	pEntitySelected = nullptr;
 
-	for (Entity* tile : m_tileList)
-		tile->Destroy();
-	m_tileList.clear();
-
-	for (Entity* e : m_entityToPlace)
-		e->Destroy();
-	m_entityToPlace.clear();
+	for (auto& page : m_SelectionPage)
+	{
+		for (Entity* e : page)
+			e->Destroy();
+		page.clear();
+	}
+	m_SelectionPage.clear();
 
 	for (Entity* tileP : m_posedBlock)
 		tileP->Destroy();
@@ -246,7 +307,7 @@ void LevelEditor::OnEvent(const sf::Event& event)
 		event.mouseButton.button == sf::Mouse::Right)
 	{
 
-		for (Entity* e : m_page[currentIndex])
+		for (Entity* e : m_SelectionPage[currentSelectionIndex])
 			TrySetSelectedEntity(e, event.mouseButton.x, event.mouseButton.y);
 
 		//3 loop because one is not enough grougrou
@@ -258,6 +319,9 @@ void LevelEditor::OnEvent(const sf::Event& event)
 			TrySetSelectedEntity(tile, event.mouseButton.x, event.mouseButton.y);
 	}
 
+	//if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left 
+
+
 	if (event.type == sf::Event::MouseButtonPressed &&
 		event.mouseButton.button == sf::Mouse::Left)
 	{
@@ -266,7 +330,7 @@ void LevelEditor::OnEvent(const sf::Event& event)
 
 		if (pEntitySelected != nullptr)
 		{
-			if (Entity* tile = GetPresentTile(posX, posY))
+			for(Entity* tile  : GetPresentTile(posX, posY))
 			{
 				if (tile->IsSameTexture(pEntitySelected))
 				{
@@ -277,10 +341,11 @@ void LevelEditor::OnEvent(const sf::Event& event)
 						m_posedBlock.end());
 					Debug::DebugMessage(Debug::Severity::DEBUG, "Tile", "Deleted Tile");
 					if (tile == pEntitySelected) pEntitySelected = nullptr;
+					return;
 				}
 			}
-			else
-				if(CanPoseTile(posX,posY)) CreateEntityCopy(pEntitySelected, (posX / (int)TILE_SIZE) * TILE_SIZE, (posY / (int)TILE_SIZE) * TILE_SIZE);
+			
+			if(CanPoseTile(posX,posY)) CreateEntityCopy(pEntitySelected, (posX / (int)TILE_SIZE) * TILE_SIZE, (posY / (int)TILE_SIZE) * TILE_SIZE);
 		}
 
 		//Look at mom a if cascade isn't beautifull ? 
@@ -296,7 +361,12 @@ void LevelEditor::OnEvent(const sf::Event& event)
 
 void LevelEditor::OnUpdate()
 {
-	DrawGrid();
+	if (InputManager::Get().IsKeyPressed(sf::Keyboard::Key::A))
+		drawGrid = !drawGrid;
+
+
+	if(drawGrid) DrawGrid();
+
 	if (pEntitySelected != nullptr)
 	{
 		sf::Vector2f position = pEntitySelected->GetPosition();
@@ -314,10 +384,8 @@ void LevelEditor::TrySetSelectedEntity(Entity* pEntity, int x, int y)
 
 void LevelEditor::CreateEntityCopy(Entity* _entity, int _x, int _y)
 {
-	/*if (_entity->GetTag() == 10)
-	{*/
-		Entity* newEntity = _entity->Clone();
-		newEntity->SetPosition(_x, _y, 0.0f, 0.0f);
-		m_posedBlock.push_back(newEntity);
-	//}
+	Entity* newEntity = _entity->Clone();
+	newEntity->SetPosition(_x, _y, 0.0f, 0.0f);
+	m_posedBlock.push_back(newEntity);
+	m_gridList[currentGrid].push_back(newEntity);
 }

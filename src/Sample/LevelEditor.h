@@ -16,31 +16,36 @@ class LevelEditor : public Scene
 {
 private:
 
-	std::vector<std::vector<Entity*>> m_page;
-
-	std::vector<TileBlock*> m_tileList;
-	std::vector<Entity*> m_entityToPlace;
-
+	std::vector<std::vector<Entity*>> m_SelectionPage;
 	std::vector<Entity*> m_posedBlock;
+
+	std::vector <std::vector<Entity*>> m_gridList;
 
 	std::vector<Button*> btnList;
 
 	Entity* pEntitySelected = nullptr;
 
-	int currentIndex = 0;
+	int currentSelectionIndex = 0;
+	int currentGrid = 0;
+	bool drawGrid = true;
 
 public:
+
+	static std::vector<Entity*> LoadLevel(Scene* scene, std::string _id);
 
 	void SaveLevel();
 	void EraseCurrentLevel();
 	bool CanPoseTile(float _x, float _y);
+
+	
+	void ReplaceGrid();
 
 	void ReplaceTile();
 	void RemoveTile(int _index);
 	
 	void IndexMove(int _movement);
 
-	Entity* GetPresentTile(float _x, float _y);
+	std::vector<Entity*> GetPresentTile(float _x, float _y);
 
 
 	float GetScale(float size, float target);

@@ -13,11 +13,12 @@ void TileBlock::OnCollision(Entity* collidedWith)
 {
 }
 
-void TileBlock::OnInitialize()
-{
-	SetMoveAble(false);
-	SetRigidBody(true);
-}
+//Herited from platform now
+//void TileBlock::OnInitialize()
+//{
+//	SetMoveAble(false);
+//	SetRigidBody(true);
+//}
 
 void TileBlock::OnDestroy()
 {

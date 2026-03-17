@@ -114,7 +114,7 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 
 sf::Vector2f Entity::GetPosition(float ratioX, float ratioY) const
 {
-	sf::Vector2f size = hasSprite ? sf::Vector2f(m_sprite->sprite->getTextureRect().width, m_sprite->sprite->getTextureRect().height) : mShape.getSize();
+	sf::Vector2f size = hasSprite ? sf::Vector2f(m_sprite->sprite->getTextureRect().width * m_sprite->sprite->getScale().x, m_sprite->sprite->getTextureRect().height * m_sprite->sprite->getScale().x) : mShape.getSize();
 	sf::Vector2f position = hasSprite ? m_sprite->sprite->getPosition() : mShape.getPosition();
 
 	position.x += size.x * ratioX;
@@ -257,4 +257,10 @@ void Entity::SetScale(const sf::Vector2f& _scale)
 
 	m_Scale = _scale;
 	m_collider.SetScale(_scale);
+}
+
+sf::Vector2f Entity::GetScale()
+{
+	if (hasSprite) return m_sprite->sprite->getScale();
+	return mShape.getScale();
 }

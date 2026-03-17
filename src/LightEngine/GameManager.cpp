@@ -45,11 +45,11 @@ GameManager::~GameManager()
 	}
 }
 
-void GameManager::CreateWindow(unsigned int width, unsigned int height, const char* title, int fpsLimit, sf::Color clearColor)
+void GameManager::CreateWindow(unsigned int width, unsigned int height, const char* title, int fpsLimit, sf::Color clearColor, bool fullscreen)
 {
 	_ASSERT(mpWindow == nullptr);
 
-	mpWindow = new sf::RenderWindow(sf::VideoMode(width, height), title);
+	mpWindow = fullscreen ? new sf::RenderWindow(sf::VideoMode(width, height), title, sf::Style::Fullscreen) : new sf::RenderWindow(sf::VideoMode(width, height), title);
 	mpWindow->setFramerateLimit(fpsLimit);
 
 	mWindowWidth = width;

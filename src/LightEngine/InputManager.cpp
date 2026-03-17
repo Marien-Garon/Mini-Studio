@@ -8,10 +8,21 @@ using EventType = sf::Event::EventType;
 
 
 
+void InputManager::HandleMousePressed(const sf::Event& event)
+{
+	if (m_mouseHeld[event.mouseButton.button])
+	{
+		m_mousePressed[event.mouseButton.button] = false;
+		return;
+	}
+
+	m_mousePressed[event.mouseButton.button] = true;
+	m_mouseHeld[event.mouseButton.button] = true;
+}
+
 void InputManager::HandleKeyPressed(const sf::Event& event)
 {
-
-	if (m_keyHeld[event.key.code] || m_keyPressed[event.key.code])
+	if (m_keyHeld[event.key.code])
 	{
 		m_keyPressed[event.key.code] = false;
 		return;
@@ -106,7 +117,8 @@ void InputManager::HandleInput(const sf::Event& event)
 	switch (event.type)
 	{
 	case EventType::MouseButtonPressed:
-		m_mousePressed[event.mouseButton.button] = true;
+		HandleMousePressed(event);
+//		m_mousePressed[event.mouseButton.button] = true;
 		break;
 
 	case EventType::KeyPressed:
@@ -134,7 +146,6 @@ void InputManager::HandleInput(const sf::Event& event)
 		break;
 	}
 
-
 	sf::Joystick::update();
 }
 
@@ -143,12 +154,28 @@ bool InputManager::IsKeyPressed(sf::Keyboard::Key _key)
 {
 	if (!m_keyPressed.contains(_key)) return false;
 
-	return m_keyPressed[_key];
+	bool isPressed = m_keyPressed[_key];
+
+	m_keyPressed[_key] = false;
+	return isPressed;
 }
 
 bool InputManager::IsMousePressed(sf::Mouse::Button _mouseClick)
 {
+	bool isPressed = m_mousePressed[_mouseClick];
+	m_mousePressed[_mouseClick] = false;
+
 	return m_mousePressed[_mouseClick];
+}
+
+bool InputManager::IsMouseHeld(sf::Mouse::Button _mouseClick)
+{
+	return m_mouseHeld[_mouseClick];
+}
+
+bool InputManager::IsMouseReleased(sf::Mouse::Button _mouseClick)
+{
+	return m_mouseReleased[_mouseClick];
 }
 
 bool InputManager::IskeyReleased(sf::Keyboard::Key _key)

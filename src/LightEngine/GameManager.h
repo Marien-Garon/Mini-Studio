@@ -7,7 +7,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/View.hpp>
 
-#include "SceneManager.h"
+//#include "SceneManager.h"
 
 class Entity;
 class Scene;
@@ -29,7 +29,7 @@ class GameManager
 	sf::RenderWindow* mpWindow;
 	sf::Font mFont;
 
-	SceneManager sceneManager;
+	//SceneManager sceneManager;
 	Scene* mpScene;
 
 	float mDeltaTime;
@@ -56,7 +56,7 @@ public:
 	~GameManager();
 	static GameManager* Get();
 
-	void CreateWindow(unsigned int width, unsigned int height, const char* title, int fpsLimit = 60, sf::Color clearColor = sf::Color::Black);
+	void CreateWindow(unsigned int width, unsigned int height, const char* title, int fpsLimit = 60, sf::Color clearColor = sf::Color::Black, bool fullscreen = false);
 
 	template<typename T>
 	void LaunchScene();
