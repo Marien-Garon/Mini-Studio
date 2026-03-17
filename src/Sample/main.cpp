@@ -6,7 +6,7 @@ int main()
 {
 	GameManager* pInstance = GameManager::Get();
 
-	bool LaunchLevelEditor = true;
+	bool LaunchLevelEditor = false;
 
 	pInstance->CreateWindow(1920, 1080, "Sample", 60, {0,0,0}, true);
 

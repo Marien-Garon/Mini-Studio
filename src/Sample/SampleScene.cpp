@@ -19,15 +19,15 @@ void SampleScene::OnInitialize()
 {
     LevelEditor::LoadLevel(this,"Level0");
 
- //   AssetManager& AM = AssetManager::getInstance();
+    AssetManager& AM = AssetManager::getInstance();
 
- //   pEntity1 = CreateEntity<Enemy>(AM.CreateSprite("mob", 0,0, 1084, 1438));
- //   pEntity1->SetScale(0.2f, 0.2f);
- //   pEntity1->PlayAnimation("walk");
- //   pEntity1->SetPosition(0, 0, 0.f, 0.f);
-	//pEntity1->SetRigidBody(true);
-	//pEntity1->SetMoveAble(true);
-	//pEntity1->SetTag(1);
+    pEntity1 = CreateEntity<Enemy>(AM.CreateSprite("mob", 0,0, 1084, 1438));
+    pEntity1->SetScale(0.2f, 0.2f);
+    pEntity1->PlayAnimation("walk");
+    pEntity1->SetPosition(0, 0, 0.f, 0.f);
+	pEntity1->SetRigidBody(true);
+	pEntity1->SetMoveAble(true);
+	pEntity1->SetTag(1);
 
 	////pEntity2 = CreateEntity<Enemy>(50,50, sf::Color::Green);
 	////pEntity2->SetPosition(500, 500);

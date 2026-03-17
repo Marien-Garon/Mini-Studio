@@ -229,7 +229,7 @@ void LevelEditor::InitTileBlock()
 		TileBlock* newTile = CreateEntity<TileBlock>(AM.CreateTile(tileData.first));
 		newTile->SetTag(10);
 		newTile->GetSprite();
-		newTile->SetScale(GetScale(newTile->GetCollider().width, TILE_SIZE), GetScale(newTile->GetCollider().height, TILE_SIZE));
+		newTile->SetScale(GetScale(newTile->GetCollider().width, TILE_SIZE) / 2, GetScale(newTile->GetCollider().height, TILE_SIZE) / 2);
 		newTile->SetPosition(-5000, -5000);
 
 		if (m_SelectionPage.empty() || m_SelectionPage.back().size() >= 3)
@@ -387,5 +387,5 @@ void LevelEditor::CreateEntityCopy(Entity* _entity, int _x, int _y)
 	Entity* newEntity = _entity->Clone();
 	newEntity->SetPosition(_x, _y, 0.0f, 0.0f);
 	m_posedBlock.push_back(newEntity);
-	m_gridList[currentGrid].push_back(newEntity);
+	//m_gridList[currentGrid].emplace_back(newEntity);
 }
