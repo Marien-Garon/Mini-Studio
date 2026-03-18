@@ -19,7 +19,7 @@ void MenuScene::OnInitialize()
 	m_menuScreen->SetSpriteScale(0.333, 0.333);
 
    m_buttonPlay = CreateEntity<Button>(110, 50, sf::Color::Transparent);
-   m_buttonPlay->SetPosition((GetWindowWidth() / 2) - 12, (GetWindowHeight() / 2) - 79);
+  
 
    m_buttonPlay->SetFunction([]() {
 
@@ -28,13 +28,13 @@ void MenuScene::OnInitialize()
 	   });
 
    m_arrowLeft = CreateEntity<Button>(30, 40, sf::Color::Transparent);
-   m_arrowLeft->SetPosition((GetWindowWidth() / 2) - 110, (GetWindowHeight() / 2));
+   
    
    m_arrowRight = CreateEntity<Button>(30, 40, sf::Color::Transparent);
-   m_arrowRight->SetPosition((GetWindowWidth() / 2) - 60, (GetWindowHeight() / 2));
+  
 
    m_buttonExit = CreateEntity<Button>(50, 50, sf::Color::Transparent);
-   m_buttonExit->SetPosition((GetWindowWidth() / 2) - 100, (GetWindowHeight() / 2) + 64);
+  
 
 }
 
@@ -46,5 +46,8 @@ void MenuScene::OnEvent(const sf::Event& event)
 
 void MenuScene::OnUpdate()
 {
-  
+	m_buttonPlay->SetPosition((GetWindowWidth() / 2) - 12, (GetWindowHeight() / 2) - 79);
+	m_arrowLeft->SetPosition((GetWindowWidth() / 2) - 110, (GetWindowHeight() / 2));
+	m_arrowRight->SetPosition((GetWindowWidth() / 2) - 60, (GetWindowHeight() / 2));
+	m_buttonExit->SetPosition((GetWindowWidth() / 2) - 100, (GetWindowHeight() / 2) + 64);
 }

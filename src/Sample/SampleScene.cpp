@@ -5,6 +5,7 @@
 #include"Utils.h"
 
 #include "AssetManager.h"
+#include "SceneManager.h"
 #include "Camera.h"
 #include "Hook.h"
 
@@ -60,7 +61,7 @@ void SampleScene::OnInitialize()
 void SampleScene::OnEvent(const sf::Event& event)
 {
 	float dt = GetDeltaTime();
-    InputManager& im = InputManager::Get();
+	InputManager& im = InputManager::Get();
 
 	if (event.mouseButton.button == sf::Mouse::Button::Left)
 	{
@@ -71,6 +72,13 @@ void SampleScene::OnEvent(const sf::Event& event)
 	{
 		m_player->Heal(1);
 	}
+
+	if (im.IsKeyPressed(sf::Keyboard::Escape))
+	{
+		SceneManager& SM = SceneManager::getInstance();
+		SM.ChangeScene("PAUSE");
+	}
+	
 
 	m_player->Actions();
 
