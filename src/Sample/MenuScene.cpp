@@ -18,22 +18,22 @@ void MenuScene::OnInitialize()
 	m_menuScreen = CreateEntity<Entity>(AM.LoadSprite("menu"), sf::Color::Red);
 	m_menuScreen->SetSpriteScale(0.333, 0.333);
 
-   m_buttonPlay = CreateEntity<Button>(110, 50, sf::Color::Red);
+   m_buttonPlay = CreateEntity<Button>(110, 50, sf::Color::Transparent);
+   m_buttonPlay->SetPosition((GetWindowWidth() / 2) - 12, (GetWindowHeight() / 2) - 79);
+
    m_buttonPlay->SetFunction([]() {
 
 	   SceneManager& SM = SceneManager::getInstance();
 	   SM.ChangeScene("LEVEL");
 	   });
 
-   m_buttonPlay->SetPosition((GetWindowWidth() / 2) - 12 ,(GetWindowHeight() / 2) - 79) ;
-
-   m_arrowLeft = CreateEntity<Entity>(30, 40, sf::Color::Red);
+   m_arrowLeft = CreateEntity<Button>(30, 40, sf::Color::Transparent);
    m_arrowLeft->SetPosition((GetWindowWidth() / 2) - 110, (GetWindowHeight() / 2));
    
-   m_arrowRight = CreateEntity<Entity>(30, 40, sf::Color::Red);
+   m_arrowRight = CreateEntity<Button>(30, 40, sf::Color::Transparent);
    m_arrowRight->SetPosition((GetWindowWidth() / 2) - 60, (GetWindowHeight() / 2));
 
-   m_buttonExit = CreateEntity<Entity>(50, 50, sf::Color::Red);
+   m_buttonExit = CreateEntity<Button>(50, 50, sf::Color::Transparent);
    m_buttonExit->SetPosition((GetWindowWidth() / 2) - 100, (GetWindowHeight() / 2) + 64);
 
 }
