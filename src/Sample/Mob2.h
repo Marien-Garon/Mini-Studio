@@ -6,7 +6,6 @@ class Mob2 : public Enemy
 {
 public:
     void Attack() override;
-    void OnInitialize() override;
 };
 
 

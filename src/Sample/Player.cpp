@@ -416,7 +416,7 @@ void Player::Attack()
 	if (m_numberOfGoodPress == 1)
 	{
 		AttackZone* attack = CreateEntity<AttackZone>(50, 50, sf::Color::Cyan);
-		attack->SetPosition(GetPosition().x + GetCollider().width, GetPosition().y);
+		attack->SetPosition(GetPosition().x + m_directionFacing * GetCollider().width, GetPosition().y);
 
 	}
 
