@@ -15,9 +15,6 @@
 
 #include"Entity.h"
 
-#include "Debug.h"
-#include "InputManager.h"
-
 #define MAX_JOYSTICK_POS  100
 #define MIN_JOYSTICK_POS -100
 
@@ -40,13 +37,13 @@ void SampleScene::OnInitialize()
 	   m_hooks.push_back(CreateEntity<Hook>(20.f, 20.f, sf::Color::Yellow));
 	   m_hooks[i]->SetPosition(400.f - i * 100, 200.f + i * 100);
    }
-	//m_Platforms.push_back(CreateEntity<Platform>(200, 50, sf::Color::Blue));
-	//m_Platforms[0]->SetPosition(500, 550);
-	//m_Platforms[0]->SetRigidBody(true);
-
-	m_Platforms.push_back(CreateEntity<BreakablePlatform>(200, 50, sf::Color::Cyan));
+	m_Platforms.push_back(CreateEntity<Platform>(200, 50, sf::Color::Blue));
 	m_Platforms[0]->SetPosition(500, 550);
 	m_Platforms[0]->SetRigidBody(true);
+
+	/*m_Platforms.push_back(CreateEntity<BreakablePlatform>(200, 50, sf::Color::Cyan));
+	m_Platforms[0]->SetPosition(500, 550);
+	m_Platforms[0]->SetRigidBody(true);*/
 	
 }
 

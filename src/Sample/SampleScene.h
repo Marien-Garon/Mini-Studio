@@ -11,7 +11,7 @@ class Platform;
 
 class SampleScene : public Scene
 {
-	float test_BPMDeLaMusique = 135;
+	float test_BPMDeLaMusique = 60;
 	float test_tempsEntreLesAttaque = 60 / test_BPMDeLaMusique; //temps entre chaque appuye en seconde
 	float test_timerAttaque = 0;
 	float m_pityFrames = 10.f;

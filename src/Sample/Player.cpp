@@ -52,6 +52,12 @@ void Player::OnInitialize()
 	m_grappleRopeLenght = 500.f;
 	SetTag(1);
 
+	StateMachineInitialize();
+	
+}
+
+void Player::StateMachineInitialize()
+{
 	//STATE MACHINE
 
 	//IdleState
@@ -70,11 +76,13 @@ void Player::OnInitialize()
 		//->Attaque si une commande de d'attaque est appuyer
 		Transition<Player>* t_attacking = m_stateMachine.AddTransition((int)State::Idle, (int)State::Attacking);
 		t_attacking->AddCondition(new AttackCommandCondition());
+		t_attacking->AddCondition(new HasNotAttackedThisBeatCondition());
 
 		//->Lance le grappin si une commande de de lancement de grappin est appuyer
 		Transition<Player>* t_launchingGrapple = m_stateMachine.AddTransition((int)State::Idle, (int)State::LaunchingGrapple);
 		t_launchingGrapple->AddCondition(new GrappleCommandCondition);
 		t_launchingGrapple->AddCondition(new IsGrappleCooldownBelowZeroCondition);
+		t_launchingGrapple->AddCondition(new IsSomthingGrabbable);
 
 		//->Va la ou le grappin lui a dit d'aller si il est au bon endroit
 		Transition<Player>* t_travelling = m_stateMachine.AddTransition((int)State::Idle, (int)State::Travelling);
@@ -101,11 +109,13 @@ void Player::OnInitialize()
 		//->Attaque si une commande de d'attaque est appuyer
 		Transition<Player>* t_attacking = m_stateMachine.AddTransition((int)State::Moving, (int)State::Attacking);
 		t_attacking->AddCondition(new AttackCommandCondition());
+		t_attacking->AddCondition(new HasNotAttackedThisBeatCondition());
 
 		//->Lance le grappin si une commande de de lancement de grappin est appuyer
 		Transition<Player>* t_launchingGrapple = m_stateMachine.AddTransition((int)State::Moving, (int)State::LaunchingGrapple);
 		t_launchingGrapple->AddCondition(new GrappleCommandCondition);
 		t_launchingGrapple->AddCondition(new IsGrappleCooldownBelowZeroCondition);
+		t_launchingGrapple->AddCondition(new IsSomthingGrabbable);
 
 		//->Va la ou le grappin lui a dit d'aller si il est au bon endroit
 		Transition<Player>* t_travelling = m_stateMachine.AddTransition((int)State::Moving, (int)State::Travelling);
@@ -123,11 +133,13 @@ void Player::OnInitialize()
 		//->Attaque si une commande de d'attaque est appuyer
 		Transition<Player>* t_attacking = m_stateMachine.AddTransition((int)State::Jumping, (int)State::Attacking);
 		t_attacking->AddCondition(new AttackCommandCondition());
+		t_attacking->AddCondition(new HasNotAttackedThisBeatCondition());
 
 		//->Lance le grappin si une commande de de lancement de grappin est appuyer
 		Transition<Player>* t_launchingGrapple = m_stateMachine.AddTransition((int)State::Jumping, (int)State::LaunchingGrapple);
 		t_launchingGrapple->AddCondition(new GrappleCommandCondition);
 		t_launchingGrapple->AddCondition(new IsGrappleCooldownBelowZeroCondition);
+		t_launchingGrapple->AddCondition(new IsSomthingGrabbable);
 
 		//->Va la ou le grappin lui a dit d'aller si il est au bon endroit
 		Transition<Player>* t_travelling = m_stateMachine.AddTransition((int)State::Jumping, (int)State::Travelling);
@@ -166,7 +178,7 @@ void Player::OnInitialize()
 	{
 		m_stateMachine.AddState(new LaunchingGrappleState());
 
-		
+
 		//->S'arrète si on avance plus
 		Transition<Player>* t_idle = m_stateMachine.AddTransition((int)State::LaunchingGrapple, (int)State::Idle);
 		t_idle->AddCondition(new NoMoveCommandCondition());
@@ -202,11 +214,13 @@ void Player::OnInitialize()
 		//->Attaque si une commande de d'attaque est appuyer
 		Transition<Player>* t_attacking = m_stateMachine.AddTransition((int)State::Falling, (int)State::Attacking);
 		t_attacking->AddCondition(new AttackCommandCondition());
+		t_attacking->AddCondition(new HasNotAttackedThisBeatCondition());
 
 		//->Lance le grappin si une commande de de lancement de grappin est appuyer
 		Transition<Player>* t_launchingGrapple = m_stateMachine.AddTransition((int)State::Falling, (int)State::LaunchingGrapple);
 		t_launchingGrapple->AddCondition(new GrappleCommandCondition);
 		t_launchingGrapple->AddCondition(new IsGrappleCooldownBelowZeroCondition);
+		t_launchingGrapple->AddCondition(new IsSomthingGrabbable);
 
 		//->Va la ou le grappin lui a dit d'aller si il est au bon endroit
 		Transition<Player>* t_travelling = m_stateMachine.AddTransition((int)State::Falling, (int)State::Travelling);
@@ -218,13 +232,32 @@ void Player::OnInitialize()
 
 void Player::OnUpdate()
 {	
+	bool isAttackingTimingGood = static_cast<SampleScene*>(GetScene())->IsAttackTimingOkay();
+
+	if (!isAttackingTimingGood)
+		m_hasAttackedThisBeat = false;
+
+	if (!m_hasAttackedThisBeat && isAttackingTimingGood)
+		m_resetBombo = true;
+
+
+	if (!m_isGrounded && !GetIsGravity())
+		StartGravity(0);
+
 	SetDirection(0, 0);
+	
 
 	Debug::DrawText(GetPosition().x, GetPosition().y - 50, StateToStr(), 0.5f, 0.5f, sf::Color::White);
 
 	m_stateMachine.Update(this, GetDeltaTime());
 
 	m_grappleCooldown -= GetDeltaTime();
+	m_isGrounded = false;
+
+	if (m_resetBombo && !isAttackingTimingGood)
+		m_numberOfGoodPress = 0;
+	
+	std::cout << m_hasAttackedThisBeat<< "/" << m_resetBombo << "/" << m_numberOfGoodPress << std::endl;
 }
 
 void Player::OnCollision(Entity* collidedWith)
@@ -238,7 +271,7 @@ void Player::OnCollision(Entity* collidedWith)
 
 		Side side = GetCollidingSide(collidedWith);
 		
-		std::cout << "Platform : " << collidedWith->GetCollider().x << "/" << collidedWith->GetCollider().y << std::endl;
+		/*std::cout << "Platform : " << collidedWith->GetCollider().x << "/" << collidedWith->GetCollider().y << std::endl;
 		std::cout << "Player   : " << GetCollider().x << "/" << GetCollider().y + GetCollider().height << std::endl;
 
 
@@ -265,10 +298,14 @@ void Player::OnCollision(Entity* collidedWith)
 		case Side::NONE:
 			std::cout << "NONE" << std::endl;
 			break;
-		}
+		}*/
 
 		if (side == Side::DOWN)
- 			StopGravity();
+		{
+			StopGravity();
+			m_isGrounded = true;
+		}
+ 			
 			
 	}
 		
@@ -353,20 +390,23 @@ void Player::Attack()
 	float windowWidth = GetScene()->GetWindowWidth();
 	bool isAttackingTimingGood = static_cast<SampleScene*>(GetScene())->IsAttackTimingOkay();
 
-	if (isAttackingTimingGood)
+	if (isAttackingTimingGood && !m_hasAttackedThisBeat)
+	{
 		m_numberOfGoodPress++;
-
+		m_resetBombo = false;
+		m_hasAttackedThisBeat = true;
+	}
+		
 
 	else
 		m_numberOfGoodPress = 0;
-
 
 
 	if (m_numberOfGoodPress == 1)
 	{
 		SoundWave* attack = CreateEntity<SoundWave>(50, 50, sf::Color::Cyan);
 		attack->SetPosition(GetPosition().x, GetPosition().y);
-		attack->GoToDirection(windowWidth * m_directionFacing, GetPosition().y);
+		attack->SetDirection(m_directionFacing, 0);
 
 	}
 
@@ -374,7 +414,7 @@ void Player::Attack()
 	{
 		SoundBlast* attack = CreateEntity<SoundBlast>(50, 100, sf::Color::Cyan);
 		attack->SetPosition(GetPosition().x, GetPosition().y);
-		attack->GoToDirection(windowWidth * m_directionFacing, GetPosition().y);
+		attack->SetDirection(m_directionFacing, 0);
 		m_numberOfGoodPress = 0;
 	}
 
@@ -489,6 +529,11 @@ float Player::GetGravitySpeed()
 	return mGravitySpeed;
 }
 
+bool Player::GetHasAttackedThisBeat()
+{
+	return m_hasAttackedThisBeat;
+}
+
 
 
 bool NoMoveCommandCondition::Test(Player* player)
@@ -593,6 +638,22 @@ bool IsPlayerAtGrappleDestination::Test(Player* player)
 	if (player->GetPosition().x == grapple->GetPosition().x && player->GetPosition().y == grapple->GetPosition().y)
 		return true;
 	return false;
+}
+
+bool IsSomthingGrabbable::Test(Player* player)
+{
+	if (player->SearchForHook() != nullptr)
+		return true;
+
+	return false;
+}
+
+bool HasNotAttackedThisBeatCondition::Test(Player* player)
+{
+	if (player->GetHasAttackedThisBeat())
+		return false;
+	
+	return true;
 }
 
 
@@ -735,3 +796,5 @@ void FallingState::End(Player* type)
 {
 
 }
+
+

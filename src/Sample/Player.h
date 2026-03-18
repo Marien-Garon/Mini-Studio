@@ -25,6 +25,7 @@ public:
 	
 
 	void OnInitialize() override;
+	void StateMachineInitialize();
 	void OnUpdate() override;
 	void OnCollision(Entity* collidedWith) override ;
 	void OnDestroy() override {} ;
@@ -50,6 +51,7 @@ public:
 	float GetGrappleCooldown();
 	bool GetIsGravity();
 	float GetGravitySpeed();
+	bool GetHasAttackedThisBeat();
 
 private:
 
@@ -58,6 +60,9 @@ private:
 	int m_health = 3;
 	int m_maxHealth = 3;
 	bool m_playerAlive = true;
+	bool m_isGrounded = false;
+	bool m_resetBombo = true;
+	bool m_hasAttackedThisBeat = false;
 	int m_directionFacing = 1; //1 = regarde vers la droite, -1 = regarde vers la gauche
 	int m_numberOfGoodPress = 0;
 
@@ -207,6 +212,18 @@ public:
 };
 
 class IsPlayerAtGrappleDestination : public Condition<Player>
+{
+public:
+	bool Test(Player* player) override;
+};
+
+class IsSomthingGrabbable : public Condition<Player>
+{
+public:
+	bool Test(Player* player) override;
+};
+
+class HasNotAttackedThisBeatCondition : public Condition<Player>
 {
 public:
 	bool Test(Player* player) override;
