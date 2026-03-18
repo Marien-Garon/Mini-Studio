@@ -1,3 +1,4 @@
+
 #include "Entity.h"
 
 #include "GameManager.h"
@@ -162,6 +163,7 @@ void Entity::SetDirection(float x, float y, float speed)
 	mDirection = sf::Vector2f(x, y);
 	mTarget.isSet = false;
 }
+
 
 void Entity::SetOpacity(float _alpha)
 {
