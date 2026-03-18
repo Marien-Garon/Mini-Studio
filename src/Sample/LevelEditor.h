@@ -3,6 +3,7 @@
 #include "TileBlock.h"
 #include "BreakablePlatform.h"
 
+#include <unordered_map>
 #include <filesystem>
 #include <fstream>
 #include <nlohmann/json.hpp>
@@ -19,7 +20,7 @@ private:
 	std::vector<std::vector<Entity*>> m_SelectionPage;
 	std::vector<Entity*> m_posedBlock;
 
-	std::vector <std::vector<Entity*>> m_gridList;
+	std::unordered_map<unsigned int,std::vector<Entity*>> m_gridList;
 
 	std::vector<Button*> btnList;
 
@@ -44,6 +45,7 @@ public:
 	void RemoveTile(int _index);
 	
 	void IndexMove(int _movement);
+	void GridMove(int _movement);
 
 	std::vector<Entity*> GetPresentTile(float _x, float _y);
 

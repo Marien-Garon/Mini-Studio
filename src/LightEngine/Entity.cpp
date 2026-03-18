@@ -184,16 +184,16 @@ void Entity::Update()
 	{
 		m_sprite->UpdateAnimation(dt);
 		//SetSpriteScale(m_Scale.x, m_Scale.y); i was drunk when i write that ? 
-		//m_sprite->sprite->move(translation);
+		m_sprite->sprite->move(translation);
 	}
-	//else
-	//	mShape.move(translation);
+	else
+		mShape.move(translation);
 
 	m_collider.Move(translation);
 
-	sf::Vector2f newPos = GetPosition() + translation;
+	/*sf::Vector2f newPos = GetPosition() + translation;
 
-	SetPosition(newPos.x, newPos.y);
+	SetPosition(newPos.x, newPos.y);*/
 
 	if (mTarget.isSet) 
 	{

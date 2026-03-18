@@ -122,15 +122,6 @@ bool LevelEditor::CanPoseTile(float _x, float _y)
 {
 	if (_x >= (GetWindowWidth() - (4 * TILE_SIZE))) return false;
 
-	/*for (Entity* tile : m_posedBlock)
-	{
-		if (tile->IsInside(_x, _y))
-		{
-			Debug::DebugMessage(Debug::Severity::DEBUG, "Tile", "A Tile is already present here");
-			return false;
-		}
-	}*/
-
 	return true;
 }
 
@@ -166,6 +157,13 @@ void LevelEditor::IndexMove(int _movement)
 
 	RemoveTile(oldIndex);
 	ReplaceTile();
+}
+
+void LevelEditor::GridMove(int _movement)
+{
+	int oldInex = currentGrid;
+	if (_movement + currentGrid <= 0) currentGrid = 0;
+	else if (!m_gridList.contains(_movement + currentGrid));
 }
 
 std::vector<Entity*> LevelEditor::GetPresentTile(float _x, float _y)
@@ -273,9 +271,6 @@ void LevelEditor::OnInitialize()
 	InitTileBlock();
 	InitEntity();
 
-	Entity* entity = CreateEntity<Entity>(200, 200, sf::Color::Magenta);
-	entity->SetPosition(0, 0, 0.F, 0.F);
-
 	Button* btn1 = CreateEntity<Button>(100, 40, sf::Color::Yellow);
 	btn1->SetPosition(GetWindowWidth() - 2 * TILE_SIZE, TILE_SIZE);
 	btn1->SetFunction(
@@ -301,14 +296,27 @@ void LevelEditor::OnInitialize()
 			IndexMove(-1);
 		});
 	btnList.push_back(btn3);
+
+	Button* btn4 = CreateEntity<Button>(80, 40, sf::Color::Cyan);
+	btn4->SetPosition(GetWindowWidth() - 3 * TILE_SIZE, GetWindowHeight() - 2 * TILE_SIZE);
+	btn4->SetFunction(
+		[this]() {
+			GridMove(1);
+		}
+	);
+	btnList.push_back(btn4);
+
+	Button* btn5 = CreateEntity<Button>(80, 40, sf::Color::Cyan);
+	btn5->SetPosition(GetWindowWidth() - TILE_SIZE, GetWindowHeight() - 2 * TILE_SIZE);
+	btn5->SetFunction(
+		[this]() {
+			GridMove(-1);
+		});
+	btnList.push_back(btn5);
 }
 
 void LevelEditor::OnEvent(const sf::Event& event)
 {
-	//for (Button* btn : btnList)
-	//{
-	//	btn->UpdateEvent(event);
-	//}
 
 	if (event.type == sf::Event::MouseButtonPressed &&
 		event.mouseButton.button == sf::Mouse::Right)
@@ -317,17 +325,9 @@ void LevelEditor::OnEvent(const sf::Event& event)
 		for (Entity* e : m_SelectionPage[currentSelectionIndex])
 			TrySetSelectedEntity(e, event.mouseButton.x, event.mouseButton.y);
 
-		//3 loop because one is not enough grougrou
-		//for (auto& e : m_entityToPlace)
-		//	TrySetSelectedEntity(e, event.mouseButton.x, event.mouseButton.y);
-		//for (auto& tile : m_tileList)
-		//	TrySetSelectedEntity(tile, event.mouseButton.x, event.mouseButton.y);
 		for (auto& tile : m_posedBlock)
 			TrySetSelectedEntity(tile, event.mouseButton.x, event.mouseButton.y);
 	}
-
-	//if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left 
-
 
 	if (event.type == sf::Event::MouseButtonPressed &&
 		event.mouseButton.button == sf::Mouse::Left)
@@ -371,7 +371,6 @@ void LevelEditor::OnUpdate()
 	if (InputManager::Get().IsKeyPressed(sf::Keyboard::Key::A))
 		drawGrid = !drawGrid;
 
-
 	if(drawGrid) DrawGrid();
 
 	if (pEntitySelected != nullptr)
@@ -394,5 +393,6 @@ void LevelEditor::CreateEntityCopy(Entity* _entity, int _x, int _y)
 	Entity* newEntity = _entity->Clone();
 	newEntity->SetPosition(_x, _y, 0.0f, 0.0f);
 	m_posedBlock.push_back(newEntity);
-	//m_gridList[currentGrid].emplace_back(newEntity);
+
+	m_gridList[currentGrid].push_back(newEntity);
 }
