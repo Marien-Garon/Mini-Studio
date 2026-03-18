@@ -1,0 +1,22 @@
+{
+  "Data": {
+    "id": "spriteSheetCourse",
+    "spritesheet": true,
+    "size": {
+      "width": 6720,
+      "height": 1030
+    },
+    "frame_size": {
+      "width": 1120,
+      "height": 1030
+    },
+    "animations": {
+      "animation_name_1": {
+        "line": 0,
+        "frameNbr": 6,
+        "duration": 0.1,
+        "loop": true
+      }
+    }
+  }
+}

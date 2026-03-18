@@ -50,8 +50,7 @@ void SampleScene::OnInitialize()
 	   m_hooks[i]->SetPosition(400.f - i * 100, 200.f + i * 100);
    }
 	m_Platforms.push_back(CreateEntity<Platform>(200, 50, sf::Color::Blue));
-	m_Platforms[0]->SetPosition(500, 550);
-
+	m_Platforms[0]->SetPosition(0, 50);
 	m_Platforms[0]->SetRigidBody(true);
     
 	m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 35, sf::Color::Cyan));
@@ -167,6 +166,8 @@ void SampleScene::OnUpdate()
 
 Enemy* SampleScene::SpawnEnemy(int x, int y)
 {
+	AssetManager& AM = AssetManager::getInstance();
+
 	Platform* p1 = m_Platforms[0];
     float px1 = p1->GetTopLeft().x;
     float py1 = p1->GetTopLeft().y;
@@ -178,14 +179,14 @@ Enemy* SampleScene::SpawnEnemy(int x, int y)
     float width2 = p2->GetSize().x;
 
     
-    Enemy* mob1 = CreateEntity<Mob1>(50, 30, sf::Color::Red);
+	Enemy* mob1 = CreateEntity<Mob1>(AM.CreateSprite("spriteSheetMob1",0,0,1085,1440));
     mob1->SetPlatform(p1);
     mob1->SetPosition(px1 + width1 * 0.5f, py1 - 1, 0.5f, 1.f);
     mob1->Initialize();
     m_enemy.push_back(mob1);
 
     
-    Enemy* mob2 = CreateEntity<Mob2>(50, 20, sf::Color::Blue);
+    Enemy* mob2 = CreateEntity<Mob2>(AM.CreateSprite("spriteSheetMob1", 0, 0, 1085, 1440));
     mob2->SetPlatform(p2);
     mob2->SetPosition(px2 + width2 * 0.5f, py2 - 1, 0.5f, 1.f);
     mob2->Initialize();

@@ -1,0 +1,57 @@
+{
+  "Data": {
+    "id": "spriteSheetMob1",
+    "spritesheet": true,
+    "size": {
+      "width": 6510,
+      "height": 8640
+    },
+    "frame_size": {
+      "width": 1085,
+      "height": 1440
+    },
+    "animations": {
+      "walk_to_right": {
+        "line": 0,
+        "frameNbr": 6,
+        "duration": 0.1,
+        "loop": true
+      },
+
+      "walk_to_left": {
+        "line": 1,
+        "frameNbr": 6,
+        "duration": 0.1,
+        "loop": false
+      },
+
+      "death_to_right": {
+        "line": 2,
+        "frameNbr": 6,
+        "duration": 0.1,
+        "loop": false
+      },
+
+      "death_to_left": {
+        "line": 3,
+        "frameNbr": 6,
+        "duration": 0.1,
+        "loop": false
+      },
+
+      "shoot_to_right": {
+        "line": 4,
+        "frameNbr": 6,
+        "duration": 0.1,
+        "loop": false
+      },
+
+      "shoot_to_left": {
+        "line": 5,
+        "frameNbr": 6,
+        "duration": 0.1,
+        "loop": false
+      }
+    }
+  }
+}

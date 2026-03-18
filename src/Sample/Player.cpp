@@ -693,6 +693,7 @@ void MovingState::Update(Player* type, float dt)
 {
 	//Animation a mettre ici
 
+
 	type->ControlSetDirectionFacing();
 
 	if (type->GetDirectionFacing() == 1)
