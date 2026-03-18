@@ -4,9 +4,6 @@
 
 class Platform;
 
-
-
-
 class Enemy : public Entity
 {
 protected:
@@ -18,7 +15,7 @@ protected:
     float m_maxDistance = 200.f;
     float m_attackCooldown = 3.0f;   
     float m_attackTimer = 0.0f;
-
+    int m_directionFacing = 1;
     bool m_isAlive = true;
 
     std::string m_name = "Enemy";

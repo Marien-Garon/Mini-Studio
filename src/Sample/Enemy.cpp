@@ -27,8 +27,6 @@ void Enemy::UpdateMovementAndTimers()
         if (enemyRight > right)
             m_direction = -1;
     }
-
-
     
     float width = GetScene()->GetWindowWidth();
     float height = GetScene()->GetWindowHeight();
@@ -40,6 +38,12 @@ void Enemy::UpdateMovementAndTimers()
     {
         Destroy();
     }
+
+    if (m_direction > 0)
+        m_directionFacing = 1;
+    else
+        m_directionFacing = -1;
+
 }
 
 
