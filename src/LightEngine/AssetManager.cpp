@@ -405,7 +405,8 @@ SpriteData::SpriteData(std::string _id, int _posX, int _posY, int _w, int _h,boo
 
 SpriteData::~SpriteData()
 {
-    delete sprite;
+    if(sprite != nullptr) 
+        delete sprite;
 }
 
 

@@ -145,7 +145,6 @@ void GameManager::HandleInput()
 void GameManager::Update()
 {
 	mpScene->OnUpdate();
-	std::cout << mEntities.size() << std::endl;
     //Update
     for (auto it = mEntities.begin(); it != mEntities.end(); )
     {

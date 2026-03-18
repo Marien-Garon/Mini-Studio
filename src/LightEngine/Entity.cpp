@@ -258,6 +258,12 @@ Entity* Entity::Clone()
 	return CreateClonedEntity<Entity>();
 }
 
+Entity::~Entity()
+{
+	if (m_sprite != nullptr) 
+		delete m_sprite;
+}
+
 
 void Entity::SetScale(float _x, float _y)
 {

@@ -119,7 +119,7 @@ public:
 
 protected:
     Entity() = default;
-	~Entity() { if (m_sprite != nullptr) delete m_sprite; };
+	~Entity();
 
     virtual void OnUpdate() {};
     virtual void OnCollision(Entity* collidedWith) {};
