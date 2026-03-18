@@ -1,0 +1,26 @@
+{"Data" : 
+     { 
+     "id" : "name",
+     "spritesheet" : true,
+     "size" : { "width": 0, "height": 0 },
+     "frame_size": { "width": 0, "height": 0 },
+     "animations":
+          {
+               "animation_name_1":
+               {
+               "line": 0,
+               "frameNbr" : 4,
+               "duration" : 0.1,
+               "loop": true
+               },
+
+               "animation_name_2":
+               {
+               "line": 1,
+               "frameNbr" : 4,               
+               "duration" : 0.1,               
+               "loop": false
+               }
+          }
+     }
+}

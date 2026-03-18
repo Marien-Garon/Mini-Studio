@@ -8,19 +8,16 @@
 
 #include"Utils.h"
 
-
+#include "InputManager.h"
 #include "AssetManager.h"
 #include "Camera.h"
 #include "Hook.h"
 
-
 #include"Platform.h"
 #include"BreakablePlatform.h"
-
 #include"Entity.h"
-
 #include "Debug.h"
-#include "InputManager.h"
+#include "LevelEditor.h"
 
 #define MAX_JOYSTICK_POS  100
 #define MIN_JOYSTICK_POS -100
@@ -34,6 +31,8 @@ void SampleScene::OnInitialize()
     AssetManager& AM = AssetManager::getInstance();
 	m_parallaxe = CreateEntity<Parallaxe>(0, 0, sf::Color::Black);
 	m_parallaxe->Start();
+
+	//std::vector<Entity*> test = LevelEditor::LoadLevel(this, "Level0");
 
 	m_player= CreateEntity<Player>(50, 50, sf::Color::Red);
 	m_player->SetPosition(0, 0);
@@ -65,9 +64,9 @@ void SampleScene::OnInitialize()
 
 	pEntitySelected = nullptr;
 
-	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
-	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
-	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
+	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
+	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
+	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
@@ -81,7 +80,6 @@ void SampleScene::OnEvent(const sf::Event& event)
 
         m_enemy.clear();
 
-        
         SpawnEnemy(event.mouseButton.x, event.mouseButton.y);
     }
 
@@ -157,15 +155,16 @@ void SampleScene::OnUpdate()
 
 	IncreaseTimer();
 
-	for (auto* p : m_Platforms)
-	{
-		p->OnUpdate();
-	}
+	// NAN NAN NAN
+	//for (auto* p : m_Platforms)
+	//{
+	//	p->OnUpdate();
+	//}
 
-	for (auto* e : m_enemy)
-	{
-		e->OnUpdate();
-	}
+	//for (auto* e : m_enemy)
+	//{
+	//	e->OnUpdate();
+	//}
 }
 
 Enemy* SampleScene::SpawnEnemy(int x, int y)

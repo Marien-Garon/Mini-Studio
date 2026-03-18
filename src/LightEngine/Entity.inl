@@ -21,7 +21,37 @@ T* Entity::CreateEntity(float width, float height, const sf::Color& color)
 }
 
 template<typename T>
-T* Entity::CreateEntity(sf::Sprite* _sprite, const sf::Color& color)
+T* Entity::CreateEntity(SpriteData* _sprite)
 {
-	return GetScene()->CreateEntity<T>(_sprite, color);
+	return GetScene()->CreateEntity<T>(_sprite);
+}
+
+
+template<typename T>
+inline Entity* Entity::CreateClonedEntity()
+{
+	AssetManager& am = AssetManager::getInstance();
+
+	T* newEntity = nullptr;
+
+	if (hasSprite)
+	{
+		int w = m_sprite->data->spritesheet ? m_sprite->data->frameSizeW : m_sprite->data->sizeW;
+		int h = m_sprite->data->spritesheet ? m_sprite->data->frameSizeH : m_sprite->data->sizeH;
+
+		newEntity = CreateEntity<T>(am.CreateSprite(m_sprite->textureID, 0, 0, w, h));
+		newEntity->SetScale(m_sprite->sprite->getScale().x, m_sprite->sprite->getScale().y);
+		newEntity->SetSpriteRotation(m_sprite->sprite->getRotation());
+	}
+	else
+	{
+		newEntity = CreateEntity<T>(mShape.getSize().x, mShape.getSize().y, mShape.getFillColor());
+		newEntity->SetScale(mShape.getScale().x, mShape.getScale().y);
+	}
+
+	newEntity->SetTag(mTag);
+	newEntity->SetMoveAble(m_isMoveable);
+	newEntity->SetRigidBody(mRigidBody);
+
+	return newEntity;
 }

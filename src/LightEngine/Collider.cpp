@@ -1,6 +1,15 @@
 #include "Collider.h"
-
 #include <iostream>
+
+
+AABBCollider::AABBCollider(float _x, float _y, float _w, float _h) :
+    x(_x),
+    y(_y),
+    width(_w),
+    height(_h),
+    bWidth(_w),
+    bHeight(_h)
+{ }
 
 bool AABBCollider::IsColliding(const AABBCollider& _other)
 {
@@ -14,13 +23,37 @@ bool AABBCollider::IsInside(const AABBCollider& _other)
 
 bool AABBCollider::IsInside(float _x, float _y)
 {
-    return ( _x > x && _x < x + width && _y > y && y < y + height );
+    return ( _x > x && _x < x + width && _y > y && _y < y + height );
 }
 
 void AABBCollider::SetPosition(float _x, float _y)
 {
     x = _x;
     y = _y;
+}
+
+void AABBCollider::SetScale(float _x, float _y)
+{
+    width = bWidth * _x;
+    height = bHeight * _y;
+}
+
+void AABBCollider::SetScale(const sf::Vector2f& _scale)
+{
+    width = bWidth * _scale.x;
+    height = bHeight * _scale.y;
+}
+
+void AABBCollider::Move(sf::Vector2f _direction)
+{
+    x += _direction.x;
+    y += _direction.y;
+}
+
+void AABBCollider::Move(float _x, float _y)
+{
+    x += _x;
+    y += _y;
 }
 
 Side AABBCollider::GetCollisionSide(const AABBCollider& _other)
@@ -39,7 +72,6 @@ Side AABBCollider::GetCollisionSide(const AABBCollider& _other)
     if (overlapMin == overlapX2)  return Side::RIGHT;
     if (overlapMin == overlapY1)    return Side::UP;
     if (overlapMin == overlapY2) return Side::DOWN;
-
 
     return Side::NONE;
 }

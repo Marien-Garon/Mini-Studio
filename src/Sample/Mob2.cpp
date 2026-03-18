@@ -1,5 +1,5 @@
 #include "Mob2.h"
-
+#include "Bullet.h"
 #include "Enemy.h"
 
 void Mob2::OnInitialize()
@@ -18,21 +18,21 @@ void Mob2::Attack()
 
     // Projectile 1 : tout droit
     {
-        Entity* bullet = CreateEntity<Entity>(10, 10, sf::Color::Cyan);
+        Bullet* bullet = CreateEntity<Bullet>(10, 10, sf::Color::Cyan);
         bullet->SetPosition(pos.x, pos.y);
         bullet->SetDirection(1.f * m_directionFacing, 0.f * m_directionFacing, 400.f* m_directionFacing);
     }
 
     // Projectile 2 : diagonale haut
     {
-        Entity* bullet = CreateEntity<Entity>(10, 10, sf::Color::Cyan);
+        Bullet* bullet = CreateEntity<Bullet>(10, 10, sf::Color::Cyan);
         bullet->SetPosition(pos.x, pos.y);
         bullet->SetDirection(1.f* m_directionFacing, -0.5f * m_directionFacing, 400.f* m_directionFacing);
     }
 
     // Projectile 3 : diagonale bas
     {
-        Entity* bullet = CreateEntity<Entity>(10, 10, sf::Color::Cyan);
+        Bullet* bullet = CreateEntity<Bullet>(10, 10, sf::Color::Cyan);
         bullet->SetPosition(pos.x, pos.y);
         bullet->SetDirection(1.f* m_directionFacing, 0.5f* m_directionFacing, 400.f* m_directionFacing);
     }

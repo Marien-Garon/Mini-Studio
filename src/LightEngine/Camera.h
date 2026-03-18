@@ -30,6 +30,9 @@ public:
 	void Shake(int degree);
 
 	sf::View* GetView() { return &camera; }
+	
+	~Camera() = default;
+
 	sf::View* GetUIView() { return &UIView; }
 
 };

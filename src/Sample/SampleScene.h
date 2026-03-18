@@ -17,7 +17,7 @@ class Platform;
 
 class SampleScene : public Scene
 {
-    
+private:
     std::vector<Enemy*> m_enemy;
 
 	float test_BPMDeLaMusique = 135;
@@ -27,7 +27,6 @@ class SampleScene : public Scene
 
 	Player* m_player;
 	Companion* m_robot;
-	Camera* mCamera;
 
 	std::vector<Platform*> m_Platforms;
 	std::vector<Entity*> m_UI;
@@ -36,6 +35,8 @@ private:
     void TrySetSelectedEntity(Enemy* pEntity, int x, int y);
 
 public:
+
+	void OnDestroy() override {};
     void OnInitialize() override;
     void OnEvent(const sf::Event& event) override;
     void OnUpdate() override;
