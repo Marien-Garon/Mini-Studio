@@ -34,7 +34,7 @@ void Mob2::Attack()
     {
         Bullet* bullet = CreateEntity<Bullet>(10, 10, sf::Color::Cyan);
         bullet->SetPosition(pos.x, pos.y);
-        bullet->SetDirection(1.f, 0.5, 400.f);
+        bullet->SetDirection(1.f * m_directionFacing, 0.5, 400.f);
     }
 }
 
