@@ -9,8 +9,8 @@ void Background::OnUpdate()
 
 	sf::Vector2f position = GetPosition(1.f, 0.f);
 
- 	if (position.x < 0)
+ 	if (position.x < cameraPos.x - (windowWidth / 2))
 	{
-		SetPosition(windowWidth, position.y, 0.f, 0.f);
+		SetPosition(cameraPos.x + (windowWidth / 2), position.y, 0.f, 0.f);
 	}
 }
