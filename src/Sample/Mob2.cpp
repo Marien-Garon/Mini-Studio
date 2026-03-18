@@ -9,6 +9,8 @@ void Mob2::OnInitialize()
     m_speed = 70.f;
 }
 
+
+//TO DO ATTACK when player is detected
 void Mob2::Attack()
 {
     if (!m_isAlive)
