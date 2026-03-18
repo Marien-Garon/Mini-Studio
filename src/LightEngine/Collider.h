@@ -36,6 +36,8 @@ public:
 
 	void SetScale(const sf::Vector2f& _scale);
 
+	void Move(sf::Vector2f _direction);
+	void Move(float _x, float _y);
 
 	Side GetCollisionSide(const AABBCollider& _other);
 };

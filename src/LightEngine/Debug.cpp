@@ -95,6 +95,18 @@ void Debug::DrawText(float x, float y, const std::string& text, float ratioX, fl
 	Debug::Get()->mTexts.push_back(sfText);
 }
 
+void Debug::DrawCollider(const AABBCollider& collider)
+{
+	sf::Vector2f pos = { collider.x, collider.y };
+	sf::Vector2f size = { collider.width, collider.height };
+
+
+	Debug::DrawLine(pos.x, pos.y, pos.x + size.x, pos.y, sf::Color::Magenta);
+	Debug::DrawLine(pos.x, pos.y, pos.x, pos.y + size.y, sf::Color::Magenta);
+	Debug::DrawLine(pos.x, pos.y + size.y, pos.x + size.x, pos.y + size.y, sf::Color::Magenta);
+	Debug::DrawLine(pos.x + size.x, pos.y, pos.x + size.x, pos.y + size.y, sf::Color::Magenta);
+}
+
 void Debug::DebugMessage(Severity _sv, const std::string& _type, const std::string& _msg)
 {
 	std::string svText;

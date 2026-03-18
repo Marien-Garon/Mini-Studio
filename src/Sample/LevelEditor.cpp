@@ -39,12 +39,16 @@ std::vector<Entity*> LevelEditor::LoadLevel(Scene* scene, std::string _id)
 		sf::Vector2f pos = { tile["position"].value("x",0.f), tile["position"].value("y",0.f) };
 		sf::Vector2f scale = { tile["scale"].value("width",1.f), tile["scale"].value("height",1.f) };
 
+		pos.x -= scene->GetWindowWidth() / 2;
+		pos.y -= scene->GetWindowHeight() / 2;
+
 		if (tag == 10)
 		{
 			TileBlock* newTile = scene->CreateEntity<TileBlock>(AssetManager::getInstance().CreateTile(id));
 			newTile->SetTag(tag);
 			newTile->SetScale(scale);
 			newTile->SetPosition(pos.x, pos.y, 0.0f, 0.0f);
+			newTile->SetRigidBody(true);
 			m_entity.push_back(newTile);
 		}
 	}
@@ -268,6 +272,9 @@ void LevelEditor::OnInitialize()
 {
 	InitTileBlock();
 	InitEntity();
+
+	Entity* entity = CreateEntity<Entity>(200, 200, sf::Color::Magenta);
+	entity->SetPosition(0, 0, 0.F, 0.F);
 
 	Button* btn1 = CreateEntity<Button>(100, 40, sf::Color::Yellow);
 	btn1->SetPosition(GetWindowWidth() - 2 * TILE_SIZE, TILE_SIZE);

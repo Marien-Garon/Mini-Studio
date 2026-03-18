@@ -13,12 +13,13 @@ class Scene
 {
 private:
 	GameManager* mpGameManager;
-	Camera* mCamera;
 
 private:
 	void SetGameManager(GameManager* pGameManager) { mpGameManager = pGameManager; }
 	
 protected:
+
+	Camera* mCamera;
 
 	virtual void OnDestroy() {};
 	virtual void OnInitialize() = 0;
@@ -40,7 +41,7 @@ public:
 
 	int GetWindowWidth() const;
 	int GetWindowHeight() const;
-
+	Camera* GetCamera() { return mCamera; };
 
 	void DrawSprite(sf::Sprite* _sprite) const;
 

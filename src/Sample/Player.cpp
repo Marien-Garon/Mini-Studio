@@ -13,6 +13,7 @@
 void Player::OnInitialize()
 {
 	SetRigidBody(true);
+	SetMoveAble(true);
 	mBaseSpeed = 300;
 	mAcceleration = 0.f;
 	mDecceleration = 0.f;
@@ -42,7 +43,7 @@ void Player::OnUpdate()
 
 void Player::OnCollision(Entity* collidedWith)
 {
-	if (collidedWith->IsTag(0))
+	if (collidedWith->IsTag(0) || collidedWith->IsTag(10))
 	{
 		Platform* pf = (Platform*)collidedWith;
 
@@ -50,12 +51,11 @@ void Player::OnCollision(Entity* collidedWith)
 			return;
 
 		Side side = GetCollidingSide(collidedWith);
-		
-		std::cout << "Platform : " << collidedWith->GetCollider().x << "/" << collidedWith->GetCollider().y << std::endl;
-		std::cout << "Player   : " << GetCollider().x << "/" << GetCollider().y + GetCollider().height << std::endl;
+		//
+		//std::cout << "Platform : " << collidedWith->GetCollider().x << "/" << collidedWith->GetCollider().y << std::endl;
+		//std::cout << "Player   : " << GetCollider().x << "/" << GetCollider().y + GetCollider().height << std::endl;
 
-
-		switch (side) 
+		/*switch (side) 
 		{
 		case Side::INSIDE:
 			std::cout << "INSIDE" << std::endl;
@@ -78,7 +78,7 @@ void Player::OnCollision(Entity* collidedWith)
 		case Side::NONE:
 			std::cout << "NONE" << std::endl;
 			break;
-		}
+		}*/
 
 		if (side == Side::DOWN)
 		{

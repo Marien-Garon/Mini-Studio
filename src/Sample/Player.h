@@ -2,6 +2,7 @@
 #include "Entity.h"
 
 class Hook;
+class Grapple;
 
 class Player : public Entity
 {

@@ -1,4 +1,5 @@
 #include "Mob1.h"
+#include "Bullet.h"
 
 void Mob1::OnInitialize()
 {
@@ -14,7 +15,7 @@ void Mob1::Attack()
 
     float windowWidth = GetScene()->GetWindowWidth();
 
-    Entity* bullet = CreateEntity<Entity>(10, 10, sf::Color::Yellow);
+    Bullet* bullet = CreateEntity<Bullet>(10, 10, sf::Color::Yellow);
     bullet->SetPosition(GetPosition().x, GetPosition().y);
     bullet->GoToDirection(windowWidth, GetPosition().y, 400.f);
 }

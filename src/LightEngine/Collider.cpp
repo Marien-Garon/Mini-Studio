@@ -44,6 +44,18 @@ void AABBCollider::SetScale(const sf::Vector2f& _scale)
     height = bHeight * _scale.y;
 }
 
+void AABBCollider::Move(sf::Vector2f _direction)
+{
+    x += _direction.x;
+    y += _direction.y;
+}
+
+void AABBCollider::Move(float _x, float _y)
+{
+    x += _x;
+    y += _y;
+}
+
 Side AABBCollider::GetCollisionSide(const AABBCollider& _other)
 {
     if (IsInside(_other)) return Side::INSIDE;

@@ -23,35 +23,6 @@
 #define MIN_JOYSTICK_POS -100
 
 
-// void SampleScene::OnInitialize()
-// {
-//     LevelEditor::LoadLevel(this,"Level0");
-
-//     AssetManager& AM = AssetManager::getInstance();
-
-//     pEntity1 = CreateEntity<Enemy>(AM.CreateSprite("mob", 0,0, 1084, 1438));
-//     pEntity1->SetScale(0.2f, 0.2f);
-//     pEntity1->PlayAnimation("walk");
-//     pEntity1->SetPosition(0, 0, 0.f, 0.f);
-// 	pEntity1->SetRigidBody(true);
-// 	pEntity1->SetMoveAble(true);
-// 	pEntity1->SetTag(1);
-
-// 	////pEntity2 = CreateEntity<Enemy>(50,50, sf::Color::Green);
-// 	////pEntity2->SetPosition(500, 500);
-// 	////pEntity2->SetRigidBody(true);
-// 	////pEntity2->SetMoveAble(true);
-
-// 	//m_Platforms.push_back(CreateEntity<Platform>(200, 50, sf::Color::Blue));
-// 	//m_Platforms[0]->SetPosition(500, 550);
-// 	//m_Platforms[0]->SetRigidBody(true);
-
-// 	//m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 35, sf::Color::Cyan));
-// 	//m_Platforms[1]->SetPosition(100, 101);
-// 	//m_Platforms[1]->SetRigidBody(true);
-	
-
-
 void SampleScene::OnInitialize()
 {
 	m_Platforms.push_back(CreateEntity<Platform>(200, 50, sf::Color::Blue));
@@ -60,6 +31,8 @@ void SampleScene::OnInitialize()
     AssetManager& AM = AssetManager::getInstance();
 	m_parallaxe = CreateEntity<Parallaxe>(0, 0, sf::Color::Black);
 	m_parallaxe->Start();
+
+	//std::vector<Entity*> test = LevelEditor::LoadLevel(this, "Level0");
 
 	m_player= CreateEntity<Player>(50, 50, sf::Color::Red);
 	m_player->SetPosition(0, 0);
@@ -91,9 +64,9 @@ void SampleScene::OnInitialize()
 
 	pEntitySelected = nullptr;
 
-	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
-	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
-	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
+	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
+	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
+	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
@@ -107,7 +80,6 @@ void SampleScene::OnEvent(const sf::Event& event)
 
         m_enemy.clear();
 
-        
         SpawnEnemy(event.mouseButton.x, event.mouseButton.y);
     }
 
@@ -183,15 +155,16 @@ void SampleScene::OnUpdate()
 
 	IncreaseTimer();
 
-	for (auto* p : m_Platforms)
-	{
-		p->OnUpdate();
-	}
+	// NAN NAN NAN
+	//for (auto* p : m_Platforms)
+	//{
+	//	p->OnUpdate();
+	//}
 
-	for (auto* e : m_enemy)
-	{
-		e->OnUpdate();
-	}
+	//for (auto* e : m_enemy)
+	//{
+	//	e->OnUpdate();
+	//}
 }
 
 Enemy* SampleScene::SpawnEnemy(int x, int y)
