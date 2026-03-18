@@ -10,11 +10,9 @@ class Camera;
 class Scene
 {
 private:
-	GameManager* mpGameManager;
 	Camera* mCamera;
 
 private:
-	void SetGameManager(GameManager* pGameManager) { mpGameManager = pGameManager; }
 	
 protected:
 	Scene() = default;
@@ -35,11 +33,7 @@ public:
 	int GetWindowWidth() const;
 	int GetWindowHeight() const;
 
-
 	void DrawSprite(sf::Sprite* _sprite) const;
-
-	GameManager* GetGameManager() { return mpGameManager; }
-
 
 	friend GameManager;
 };

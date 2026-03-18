@@ -230,7 +230,6 @@ void GameManager::SetScene(Scene* scene)
 	if (scene != nullptr)
 	{
 		mpScene = scene;
-		mpScene->SetGameManager(this);
 		mpScene->OnInitialize();
 	}
 	

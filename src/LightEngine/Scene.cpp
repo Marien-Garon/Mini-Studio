@@ -4,20 +4,20 @@
 
 int Scene::GetWindowWidth() const
 {
-	return mpGameManager->mWindowWidth;
+	return GameManager::Get()->mWindowWidth;
 }
 
 int Scene::GetWindowHeight() const
 {
-	return mpGameManager->mWindowHeight;
+	return GameManager::Get()->mWindowHeight;
 }
 
 float Scene::GetDeltaTime() const
 {
-	return mpGameManager->mDeltaTime;
+	return GameManager::Get()->mDeltaTime;
 }
 
 void Scene::DrawSprite(sf::Sprite* _sprite) const
 {
-	mpGameManager->DrawSprite(_sprite);
+	GameManager::Get()->DrawSprite(_sprite);
 }

@@ -24,7 +24,7 @@ void SampleScene::OnInitialize()
 {
     AssetManager& AM = AssetManager::getInstance();
 
-   m_player= CreateEntity<Player>(50, 50, sf::Color::Red);
+   m_player = CreateEntity<Player>(50, 50, sf::Color::Red);
    m_player->SetPosition(500, 500);
 
    m_robot = CreateEntity<Companion>(50, 50, sf::Color::Blue);
@@ -111,7 +111,7 @@ void SampleScene::OnUpdate()
 
 
 
-	GetGameManager()->RefreshCamera(mCamera);
+	GameManager::Get()->RefreshCamera(mCamera);
 
 
   /*  if (pEntitySelected != nullptr)

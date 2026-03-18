@@ -11,8 +11,11 @@ int main()
 
 	SceneManager& sm = SceneManager::getInstance();
 
-	sm.AddScene("START", new MenuScene);
-	sm.AddScene("LEVEL", new SampleScene);
+	MenuScene menuScene;
+	SampleScene sampleScene;
+
+	sm.AddScene("START", &menuScene);
+	sm.AddScene("LEVEL", &sampleScene);
 
 	sm.SetStartScene("START");
 
