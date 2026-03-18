@@ -13,7 +13,7 @@ class Player : public Entity
 		Idle, //Bouge pas
 		Moving, //Bouge
 		Jumping, //Saute 
-		Attacking, //Attaque
+		Attacking, //Attaque corps à corps
 		LaunchingGrapple, //Lance le grappin
 		Travelling, //Avance avec le grappin
 		Falling, //Tomber
@@ -39,6 +39,7 @@ public:
 	void Actions();
 	void Jump();
 	void Attack();
+	void Shoot();
 
 	void MoveRight();
 	void MoveLeft();
@@ -55,6 +56,7 @@ public:
 	bool GetIsGravity();
 	float GetGravitySpeed();
 	bool GetHasAttackedThisBeat();
+	int GetNumberOfGoodPress() { return m_numberOfGoodPress; }
 
 private:
 

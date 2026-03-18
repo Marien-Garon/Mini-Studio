@@ -42,7 +42,7 @@ void SampleScene::OnInitialize()
 	m_robot->SetOwner(m_player);
 
    mCamera = CreateEntity<Camera>(0, 0, sf::Color::Black);
-   mCamera->SetupCamera(0, m_player);
+   mCamera->SetupCamera(1, m_player);
    /*CAMERA SPEED HERE*/
 
    for (int i = 0; i < 3; i++) {
@@ -54,7 +54,7 @@ void SampleScene::OnInitialize()
 
 	m_Platforms[0]->SetRigidBody(true);
     
-	m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 35, sf::Color::Cyan));
+	m_Platforms.push_back(CreateEntity<Platform>(100, 35, sf::Color::Cyan));
 	m_Platforms[1]->SetPosition(200, 201);
 	m_Platforms[1]->SetRigidBody(true);
 

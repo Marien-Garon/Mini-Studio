@@ -79,6 +79,7 @@ void Player::StateMachineInitialize()
 		t_attacking->AddCondition(new AttackCommandCondition());
 		t_attacking->AddCondition(new HasNotAttackedThisBeatCondition());
 
+
 		//->Lance le grappin si une commande de de lancement de grappin est appuyer
 		Transition<Player>* t_launchingGrapple = m_stateMachine.AddTransition((int)State::Idle, (int)State::LaunchingGrapple);
 		t_launchingGrapple->AddCondition(new GrappleCommandCondition);
@@ -393,12 +394,12 @@ void Player::Actions()
 
 void Player::Jump()
 {
-	StartGravity(-200);
+	if(!GetIsGravity())
+		StartGravity(-200);
 }
 
 void Player::Attack()
 {
-	float windowWidth = GetScene()->GetWindowWidth();
 	bool isAttackingTimingGood = static_cast<SampleScene*>(GetScene())->IsAttackTimingOkay();
 
 	if (isAttackingTimingGood && !m_hasAttackedThisBeat)
@@ -408,27 +409,30 @@ void Player::Attack()
 		m_hasAttackedThisBeat = true;
 	}
 		
-
 	else
 		m_numberOfGoodPress = 0;
 
 
 	if (m_numberOfGoodPress == 1)
 	{
-		SoundWave* attack = CreateEntity<SoundWave>(50, 50, sf::Color::Cyan);
-		attack->SetPosition(GetPosition().x, GetPosition().y);
-		attack->SetDirection(m_directionFacing, 0);
+		AttackZone* attack = CreateEntity<AttackZone>(50, 50, sf::Color::Cyan);
+		attack->SetPosition(GetPosition().x + GetCollider().width, GetPosition().y);
 
 	}
 
-	else if (m_numberOfGoodPress == 3)
+	if (m_numberOfGoodPress == 3)
 	{
-		SoundBlast* attack = CreateEntity<SoundBlast>(50, 100, sf::Color::Cyan);
-		attack->SetPosition(GetPosition().x, GetPosition().y);
-		attack->SetDirection(m_directionFacing, 0);
-		m_numberOfGoodPress = 0;
+		Shoot();
 	}
 
+}
+
+void Player::Shoot()
+{
+	SoundBlast* attack = CreateEntity<SoundBlast>(50, 100, sf::Color::Cyan);
+	attack->SetPosition(GetPosition().x, GetPosition().y);
+	attack->SetDirection(m_directionFacing, 0);
+	m_numberOfGoodPress = 0;
 }
 
 void Player::MoveRight()
@@ -807,5 +811,4 @@ void FallingState::End(Player* type)
 {
 
 }
-
 
