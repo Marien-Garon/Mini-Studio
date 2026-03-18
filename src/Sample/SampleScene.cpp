@@ -194,16 +194,6 @@ Enemy* SampleScene::SpawnEnemy(int x, int y)
     return mob1;
 }
 
-void SampleScene::TrySetSelectedEntity(Entity* pEntity, int x, int y)
-{
-    /*  if (pEntitySelected != nullptr)
-    {
-        sf::Vector2f position = pEntitySelected->GetPosition();
-        Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
-    }*/
-    
-}
-
 
 bool SampleScene::IsAttackTimingOkay()
 {

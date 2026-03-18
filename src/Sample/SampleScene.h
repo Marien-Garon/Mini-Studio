@@ -30,9 +30,6 @@ private:
 
 	std::vector<Platform*> m_Platforms;
 	std::vector<Entity*> m_UI;
-	
-private:
-    void TrySetSelectedEntity(Enemy* pEntity, int x, int y);
 
 public:
 
@@ -48,8 +45,7 @@ private:
 	Parallaxe* m_parallaxe;
 
 	Entity* pEntitySelected;
-private:
-	void TrySetSelectedEntity(Entity* pEntity, int x, int y);
+
 
 public:
 	std::vector<Hook*> GetHooks() { return m_hooks; };
