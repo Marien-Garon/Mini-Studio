@@ -9,14 +9,15 @@ int main()
 
 	pInstance->CreateWindow(1280, 720, "Sample", 60, {0,0,0});
 
-	pInstance->LaunchScene<MenuScene>();
-
 	SceneManager& sm = SceneManager::getInstance();
 
 	sm.AddScene("START", new MenuScene);
 	sm.AddScene("LEVEL", new SampleScene);
 
 	sm.SetStartScene("START");
+
+	pInstance->SetScene(sm.GetCurrentScene());
+	pInstance->Run();
 
 	return 0;
 }

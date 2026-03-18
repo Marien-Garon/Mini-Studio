@@ -13,7 +13,6 @@
 
 void MenuScene::OnInitialize()
 {
-	
 	AssetManager& AM = AssetManager::getInstance();
 
 	m_menuScreen = CreateEntity<Entity>(AM.LoadSprite("menu"), sf::Color::Red);

@@ -39,8 +39,6 @@ class GameManager
 private:
 	GameManager();
 
-	void Run();
-	
 	void HandleInput();
 	void Update();
 	void Draw();
@@ -50,6 +48,8 @@ private:
 	sf::RenderWindow* GetWindow() const { return mpWindow; }
 
 public:
+
+	void Run();
 	~GameManager();
 	static GameManager* Get();
 
@@ -65,6 +65,7 @@ public:
 	float GetDeltaTime() const { return mDeltaTime; }
 	Scene* GetScene() const { return mpScene; }
 	sf::Font& GetFont() { return mFont; };
+	void SetScene(Scene* scene);
 
 	friend Debug;
 	friend Scene;

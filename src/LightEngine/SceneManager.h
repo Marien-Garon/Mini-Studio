@@ -7,7 +7,7 @@ class SceneManager
 public:
 
 	Scene* GetCurrentScene();
-	void Update();
+	bool Update();
 	void ChangeScene(const std::string& _num);
 	void AddScene(const std::string& _num, Scene* _scene);
 	void SetStartScene(const std::string& _num);

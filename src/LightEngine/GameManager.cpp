@@ -4,6 +4,7 @@
 #include "Debug.h"
 #include "Camera.h"
 #include "InputManager.h"
+#include "SceneManager.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -36,7 +37,6 @@ GameManager* GameManager::Get()
 GameManager::~GameManager()
 {
 	delete mpWindow;
-	delete mpScene;
 
 	for (Entity* entity : mEntities)
 	{
@@ -143,6 +143,14 @@ void GameManager::HandleInput()
 
 void GameManager::Update()
 {
+	SceneManager& sm = SceneManager::getInstance();
+
+	if (sm.Update())
+	{
+		_ASSERT(mpScene != nullptr);
+		mpScene = sm.GetCurrentScene();
+		mpScene->OnInitialize();
+	}
 	mpScene->OnUpdate();
 
     //Update
@@ -215,4 +223,15 @@ void GameManager::Draw()
 	Debug::Get()->Draw(mpWindow);
 
 	mpWindow->display();
+}
+
+void GameManager::SetScene(Scene* scene)
+{
+	if (scene != nullptr)
+	{
+		mpScene = scene;
+		mpScene->SetGameManager(this);
+		mpScene->OnInitialize();
+	}
+	
 }
