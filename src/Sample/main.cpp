@@ -1,13 +1,20 @@
 #include "SampleScene.h"
 #include "GameManager.h"
+#include "LevelEditor.h"
 
 int main()
 {
 	GameManager* pInstance = GameManager::Get();
 
-	pInstance->CreateWindow(1280, 720, "Sample", 60, {0,0,0});
+	bool LaunchLevelEditor = false;
 
-	pInstance->LaunchScene<SampleScene>();
+	pInstance->CreateWindow(1920, 1080, "Sample", 60, {0,0,0}, false);
+
+	if (LaunchLevelEditor)
+		pInstance->LaunchScene<LevelEditor>();
+	else
+		pInstance->LaunchScene<SampleScene>();
+
 
 	return 0;
 }

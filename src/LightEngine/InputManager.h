@@ -12,15 +12,23 @@ private:
 	std::unordered_map<sf::Keyboard::Key, bool> m_keyHeld;
 	std::unordered_map<sf::Keyboard::Key, bool> m_keyReleased;
 	std::unordered_map<sf::Mouse::Button, bool> m_mousePressed;
+	std::unordered_map<sf::Mouse::Button, bool> m_mouseHeld;
+	std::unordered_map<sf::Mouse::Button, bool> m_mouseReleased;
 
 	std::unordered_map<unsigned int, Controller*> m_controllerList;
 
+	void HandleMousePressed(const sf::Event& event);
+	void HandleMouseReleased(const sf::Event& event);
 	void HandleKeyPressed(const sf::Event& event);
 	void HandleJoystickPressed(const sf::Event& event);
 	void HandleKeyReleased(const sf::Event& event);
 	void HandleJoystickReleased(const sf::Event& event);
 	void HandleJoystickConnection(const sf::Event& event);
 	void HandleJoystickDisconnection(const sf::Event& event);
+
+	sf::Vector2i m_mousePos;
+
+	sf::Vector2i m_clickPos;
 
 
 public:
@@ -36,14 +44,20 @@ public:
 
 	void HandleInput(const sf::Event& event);
 
+
+	sf::Vector2i GetMousePos() { return m_mousePos; };
+	sf::Vector2i GetMouseClickPos() { return m_clickPos; };
+
 	/// <summary>
 	/// Return if a key was pressed
 	/// </summary>
 	/// <param name="_key -> sf::Keyboard::Key"></param>
 	/// <returns> boolean </returns>
 	bool IsKeyPressed(sf::Keyboard::Key _key);
-	bool IsMousePressed(sf::Mouse::Button _mouseClick);
 
+	bool IsMousePressed(sf::Mouse::Button _mouseClick);
+	bool IsMouseHeld(sf::Mouse::Button _mouseClick);
+	bool IsMouseReleased(sf::Mouse::Button _mouseClick);
 	/// <summary>
 	/// Return if a key was released
 	/// </summary>

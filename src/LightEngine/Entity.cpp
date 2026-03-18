@@ -20,7 +20,7 @@ void Entity::Initialize(float _width, float _height, const sf::Color& color)
 		mShape.setFillColor(color);
 	}
 
-	m_collider = { GetPosition(0.0f,0.0f).x, GetPosition(0.0f,0.0f).y, _width, _height};
+	m_collider = AABBCollider(GetPosition(0.0f,0.0f).x, GetPosition(0.0f,0.0f).y, _width, _height);
 
 	mTarget.isSet = false;
 
@@ -42,12 +42,12 @@ void Entity::Repulse(Entity* other)
 
 	if (std::fabs(moveX) < std::fabs(moveY))
 	{
-		SetPosition(c1.x - moveX / 2.f, c1.y, 0.0f, 0.0f);
+		if (m_isMoveable) SetPosition(c1.x - moveX / 2.f, c1.y, 0.0f, 0.0f);
 		if (other->IsMoveable()) other->SetPosition(c2.x + moveX / 2.f, c2.y, 0.0f, 0.0f);
 	}
 	else
 	{
-		SetPosition(c1.x, c1.y - moveY / 2.f, 0.0f, 0.0f);
+		if (m_isMoveable) SetPosition(c1.x, c1.y - moveY / 2.f, 0.0f, 0.0f);
 		if (other->IsMoveable()) other->SetPosition(c2.x, c2.y + moveY / 2.f, 0.0f, 0.0f);
 	}
 }
@@ -78,22 +78,28 @@ Side Entity::GetCollidingSide(Entity* _other)
 	return m_collider.GetCollisionSide(_other->GetCollider());
 }
 
+bool Entity::IsSameTexture(Entity* _other)
+{
+	if (!hasSprite) return false;
+
+	return m_sprite->textureID == _other->GetSpriteData()->textureID;
+}
+
 void Entity::Destroy()
 {
 	mToDestroy = true;
-
 	OnDestroy();
 }
 
 void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 {
-	sf::Vector2f size = hasSprite ? sf::Vector2f(m_sprite->getTextureRect().width, m_sprite->getTextureRect().height) : mShape.getSize();
+	sf::Vector2f size = hasSprite ? sf::Vector2f(m_sprite->sprite->getTextureRect().width, m_sprite->sprite->getTextureRect().height) : mShape.getSize();
 
 	x -= size.x * ratioX;
 	y -= size.y * ratioY;
 
 	if (hasSprite)
-		m_sprite->setPosition(x, y);
+		m_sprite->sprite->setPosition(x, y);
 	else
 		mShape.setPosition(x, y);
 
@@ -111,8 +117,8 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 
 sf::Vector2f Entity::GetPosition(float ratioX, float ratioY) const
 {
-	sf::Vector2f size = hasSprite ? sf::Vector2f(m_sprite->getTextureRect().width, m_sprite->getTextureRect().height) : mShape.getSize();
-	sf::Vector2f position = hasSprite ? m_sprite->getPosition() : mShape.getPosition();
+	sf::Vector2f size = hasSprite ? sf::Vector2f(m_sprite->sprite->getTextureRect().width * m_sprite->sprite->getScale().x, m_sprite->sprite->getTextureRect().height * m_sprite->sprite->getScale().x) : mShape.getSize();
+	sf::Vector2f position = hasSprite ? m_sprite->sprite->getPosition() : mShape.getPosition();
 
 	position.x += size.x * ratioX;
 	position.y += size.y * ratioY;
@@ -157,12 +163,34 @@ void Entity::SetDirection(float x, float y, float speed)
 	mTarget.isSet = false;
 }
 
+void Entity::SetOpacity(float _alpha)
+{
+	if (hasSprite) m_sprite->sprite->setColor(sf::Color(255, 255, 255, _alpha));
+	else
+	{
+		sf::Color color = mShape.getFillColor();
+		mShape.setFillColor(sf::Color(color.r, color.g, color.b, _alpha));
+	}
+}
+
 void Entity::Update()
 {
 	float dt = GetDeltaTime();
 	float distance = dt * mSpeed;
 
 	sf::Vector2f translation = distance * mDirection;
+
+	if (hasSprite)
+	{
+		m_sprite->UpdateAnimation(dt);
+		//SetSpriteScale(m_Scale.x, m_Scale.y); i was drunk when i write that ? 
+		//m_sprite->sprite->move(translation);
+	}
+	//else
+	//	mShape.move(translation);
+
+	m_collider.Move(translation);
+
 	sf::Vector2f newPos = GetPosition() + translation;
 
 	SetPosition(newPos.x, newPos.y);
@@ -216,4 +244,47 @@ float Entity::GetDeltaTime() const
 AABBCollider& Entity::GetCollider()
 {
 	return m_collider;
+}
+
+void Entity::PlayAnimation(const std::string& _id)
+{
+	if (!hasSprite) return;
+	if (m_sprite->currentAnimation == _id) return;
+	m_sprite->PlayAnimation(_id);
+}
+
+Entity* Entity::Clone()
+{
+	return CreateClonedEntity<Entity>();
+}
+
+Entity::~Entity()
+{
+	if (m_sprite != nullptr) 
+		delete m_sprite;
+}
+
+
+void Entity::SetScale(float _x, float _y)
+{
+	if(hasSprite) m_sprite->sprite->setScale(_x, _y); 
+	else mShape.setScale(_x, _y);
+
+	m_Scale = sf::Vector2f(_x, _y);
+	m_collider.SetScale(_x, _y);
+}
+
+void Entity::SetScale(const sf::Vector2f& _scale)
+{
+	if (hasSprite) m_sprite->sprite->setScale(_scale);
+	else mShape.setScale(_scale);
+
+	m_Scale = _scale;
+	m_collider.SetScale(_scale);
+}
+
+sf::Vector2f Entity::GetScale()
+{
+	if (hasSprite) return m_sprite->sprite->getScale();
+	return mShape.getScale();
 }

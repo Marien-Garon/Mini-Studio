@@ -43,6 +43,7 @@ const char* Player::StateToStr() const
 void Player::OnInitialize()
 {
 	SetRigidBody(true);
+	SetMoveAble(true);
 	mBaseSpeed = 300;
 	mAcceleration = 0.f;
 	mDecceleration = 0.f;
@@ -88,7 +89,7 @@ void Player::StateMachineInitialize()
 		Transition<Player>* t_travelling = m_stateMachine.AddTransition((int)State::Idle, (int)State::Travelling);
 		t_travelling->AddCondition(new GrappleHasReachedTargetCondition());
 
-		//->Tombe si la gravité est activé
+		//->Tombe si la gravitï¿½ est activï¿½
 		Transition<Player>* t_falling = m_stateMachine.AddTransition((int)State::Idle, (int)State::Falling);
 		t_falling->AddCondition(new IsGravityPositiveCondition());
 	}
@@ -97,7 +98,7 @@ void Player::StateMachineInitialize()
 	{
 		m_stateMachine.AddState(new MovingState());
 
-		//->S'arrète si on avance plus
+		//->S'arrï¿½te si on avance plus
 		Transition<Player>* t_idle = m_stateMachine.AddTransition((int)State::Moving, (int)State::Idle);
 		t_idle->AddCondition(new NoMoveCommandCondition());
 
@@ -121,7 +122,7 @@ void Player::StateMachineInitialize()
 		Transition<Player>* t_travelling = m_stateMachine.AddTransition((int)State::Moving, (int)State::Travelling);
 		t_travelling->AddCondition(new GrappleHasReachedTargetCondition());
 
-		//->Tombe si la gravité est positive
+		//->Tombe si la gravitï¿½ est positive
 		Transition<Player>* t_falling = m_stateMachine.AddTransition((int)State::Moving, (int)State::Falling);
 		t_falling->AddCondition(new IsGravityPositiveCondition());
 	}
@@ -145,7 +146,7 @@ void Player::StateMachineInitialize()
 		Transition<Player>* t_travelling = m_stateMachine.AddTransition((int)State::Jumping, (int)State::Travelling);
 		t_travelling->AddCondition(new GrappleHasReachedTargetCondition());
 
-		//->Tombe si la gravité est positive
+		//->Tombe si la gravitï¿½ est positive
 		Transition<Player>* t_falling = m_stateMachine.AddTransition((int)State::Jumping, (int)State::Falling);
 		t_falling->AddCondition(new IsGravityPositiveCondition());
 	}
@@ -155,7 +156,7 @@ void Player::StateMachineInitialize()
 	{
 		m_stateMachine.AddState(new AttackingState());
 
-		//->S'arrète si on avance plus
+		//->S'arrï¿½te si on avance plus
 		Transition<Player>* t_idle = m_stateMachine.AddTransition((int)State::Attacking, (int)State::Idle);
 		t_idle->AddCondition(new NoMoveCommandCondition());
 		t_idle->AddCondition(new IsAnimationCooldownBelowZero());
@@ -168,7 +169,7 @@ void Player::StateMachineInitialize()
 		Transition<Player>* t_travelling = m_stateMachine.AddTransition((int)State::Attacking, (int)State::Travelling);
 		t_travelling->AddCondition(new GrappleHasReachedTargetCondition());
 
-		//->Tombe si la gravité est positive
+		//->Tombe si la gravitï¿½ est positive
 		Transition<Player>* t_falling = m_stateMachine.AddTransition((int)State::Attacking, (int)State::Falling);
 		t_falling->AddCondition(new IsGravityPositiveCondition());
 	}
@@ -179,7 +180,7 @@ void Player::StateMachineInitialize()
 		m_stateMachine.AddState(new LaunchingGrappleState());
 
 
-		//->S'arrète si on avance plus
+		//->S'arrï¿½te si on avance plus
 		Transition<Player>* t_idle = m_stateMachine.AddTransition((int)State::LaunchingGrapple, (int)State::Idle);
 		t_idle->AddCondition(new NoMoveCommandCondition());
 		t_idle->AddCondition(new IsAnimationCooldownBelowZero());
@@ -189,7 +190,7 @@ void Player::StateMachineInitialize()
 		t_jumping->AddCondition(new JumpingCommandCondition());
 		t_jumping->AddCondition(new IsGravityOffCondition());
 
-		//->Tombe si la gravité est positive
+		//->Tombe si la gravitï¿½ est positive
 		Transition<Player>* t_falling = m_stateMachine.AddTransition((int)State::LaunchingGrapple, (int)State::Falling);
 		t_falling->AddCondition(new IsGravityPositiveCondition());
 	}
@@ -198,7 +199,7 @@ void Player::StateMachineInitialize()
 	{
 		m_stateMachine.AddState(new TravellingState());
 
-		//->S'arrète si on avance plus
+		//->S'arrï¿½te si on avance plus
 		Transition<Player>* t_idle = m_stateMachine.AddTransition((int)State::Travelling, (int)State::Idle);
 		t_idle->AddCondition(new IsPlayerAtGrappleDestination());
 	}
@@ -207,7 +208,7 @@ void Player::StateMachineInitialize()
 	{
 		m_stateMachine.AddState(new FallingState());
 
-		//->S'arrète si on avance plus
+		//->S'arrï¿½te si on avance plus
 		Transition<Player>* t_idle = m_stateMachine.AddTransition((int)State::Falling, (int)State::Idle);
 		t_idle->AddCondition(new IsGravityOffCondition);
 
@@ -262,7 +263,7 @@ void Player::OnUpdate()
 
 void Player::OnCollision(Entity* collidedWith)
 {
-	if (collidedWith->IsTag(0))
+	if (collidedWith->IsTag(0) || collidedWith->IsTag(10))
 	{
 		Platform* pf = (Platform*)collidedWith;
 
@@ -274,8 +275,7 @@ void Player::OnCollision(Entity* collidedWith)
 		/*std::cout << "Platform : " << collidedWith->GetCollider().x << "/" << collidedWith->GetCollider().y << std::endl;
 		std::cout << "Player   : " << GetCollider().x << "/" << GetCollider().y + GetCollider().height << std::endl;
 
-
-		switch (side) 
+		/*switch (side) 
 		{
 		case Side::INSIDE:
 			std::cout << "INSIDE" << std::endl;
@@ -322,10 +322,12 @@ void Player::TakeDamage(int _damage)
 
 	else {
 
+
 		m_health -= _damage;
 		std::cout << "Player take damage : " << _damage << std::endl;
 		std::cout << "Current Health : " << m_health << std::endl;
 	}
+		
 }
 
 void Player::Heal(int _heal)
@@ -374,6 +376,15 @@ void Player::Actions()
 	{
 		Attack();
 	}
+	/*if (in.IsKeyPressed(sf::Keyboard::E))
+	{
+		Heal(1);
+	}
+
+	if (in.IsKeyPressed(sf::Keyboard::A))
+	{
+		TakeDamage(1);
+	}*/
 
 	else if (static_cast<SampleScene*>(GetScene())->IsAttackTimingOkay())
 		m_numberOfGoodPress = 0;
@@ -660,7 +671,7 @@ bool HasNotAttackedThisBeatCondition::Test(Player* player)
 
 void IdleState::Start(Player* type)
 {
-	//Animation à mettre ici
+	//Animation ï¿½ mettre ici
 }
 
 void IdleState::Update(Player* type, float dt)

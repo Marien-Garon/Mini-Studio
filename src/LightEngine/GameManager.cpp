@@ -20,9 +20,10 @@ GameManager::GameManager()
 	mWindowWidth = -1;
 	mWindowHeight = -1;
 
-	AssetManager::getInstance().InitMusicInDirectory();
+	AssetManager::getInstance().InitTileInDirectory();
 	AssetManager::getInstance().InitTextureInDirectory();
 	AssetManager::getInstance().InitSoundInDirectory();
+	AssetManager::getInstance().InitMusicInDirectory();
 
 }
 
@@ -44,7 +45,7 @@ GameManager::~GameManager()
 	}
 }
 
-void GameManager::CreateWindow(unsigned int width, unsigned int height, const char* title, int fpsLimit, sf::Color clearColor)
+void GameManager::CreateWindow(unsigned int width, unsigned int height, const char* title, int fpsLimit, sf::Color clearColor, bool fullscreen)
 {
 	_ASSERT(mpWindow == nullptr);
 
@@ -70,7 +71,20 @@ void GameManager::RefreshCamera(Camera* camera)
 		exit(0);
 	}
 	mpWindow->setView(*camera->GetView());
+	camera->GetUIView()->setViewport(sf::FloatRect(0, 0, 0.25f, 0.25f));
 }
+void GameManager::RefreshUI(Camera* camera)
+{
+	if (camera->GetView() == nullptr)
+	{
+		std::cout << "Camera Not Initialized" << std::endl;
+		exit(0);
+	}
+	mpWindow->setView(*camera->GetUIView());
+
+}
+
+
 
 void GameManager::Run()
 {
@@ -131,13 +145,13 @@ void GameManager::HandleInput()
 void GameManager::Update()
 {
 	mpScene->OnUpdate();
-
     //Update
     for (auto it = mEntities.begin(); it != mEntities.end(); )
     {
 		Entity* entity = *it;
 
         entity->Update();
+		Debug::DrawCollider(entity->GetCollider());
 
         if (entity->ToDestroy() == false)
         {
@@ -195,10 +209,6 @@ void GameManager::Draw()
 		else mpWindow->draw(*entity->GetShape());
 	}
 
-	sf::Sprite* sprite = AssetManager::getInstance().LoadSprite("sheet", 0, 0, 460, 600);
-	//std::cout << sprite.getTextureRect().width << std::endl;
-	sprite->setScale(0.1f, 0.1f);
-	DrawSprite(sprite);
 	Debug::Get()->Draw(mpWindow);
 
  	mpWindow->display();
