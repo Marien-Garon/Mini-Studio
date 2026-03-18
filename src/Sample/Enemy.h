@@ -18,7 +18,7 @@ protected:
     float m_maxDistance = 200.f;
     float m_attackCooldown = 3.0f;   
     float m_attackTimer = 0.0f;
-
+    bool m_directionFacing = true;
     bool m_isAlive = true;
 
     std::string m_name = "Enemy";

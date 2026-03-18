@@ -20,21 +20,21 @@ void Mob2::Attack()
     {
         Entity* bullet = CreateEntity<Entity>(10, 10, sf::Color::Cyan);
         bullet->SetPosition(pos.x, pos.y);
-        bullet->SetDirection(1.f, 0.f, 400.f);
+        bullet->SetDirection(1.f * m_directionFacing, 0.f * m_directionFacing, 400.f* m_directionFacing);
     }
 
     // Projectile 2 : diagonale haut
     {
         Entity* bullet = CreateEntity<Entity>(10, 10, sf::Color::Cyan);
         bullet->SetPosition(pos.x, pos.y);
-        bullet->SetDirection(1.f, -0.5f, 400.f);
+        bullet->SetDirection(1.f* m_directionFacing, -0.5f* m_directionFacing, 400.f* m_directionFacing);
     }
 
     // Projectile 3 : diagonale bas
     {
         Entity* bullet = CreateEntity<Entity>(10, 10, sf::Color::Cyan);
         bullet->SetPosition(pos.x, pos.y);
-        bullet->SetDirection(1.f, 0.5f, 400.f);
+        bullet->SetDirection(1.f* m_directionFacing, 0.5f* m_directionFacing, 400.f* m_directionFacing);
     }
 }
 

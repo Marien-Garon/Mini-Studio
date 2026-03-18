@@ -16,5 +16,5 @@ void Mob1::Attack()
 
     Entity* bullet = CreateEntity<Entity>(10, 10, sf::Color::Yellow);
     bullet->SetPosition(GetPosition().x, GetPosition().y);
-    bullet->GoToDirection(windowWidth, GetPosition().y, 400.f);
+    bullet->GoToDirection(windowWidth * m_directionFacing, GetPosition().y, 400.f);
 }
