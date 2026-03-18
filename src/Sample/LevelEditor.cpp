@@ -4,6 +4,7 @@
 #include "Button.h"
 #include <iostream>
 #include "InputManager.h"
+#include "Hook.h"
 
 #define TILE_SIZE 64.f
 
@@ -14,7 +15,7 @@ std::vector<Entity*> LevelEditor::LoadLevel(Scene* scene, std::string _id)
 
 	if (!std::filesystem::exists(levelPath))
 	{
-		Debug::DebugMessage(Debug::Severity::WARN, "Load Level", "Level doesn't exist");
+		Debug::DebugMessage(Debug::Severity::WARN, "Load Level", "Level : " + _id + " doesn't exist");
 		return {};
 	}
 
@@ -58,7 +59,7 @@ std::vector<Entity*> LevelEditor::LoadLevel(Scene* scene, std::string _id)
 
 void LevelEditor::SaveLevel()
 {
-	if (m_posedBlock.empty())
+	if (m_gridList.empty())
 	{
 		Debug::DebugMessage(Debug::Severity::WARN, "Saving Level", "Can't save level is empty");
 		return;
@@ -78,29 +79,33 @@ void LevelEditor::SaveLevel()
 	data["Data"] = json::array();
 	data["Tiles"] = json::array();
 
-	for (Entity* tile : m_posedBlock)
+
+	for (auto& pair : m_gridList)
 	{
-		sf::Vector2f pos = tile->GetPosition(0.f, 0.f);
-		sf::Vector2f scale = tile->GetScale();
-		std::string id = tile->GetSpriteData()->textureID;
-		std::string type = "TileBlocks";
-		unsigned int tag = tile->GetTag();
+		for (SavedEntity* tile : pair.second)
+		{
+			sf::Vector2f pos = tile->pos;
+			sf::Vector2f scale = tile->entity->GetScale();
+			std::string id = tile->entity->GetSpriteData() ? tile->entity->GetSpriteData()->textureID : "None";
+			std::string type = "TileBlocks";
+			unsigned int tag = tile->entity->GetTag();
 
-		json tileData = {
-			{"Type", type},
-			{"id", id},
-			{"tag",tag},
-			{"position", {
-				{"x", pos.x},
-				{"y", pos.y}
-			}},
-			{"scale",{
-				{"width",scale.x},
-				{"height",scale.y}
-			}}
-		};
+			json tileData = {
+				{"Type", type},
+				{"id", id},
+				{"tag",tag},
+				{"position", {
+					{"x", pos.x + pair.first * (GetWindowWidth() - TILE_SIZE * 4)},
+					{"y", pos.y}
+				}},
+				{"scale",{
+					{"width",scale.x},
+					{"height",scale.y}
+				}}
+			};
 
-		data["Tiles"].push_back(tileData);
+			data["Tiles"].push_back(tileData);
+		}
 	}
 
 	std::ofstream file(filePath);
@@ -125,9 +130,20 @@ bool LevelEditor::CanPoseTile(float _x, float _y)
 	return true;
 }
 
+void LevelEditor::RemoveGrid(int _grid)
+{
+	for (SavedEntity* se : m_gridList[_grid])
+	{
+		se->entity->SetPosition(-5000, -5000);
+	}
+}
+
 void LevelEditor::ReplaceGrid()
 {
-	
+	for (SavedEntity* se : m_gridList[currentGrid])
+	{
+		se->entity->SetPosition(se->pos.x, se->pos.y, 0.0f, 0.0f);
+	}
 }
 
 void LevelEditor::ReplaceTile()
@@ -161,19 +177,22 @@ void LevelEditor::IndexMove(int _movement)
 
 void LevelEditor::GridMove(int _movement)
 {
-	int oldInex = currentGrid;
+	int oldIndex = currentGrid;
 	if (_movement + currentGrid <= 0) currentGrid = 0;
-	else if (!m_gridList.contains(_movement + currentGrid));
+	else currentGrid += _movement;
+
+	RemoveGrid(oldIndex);
+	ReplaceGrid();
 }
 
-std::vector<Entity*> LevelEditor::GetPresentTile(float _x, float _y)
+std::vector<SavedEntity*> LevelEditor::GetPresentTile(float _x, float _y)
 {
-	std::vector<Entity*> tilePresent;
+	std::vector<SavedEntity*> tilePresent;
 
-	for (Entity* tile : m_posedBlock)
+	for (SavedEntity* se : m_gridList[currentGrid])
 	{
-		if (tile->IsInside(_x, _y))
-			tilePresent.push_back(tile);
+		if (se->entity->IsInside(_x, _y))
+			tilePresent.push_back(se);
 	}
 
 	return tilePresent;
@@ -212,14 +231,26 @@ void LevelEditor::InitEntity()
 {
 	//m_entityToPlace.push_back(CreateEntity<BreakablePlatform>(120, 60, sf::Color::Cyan));
 
-	BreakablePlatform* platform = CreateEntity<BreakablePlatform>(120, 60, sf::Color::Cyan);
-	platform->SetScale(GetScale(platform->GetCollider().width, TILE_SIZE), GetScale(platform->GetCollider().height, TILE_SIZE));
+	AssetManager& AM = AssetManager::getInstance();
+
+	BreakablePlatform* platform = CreateEntity<BreakablePlatform>(AM.CreateSprite("breakable",0,0,493,440));
+	platform->SetScale(GetScale(platform->GetCollider().width, TILE_SIZE) / 2, GetScale(platform->GetCollider().height, TILE_SIZE) / 2);
 	platform->SetPosition(-5000, -5000);
 
 	if (m_SelectionPage.empty() || m_SelectionPage.back().size() >= 3)
 		m_SelectionPage.emplace_back();
 
 	m_SelectionPage.back().push_back(platform);
+
+	Hook* hook = CreateEntity<Hook>(AM.CreateSprite("poteau"));
+	hook->SetPosition(-5000,-5000);
+
+	if (m_SelectionPage.empty() || m_SelectionPage.back().size() >= 3)
+		m_SelectionPage.emplace_back();
+
+	m_SelectionPage.back().push_back(hook);
+
+
 }
 
 void LevelEditor::InitTileBlock()
@@ -272,45 +303,44 @@ void LevelEditor::OnInitialize()
 	InitEntity();
 
 	Button* btn1 = CreateEntity<Button>(100, 40, sf::Color::Yellow);
-	btn1->SetPosition(GetWindowWidth() - 2 * TILE_SIZE, TILE_SIZE);
+	btn1->SetPosition(GetWindowWidth() - 3 * TILE_SIZE, TILE_SIZE,0.f, 0.f);
 	btn1->SetFunction(
 		[this]() {
 			SaveLevel();
 		});
-
 	btnList.push_back(btn1);
 
 	Button* btn2 = CreateEntity<Button>(80, 40, sf::Color::White);
-	btn2->SetPosition(GetWindowWidth() - 3 * TILE_SIZE, GetWindowHeight() - TILE_SIZE);
+	btn2->SetPosition(GetWindowWidth() - 4 * TILE_SIZE, GetWindowHeight() - TILE_SIZE, 0.f, 0.f);
 	btn2->SetFunction(
 		[this]() {
-			IndexMove(1);
+			IndexMove(-1);
 		}
 	);
 	btnList.push_back(btn2);
 
 	Button* btn3 = CreateEntity<Button>(80, 40, sf::Color::White);
-	btn3->SetPosition(GetWindowWidth() - TILE_SIZE, GetWindowHeight() - TILE_SIZE);
+	btn3->SetPosition(GetWindowWidth() - 2 * TILE_SIZE, GetWindowHeight() - TILE_SIZE, 0.f, 0.f);
 	btn3->SetFunction(
 		[this]() {
-			IndexMove(-1);
+			IndexMove(1);
 		});
 	btnList.push_back(btn3);
 
 	Button* btn4 = CreateEntity<Button>(80, 40, sf::Color::Cyan);
-	btn4->SetPosition(GetWindowWidth() - 3 * TILE_SIZE, GetWindowHeight() - 2 * TILE_SIZE);
+	btn4->SetPosition(GetWindowWidth() - 4 * TILE_SIZE, GetWindowHeight() - 2 * TILE_SIZE, 0.f, 0.f);
 	btn4->SetFunction(
 		[this]() {
-			GridMove(1);
+			GridMove(-1);
 		}
 	);
 	btnList.push_back(btn4);
 
 	Button* btn5 = CreateEntity<Button>(80, 40, sf::Color::Cyan);
-	btn5->SetPosition(GetWindowWidth() - TILE_SIZE, GetWindowHeight() - 2 * TILE_SIZE);
+	btn5->SetPosition(GetWindowWidth() - 2 * TILE_SIZE, GetWindowHeight() - 2 * TILE_SIZE, 0.f, 0.f);
 	btn5->SetFunction(
 		[this]() {
-			GridMove(-1);
+			GridMove(1);
 		});
 	btnList.push_back(btn5);
 }
@@ -325,8 +355,8 @@ void LevelEditor::OnEvent(const sf::Event& event)
 		for (Entity* e : m_SelectionPage[currentSelectionIndex])
 			TrySetSelectedEntity(e, event.mouseButton.x, event.mouseButton.y);
 
-		for (auto& tile : m_posedBlock)
-			TrySetSelectedEntity(tile, event.mouseButton.x, event.mouseButton.y);
+		for (auto& tile : m_gridList[currentGrid])
+			TrySetSelectedEntity(tile->entity, event.mouseButton.x, event.mouseButton.y);
 	}
 
 	if (event.type == sf::Event::MouseButtonPressed &&
@@ -337,17 +367,21 @@ void LevelEditor::OnEvent(const sf::Event& event)
 
 		if (pEntitySelected != nullptr)
 		{
-			for(Entity* tile  : GetPresentTile(posX, posY))
+			for(SavedEntity* tile  : GetPresentTile(posX, posY))
 			{
-				if (tile->IsSameTexture(pEntitySelected))
+				if (tile->entity->IsSameTexture(pEntitySelected))
 				{
-					tile->Destroy();
+					tile->entity->Destroy();
 
-					m_posedBlock.erase(
-						std::remove(m_posedBlock.begin(), m_posedBlock.end(), tile),  //Really the guy who invented std::remove & remove_if go fuck yourself i never understand how the fuck does it works it's dark magic at this level
-						m_posedBlock.end());
+					m_gridList[currentGrid].erase(
+						std::remove(m_gridList[currentGrid].begin(), m_gridList[currentGrid].end(), tile),  //Really the guy who invented std::remove & remove_if go fuck yourself i never understand how the fuck does it works it's dark magic at this level
+						m_gridList[currentGrid].end());
+
+					//m_posedBlock.erase(
+					//	std::remove(m_posedBlock.begin(), m_posedBlock.end(), tile),  //Really the guy who invented std::remove & remove_if go fuck yourself i never understand how the fuck does it works it's dark magic at this level
+					//	m_posedBlock.end());
 					Debug::DebugMessage(Debug::Severity::DEBUG, "Tile", "Deleted Tile");
-					if (tile == pEntitySelected) pEntitySelected = nullptr;
+					if (tile->entity == pEntitySelected) pEntitySelected = nullptr;
 					return;
 				}
 			}
@@ -368,6 +402,12 @@ void LevelEditor::OnEvent(const sf::Event& event)
 
 void LevelEditor::OnUpdate()
 {
+	Debug::DrawText(GetWindowWidth() - 3 * TILE_SIZE, TILE_SIZE, "Save", sf::Color::Black);
+	Debug::DrawText(GetWindowWidth() - 4 * TILE_SIZE, GetWindowHeight() - TILE_SIZE, "Prev", sf::Color::Black);
+	Debug::DrawText(GetWindowWidth() - 2 * TILE_SIZE, GetWindowHeight() - TILE_SIZE, "Next", sf::Color::Black);
+	Debug::DrawText(GetWindowWidth() - 4 * TILE_SIZE, GetWindowHeight() - 2 * TILE_SIZE, "Prev", sf::Color::Black);
+	Debug::DrawText(GetWindowWidth() - 2 * TILE_SIZE, GetWindowHeight() - 2 * TILE_SIZE, "Next", sf::Color::Black);
+
 	if (InputManager::Get().IsKeyPressed(sf::Keyboard::Key::A))
 		drawGrid = !drawGrid;
 
@@ -392,7 +432,7 @@ void LevelEditor::CreateEntityCopy(Entity* _entity, int _x, int _y)
 {
 	Entity* newEntity = _entity->Clone();
 	newEntity->SetPosition(_x, _y, 0.0f, 0.0f);
-	m_posedBlock.push_back(newEntity);
+	//m_posedBlock.push_back(newEntity);
 
-	m_gridList[currentGrid].push_back(newEntity);
+	m_gridList[currentGrid].push_back(new SavedEntity(newEntity, newEntity->GetPosition(0.0f, 0.0f)));
 }

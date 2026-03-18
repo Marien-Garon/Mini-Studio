@@ -1,0 +1,83 @@
+{
+    "Data": [],
+    "Tiles": [
+        {
+            "Type": "TileBlocks",
+            "id": "poteau",
+            "position": {
+                "x": 384.0,
+                "y": 192.0
+            },
+            "scale": {
+                "height": 1.0,
+                "width": 1.0
+            },
+            "tag": 11
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "poteau",
+            "position": {
+                "x": 512.0,
+                "y": 192.0
+            },
+            "scale": {
+                "height": 1.0,
+                "width": 1.0
+            },
+            "tag": 11
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform6_middle",
+            "position": {
+                "x": 64.0,
+                "y": 448.0
+            },
+            "scale": {
+                "height": 0.4637681245803833,
+                "width": 0.48241207003593445
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform6_middle",
+            "position": {
+                "x": 320.0,
+                "y": 448.0
+            },
+            "scale": {
+                "height": 0.4637681245803833,
+                "width": 0.48241207003593445
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform6_middle",
+            "position": {
+                "x": 576.0,
+                "y": 448.0
+            },
+            "scale": {
+                "height": 0.4637681245803833,
+                "width": 0.48241207003593445
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform6_middle",
+            "position": {
+                "x": 832.0,
+                "y": 448.0
+            },
+            "scale": {
+                "height": 0.4637681245803833,
+                "width": 0.48241207003593445
+            },
+            "tag": 10
+        }
+    ]
+}

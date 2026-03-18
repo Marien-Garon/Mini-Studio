@@ -12,5 +12,7 @@ private:
 public:
 	void OnCollision(Entity* entity) override;
 
+	void OnInitialize() override;
+
 };
 

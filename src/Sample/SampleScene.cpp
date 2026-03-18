@@ -32,7 +32,7 @@ void SampleScene::OnInitialize()
 	m_parallaxe = CreateEntity<Parallaxe>(0, 0, sf::Color::Black);
 	m_parallaxe->Start();
 
-	//std::vector<Entity*> test = LevelEditor::LoadLevel(this, "Level0");
+	std::vector<Entity*> test = LevelEditor::LoadLevel(this, "Level1");
 
 	m_player= CreateEntity<Player>(50, 50, sf::Color::Red);
 	m_player->SetPosition(0, 0);
@@ -42,7 +42,7 @@ void SampleScene::OnInitialize()
 	m_robot->SetOwner(m_player);
 
    mCamera = CreateEntity<Camera>(0, 0, sf::Color::Black);
-   mCamera->SetupCamera(0, m_player);
+   mCamera->SetupCamera(2, m_player);
    /*CAMERA SPEED HERE*/
 
    for (int i = 0; i < 3; i++) {

@@ -1,6 +1,6 @@
 #include "AssetManager.h"
 #include "Debug.h"
-
+#include <iostream>
 
 void Animation::NextFrame()
 {
@@ -57,12 +57,16 @@ bool AssetManager::InitTileInDirectory(const std::filesystem::path& filename)
 
     for (auto& entry : std::filesystem::directory_iterator(filename))
     {
+        if (entry.is_directory() && entry.path().stem().string() == "platform")
+        {
+
+        }
+
         if (!entry.is_regular_file())
         {
             Debug::DebugMessage(Debug::Severity::WARN, "Load File", "File" + entry.path().filename().string() + " is not a valid file");
             continue;
         }
-
 
         if (entry.path().extension() != ".png" && entry.path().extension() != ".PNG")
         {

@@ -1,0 +1,44 @@
+{
+    "Data": [],
+    "Tiles": [
+        {
+            "Type": "TileBlocks",
+            "id": "platform1_left",
+            "position": {
+                "x": 384.0,
+                "y": 256.0
+            },
+            "scale": {
+                "height": 0.46043166518211365,
+                "width": 0.5333333611488342
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform1_left",
+            "position": {
+                "x": 512.0,
+                "y": 256.0
+            },
+            "scale": {
+                "height": 0.46043166518211365,
+                "width": 0.5333333611488342
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform1_left",
+            "position": {
+                "x": 448.0,
+                "y": 256.0
+            },
+            "scale": {
+                "height": 0.46043166518211365,
+                "width": 0.5333333611488342
+            },
+            "tag": 10
+        }
+    ]
+}

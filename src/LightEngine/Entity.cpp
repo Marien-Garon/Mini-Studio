@@ -80,7 +80,7 @@ Side Entity::GetCollidingSide(Entity* _other)
 
 bool Entity::IsSameTexture(Entity* _other)
 {
-	if (!hasSprite) return false;
+	if (!hasSprite) return true;
 
 	return m_sprite->textureID == _other->GetSpriteData()->textureID;
 }
@@ -251,6 +251,7 @@ void Entity::PlayAnimation(const std::string& _id)
 	if (!hasSprite) return;
 	if (m_sprite->currentAnimation == _id) return;
 	m_sprite->PlayAnimation(_id);
+	m_sprite->sprite->setScale(m_Scale);
 }
 
 Entity* Entity::Clone()
