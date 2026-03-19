@@ -33,9 +33,12 @@ void SampleScene::OnInitialize()
 	//std::vector<Entity*> test = LevelEditor::LoadLevel(this, "Level0");
 
 	m_player = CreateEntity<Player>(50,50, sf::Color::Blue);
-	//m_player = CreateEntity<Player>(AM.CreateSprite("spriteSheetMC", 0, 0, 1900, 1446));
-	m_player->SetScale(0.1f, 0.1f);
-	m_player->SetPosition(0, 0, 0.f, 0.f);
+	//m_player = CreateEntity<Player>(AM.CreateSprite("spriteSheetMC", 0, 0, 950, 723));
+	m_player->SetScale(0.5f, 0.5f);
+	m_player->SetPosition(0,-100);
+	//m_player->SetPosition(0, 100);
+	std::cout << m_player->GetPosition().x << "/" << m_player->GetPosition().y << std::endl;
+	m_player->PlayAnimation("running_to_right");
 
 
 	m_robot = CreateEntity<Companion>(50, 50, sf::Color::Blue);
@@ -43,7 +46,7 @@ void SampleScene::OnInitialize()
 	m_robot->SetOwner(m_player);
 
    mCamera = CreateEntity<Camera>(0, 0, sf::Color::Black);
-   mCamera->SetupCamera(2, m_player);
+   mCamera->SetupCamera(0, nullptr);
    /*CAMERA SPEED HERE*/
 
   
