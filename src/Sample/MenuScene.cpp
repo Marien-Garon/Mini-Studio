@@ -19,19 +19,16 @@ void MenuScene::OnInitialize()
 	m_menuFond = CreateEntity<Entity>(AM.CreateSprite("fond-menu"));
 	m_menuFond->SetScale(0.67, 0.67);
 
-	//balldeur = CreateEntity<Entity>(AM.CreateSprite("Balladeur"));
-	//balldeur->SetScale(0.67, 0.67);
-
 	m_menuScreen = CreateEntity<Entity>(AM.CreateSprite("menu"));
-	sf::Vector2f pos = m_menuScreen->GetPosition();
+	sf::Vector2f pos = m_menuScreen->GetPosition(0.0f, 0.0f);
 	m_menuScreen->SetScale(0.67, 0.67);
-	m_menuScreen->SetPosition(pos.x + 105.0f, pos.y );
+	m_menuScreen->SetPosition(pos.x + 120.0f, pos.y, 0.0f, 0.0f);
 
 	m_encadre = CreateEntity<Entity>(AM.CreateSprite("encadre lumineux"));
 	m_encadre->SetScale(0.67, 0.67);
 
 	m_buttonPlay = CreateEntity<Button>(AM.CreateSprite("play"));
-    sf::Vector2f buttonPos((GetWindowWidth() / 2) + 80.f, (GetWindowHeight() / 2) + 25.f);
+    sf::Vector2f buttonPos((GetWindowWidth() / 2) + 12.5f, (GetWindowHeight() / 2) - 8.f);
 	m_buttonPlay->SetScale(0.67, 0.67);
 	m_buttonPlay->SetPosition(buttonPos.x, buttonPos.y);
 	
@@ -83,7 +80,7 @@ void MenuScene::OnUpdate()
 
 	if (m_buttonPlay->IsInside(mousePos.x, mousePos.y))
 	{
-		m_encadre->SetPosition(m_buttonPlay->GetPosition().x + 78.f, m_buttonPlay->GetPosition().y + 50.f);
+		m_encadre->SetPosition(m_buttonPlay->GetPosition().x, m_buttonPlay->GetPosition().y);
 	}
 	else
 	{

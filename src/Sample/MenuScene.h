@@ -10,7 +10,6 @@ class Button;
 
 class MenuScene : public Scene
 {
-	Entity* balldeur;
 	Entity* m_menuFond;
 	Entity* m_encadre;
 
