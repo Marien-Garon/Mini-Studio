@@ -12,7 +12,7 @@
 #include "Mob2.h"
 
 #define TILE_SIZE 64.f
-#define SIZE_DIVISION 1
+#define SIZE_DIVISION 2
 
 std::vector<Entity*> LevelEditor::LoadLevel(Scene* scene, std::string _id)
 {
