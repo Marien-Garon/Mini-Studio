@@ -170,7 +170,7 @@ void GameManager::Update()
 		Entity* entity = *it;
 
         entity->Update();
-		Debug::DrawCollider(entity->GetCollider()); //--> Debug only
+		//Debug::DrawCollider(entity->GetCollider()); //--> Debug only
 
         if (entity->ToDestroy() == false)
         {

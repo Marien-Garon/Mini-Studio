@@ -128,7 +128,7 @@ void SampleScene::OnUpdate()
 
 	IncreaseTimer();
 
-	Debug::DrawText(j + GetWindowWidth() - 100, i + 10, "FPS : " + std::to_string(GetGameManager()->GetFPS()), sf::Color::White);
+	Debug::DrawText(j + GetWindowWidth() - 100, i + 10, "FPS : " + std::to_string(GameManager::Get()->GetFPS()), sf::Color::White);
 }
 
 
