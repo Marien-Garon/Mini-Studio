@@ -62,7 +62,9 @@ void MenuScene::OnUpdate()
 
 	sf::Vector2i mousePos = sf::Mouse::getPosition();
 
-	if (m_buttonPlay->IsInside(mousePos.x, mousePos.y))
+	InputManager& IM = InputManager::Get();
+
+	if (m_buttonPlay->IsInside(IM.GetMousePos().x, IM.GetMousePos().y))
 	{
 		m_encadre->SetPosition(m_buttonPlay->GetPosition().x, m_buttonPlay->GetPosition().y);
 	}
