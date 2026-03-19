@@ -8,6 +8,8 @@
 #include "SampleScene.h"
 #include "UnderPlatform.h"
 #include "DecoBlock.h"
+#include "Mob1.h"
+#include "Mob2.h"
 
 #define TILE_SIZE 64.f
 #define SIZE_DIVISION 1
@@ -48,6 +50,17 @@ std::vector<Entity*> LevelEditor::LoadLevel(Scene* scene, std::string _id)
 		pos.y -= scene->GetWindowHeight() / 2;
 
 		AssetManager& AM = AssetManager::getInstance();
+
+		if (tag == 2)
+		{
+			Mob1* newMob = scene->CreateEntity<Mob1>(AM.CreateSprite("Mob1Animation", 0, 0, 1085, 1440));
+			newMob->SetTag(tag);
+			newMob->SetScale(scale);
+			newMob->SetPosition(pos.x, pos.y, 0.0f, 0.0f);
+			newMob->SetRigidBody(true);
+			newMob->Active();
+			m_entity.push_back(newMob);
+		}
 
 		if (tag == 10)
 		{
@@ -90,6 +103,14 @@ std::vector<Entity*> LevelEditor::LoadLevel(Scene* scene, std::string _id)
 			decoBlock->SetScale(scale);
 			decoBlock->SetPosition(pos.x, pos.y, 0.0f, 0.0f);
 			m_entity.push_back(decoBlock);
+		}
+		if (tag == 16)
+		{
+			Mob2* mob2 = scene->CreateEntity<Mob2>(AM.CreateSprite("MobAnimation", 0, 0, 1155, 1630));
+			mob2->SetScale(scale);
+			mob2->SetPosition(pos.x, pos.y, 0.0f, 0.0f);
+			mob2->Active();
+			m_entity.push_back(mob2);
 		}
 	}
 	
@@ -272,7 +293,7 @@ void LevelEditor::InitEntity()
 
 	AssetManager& AM = AssetManager::getInstance();
 
-	BreakablePlatform* platform = CreateEntity<BreakablePlatform>(AM.CreateSprite("breakable",0,0,493,440));
+	BreakablePlatform* platform = CreateEntity<BreakablePlatform>(AM.CreateSprite("breakable", 0, 0, 493, 440));
 	platform->SetScale(GetScale(platform->GetCollider().width, TILE_SIZE) / SIZE_DIVISION, GetScale(platform->GetCollider().height, TILE_SIZE) / SIZE_DIVISION);
 	platform->SetPosition(-5000, -5000);
 
@@ -282,7 +303,7 @@ void LevelEditor::InitEntity()
 	m_SelectionPage.back().push_back(platform);
 
 	Hook* hook = CreateEntity<Hook>(AM.CreateSprite("poteau"));
-	hook->SetPosition(-5000,-5000);
+	hook->SetPosition(-5000, -5000);
 	hook->SetScale(GetScale(hook->GetCollider().width, TILE_SIZE) / SIZE_DIVISION, GetScale(hook->GetCollider().height, TILE_SIZE) / SIZE_DIVISION);
 
 	if (m_SelectionPage.empty() || m_SelectionPage.back().size() >= 3)
@@ -299,6 +320,25 @@ void LevelEditor::InitEntity()
 		m_SelectionPage.emplace_back();
 
 	m_SelectionPage.back().push_back(playerPos);
+
+	Mob1* newMob = CreateEntity<Mob1>(AM.CreateSprite("Mob1Animation", 0, 0, 1085, 1440));
+	newMob->SetTag(2);
+	newMob->SetScale(0.2f, 0.2f);
+	newMob->SetPosition(-5000, -5000);
+
+	if (m_SelectionPage.empty() || m_SelectionPage.back().size() >= 3)
+		m_SelectionPage.emplace_back();
+
+	m_SelectionPage.back().push_back(newMob);
+
+	Mob2* mob2 = CreateEntity<Mob2>(AM.CreateSprite("Mob2Animation", 0, 0, 1155, 1630));
+	mob2->SetScale(0.2f, 0.2f);
+	mob2->SetPosition(-5000, -5000);
+
+	if (m_SelectionPage.empty() || m_SelectionPage.back().size() >= 3)
+		m_SelectionPage.emplace_back();
+
+	m_SelectionPage.back().push_back(mob2);
 }
 
 void LevelEditor::InitTileBlock()

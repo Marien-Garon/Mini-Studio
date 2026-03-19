@@ -58,6 +58,8 @@ protected :
 	float m_movingCooldown = 2.0f;
 	bool isGrounded = false;
 
+	bool activate = false;
+
 public :
 
 	void OnInitialize() override;
@@ -66,6 +68,7 @@ public :
 	void TakeDamage(int amount);
 	bool DetectPlayer();
 	void Move();
+	void Active() { activate = true; };
 
 	virtual void Attack();
 };

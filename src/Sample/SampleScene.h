@@ -52,7 +52,7 @@ private:
 
 	std::vector<Hook*> m_hooks;
 	Parallaxe* m_parallaxe;
-	Mob1* test;
+	//Mob1* test;
 
 
 public:

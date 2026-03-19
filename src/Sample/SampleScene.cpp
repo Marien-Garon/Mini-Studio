@@ -52,10 +52,10 @@ void SampleScene::OnInitialize()
 	// m_Platforms[1]->SetPosition(4546546, 201);
 	// m_Platforms[1]->SetRigidBody(true);
 
-	test = CreateEntity<Mob1>(AM.CreateSprite("Mob1Animation", 0, 0 , 1085, 1440));
-	test->SetScale(0.1f, 0.1f);
-	test->SetPosition(50, -150, 0.0f, 0.0f);
-	test->SetRigidBody(true);
+	//test = CreateEntity<Mob1>(AM.CreateSprite("Mob1Animation", 0, 0 , 1085, 1440));
+	//test->SetScale(0.1f, 0.1f);
+	//test->SetPosition(50, -150, 0.0f, 0.0f);
+	//test->SetRigidBody(true);
 
 
 	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));

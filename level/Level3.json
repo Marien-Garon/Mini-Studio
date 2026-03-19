@@ -1,0 +1,31 @@
+{
+    "Data": [],
+    "Tiles": [
+        {
+            "Type": "TileBlocks",
+            "id": "Mob1Animation",
+            "position": {
+                "x": 256.0,
+                "y": 192.0
+            },
+            "scale": {
+                "height": 0.20000000298023224,
+                "width": 0.20000000298023224
+            },
+            "tag": 2
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform_wall2_middle",
+            "position": {
+                "x": 256.0,
+                "y": 512.0
+            },
+            "scale": {
+                "height": 1.1428571939468384,
+                "width": 0.9434889554977417
+            },
+            "tag": 14
+        }
+    ]
+}
