@@ -18,7 +18,7 @@ void DeathScene::OnInitialize()
 
 
 	m_deathScreen = CreateEntity<Entity>(AM.CreateSprite("Menu_lose",0,0, 1116, 1070));
-	m_deathScreen->SetScale(0.70,0.70);
+	m_deathScreen->SetScale(0.65,0.65);
 	m_deathScreen->SetPosition(0, 0, 1.f, 1.f);
 
 	mCamera = CreateEntity<Camera>(0, 0, sf::Color::Black);
