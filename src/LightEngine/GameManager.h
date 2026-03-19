@@ -46,7 +46,7 @@ private:
 	float timer = 0.0f;
 	int FPS = 0;
 
-private:
+public:
 	GameManager();
 
 	void Run();
