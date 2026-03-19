@@ -47,7 +47,7 @@ void InputManager::HandleJoystickPressed(const sf::Event& event)
 	Controller* controller = m_controllerList[id];
 	Controller::Button btn = static_cast<Controller::Button>(event.joystickButton.button);
 
-	if (controller->IsControllerHeld(btn)) 
+	if (controller->IsControllerHeld(btn))
 	{
 		controller->SetPressed(btn, false);  //idk wy it doesn't work
 		return;
@@ -85,7 +85,7 @@ void InputManager::HandleJoystickConnection(const sf::Event& event)
 	else
 		m_controllerList[id] = new Controller(id);
 
-	std::string msg = "Controller " + std::to_string(id) + " connected"; 
+	std::string msg = "Controller " + std::to_string(id) + " connected";
 	Debug::Get()->DebugMessage(Debug::Severity::INFO, "Controller", msg);
 }
 

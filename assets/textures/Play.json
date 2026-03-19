@@ -1,0 +1,10 @@
+{
+  "Data": {
+    "id": "play",
+    "spritesheet": false,
+    "size": {
+      "width": 505,
+      "height": 206
+    }
+  }
+}

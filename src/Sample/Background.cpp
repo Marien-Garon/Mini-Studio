@@ -4,7 +4,7 @@
 
 void Background::OnUpdate()
 {
-	sf::Vector2f cameraPos = GetScene<SampleScene>()->GetCamera()->GetView()->getCenter();
+	sf::Vector2f cameraPos = GetScene<SampleScene>()->GetCamera()->GetView().getCenter();
 	float windowWidth = GetScene<SampleScene>()->GetWindowWidth();
 
 	sf::Vector2f position = GetPosition(1.f, 0.f);

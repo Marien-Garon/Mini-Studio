@@ -26,6 +26,7 @@ private:
 	float test_timerAttaque = 0;
 	float m_pityFrames = 10.f;
 
+
 	Player* m_player;
 	Companion* m_robot;
 
@@ -33,10 +34,6 @@ private:
 	std::vector<Entity*> m_UI;
 
 	sf::Vector2f m_playerStartPos = { 0.f,0.f };
-	
-private:
-    void TrySetSelectedEntity(Enemy* pEntity, int x, int y);
-
 public:
 
 	void AddHook(Hook* hook) { m_hooks.push_back(hook); };
@@ -48,6 +45,8 @@ public:
     void OnEvent(const sf::Event& event) override;
     void OnUpdate() override;
 
+	bool mIsPaused = false;
+
 private:
 
 	std::vector<Hook*> m_hooks;
@@ -58,7 +57,7 @@ private:
 public:
 	std::vector<Hook*> GetHooks() { return m_hooks; };
 	Player* GetPlayer() { return m_player; }
-
+	void SetPaused(bool paused) { mIsPaused = paused; }
 	bool IsAttackTimingOkay();
 	void IncreaseTimer();
 	Camera* GetCamera() const;

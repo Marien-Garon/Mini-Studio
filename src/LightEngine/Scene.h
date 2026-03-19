@@ -15,7 +15,6 @@ private:
 	GameManager* mpGameManager;
 
 private:
-	void SetGameManager(GameManager* pGameManager) { mpGameManager = pGameManager; }
 	
 protected:
 
@@ -45,10 +44,9 @@ public:
 
 	void DrawSprite(sf::Sprite* _sprite) const;
 
-	GameManager* GetGameManager() { return mpGameManager; }
-
-
 	friend GameManager;
+
+	GameManager* GetGameManager() { return mpGameManager; };
 };
 
 #include "Scene.inl"

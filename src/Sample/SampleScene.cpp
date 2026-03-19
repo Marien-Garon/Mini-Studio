@@ -1,8 +1,6 @@
-#include "SampleScene.h"
 #include <iostream>
-#include "DummyEntity.h"
+#include "SampleScene.h"
 
-#include"Enemy.h"
 #include"Mob1.h"
 #include"Mob2.h"
 
@@ -10,12 +8,13 @@
 
 #include "InputManager.h"
 #include "AssetManager.h"
+#include "SceneManager.h"
 #include "Camera.h"
 #include "Hook.h"
+#include "PauseScene.h"
 
-#include"Platform.h"
 #include"BreakablePlatform.h"
-#include"Entity.h"
+
 #include "Debug.h"
 #include "LevelEditor.h"
 
@@ -72,13 +71,16 @@ void SampleScene::OnInitialize()
 	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
 	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
 	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
+
+
+	AM.PlayMusic("Musique principal");
+	AM.SetMusicVolume(100.F);
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
 {
-
 	float dt = GetDeltaTime();
-    InputManager& im = InputManager::Get();
+	InputManager& im = InputManager::Get();
 
 	if (event.mouseButton.button == sf::Mouse::Button::Left)
 	{
@@ -93,8 +95,9 @@ void SampleScene::OnEvent(const sf::Event& event)
 
 void SampleScene::OnUpdate()
 {
-	float i = mCamera->GetView()->getCenter().y - (GetWindowHeight() / 2);
-	float j = mCamera->GetView()->getCenter().x - (GetWindowWidth() / 2);
+
+	float i = mCamera->GetView().getCenter().y - (GetWindowHeight() / 2);
+	float j = mCamera->GetView().getCenter().x - (GetWindowWidth() / 2);
 
 	switch (m_player->GetHealth())
 	{
@@ -121,7 +124,7 @@ void SampleScene::OnUpdate()
 		break;
 	}
 
-	GetGameManager()->RefreshCamera(mCamera);
+	GameManager::Get()->RefreshCamera(mCamera);
 
 	IncreaseTimer();
 
