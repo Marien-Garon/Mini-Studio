@@ -146,19 +146,6 @@
         },
         {
             "Type": "TileBlocks",
-            "id": "IMG_8880",
-            "position": {
-                "x": 448.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.4890829622745514,
-                "width": 0.47840532660484314
-            },
-            "tag": 15
-        },
-        {
-            "Type": "TileBlocks",
             "id": "vent7",
             "position": {
                 "x": 960.0,
@@ -211,14 +198,157 @@
         },
         {
             "Type": "TileBlocks",
-            "id": "vent10",
+            "id": "platform4_middle",
+            "position": {
+                "x": 768.0,
+                "y": 448.0
+            },
+            "scale": {
+                "height": 0.7804877758026123,
+                "width": 0.4808013439178467
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform4_middle",
+            "position": {
+                "x": 512.0,
+                "y": 448.0
+            },
+            "scale": {
+                "height": 0.7804877758026123,
+                "width": 0.4808013439178467
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform4_middle",
+            "position": {
+                "x": 320.0,
+                "y": 448.0
+            },
+            "scale": {
+                "height": 0.7804877758026123,
+                "width": 0.4808013439178467
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform4_middle",
             "position": {
                 "x": 128.0,
-                "y": 320.0
+                "y": 448.0
+            },
+            "scale": {
+                "height": 0.7804877758026123,
+                "width": 0.4808013439178467
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform4_middle",
+            "position": {
+                "x": 64.0,
+                "y": 448.0
+            },
+            "scale": {
+                "height": 0.7804877758026123,
+                "width": 0.4808013439178467
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform4_left",
+            "position": {
+                "x": 64.0,
+                "y": 448.0
+            },
+            "scale": {
+                "height": 0.800000011920929,
+                "width": 0.41558441519737244
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "IMG_8880",
+            "position": {
+                "x": 512.0,
+                "y": 448.0
+            },
+            "scale": {
+                "height": 0.4890829622745514,
+                "width": 0.47840532660484314
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "IMG_8884",
+            "position": {
+                "x": 0.0,
+                "y": 512.0
+            },
+            "scale": {
+                "height": 0.5274725556373596,
+                "width": 0.47058823704719543
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "vent10",
+            "position": {
+                "x": 768.0,
+                "y": 448.0
             },
             "scale": {
                 "height": 0.5333333611488342,
                 "width": 0.536912739276886
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "vent1",
+            "position": {
+                "x": 448.0,
+                "y": 640.0
+            },
+            "scale": {
+                "height": 0.5378151535987854,
+                "width": 0.5333333611488342
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "pipe9",
+            "position": {
+                "x": 768.0,
+                "y": 640.0
+            },
+            "scale": {
+                "height": 0.52173912525177,
+                "width": 0.5517241358757019
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "pipe9",
+            "position": {
+                "x": 64.0,
+                "y": 576.0
+            },
+            "scale": {
+                "height": 0.52173912525177,
+                "width": 0.5517241358757019
             },
             "tag": 15
         },
@@ -479,6 +609,32 @@
             "scale": {
                 "height": 0.49433574080467224,
                 "width": 0.5120000243186951
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "vent3",
+            "position": {
+                "x": 1600.0,
+                "y": 512.0
+            },
+            "scale": {
+                "height": 0.4507042169570923,
+                "width": 0.5031446814537048
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "pipe7",
+            "position": {
+                "x": 1728.0,
+                "y": 320.0
+            },
+            "scale": {
+                "height": 0.5333333611488342,
+                "width": 0.4752475321292877
             },
             "tag": 15
         },
@@ -952,6 +1108,45 @@
         },
         {
             "Type": "TileBlocks",
+            "id": "pipe11_3corner3",
+            "position": {
+                "x": 2688.0,
+                "y": 384.0
+            },
+            "scale": {
+                "height": 0.4790419042110443,
+                "width": 0.4819277226924896
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "vent8",
+            "position": {
+                "x": 2752.0,
+                "y": 448.0
+            },
+            "scale": {
+                "height": 0.5446808338165283,
+                "width": 0.5565217137336731
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "IMG_8900",
+            "position": {
+                "x": 2432.0,
+                "y": 384.0
+            },
+            "scale": {
+                "height": 0.5110564827919006,
+                "width": 0.4597701132297516
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
             "id": "wall_green2_left",
             "position": {
                 "x": 3328.0,
@@ -1053,6 +1248,19 @@
                 "width": 0.5333333611488342
             },
             "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "poteau",
+            "position": {
+                "x": 3328.0,
+                "y": 0.0
+            },
+            "scale": {
+                "height": 0.4637681245803833,
+                "width": 0.9411764740943909
+            },
+            "tag": 11
         },
         {
             "Type": "TileBlocks",
@@ -1966,10 +2174,49 @@
         },
         {
             "Type": "TileBlocks",
-            "id": "IMG_8876",
+            "id": "pipe11_2corner3",
+            "position": {
+                "x": 5696.0,
+                "y": 512.0
+            },
+            "scale": {
+                "height": 0.4848484992980957,
+                "width": 0.4848484992980957
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "pipe11_1corner4",
+            "position": {
+                "x": 5696.0,
+                "y": 384.0
+            },
+            "scale": {
+                "height": 0.4848484992980957,
+                "width": 0.48048049211502075
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "vent12(1)",
             "position": {
                 "x": 5824.0,
-                "y": 320.0
+                "y": 576.0
+            },
+            "scale": {
+                "height": 0.5962733030319214,
+                "width": 0.4571428596973419
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "IMG_8876",
+            "position": {
+                "x": 5760.0,
+                "y": 256.0
             },
             "scale": {
                 "height": 0.4961240291595459,
@@ -2161,6 +2408,19 @@
         },
         {
             "Type": "TileBlocks",
+            "id": "IMG_8902",
+            "position": {
+                "x": 6400.0,
+                "y": 256.0
+            },
+            "scale": {
+                "height": 0.5274725556373596,
+                "width": 0.505643367767334
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
             "id": "wall_yellow_left",
             "position": {
                 "x": 7424.0,
@@ -2223,19 +2483,6 @@
                 "width": 0.5047318339347839
             },
             "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "vent9",
-            "position": {
-                "x": 7360.0,
-                "y": 512.0
-            },
-            "scale": {
-                "height": 0.4465116262435913,
-                "width": 0.5333333611488342
-            },
-            "tag": 15
         },
         {
             "Type": "TileBlocks",
@@ -2312,6 +2559,45 @@
             "scale": {
                 "height": 0.4758364260196686,
                 "width": 0.4304932653903961
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "vent6",
+            "position": {
+                "x": 7936.0,
+                "y": 384.0
+            },
+            "scale": {
+                "height": 0.5144694447517395,
+                "width": 0.5355648398399353
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "window9_pink",
+            "position": {
+                "x": 7360.0,
+                "y": 512.0
+            },
+            "scale": {
+                "height": 0.5203251838684082,
+                "width": 0.5311203598976135
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "window9_white",
+            "position": {
+                "x": 7360.0,
+                "y": 640.0
+            },
+            "scale": {
+                "height": 0.5203251838684082,
+                "width": 0.5311203598976135
             },
             "tag": 15
         },
@@ -2548,6 +2834,19 @@
                 "width": 0.5161290168762207
             },
             "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "window6_orange",
+            "position": {
+                "x": 8960.0,
+                "y": 512.0
+            },
+            "scale": {
+                "height": 0.4880174398422241,
+                "width": 0.5140562057495117
+            },
+            "tag": 15
         },
         {
             "Type": "TileBlocks",
@@ -3045,19 +3344,6 @@
         },
         {
             "Type": "TileBlocks",
-            "id": "IMG_8898",
-            "position": {
-                "x": 11136.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.4912280738353729,
-                "width": 0.4808013439178467
-            },
-            "tag": 15
-        },
-        {
-            "Type": "TileBlocks",
             "id": "wall_concete3_middle",
             "position": {
                 "x": 11264.0,
@@ -3263,6 +3549,175 @@
                 "width": 0.5089462995529175
             },
             "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "wall_pattern_middle2",
+            "position": {
+                "x": 12800.0,
+                "y": 448.0
+            },
+            "scale": {
+                "height": 0.49042144417762756,
+                "width": 0.5263158082962036
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "wall_pattern_middle1",
+            "position": {
+                "x": 12736.0,
+                "y": 448.0
+            },
+            "scale": {
+                "height": 0.49167734384536743,
+                "width": 0.517320990562439
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "wall_pattern_middle1",
+            "position": {
+                "x": 12544.0,
+                "y": 384.0
+            },
+            "scale": {
+                "height": 0.49167734384536743,
+                "width": 0.517320990562439
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "wall_pattern_right",
+            "position": {
+                "x": 12672.0,
+                "y": 384.0
+            },
+            "scale": {
+                "height": 0.4910486042499542,
+                "width": 0.5228758454322815
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "wall_pattern_left",
+            "position": {
+                "x": 12480.0,
+                "y": 384.0
+            },
+            "scale": {
+                "height": 0.4910486042499542,
+                "width": 0.5228758454322815
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "door1_white",
+            "position": {
+                "x": 12864.0,
+                "y": 512.0
+            },
+            "scale": {
+                "height": 0.4797601103782654,
+                "width": 0.5322245359420776
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "IMG_8875",
+            "position": {
+                "x": 13120.0,
+                "y": 448.0
+            },
+            "scale": {
+                "height": 0.5137614607810974,
+                "width": 0.4761904776096344
+            },
+            "tag": 15
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform6_left",
+            "position": {
+                "x": 12416.0,
+                "y": 320.0
+            },
+            "scale": {
+                "height": 0.46715328097343445,
+                "width": 0.5161290168762207
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform6_right",
+            "position": {
+                "x": 12480.0,
+                "y": 320.0
+            },
+            "scale": {
+                "height": 0.46715328097343445,
+                "width": 0.5161290168762207
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform6_right",
+            "position": {
+                "x": 12544.0,
+                "y": 320.0
+            },
+            "scale": {
+                "height": 0.46715328097343445,
+                "width": 0.5161290168762207
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform6_right",
+            "position": {
+                "x": 12608.0,
+                "y": 320.0
+            },
+            "scale": {
+                "height": 0.46715328097343445,
+                "width": 0.5161290168762207
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform6_right",
+            "position": {
+                "x": 12672.0,
+                "y": 320.0
+            },
+            "scale": {
+                "height": 0.46715328097343445,
+                "width": 0.5161290168762207
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform6_right",
+            "position": {
+                "x": 12800.0,
+                "y": 320.0
+            },
+            "scale": {
+                "height": 0.46715328097343445,
+                "width": 0.5161290168762207
+            },
+            "tag": 10
         }
     ]
 }

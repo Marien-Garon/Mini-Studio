@@ -39,6 +39,9 @@ class GameManager
 
 	sf::Color mClearColor;
 
+	float timer = 0.0f;
+	int FPS = 0;
+
 private:
 	GameManager();
 
@@ -68,6 +71,8 @@ public:
 	float GetDeltaTime() const { return mDeltaTime; }
 	Scene* GetScene() const { return mpScene; }
 	sf::Font& GetFont() { return mFont; };
+
+	int GetFPS() { return FPS; };
 
 	friend Debug;
 	friend Scene;
