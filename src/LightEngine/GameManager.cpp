@@ -4,6 +4,7 @@
 #include "Debug.h"
 #include "Camera.h"
 #include "InputManager.h"
+#include "SceneManager.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -36,7 +37,6 @@ GameManager* GameManager::Get()
 GameManager::~GameManager()
 {
 	delete mpWindow;
-	delete mpScene;
 
 	for (Entity* entity : mEntities)
 	{
@@ -70,7 +70,20 @@ void GameManager::RefreshCamera(Camera* camera)
 		exit(0);
 	}
 	mpWindow->setView(*camera->GetView());
+	camera->GetUIView()->setViewport(sf::FloatRect(0, 0, 0.25f, 0.25f));
 }
+void GameManager::RefreshUI(Camera* camera)
+{
+	if (camera->GetView() == nullptr)
+	{
+		std::cout << "Camera Not Initialized" << std::endl;
+		exit(0);
+	}
+	mpWindow->setView(*camera->GetUIView());
+
+}
+
+
 
 void GameManager::Run()
 {
@@ -130,6 +143,15 @@ void GameManager::HandleInput()
 
 void GameManager::Update()
 {
+	
+	SceneManager& sm = SceneManager::getInstance();
+
+	if (sm.Update())
+	{
+		_ASSERT(mpScene != nullptr);
+		mpScene = sm.GetCurrentScene();
+		mpScene->OnInitialize();
+	}
 	mpScene->OnUpdate();
 
     //Update
@@ -183,6 +205,7 @@ void GameManager::Update()
 	}
 
 	mEntitiesToAdd.clear();
+	
 }
 
 void GameManager::Draw()
@@ -202,4 +225,23 @@ void GameManager::Draw()
 	Debug::Get()->Draw(mpWindow);
 
 	mpWindow->display();
+}
+
+void GameManager::SetScene(Scene* scene)
+{
+	if (scene != nullptr)
+	{
+		mpScene = scene;
+		mpScene->OnInitialize();
+	}
+	
+}
+
+void GameManager::ClearCurrentSceneEntities()
+{
+	for (Entity* entity : mEntities)
+		delete entity;
+	mEntities.clear();
+	mEntitiesToDestroy.clear();
+	mEntitiesToAdd.clear();
 }

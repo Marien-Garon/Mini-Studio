@@ -41,7 +41,7 @@ protected:
 	bool m_isMoveable = false;
 
 	bool mIsGravity = false;
-	float mGravityAcceleration = 100.f;
+	float mGravityAcceleration = 150.f;
 	float mGravitySpeed = 0;
 
 public:
@@ -50,6 +50,7 @@ public:
     void SetPosition(float x, float y, float ratioX = 0.5f, float ratioY = 0.5f);
 	void SetDirection(float x, float y, float speed = -1.f);
 	void SetSpeed(float speed) { mSpeed = speed; }
+	void SetOpacity(float _alpha);
 	float GetSpeed() { return mSpeed; }
 	void SetTag(int tag) { mTag = tag; }
 
@@ -82,7 +83,7 @@ public:
     Scene* GetScene() const;
 	float GetDeltaTime() const;
 
-	const AABBCollider& GetCollider();
+	AABBCollider& GetCollider();
 
     template<typename T>
     T* CreateEntity(float width, float height, const sf::Color& color);

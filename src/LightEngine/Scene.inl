@@ -18,7 +18,7 @@ T* Scene::CreateEntity(float width, float height, const sf::Color& color)
 	Entity* entity = newEntity;
 	entity->Initialize(width, height, color);
 	
-	mpGameManager->mEntitiesToAdd.push_back(newEntity);
+	GameManager::Get()->mEntitiesToAdd.push_back(newEntity);
 
 	return newEntity;
 }
@@ -39,7 +39,7 @@ T* Scene::CreateEntity(sf::Sprite* _sprite, const sf::Color& color)
 	entity->Initialize(_sprite->getTextureRect().width, _sprite->getTextureRect().height, color);
 	entity->SetSprite(_sprite);
 
-	mpGameManager->mEntitiesToAdd.push_back(newEntity);
+	GameManager::Get()->mEntitiesToAdd.push_back(newEntity);
 
 	return newEntity;
 }

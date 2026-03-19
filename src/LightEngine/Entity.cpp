@@ -109,6 +109,16 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 	}
 }
 
+void Entity::SetOpacity(float _alpha)
+{
+	if (hasSprite) m_sprite->setColor(sf::Color(255, 255, 255, _alpha));
+	else
+	{
+		sf::Color color = mShape.getFillColor();
+		mShape.setFillColor(sf::Color(color.r, color.g, color.b, _alpha));
+	}
+}
+
 sf::Vector2f Entity::GetPosition(float ratioX, float ratioY) const
 {
 	sf::Vector2f size = hasSprite ? sf::Vector2f(m_sprite->getTextureRect().width, m_sprite->getTextureRect().height) : mShape.getSize();
@@ -213,7 +223,7 @@ float Entity::GetDeltaTime() const
 	return GameManager::Get()->GetDeltaTime();
 }
 
-const AABBCollider& Entity::GetCollider()
+AABBCollider& Entity::GetCollider()
 {
 	return m_collider;
 }

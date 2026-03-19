@@ -1,9 +1,15 @@
 #include "Companion.h"
+#include "SampleScene.h"
 #include <iostream>
 
 void Companion::OnUpdate()
 {
 	Follow();
+
+	GetShape()->setFillColor(sf::Color::Blue);
+
+	if (static_cast<SampleScene*>(GetScene())->IsAttackTimingOkay())
+		GetShape()->setFillColor(sf::Color::Red);
 }
 
 void Companion::OnInitialize()
