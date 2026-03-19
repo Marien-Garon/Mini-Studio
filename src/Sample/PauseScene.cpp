@@ -1,12 +1,12 @@
 #include "PauseScene.h"
 #include <iostream>
-#include "DummyEntity.h"
 #include "Enemy.h"
 #include "Utils.h"
 #include "Debug.h"
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "AssetManager.h"
+#include "Button.h"
 #include "SampleScene.h"
 #include "Camera.h"
 
@@ -14,14 +14,13 @@
 void PauseScene::OnInitialize()
 {
 	AssetManager& AM = AssetManager::getInstance();
-	m_pauseMenu = CreateEntity<Entity>(AM.LoadSprite("pause"), sf::Color::Red);
+	m_pauseMenu = CreateEntity<Entity>(AM.LoadSprite("pause"), sf::Color::Transparent);
+    m_pauseMenu->SetSpriteScale(0.67, 0.67);
 
-	m_buttonContinue = CreateEntity<Entity>(350, 65, sf::Color::Transparent);
-	m_buttonRestart = CreateEntity<Entity>(350, 65, sf::Color::Transparent);
-	
-	m_buttonSave = CreateEntity<Entity>(350, 65, sf::Color::Transparent);
-	m_buttonSettings = CreateEntity<Entity>(350, 65, sf::Color::Transparent);
-	m_buttonExit = CreateEntity<Entity>(100, 65, sf::Color::Transparent);
+    m_buttonContinue = CreateEntity<Button>(AM.LoadSprite("boutoncontinue"), sf::Color::White);
+    m_buttonRestart = CreateEntity<Button>(AM.LoadSprite("boutonrestart"), sf::Color::White);
+    m_buttonSettings = CreateEntity<Button>(AM.LoadSprite("boutonsettings"), sf::Color::White);
+    m_buttonExit = CreateEntity<Button>(AM.LoadSprite("boutonrexit"), sf::Color::White);
 	
 }
 
@@ -72,17 +71,28 @@ void PauseScene::OnUpdate()
         sf::Sprite* sprite = m_pauseMenu->GetSprite();
         sf::Vector2u texSize = sprite->getTexture()->getSize();
 
-        float scale = std::min(winW / float(texSize.x), winH / float(texSize.y));
-        sprite->setScale(scale, scale);
+        float scaleX = winW / float(texSize.x);
+        float scaleY = winH / float(texSize.y);
+        sprite->setScale(scaleX, scaleY);
 
         sf::FloatRect bounds = sprite->getGlobalBounds();
         sprite->setPosition(centerX - bounds.width / 2.f, centerY - bounds.height / 2.f);
     }
 
-    float btnWidth = 350.f;
-    if (m_buttonContinue) m_buttonContinue->SetPosition(centerX - 16, centerY - 60);
-    if (m_buttonRestart)  m_buttonRestart->SetPosition(centerX - 16, centerY + 35);
-    if (m_buttonSave)     m_buttonSave->SetPosition(centerX - 16, centerY + 128);
-    if (m_buttonSettings) m_buttonSettings->SetPosition(centerX - 16, centerY + 222);
-    if (m_buttonExit)     m_buttonExit->SetPosition(centerX + 410, centerY + 290);
+    float offsetX = 180.f; 
+    float offsetY = 90.f;
+
+    // Ligne 1
+    if (m_buttonContinue)
+        m_buttonContinue->SetPosition(centerX - offsetX, centerY - offsetY);
+
+    if (m_buttonRestart)
+        m_buttonRestart->SetPosition(centerX + offsetX, centerY - offsetY);
+
+    // Ligne 2
+    if (m_buttonSettings)
+        m_buttonSettings->SetPosition(centerX - offsetX, centerY + offsetY);
+
+    if (m_buttonExit)
+        m_buttonExit->SetPosition(centerX + offsetX, centerY + offsetY);
 }

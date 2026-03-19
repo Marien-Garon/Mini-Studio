@@ -2,11 +2,13 @@
 #include "Player.h"
 #include "Scene.h"
 #include "Enemy.h"
+#include "Button.h"
 #include "Companion.h"
 
 class Enemy;
 class Camera;
 class Platform;
+class Button;
 
 class SampleScene : public Scene
 {
@@ -29,12 +31,13 @@ public :
 	bool mIsPaused = false;
 
 private :
+
 	Entity* m_pauseMenu;
-	Entity* m_buttonContinue;
-	Entity* m_buttonRestart;
-	Entity* m_buttonSave;
-	Entity* m_buttonSettings;
-	Entity* m_buttonExit;
+	Button* m_buttonContinue;
+	Button* m_buttonRestart;
+	Button* m_buttonSave;
+	Button* m_buttonSettings;
+	Button* m_buttonExit;
 
 public:
 	void OnInitialize() override;

@@ -3,7 +3,7 @@
 #include "DummyEntity.h"
 #include"Enemy.h"
 #include"Utils.h"
-
+#include "Button.h"
 #include "AssetManager.h"
 #include "SceneManager.h"
 #include "Camera.h"
@@ -62,29 +62,18 @@ void SampleScene::OnInitialize()
 void SampleScene::OnEvent(const sf::Event& event)
 {
 	if (mIsPaused) {
-		GameManager* gm = GameManager::Get();
-
-		if (!gm) return;
 		if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
 		{
 			sf::Vector2f mousePos(event.mouseButton.x, event.mouseButton.y);
 
-			if (m_buttonContinue->IsInside(mousePos.x, mousePos.y))
-			{
-				UnPause();
-			}
+			if (m_buttonContinue && m_buttonContinue->IsInside(mousePos.x, mousePos.y))
+				m_buttonContinue->Click();
+
+			if (m_buttonRestart && m_buttonRestart->IsInside(mousePos.x, mousePos.y))
+				m_buttonRestart->Click();
 
 			if (m_buttonExit && m_buttonExit->IsInside(mousePos.x, mousePos.y))
-			{
-				if (gm && gm->GetWindow())
-					gm->GetWindow()->close();
-			}
-
-			if (m_buttonRestart->IsInside(mousePos.x, mousePos.y))
-			{
-				GameManager::Get()->ClearCurrentSceneEntities();
-				OnInitialize();
-			}
+				m_buttonExit->Click();
 		}
 		return;
 	}
@@ -93,20 +82,14 @@ void SampleScene::OnEvent(const sf::Event& event)
 	InputManager& im = InputManager::Get();
 
 	if (event.mouseButton.button == sf::Mouse::Button::Left)
-	{
 		m_player->TakeDamage(1);
-	}
 
 	if (event.mouseButton.button == sf::Mouse::Button::Right)
-	{
 		m_player->Heal(1);
-	}
 
-	if (im.IsKeyPressed(sf::Keyboard::Escape))
-	{
+	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
 		SetPause();
-	}
-	
+
 	m_player->Actions();
 
 }
@@ -119,30 +102,39 @@ void SampleScene::OnUpdate()
 
 		gm->SetFixedView();
 
-		float winW = static_cast<float>(gm->GetWindow()->getSize().x);
-		float winH = static_cast<float>(gm->GetWindow()->getSize().y);
+		float winW = static_cast<float>(GetWindowWidth());
+		float winH = static_cast<float>(GetWindowHeight());
 
 		float centerX = winW / 2.f;
 		float centerY = winH / 2.f;
 
-		if (m_pauseMenu && m_pauseMenu->HasSprite() && m_pauseMenu->GetSprite())
+		if (m_pauseMenu && m_pauseMenu->GetSprite() && m_pauseMenu->GetSprite()->getTexture())
 		{
 			sf::Sprite* sprite = m_pauseMenu->GetSprite();
 			sf::Vector2u texSize = sprite->getTexture()->getSize();
-
-			float scale = std::min(winW / float(texSize.x), winH / float(texSize.y));
-			sprite->setScale(scale, scale);
-
-			sf::FloatRect bounds = sprite->getGlobalBounds();
-			sprite->setPosition(centerX - bounds.width / 2.f, centerY - bounds.height / 2.f);
+			float winW = static_cast<float>(GameManager::Get()->GetWindow()->getSize().x);
+			float winH = static_cast<float>(GameManager::Get()->GetWindow()->getSize().y);
+			sprite->setScale(winW / float(texSize.x), winH / float(texSize.y));
+			sprite->setPosition(winW / 2.f - sprite->getGlobalBounds().width / 2.f,
+				winH / 2.f - sprite->getGlobalBounds().height / 2.f);
 		}
 
-		float btnWidth = 350.f;
-		if (m_buttonContinue) m_buttonContinue->SetPosition(centerX - 16, centerY - 60);
-		if (m_buttonRestart)  m_buttonRestart->SetPosition(centerX - 16, centerY + 35);
-		if (m_buttonSave)     m_buttonSave->SetPosition(centerX - 16, centerY + 128);
-		if (m_buttonSettings) m_buttonSettings->SetPosition(centerX - 16, centerY + 222);
-		if (m_buttonExit)     m_buttonExit->SetPosition(centerX + 410, centerY + 290);
+		float offsetX = 300.f;
+		float offsetY = 90.f;
+
+		// Ligne 1
+		if (m_buttonContinue)
+			m_buttonContinue->SetPosition((GetWindowWidth() / 2) + 650.f, (GetWindowHeight() / 2) + 700.f);
+
+		if (m_buttonRestart)
+			m_buttonRestart->SetPosition((GetWindowWidth() / 2) + 1000.f, (GetWindowHeight() / 2) + 700.f);
+
+		// Ligne 2
+		if (m_buttonSettings)
+			m_buttonSettings->SetPosition((GetWindowWidth() / 2) + 650.f, (GetWindowHeight() / 2) + 800.f);
+
+		if (m_buttonExit)
+			m_buttonExit->SetPosition((GetWindowWidth() / 2) + 1000.f, (GetWindowHeight() / 2) + 800.f);
 		return;
 	}
 
@@ -175,9 +167,6 @@ void SampleScene::OnUpdate()
 
 
 	}
-
-
-
 
 	GameManager::Get()->RefreshCamera(mCamera);
 
@@ -213,14 +202,33 @@ void SampleScene::SetPause()
 	mCamera->SetSpeed(0.f);
 
 	AssetManager& AM = AssetManager::getInstance();
-	m_pauseMenu = CreateEntity<Entity>(AM.LoadSprite("pause"), sf::Color::Red);
+	m_pauseMenu = CreateEntity<Entity>(AM.LoadSprite("pause"), sf::Color::Transparent);
+	m_pauseMenu->SetSpriteScale(0.67, 0.67);
 
-	m_buttonContinue = CreateEntity<Entity>(350, 65, sf::Color::Transparent);
-	m_buttonRestart = CreateEntity<Entity>(350, 65, sf::Color::Transparent);
+	m_buttonContinue = static_cast<Button*>(CreateEntity<Button>(AM.LoadSprite("boutoncontinue"), sf::Color::Transparent));
+	m_buttonContinue->SetSpriteScale(0.9, 0.9);
+	m_buttonRestart = CreateEntity<Button>(AM.LoadSprite("boutonrestart"), sf::Color::Transparent);
+	m_buttonRestart->SetSpriteScale(0.9, 0.9);
+	m_buttonSettings = CreateEntity<Button>(AM.LoadSprite("boutonsettings"), sf::Color::Transparent);
+	m_buttonSettings->SetSpriteScale(0.9, 0.9);
+	m_buttonExit = CreateEntity<Button>(AM.LoadSprite("boutonrexit"), sf::Color::Transparent);
+	m_buttonExit->SetSpriteScale(0.9, 0.9);
 
-	m_buttonSave = CreateEntity<Entity>(350, 65, sf::Color::Transparent);
-	m_buttonSettings = CreateEntity<Entity>(350, 65, sf::Color::Transparent);
-	m_buttonExit = CreateEntity<Entity>(100, 65, sf::Color::Transparent);
+	if (m_buttonContinue)
+		m_buttonContinue->SetFunction([this]() { this->UnPause(); });
+
+	if (m_buttonRestart)
+		m_buttonRestart->SetFunction([this]() {
+		GameManager::Get()->ClearCurrentSceneEntities();
+		this->OnInitialize();
+			});
+
+	if (m_buttonExit)
+		m_buttonExit->SetFunction([]() {
+		GameManager* gm = GameManager::Get();
+		if (gm && gm->GetWindow())
+			gm->GetWindow()->close();
+			});
 }
 
 void SampleScene::UnPause()
@@ -232,12 +240,11 @@ void SampleScene::UnPause()
 	//parallaxe->Start()
 	mCamera->SetSpeed(3.f);
 
-	m_pauseMenu->Destroy();
-	m_buttonContinue->Destroy();
-	m_buttonRestart->Destroy();
-	m_buttonSave->Destroy();
-	m_buttonSettings->Destroy();
-	m_buttonExit->Destroy();
+	if (m_pauseMenu) m_pauseMenu->Destroy();
+	if (m_buttonContinue) m_buttonContinue->Destroy();
+	if (m_buttonRestart) m_buttonRestart->Destroy();
+	if (m_buttonSettings) m_buttonSettings->Destroy();
+	if (m_buttonExit) m_buttonExit->Destroy();
 }
 
 bool SampleScene::IsAttackTimingOkay()
