@@ -2,9 +2,8 @@
 #include "Player.h"
 #include "Scene.h"
 #include "Enemy.h"
-
 #include"Platform.h"
-
+#include "Button.h"
 #include "Companion.h"
 #include "Parallaxe.h"
 
@@ -13,8 +12,10 @@ class Enemy;
 class Platform;
 class Camera;
 class Platform;
+
 class Mob1;
 class PauseScene;
+class Button;
 
 
 class SampleScene : public Scene
@@ -34,6 +35,27 @@ private:
 
 	std::vector<Platform*> m_Platforms;
 	std::vector<Entity*> m_UI;
+	
+	std::vector<Hook*> m_hooks;
+private:
+	void TrySetSelectedEntity(Entity* pEntity, int x, int y);
+	
+public :
+	bool mIsPaused = false;
+	bool m_shouldRestart = false;
+private :
+
+	Entity* m_pauseMenu;
+	Button* m_buttonContinue;
+	Button* m_buttonRestart;
+	Button* m_buttonSave;
+	Button* m_buttonSettings;
+	Button* m_buttonExit;
+
+public:
+	void OnInitialize() override;
+	void OnEvent(const sf::Event& event) override;
+	void OnUpdate() override;
 
 	sf::Vector2f m_playerStartPos = { 0.f,0.f };
 	PauseScene* m_pauseMenu;
@@ -59,7 +81,8 @@ private:
 public:
 	std::vector<Hook*> GetHooks() { return m_hooks; };
 	Player* GetPlayer() { return m_player; }
-	void SetPaused(bool paused) { mIsPaused = paused; }
+	void SetPause();
+	void UnPause();
 	bool IsAttackTimingOkay();
 	void IncreaseTimer();
 	Camera* GetCamera() const;

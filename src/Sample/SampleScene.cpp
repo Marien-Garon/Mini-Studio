@@ -1,20 +1,16 @@
 #include <iostream>
 #include "SampleScene.h"
-
 #include"Mob1.h"
 #include"Mob2.h"
-
 #include"Utils.h"
-
 #include "GameManager.h"
-
 #include "InputManager.h"
+#include "Button.h"
 #include "AssetManager.h"
 #include "SceneManager.h"
 #include "Camera.h"
 #include "Hook.h"
 #include "PauseScene.h"
-
 #include"BreakablePlatform.h"
 
 #include "Debug.h"
@@ -81,22 +77,99 @@ void SampleScene::OnInitialize()
 
 void SampleScene::OnEvent(const sf::Event& event)
 {
+	if (mIsPaused) {
+		if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+		{
+			sf::Vector2f mousePos(event.mouseButton.x, event.mouseButton.y);
+
+			if (m_buttonContinue && m_buttonContinue->IsInside(mousePos.x, mousePos.y))
+				m_buttonContinue->Click();
+
+			if (m_buttonRestart && m_buttonRestart->IsInside(mousePos.x, mousePos.y))
+				m_buttonRestart->Click();
+
+			if (m_buttonExit && m_buttonExit->IsInside(mousePos.x, mousePos.y))
+				m_buttonExit->Click();
+		}
+		return;
+	}
+
 	float dt = GetDeltaTime();
 	InputManager& im = InputManager::Get();
 
 	if (event.mouseButton.button == sf::Mouse::Button::Left)
-	{
 		m_player->TakeDamage(1);
-	}
 
 	if (event.mouseButton.button == sf::Mouse::Button::Right)
-	{
 		m_player->Heal(1);
-	}
+
+	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+		SetPause();
+
+	m_player->Actions();
+
 }
 
 void SampleScene::OnUpdate()
 {
+	if (m_shouldRestart)
+	{
+		m_shouldRestart = false;
+		GameManager::Get()->ClearCurrentSceneEntities();
+		m_UI.clear();
+		m_Platforms.clear();
+		m_hooks.clear();
+		m_player = nullptr;
+		m_robot = nullptr;
+		mCamera = nullptr;
+
+		if (m_pauseMenu) { m_pauseMenu->Destroy(); m_pauseMenu = nullptr; }
+		if (m_buttonContinue) { m_buttonContinue->Destroy(); m_buttonContinue = nullptr; }
+		if (m_buttonRestart) { m_buttonRestart->Destroy(); m_buttonRestart = nullptr; }
+		if (m_buttonSettings) { m_buttonSettings->Destroy(); m_buttonSettings = nullptr; }
+		if (m_buttonExit) { m_buttonExit->Destroy(); m_buttonExit = nullptr; }
+
+		OnInitialize();
+
+		return;
+	}
+
+	if (mIsPaused) {
+		GameManager* gm = GameManager::Get();
+		if (!gm) return;
+
+		gm->SetFixedView();
+
+		float winW = static_cast<float>(GetWindowWidth());
+		float winH = static_cast<float>(GetWindowHeight());
+
+		float centerX = winW / 2.f;
+		float centerY = winH / 2.f;
+
+		if (m_pauseMenu && m_pauseMenu->GetSprite() && m_pauseMenu->GetSprite()->getTexture())
+		{
+			sf::Sprite* sprite = m_pauseMenu->GetSprite();
+			sf::Vector2u texSize = sprite->getTexture()->getSize();
+			float winW = static_cast<float>(GameManager::Get()->GetWindow()->getSize().x);
+			float winH = static_cast<float>(GameManager::Get()->GetWindow()->getSize().y);
+			sprite->setScale(winW / float(texSize.x), winH / float(texSize.y));
+			sprite->setPosition(winW / 2.f - sprite->getGlobalBounds().width / 2.f,
+				winH / 2.f - sprite->getGlobalBounds().height / 2.f);
+		}
+
+		if (m_buttonContinue)
+			m_buttonContinue->SetPosition((GetWindowWidth() / 2) + 650.f, (GetWindowHeight() / 2) + 700.f);
+
+		if (m_buttonRestart)
+			m_buttonRestart->SetPosition((GetWindowWidth() / 2) + 1000.f, (GetWindowHeight() / 2) + 700.f);
+
+		if (m_buttonSettings)
+			m_buttonSettings->SetPosition((GetWindowWidth() / 2) + 650.f, (GetWindowHeight() / 2) + 800.f);
+
+		if (m_buttonExit)
+			m_buttonExit->SetPosition((GetWindowWidth() / 2) + 1000.f, (GetWindowHeight() / 2) + 800.f);
+		return;
+	}
 
 	float i = mCamera->GetView().getCenter().y - (GetWindowHeight() / 2);
 	float j = mCamera->GetView().getCenter().x - (GetWindowWidth() / 2);
@@ -133,6 +206,52 @@ void SampleScene::OnUpdate()
 	Debug::DrawText(j + GetWindowWidth() - 100, i + 10, "FPS : " + std::to_string(GameManager::Get()->GetFPS()), sf::Color::White);
 }
 
+
+void SampleScene::SetPause()
+{
+	mIsPaused = true;
+	m_player->SetSpeed(0.f);
+	m_player->StopGravity();
+	m_robot->SetSpeed(0.f);
+	//parallaxe->Stop()
+	mCamera->SetSpeed(0.f);
+
+	AssetManager& AM = AssetManager::getInstance();
+	m_pauseMenu = CreateEntity<Entity>(AM.LoadSprite("pause"), sf::Color::Transparent);
+	m_pauseMenu->SetSpriteScale(1, 1);
+
+	m_buttonContinue = CreateEntity<Button>(AM.LoadSprite("boutoncontinue"), sf::Color::Transparent);
+	m_buttonContinue->SetSpriteScale(0.9, 0.9);
+
+	m_buttonRestart = CreateEntity<Button>(AM.LoadSprite("boutonrestart"), sf::Color::Transparent);
+	m_buttonRestart->SetSpriteScale(0.9, 0.9);
+
+	m_buttonSettings = CreateEntity<Button>(AM.LoadSprite("boutonsettings"), sf::Color::Transparent);
+	m_buttonSettings->SetSpriteScale(0.9, 0.9);
+
+	m_buttonExit = CreateEntity<Button>(AM.LoadSprite("boutonrexit"), sf::Color::Transparent);
+	m_buttonExit->SetSpriteScale(0.9, 0.9);
+
+	if (m_buttonContinue)
+		m_buttonContinue->SetFunction([this]() { this->UnPause(); });
+
+}
+
+void SampleScene::UnPause()
+{
+	mIsPaused = false;
+	m_player->SetSpeed(300.f);
+	m_player->StartGravity(0.f);
+	m_robot->SetSpeed(2000.f);
+	//parallaxe->Start()
+	mCamera->SetSpeed(3.f);
+
+	if (m_pauseMenu) m_pauseMenu->Destroy();
+	if (m_buttonContinue) m_buttonContinue->Destroy();
+	if (m_buttonRestart) m_buttonRestart->Destroy();
+	if (m_buttonSettings) m_buttonSettings->Destroy();
+	if (m_buttonExit) m_buttonExit->Destroy();
+}
 
 bool SampleScene::IsAttackTimingOkay()
 {

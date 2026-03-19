@@ -235,8 +235,15 @@ void Player::StateMachineInitialize()
 
 
 void Player::OnUpdate()
+
 {	
 	bool isAttackingTimingGood = static_cast<SampleScene*>(GetScene())->IsAttackTimingOkay();
+
+	if (GetScene<SampleScene>()->mIsPaused)
+		return;
+
+	if (!m_isJumping && !mIsGravity)
+		StartGravity(0.f);
 
 	if (!isAttackingTimingGood)
 		m_hasAttackedThisBeat = false;

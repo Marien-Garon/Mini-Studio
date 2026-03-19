@@ -6,6 +6,7 @@
 #include "PauseScene.h"
 #include "DeathScene.h"
 
+
 int main()
 {
 	GameManager* pInstance = GameManager::Get();
