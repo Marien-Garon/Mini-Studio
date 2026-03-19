@@ -2,6 +2,8 @@
 
 #include <list>
 
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Sprite.hpp>
@@ -42,21 +44,29 @@ class GameManager
 private:
 	GameManager();
 
-	void Run();
-	
 	void HandleInput();
 	void Update();
 	void Draw();
 
 	void SetDeltaTime(float deltaTime) { mDeltaTime = deltaTime; }
 
-	sf::RenderWindow* GetWindow() const { return mpWindow; }
-
 public:
+
+	void Run();
+	sf::RenderWindow* GetWindow() const { return mpWindow; }
 	~GameManager();
 	static GameManager* Get();
 
-	void CreateWindow(unsigned int width, unsigned int height, const char* title, int fpsLimit = 60, sf::Color clearColor = sf::Color::Black, bool fullscreen = false);
+	void SetFixedView()
+	{
+		if (mpWindow)
+		{
+			sf::View fixedView(sf::FloatRect(0, 0, mWindowWidth, mWindowHeight));
+			mpWindow->setView(fixedView);
+		}
+	}
+
+	void CreateWindow(unsigned int width, unsigned int height, const char* title, int fpsLimit = 60, sf::Color clearColor = sf::Color::Black);
 
 	template<typename T>
 	void LaunchScene();
@@ -68,6 +78,8 @@ public:
 	float GetDeltaTime() const { return mDeltaTime; }
 	Scene* GetScene() const { return mpScene; }
 	sf::Font& GetFont() { return mFont; };
+	void SetScene(Scene* scene);
+	void ClearCurrentSceneEntities();
 
 	friend Debug;
 	friend Scene;

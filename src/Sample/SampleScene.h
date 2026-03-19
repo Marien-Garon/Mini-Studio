@@ -13,6 +13,7 @@ class Enemy;
 class Platform;
 class Camera;
 class Platform;
+class PauseScene;
 class Mob1;
 
 
@@ -31,6 +32,14 @@ private:
 
 	std::vector<Platform*> m_Platforms;
 	std::vector<Entity*> m_UI;
+	
+	PauseScene* m_pauseMenu;
+	
+	
+	std::vector<Hook*> m_hooks;
+private:
+	void TrySetSelectedEntity(Entity* pEntity, int x, int y);
+	bool mIsPaused = false;
 
 public:
 
@@ -49,7 +58,7 @@ private:
 public:
 	std::vector<Hook*> GetHooks() { return m_hooks; };
 	Player* GetPlayer() { return m_player; }
-
+	void SetPaused(bool paused) { mIsPaused = paused; }
 	bool IsAttackTimingOkay();
 	void IncreaseTimer();
 	Camera* GetCamera() const;

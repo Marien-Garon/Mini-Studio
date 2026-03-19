@@ -10,8 +10,10 @@
 
 #include "InputManager.h"
 #include "AssetManager.h"
+#include "SceneManager.h"
 #include "Camera.h"
 #include "Hook.h"
+#include "PauseScene.h"
 
 #include"Platform.h"
 #include"BreakablePlatform.h"
@@ -63,7 +65,7 @@ void SampleScene::OnEvent(const sf::Event& event)
 {
 
 	float dt = GetDeltaTime();
-    InputManager& im = InputManager::Get();
+	InputManager& im = InputManager::Get();
 
 	if (event.mouseButton.button == sf::Mouse::Button::Left)
 	{
@@ -75,11 +77,18 @@ void SampleScene::OnEvent(const sf::Event& event)
 		m_player->Heal(1);
 	}
 
+	if (im.IsKeyPressed(sf::Keyboard::Escape))
+	{
+		SceneManager::getInstance().ChangeScene("PAUSE");
+	}
+	
+	m_player->Actions();
 
 }
 
 void SampleScene::OnUpdate()
 {
+
 	float i = mCamera->GetView()->getCenter().y - (GetWindowHeight() / 2);
 	float j = mCamera->GetView()->getCenter().x - (GetWindowWidth() / 2);
 
@@ -108,7 +117,10 @@ void SampleScene::OnUpdate()
 		break;
 	}
 
-	GetGameManager()->RefreshCamera(mCamera);
+
+
+
+	GameManager::Get()->RefreshCamera(mCamera);
 
 	IncreaseTimer();
 

@@ -116,6 +116,16 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 	}
 }
 
+void Entity::SetOpacity(float _alpha)
+{
+	if (hasSprite) m_sprite->setColor(sf::Color(255, 255, 255, _alpha));
+	else
+	{
+		sf::Color color = mShape.getFillColor();
+		mShape.setFillColor(sf::Color(color.r, color.g, color.b, _alpha));
+	}
+}
+
 sf::Vector2f Entity::GetPosition(float ratioX, float ratioY) const
 {
 	sf::Vector2f size = hasSprite ? sf::Vector2f(m_sprite->sprite->getTextureRect().width * m_sprite->sprite->getScale().x, m_sprite->sprite->getTextureRect().height * m_sprite->sprite->getScale().x) : mShape.getSize();
