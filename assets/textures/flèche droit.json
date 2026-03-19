@@ -1,0 +1,10 @@
+{
+  "Data": {
+    "id": "fleche droit",
+    "spritesheet": false,
+    "size": {
+      "width": 61,
+      "height": 57
+    }
+  }
+}

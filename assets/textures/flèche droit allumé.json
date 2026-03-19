@@ -1,0 +1,10 @@
+{
+  "Data": {
+    "id": "fleche droit allume",
+    "spritesheet": false,
+    "size": {
+      "width": 62,
+      "height": 58
+    }
+  }
+}
