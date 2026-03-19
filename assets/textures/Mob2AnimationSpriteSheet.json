@@ -1,6 +1,6 @@
 {"Data" : 
      { 
-     "id" : "Mob1Animation",
+     "id" : "Mob2Animation",
      "spritesheet" : true,
      "size" : { "width": 6510, "height": 8640 },
      "frame_size": { "width": 1085, "height": 1440 },
