@@ -106,7 +106,7 @@ std::vector<Entity*> LevelEditor::LoadLevel(Scene* scene, std::string _id)
 		}
 		if (tag == 16)
 		{
-			Mob2* mob2 = scene->CreateEntity<Mob2>(AM.CreateSprite("MobAnimation", 0, 0, 1155, 1630));
+			Mob2* mob2 = scene->CreateEntity<Mob2>(AM.CreateSprite("Mob2Animation", 0, 0, 1155, 1630));
 			mob2->SetScale(scale);
 			mob2->SetPosition(pos.x, pos.y, 0.0f, 0.0f);
 			mob2->Active();
@@ -333,6 +333,7 @@ void LevelEditor::InitEntity()
 
 	Mob2* mob2 = CreateEntity<Mob2>(AM.CreateSprite("Mob2Animation", 0, 0, 1155, 1630));
 	mob2->SetScale(0.2f, 0.2f);
+	newMob->SetTag(16);
 	mob2->SetPosition(-5000, -5000);
 
 	if (m_SelectionPage.empty() || m_SelectionPage.back().size() >= 3)

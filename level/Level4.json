@@ -1,0 +1,57 @@
+{
+    "Data": [],
+    "Tiles": [
+        {
+            "Type": "TileBlocks",
+            "id": "platform2_middle",
+            "position": {
+                "x": 64.0,
+                "y": 512.0
+            },
+            "scale": {
+                "height": 1.174311876296997,
+                "width": 1.0549451112747192
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "platform2_middle",
+            "position": {
+                "x": 512.0,
+                "y": 512.0
+            },
+            "scale": {
+                "height": 1.174311876296997,
+                "width": 1.0549451112747192
+            },
+            "tag": 10
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "Mob2Animation",
+            "position": {
+                "x": 192.0,
+                "y": 192.0
+            },
+            "scale": {
+                "height": 0.20000000298023224,
+                "width": 0.20000000298023224
+            },
+            "tag": 16
+        },
+        {
+            "Type": "TileBlocks",
+            "id": "Mob1Animation",
+            "position": {
+                "x": 576.0,
+                "y": 192.0
+            },
+            "scale": {
+                "height": 0.20000000298023224,
+                "width": 0.20000000298023224
+            },
+            "tag": 2
+        }
+    ]
+}

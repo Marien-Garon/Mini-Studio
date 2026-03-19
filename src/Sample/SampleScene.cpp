@@ -30,7 +30,7 @@ void SampleScene::OnInitialize()
 	m_parallaxe = CreateEntity<Parallaxe>(0, 0, sf::Color::Black);
 	m_parallaxe->Start();
 
-	std::vector<Entity*> test = LevelEditor::LoadLevel(this, "Level2");
+	std::vector<Entity*> test = LevelEditor::LoadLevel(this, "Level4");
 
 	m_player= CreateEntity<Player>(50, 50, sf::Color::Red);
 	m_player->SetPosition(m_playerStartPos.x, m_playerStartPos.y);
@@ -44,10 +44,10 @@ void SampleScene::OnInitialize()
    /*CAMERA SPEED HERE*/
 
   
-	m_Platforms.push_back(CreateEntity<Platform>(1000, 50, sf::Color::Blue));
-	m_Platforms[0]->SetPosition(0, 10);
-	m_Platforms[0]->SetRigidBody(true);
-    
+	//m_Platforms.push_back(CreateEntity<Platform>(1000, 50, sf::Color::Blue));
+	//m_Platforms[0]->SetPosition(0, 10);
+	//m_Platforms[0]->SetRigidBody(true);
+ //   
 	// m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 35, sf::Color::Cyan));
 	// m_Platforms[1]->SetPosition(4546546, 201);
 	// m_Platforms[1]->SetRigidBody(true);
