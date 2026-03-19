@@ -10,13 +10,11 @@ public:
 	sf::View camera;
 	Entity* followedEntity;
 
-
 	sf::View UIView;
 	Entity* heart;
 
 	int rotateCount;
 
-protected:
 public: 
 	virtual void OnCollision(Entity* collidedWith) override {};
 	virtual void OnInitialize() override;

@@ -8,6 +8,7 @@
 #include "Utils.h"
 #include "Platform.h"
 #include "Debug.h"
+#include "SceneManager.h"
 
 #include <iostream>
 
@@ -288,11 +289,14 @@ void Player::OnCollision(Entity* collidedWith)
 
 void Player::TakeDamage(int _damage)
 {
+	SceneManager& SM = SceneManager::getInstance();
+
 	if (m_health <= 0)
 	{
 		m_health = 0;
 		std::cout << "Player died." << std::endl;
 		m_playerAlive = false;
+		SM.ChangeScene("DEATH");
 	}
 
 	else {

@@ -6,6 +6,8 @@
 
 #include"Utils.h"
 
+#include "GameManager.h"
+
 #include "InputManager.h"
 #include "AssetManager.h"
 #include "SceneManager.h"
@@ -103,7 +105,8 @@ void SampleScene::OnUpdate()
 		break;
 	}
 
-	GetGameManager()->RefreshCamera(mCamera);
+	
+	GameManager::Get()->RefreshCamera(mCamera);
 
 	IncreaseTimer();
 

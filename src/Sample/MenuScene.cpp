@@ -1,7 +1,8 @@
 #include "MenuScene.h"
 #include <iostream>
-#include "DummyEntity.h"
 #include "Enemy.h"
+#include "Entity.h"
+
 #include "Utils.h"
 #include "Debug.h"
 #include "InputManager.h"
@@ -15,8 +16,8 @@ void MenuScene::OnInitialize()
 {
 	AssetManager& AM = AssetManager::getInstance();
 
-	m_menuScreen = CreateEntity<Entity>(AM.LoadSprite("menu"), sf::Color::Red);
-	m_menuScreen->SetSpriteScale(0.333, 0.333);
+	m_menuScreen = CreateEntity<Entity>(AM.CreateSprite("menu"));
+	m_menuScreen->SetScale(0.333f, 0.333f);
 
    m_buttonPlay = CreateEntity<Button>(110, 50, sf::Color::Transparent);
   

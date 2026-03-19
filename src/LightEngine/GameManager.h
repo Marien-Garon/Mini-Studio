@@ -24,6 +24,7 @@ namespace sf
 
 class GameManager
 {
+private:
 	std::list<Entity*> mEntities;
 	std::list<Entity*> mEntitiesToDestroy;
 	std::list<Entity*> mEntitiesToAdd;
@@ -31,7 +32,6 @@ class GameManager
 	sf::RenderWindow* mpWindow;
 	sf::Font mFont;
 	sf::Image icone;
-
 
 	//SceneManager sceneManager;
 	Scene* mpScene;
@@ -43,7 +43,7 @@ class GameManager
 
 	sf::Color mClearColor;
 
-private:
+public:
 	GameManager();
 
 	void Run();

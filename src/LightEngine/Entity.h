@@ -9,22 +9,22 @@
 
 #include "AssetManager.h"
 
-namespace sf 
+namespace sf
 {
 	class Shape;
-    class Color;
+	class Color;
 }
 
 class Scene;
 
 class Entity
 {
-    struct Target 
-    {
+	struct Target
+	{
 		sf::Vector2i position;
-        float distance;
+		float distance;
 		bool isSet;
-    };
+	};
 
 protected:
 
@@ -33,13 +33,13 @@ protected:
 	sf::RectangleShape mShape;
 	SpriteData* m_sprite = nullptr;
 
-    sf::Vector2f mDirection;
-	sf::Vector2f m_Scale = { 1.f, 1.f } ;
+	sf::Vector2f mDirection;
+	sf::Vector2f m_Scale = { 1.f, 1.f };
 
 	Target mTarget;
-    float mSpeed = 0.f;
-    bool mToDestroy = false;
-    int mTag = -1;
+	float mSpeed = 0.f;
+	bool mToDestroy = false;
+	int mTag = -1;
 	bool mRigidBody = false;
 	bool hasSprite = false;
 	bool m_isMoveable = false;
@@ -50,8 +50,8 @@ protected:
 
 public:
 	bool GoToDirection(int x, int y, float speed = -1.f);
-    bool GoToPosition(int x, int y, float speed = -1.f);
-    void SetPosition(float x, float y, float ratioX = 0.5f, float ratioY = 0.5f);
+	bool GoToPosition(int x, int y, float speed = -1.f);
+	void SetPosition(float x, float y, float ratioX = 0.5f, float ratioY = 0.5f);
 	void SetDirection(float x, float y, float speed = -1.f);
 	void SetSpeed(float speed) { mSpeed = speed; }
 	void SetOpacity(float _alpha);
@@ -66,12 +66,12 @@ public:
 	void SetRigidBody(bool isRigitBody) { mRigidBody = isRigitBody; }
 	bool IsRigidBody() const { return mRigidBody; }
 
-    sf::Vector2f GetPosition(float ratioX = 0.5f, float ratioY = 0.5f) const;
+	sf::Vector2f GetPosition(float ratioX = 0.5f, float ratioY = 0.5f) const;
 	sf::Shape* GetShape() { return &mShape; }
 	sf::Vector2f GetSize();
 
 	bool IsTag(int tag) const { return mTag == tag; }
-    bool IsColliding(Entity* other);
+	bool IsColliding(Entity* other);
 	bool IsInside(float _x, float _y);
 	bool IsInside(Entity* _other);
 	Side GetCollidingSide(Entity* _other);
@@ -81,19 +81,19 @@ public:
 	void SetMoveAble(bool _moveable) { m_isMoveable = _moveable; };
 	bool IsMoveable() { return m_isMoveable; };
 
-    void Destroy();
+	void Destroy();
 	bool ToDestroy() const { return mToDestroy; }
-	
+
 	template<typename T>
 	T* GetScene() const;
 
-    Scene* GetScene() const;
+	Scene* GetScene() const;
 	float GetDeltaTime() const;
 
 	AABBCollider& GetCollider();
 
-    template<typename T>
-    T* CreateEntity(float width, float height, const sf::Color& color);
+	template<typename T>
+	T* CreateEntity(float width, float height, const sf::Color& color);
 
 	template<typename T>
 	T* CreateEntity(SpriteData* _sprite);
@@ -118,21 +118,21 @@ public:
 	virtual Entity* Clone();
 
 protected:
-    Entity() = default;
+	Entity() = default;
 	~Entity();
 
-    virtual void OnUpdate() {};
-    virtual void OnCollision(Entity* collidedWith) {};
+	virtual void OnUpdate() {};
+	virtual void OnCollision(Entity* collidedWith) {};
 	virtual void OnInitialize() {};
 	virtual void OnDestroy() {};
-	
+
 private:
-    virtual void Update();
+	virtual void Update();
 	void Initialize(float width, float height, const sf::Color& color);
 	void Repulse(Entity* other);
 
-    friend class GameManager;
-    friend Scene;
+	friend class GameManager;
+	friend Scene;
 };
 
 #include "Entity.inl"
