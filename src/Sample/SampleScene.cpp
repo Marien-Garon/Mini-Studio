@@ -220,7 +220,7 @@ void SampleScene::SetPause()
 
 	AssetManager& AM = AssetManager::getInstance();
 	m_pauseMenu = CreateEntity<Entity>(AM.LoadSprite("pause"), sf::Color::Transparent);
-	m_pauseMenu->SetSpriteScale(0.67, 0.67);
+	m_pauseMenu->SetSpriteScale(1, 1);
 
 	m_buttonContinue = CreateEntity<Button>(AM.LoadSprite("boutoncontinue"), sf::Color::Transparent);
 	m_buttonContinue->SetSpriteScale(0.9, 0.9);
