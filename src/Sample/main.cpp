@@ -8,7 +8,7 @@ int main()
 
 	bool LaunchLevelEditor = false;
 
-	pInstance->CreateWindow(1280, 720, "Sample", 60, {0,0,0}, false);
+	pInstance->CreateWindow(1280, 720, "HyperBlast: The Key-Star!", 60, {0,0,0}, false);
 
 	if (LaunchLevelEditor)
 		pInstance->LaunchScene<LevelEditor>();

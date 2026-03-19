@@ -31,13 +31,11 @@ void SampleScene::OnInitialize()
 
 	//m_player = CreateEntity<Player>(50,50, sf::Color::Blue);
 	m_player = CreateEntity<Player>(AM.CreateSprite("spriteSheetMC", 0, 0, 950, 723));
-	//m_player->GetCollider().SetCustomCollider(m_player->GetCollider().x + 300, m_player->GetCollider().y, m_player->GetCollider().width - 300, m_player->GetCollider().height);
+	//m_player->GetCollider().SetCustomCollider(m_player->GetCollider().x + 400, m_player->GetCollider().y, m_player->GetCollider().width - 300, m_player->GetCollider().height);
 	m_player->SetScale(0.3f, 0.3f); //GO TO NARNIAAAAAAAAAAAAA
-	m_player->SetPosition(0,-100, 0.5f, 0.5f);
-	//m_player->SetPosition(0, 100);
+	m_player->SetPosition(0,0, 0.5f, 0.5f);
+	
 	std::cout << m_player->GetPosition().x << "/" << m_player->GetPosition().y << std::endl;
-	//m_player->PlayAnimation("running_to_right");
-
 
 	m_robot = CreateEntity<Companion>(50, 50, sf::Color::Blue);
 	m_robot->SetPosition(m_player->GetPosition().x - 150.f, m_player->GetPosition().y - 150.f);
@@ -53,11 +51,11 @@ void SampleScene::OnInitialize()
 
 
 	AM.PlayMusic("Musique principal");
+	AM.SetMusicVolume(100.F);
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
 {
-
 	float dt = GetDeltaTime();
     InputManager& im = InputManager::Get();
 

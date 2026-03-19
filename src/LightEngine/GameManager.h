@@ -28,6 +28,8 @@ class GameManager
 
 	sf::RenderWindow* mpWindow;
 	sf::Font mFont;
+	sf::Image icone;
+
 
 	//SceneManager sceneManager;
 	Scene* mpScene;
