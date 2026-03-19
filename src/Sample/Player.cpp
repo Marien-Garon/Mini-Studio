@@ -8,6 +8,8 @@
 #include "Utils.h"
 #include "Platform.h"
 
+#include "SceneManager.h"
+
 #include <iostream>
 
 void Player::OnInitialize()
@@ -97,11 +99,12 @@ void Player::TakeDamage(int _damage)
 		m_health = 0;
 		std::cout << "Player died." << std::endl;
 		m_playerAlive = false;
+
+		SceneManager& SM = SceneManager::getInstance();
+		SM.ChangeScene("DEATH");
 	}
 
 	else {
-
-
 		m_health -= _damage;
 		std::cout << "Player take damage : " << _damage << std::endl;
 		std::cout << "Current Health : " << m_health << std::endl;

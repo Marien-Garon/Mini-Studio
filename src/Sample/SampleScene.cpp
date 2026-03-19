@@ -79,8 +79,9 @@ void SampleScene::OnEvent(const sf::Event& event)
 		SM.ChangeScene("PAUSE");
 	}
 	
-
 	m_player->Actions();
+
+
 
 }
 

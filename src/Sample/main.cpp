@@ -3,6 +3,7 @@
 #include "SceneManager.h"
 #include "MenuScene.h"
 #include "PauseScene.h"
+#include "DeathMenu.h"
 
 int main()
 {
@@ -15,10 +16,12 @@ int main()
 	MenuScene menuScene;
 	SampleScene sampleScene;
 	PauseScene pauseScene;
+	DeathMenu deathMenu;
 
 	sm.AddScene("START", &menuScene);
 	sm.AddScene("LEVEL", &sampleScene);
 	sm.AddScene("PAUSE", &pauseScene);
+	sm.AddScene("DEATH", &pauseScene);
 
 	sm.SetStartScene("START");
 
