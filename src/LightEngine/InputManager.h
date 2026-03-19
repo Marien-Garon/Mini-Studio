@@ -7,7 +7,7 @@
 class InputManager
 {
 private:
-	
+
 	std::unordered_map<sf::Keyboard::Key, bool> m_keyPressed;
 	std::unordered_map<sf::Keyboard::Key, bool> m_keyHeld;
 	std::unordered_map<sf::Keyboard::Key, bool> m_keyReleased;
@@ -35,7 +35,7 @@ public:
 
 	static InputManager& Get() {
 		static InputManager instance;
-		return instance; 
+		return instance;
 	}
 
 	~InputManager();
@@ -101,28 +101,28 @@ public:
 	/// </summary>
 	/// <param name="_id -> id of the controller 0 by default"></param>
 	/// <returns>boolean</returns>
-	float GetJoystickLeftX(unsigned int  _id  = 0);
+	float GetJoystickLeftX(unsigned int  _id = 0);
 
 	/// <summary>
 	/// Return the axis Y level of the left joystick
 	/// </summary>
 	/// <param name="_id -> id of the controller 0 by default"></param>
 	/// <returns>boolean</returns>
-	float GetJoystickLeftY(unsigned int  _id  = 0);
+	float GetJoystickLeftY(unsigned int  _id = 0);
 
 	/// <summary>
 	/// Return the axis X level of the right joystick
 	/// </summary>
 	/// <param name="_id -> id of the controller 0 by default"></param>
 	/// <returns>boolean</returns>
-	float GetJoystickRightX(unsigned int _id  = 0);
+	float GetJoystickRightX(unsigned int _id = 0);
 
 	/// <summary>
 	/// Return the axis Y level of the right joystick
 	/// </summary>
 	/// <param name="_id -> id of the controller 0 by default"></param>
 	/// <returns>boolean</returns>
-	float GetJoystickRightY(unsigned int _id  = 0);
+	float GetJoystickRightY(unsigned int _id = 0);
 
 	/// <summary>
 	/// Return the trigger lever of the two trigger L&R

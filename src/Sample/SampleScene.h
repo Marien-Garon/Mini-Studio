@@ -54,7 +54,7 @@ private:
 public:
 	std::vector<Hook*> GetHooks() { return m_hooks; };
 	Player* GetPlayer() { return m_player; }
-
+	void SetPaused(bool paused) { mIsPaused = paused; }
 	bool IsAttackTimingOkay();
 	void IncreaseTimer();
 	Camera* GetCamera() const;
