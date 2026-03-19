@@ -10,6 +10,10 @@ class Button;
 
 class MenuScene : public Scene
 {
+
+	Entity* m_menuFond;
+	Entity* m_encadre;
+
 	Button* m_buttonPlay;
 	Entity* m_menuScreen;
 	Button* m_arrowLeft;

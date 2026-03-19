@@ -49,8 +49,6 @@ public:
     void OnEvent(const sf::Event& event) override;
     void OnUpdate() override;
 
-	bool mIsPaused = false;
-
 private:
 
 	std::vector<Hook*> m_hooks;
