@@ -42,7 +42,7 @@ void MenuScene::OnInitialize()
 	
 	sf::Vector2f playButtonPos = m_buttonPlay->GetPosition(0.f, 0.5f);
 
-	m_arrowLeft = CreateEntity<Button>(AM.CreateSprite("fleche gauche"));
+	/*m_arrowLeft = CreateEntity<Button>(AM.CreateSprite("fleche gauche"));
 	m_arrowLeft->SetScale(0.67, 0.67);
 	m_arrowLeft->SetPosition(15.f, 22.f);
 
@@ -53,13 +53,13 @@ void MenuScene::OnInitialize()
 
 	m_buttonExit = CreateEntity<Button>(AM.CreateSprite("bouton off"));
 	m_buttonExit->SetScale(0.67, 0.67);
-	m_buttonExit->SetPosition(895.f, 652.f);
+	m_buttonExit->SetPosition(895.f, 652.f);*/
 
-	m_buttonExit->SetFunction([]() {
-		GameManager* GM = GameManager::Get();
-		GM->GetWindow()->close();
-		});
-  
+	//m_buttonExit->SetFunction([]() {
+	//	GameManager* GM = GameManager::Get();
+	//	GM->GetWindow()->close();
+	//	});
+ // 
 }
 
 void MenuScene::OnEvent(const sf::Event& event)
@@ -87,7 +87,7 @@ void MenuScene::OnUpdate()
 		m_encadre->SetPosition(-1000, -1000);
 	}
 
-	if (m_arrowLeft->IsInside(mousePos.x, mousePos.y))
+	/*if (m_arrowLeft->IsInside(mousePos.x, mousePos.y))
 	{
 		m_arrowLeft->SetSprite(AM.CreateSprite("fleche gauche allume"));
 
@@ -111,13 +111,13 @@ void MenuScene::OnUpdate()
 	else
 	{
 		m_buttonExit->SetSprite(AM.CreateSprite("bouton off"));
-	}
+	}*/
 
-	m_arrowLeft->SetScale(0.67, 0.67);
-	m_arrowRight->SetScale(0.67, 0.67);
-	m_buttonExit->SetScale(0.67, 0.67);
+	//m_arrowLeft->SetScale(0.67, 0.67);
+	//m_arrowRight->SetScale(0.67, 0.67);
+	//m_buttonExit->SetScale(0.67, 0.67);
 
-	m_buttonExit->SetPosition(895.f, 652.f);
-	m_arrowRight->SetPosition(845.f, 360.f);
-	m_arrowLeft->SetPosition(450.f, 360.f);
+	//m_buttonExit->SetPosition(895.f, 652.f);
+	//m_arrowRight->SetPosition(845.f, 360.f);
+	//m_arrowLeft->SetPosition(450.f, 360.f);
 }
