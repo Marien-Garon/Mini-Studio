@@ -13,6 +13,11 @@ void Enemy::OnInitialize()
 
 void Enemy::OnUpdate()
 {
+    if (m_directionFacing == true)
+        PlayAnimation("walkRight");
+    else
+        PlayAnimation("walkLeft");
+
     if (DetectPlayer())
         isChargingAttack = true;
 
@@ -74,6 +79,8 @@ bool Enemy::DetectPlayer()
     Player* player = ((SampleScene*)GetScene())->GetPlayer();
     float playerPositionY = player->GetPosition().y;
     float playerPositionX = player->GetPosition().x;
+
+   
 
     if (GetPosition().y - 50 < playerPositionY && playerPositionY  < GetPosition().y + 50)
     {
