@@ -13,12 +13,13 @@ class Enemy;
 class Platform;
 class Camera;
 class Platform;
+class Mob1;
 
 
 class SampleScene : public Scene
 {
 private:
-    std::vector<Enemy*> m_enemy;
+    
 
 	float test_BPMDeLaMusique = 135;
 	float test_tempsEntreLesAttaque = 60 / test_BPMDeLaMusique; //temps entre chaque appuye en seconde
@@ -48,14 +49,11 @@ public:
     void OnUpdate() override;
 
 private:
-    Enemy* SpawnEnemy(int x, int y);
 
 	std::vector<Hook*> m_hooks;
 	Parallaxe* m_parallaxe;
+	Mob1* test;
 
-	Entity* pEntitySelected;
-private:
-	void TrySetSelectedEntity(Entity* pEntity, int x, int y);
 
 public:
 	std::vector<Hook*> GetHooks() { return m_hooks; };

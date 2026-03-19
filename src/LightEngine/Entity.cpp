@@ -1,3 +1,4 @@
+
 #include "Entity.h"
 
 #include "GameManager.h"
@@ -163,6 +164,7 @@ void Entity::SetDirection(float x, float y, float speed)
 	mTarget.isSet = false;
 }
 
+
 void Entity::SetOpacity(float _alpha)
 {
 	if (hasSprite) m_sprite->sprite->setColor(sf::Color(255, 255, 255, _alpha));
@@ -180,16 +182,17 @@ void Entity::Update()
 
 	sf::Vector2f translation = distance * mDirection;
 
+	m_collider.Move(translation);
+
 	if (hasSprite)
 	{
 		m_sprite->UpdateAnimation(dt);
-		//SetSpriteScale(m_Scale.x, m_Scale.y); i was drunk when i write that ? 
-		m_sprite->sprite->move(translation);
+		SetScale(m_Scale.x, m_Scale.y);
+		m_sprite->sprite->setPosition(GetCollider().x, GetCollider().y); //Shouldn't be done this way but ehhhh no time to do better
+		//m_sprite->sprite->move(translation);
 	}
 	else
 		mShape.move(translation);
-
-	m_collider.Move(translation);
 
 	/*sf::Vector2f newPos = GetPosition() + translation;
 

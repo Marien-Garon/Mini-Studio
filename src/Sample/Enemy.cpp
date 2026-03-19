@@ -1,88 +1,116 @@
 #include "Enemy.h"
 #include "Utils.h"
+#include "SampleScene.h"
 #include <iostream>
 
-void Enemy::UpdateMovementAndTimers()
+
+void Enemy::OnInitialize()
 {
-    float dt = GetDeltaTime();
-
-    m_attackTimer += dt;
-
-    float move = m_speed * m_direction * dt;
-    sf::Vector2f pos = GetPosition();
-    SetPosition(pos.x + move, pos.y);
-
-   
-    if (m_platform != nullptr)
-    {
-        float left = m_platform->GetTopLeft().x;
-        float right = left + m_platform->GetSize().x;
-
-        float enemyLeft = GetPosition(0.f, 0.5f).x;
-        float enemyRight = GetPosition(1.f, 0.5f).x;
-
-        if (enemyLeft < left)
-            m_direction = 1;
-
-        if (enemyRight > right)
-            m_direction = -1;
-    }
-
-
-    
-    float width = GetScene()->GetWindowWidth();
-    float height = GetScene()->GetWindowHeight();
-
-    sf::Vector2f pos1 = GetPosition();
-
-    if (pos1.x < -20 || pos1.x > width + 20 ||
-        pos1.y < -20 || pos1.y > height + 20)
-    {
-        Destroy();
-    }
-}
-
-
-void Enemy::Initialize()
-{
-    m_startPos = GetPosition();
+    SetTag(2);
+    SetMoveAble(true);
+    SetSpeed(100);
 }
 
 void Enemy::OnUpdate()
 {
-    if (!m_isAlive)
-        return;
+    if (m_directionFacing == true)
+        PlayAnimation("walkRight");
+    else
+        PlayAnimation("walkLeft");
 
-    UpdateMovementAndTimers();
+    if (DetectPlayer())
+        isChargingAttack = true;
+
+    if (isChargingAttack == true)
+    {
+        m_attackTimer += GetDeltaTime();
+        SetDirection(0, 0);
+    }
+
+    else     
+        Move();
 
     if (m_attackTimer >= m_attackCooldown)
     {
         Attack();
-        m_attackTimer = 0.f;
+        isChargingAttack = false;
+        m_attackTimer = 0;
     }
+    
+    
+    
+    m_movingTimer += GetDeltaTime();
+    isGrounded = false;
+}
+
+void Enemy::OnCollision(Entity* collidedWith)
+{
+	if (collidedWith->IsTag(0) || collidedWith->IsTag(10))
+	{
+
+		Side side = GetCollidingSide(collidedWith);
+
+
+		if (side == Side::DOWN)
+		{
+			isGrounded = true;
+		}
+	}
+
+
 }
 
 
-float Enemy::TakeDamage(int amount)
+void Enemy::TakeDamage(int amount)
 {
-     if (!m_isAlive)
-        return 0;
 
-    m_Hpmax -= amount;
+    m_hp -= amount;
 
-    std::cout << m_name << " Take : " << amount << " damage. HP = " << m_Hpmax << std::endl;
-
-    if (m_Hpmax <= 0)
+    if (m_hp <= 0)
     {
         m_isAlive = false;
-        std::cout << "Enemy died" << std::endl;
         Destroy();
     }
 
-    return m_Hpmax;
+}
+
+bool Enemy::DetectPlayer()
+{
+    Player* player = ((SampleScene*)GetScene())->GetPlayer();
+    float playerPositionY = player->GetPosition().y;
+    float playerPositionX = player->GetPosition().x;
+
+   
+
+    if (GetPosition().y - 50 < playerPositionY && playerPositionY  < GetPosition().y + 50)
+    {
+        if (m_directionFacing == 1 && playerPositionX < GetPosition().x + 500 && playerPositionX > GetPosition().x)
+            return true;
+
+        if (m_directionFacing == -1 && playerPositionX >GetPosition().x - 500 && playerPositionX < GetPosition().x)
+            return true;
+    }
+
+    return false;
+           
+}
+
+void Enemy::Move()
+{
+    if (m_movingTimer >= m_movingCooldown || !isGrounded)
+    {
+        m_directionFacing *= -1;
+        m_movingTimer = 0;
+        isGrounded = true;
+    }
+        
+
+    SetDirection(m_directionFacing, 0);
 }
 
 void Enemy::Attack()
 {
-
+    std::cout << "fuhgiufhuiofghuifjmifghuifdsghjjksdfghiosdfghjksdfgjiousgdfhdxfgshuj" << std::endl;
 }
+
+
