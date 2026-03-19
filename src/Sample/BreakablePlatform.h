@@ -1,9 +1,6 @@
 #pragma once
 #include "Platform.h"
 
-
-
-
 class BreakablePlatform : public Platform
 {
 private:
@@ -12,5 +9,6 @@ private:
 public:
 	void OnCollision(Entity* entity) override;
 
+	void OnInitialize() override;
 };
 

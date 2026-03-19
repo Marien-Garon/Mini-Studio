@@ -127,9 +127,9 @@ void InputManager::HandleInput(const sf::Event& event)
 	{
 	case EventType::MouseButtonPressed:
 		HandleMousePressed(event);
-		//		m_mousePressed[event.mouseButton.button] = true;
+//		m_mousePressed[event.mouseButton.button] = true;
 		break;
-
+	
 	case EventType::MouseButtonReleased:
 		HandleMouseReleased(event);
 		break;
@@ -177,7 +177,7 @@ bool InputManager::IsKeyPressed(sf::Keyboard::Key _key)
 bool InputManager::IsMousePressed(sf::Mouse::Button _mouseClick)
 {
 	bool isPressed = m_mousePressed[_mouseClick];
-	if (isPressed) m_mousePressed[_mouseClick] = false;
+	if(isPressed) m_mousePressed[_mouseClick] = false;
 
 	return isPressed;
 }

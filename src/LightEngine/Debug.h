@@ -6,6 +6,7 @@
 #include <SFML/Graphics/Vertex.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
+#include "Collider.h"
 
 class GameManager;
 
@@ -31,16 +32,15 @@ class Debug
 
 public:
 
-	static enum class Severity
+	enum class Severity
 	{
 		NONE,
 		INFO,
 		WARN,
 		ERROR,
-		CRITICAL
+		CRITICAL,
+		DEBUG
 	};
-
-
 
 	static Debug* Get();
 
@@ -49,6 +49,8 @@ public:
 	static void DrawCircle(float x, float y, float radius, const sf::Color& color);
 	static void DrawText(float x, float y, const std::string& text, const sf::Color& color);
 	static void DrawText(float x, float y, const std::string& text, float ratioX, float ratioY, const sf::Color& color);
+
+	static void DrawCollider(const AABBCollider& collider);
 
 	static void DebugMessage(Severity _sv, const std::string& _type, const std::string& _msg);
 

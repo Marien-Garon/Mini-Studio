@@ -12,6 +12,11 @@ int Scene::GetWindowHeight() const
 	return GameManager::Get()->mWindowHeight;
 }
 
+Scene::~Scene()
+{
+	OnDestroy();
+}
+
 float Scene::GetDeltaTime() const
 {
 	return GameManager::Get()->mDeltaTime;

@@ -2,7 +2,7 @@
 #include "Enemy.h"
 #include <iostream>
 
-void SoundWave::OnInitialize()
+void AttackZone::OnInitialize()
 {
 	m_damage = 1;
 	SetSpeed(1000);
@@ -10,17 +10,15 @@ void SoundWave::OnInitialize()
 
 }
 
-void SoundWave::OnUpdate()
+void AttackZone::OnUpdate()
 {
-	if (GetPosition().x > GetScene()->GetWindowWidth())
-	{
-		std::cout << "Soundwave detruite" << std::endl;
-		Destroy();
-	}
+	m_lifeSpan -= GetDeltaTime();
 
+	if (m_lifeSpan <= 0)
+		Destroy();
 }
 
-void SoundWave::OnCollision(Entity* other)
+void AttackZone::OnCollision(Entity* other)
 {
 	if (other->IsTag(2))
 	{

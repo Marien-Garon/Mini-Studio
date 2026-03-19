@@ -1,0 +1,140 @@
+{"Data" : 
+     {
+     "id" : "spriteSheetMC",
+     "spritesheet" : true,
+      "size": {
+        "width": 8160,
+        "height": 11568
+      },
+     "frame_size": { "width": 950, "height": 723 },
+      "animations": {
+
+        "idle_test_left": {
+          "line": 8,
+          "frameNbr": 1,
+          "duration": 0.05,
+          "loop": true
+        },
+
+        "idle_test_right": {
+          "line": 9,
+          "frameNbr": 1,
+          "duration": 0.05,
+          "loop": true
+        },
+
+        "running_to_right": {
+          "line": 0,
+          "frameNbr": 8,
+          "duration": 0.05,
+          "loop": true
+        },
+
+        "running_to_left": {
+          "line": 1,
+          "frameNbr": 8,
+          "duration": 0.05,
+          "loop": true
+        },
+
+        "jumping_to_right": {
+          "line": 2,
+          "frameNbr": 3,
+          "duration": 0.1,
+          "loop": false
+        },
+
+        "falling_to_right": {
+          "line": 3,
+          "frameNbr": 3,
+          "duration": 0.1,
+          "loop": false
+        },
+
+        "landing_to_right": {
+          "line": 4,
+          "frameNbr": 1,
+          "duration": 0.1,
+          "loop": false
+        },
+
+        "jumping_to_left": {
+          "line": 5,
+          "frameNbr": 3,
+          "duration": 0.1,
+          "loop": false
+        },
+
+        "falling_to_left": {
+          "line": 6,
+          "frameNbr": 3,
+          "duration": 0.1,
+          "loop": false
+        },
+
+        "landing_to_left": {
+          "line": 7,
+          "frameNbr": 1,
+          "duration": 0.1,
+          "loop": false
+        },
+
+        "grapple_to_left": {
+          "line": 8,
+          "frameNbr": 6,
+          "duration": 0.1,
+          "loop": false
+        },
+
+        "grapple_to_right": {
+          "line": 9,
+          "frameNbr": 6,
+          "duration": 0.1,
+          "loop": false
+        },
+
+        "first_combo_to_right": {
+          "line": 10,
+          "frameNbr": 5,
+          "duration": 0.1,
+          "loop": false
+        },
+
+        "first_combo_to_left": {
+          "line": 11,
+          "frameNbr": 5,
+          "duration": 0.1,
+          "loop": false
+        },
+
+        "second_combo_to_right": {
+          "line": 12,
+          "frameNbr": 5,
+          "duration": 0.1,
+          "loop": false
+        },
+
+        "second_combo_to_left": {
+          "line": 13,
+          "frameNbr": 5,
+          "duration": 0.1,
+          "loop": false
+        },
+
+        "third_combo_to_right": {
+          "line": 14,
+          "frameNbr": 8,
+          "duration": 0.1,
+          "loop": false
+        },
+
+        "third_combo_to_left": {
+          "line": 15,
+          "frameNbr": 8,
+          "duration": 0.1,
+          "loop": false
+        }
+
+      }
+     }
+}

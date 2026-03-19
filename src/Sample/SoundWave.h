@@ -1,10 +1,11 @@
 #pragma once
 #include "Entity.h"
 
-class SoundWave : public Entity
+class AttackZone : public Entity
 {
 private:
 
+	float m_lifeSpan = 1;
 	int m_damage;
 public:
 

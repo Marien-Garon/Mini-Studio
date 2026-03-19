@@ -9,6 +9,8 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/View.hpp>
 
+//#include "SceneManager.h"
+
 class Entity;
 class Scene;
 class Debug;
@@ -28,7 +30,10 @@ class GameManager
 
 	sf::RenderWindow* mpWindow;
 	sf::Font mFont;
+	sf::Image icone;
 
+
+	//SceneManager sceneManager;
 	Scene* mpScene;
 
 	float mDeltaTime;
@@ -54,16 +59,7 @@ public:
 	~GameManager();
 	static GameManager* Get();
 
-	void SetFixedView()
-	{
-		if (mpWindow)
-		{
-			sf::View fixedView(sf::FloatRect(0, 0, mWindowWidth, mWindowHeight));
-			mpWindow->setView(fixedView);
-		}
-	}
-
-	void CreateWindow(unsigned int width, unsigned int height, const char* title, int fpsLimit = 60, sf::Color clearColor = sf::Color::Black);
+	void CreateWindow(unsigned int width, unsigned int height, const char* title, int fpsLimit = 60, sf::Color clearColor = sf::Color::Black, bool fullscreen = false);
 
 	template<typename T>
 	void LaunchScene();

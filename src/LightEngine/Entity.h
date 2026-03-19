@@ -7,6 +7,8 @@
 
 #include "Collider.h"
 
+#include "AssetManager.h"
+
 namespace sf 
 {
 	class Shape;
@@ -29,9 +31,11 @@ protected:
 	AABBCollider m_collider;
 
 	sf::RectangleShape mShape;
-	sf::Sprite* m_sprite = nullptr;
+	SpriteData* m_sprite = nullptr;
 
     sf::Vector2f mDirection;
+	sf::Vector2f m_Scale = { 1.f, 1.f } ;
+
 	Target mTarget;
     float mSpeed = 0.f;
     bool mToDestroy = false;
@@ -53,7 +57,7 @@ public:
 	void SetOpacity(float _alpha);
 	float GetSpeed() { return mSpeed; }
 	void SetTag(int tag) { mTag = tag; }
-
+	int GetTag() { return mTag; }
 	void StartGravity(float startSpeed);
 	void StopGravity() { mIsGravity = false; }
 
@@ -64,12 +68,15 @@ public:
 
     sf::Vector2f GetPosition(float ratioX = 0.5f, float ratioY = 0.5f) const;
 	sf::Shape* GetShape() { return &mShape; }
+	sf::Vector2f GetSize();
 
 	bool IsTag(int tag) const { return mTag == tag; }
     bool IsColliding(Entity* other);
 	bool IsInside(float _x, float _y);
 	bool IsInside(Entity* _other);
 	Side GetCollidingSide(Entity* _other);
+
+	bool IsSameTexture(Entity* _other);
 
 	void SetMoveAble(bool _moveable) { m_isMoveable = _moveable; };
 	bool IsMoveable() { return m_isMoveable; };
@@ -89,21 +96,30 @@ public:
     T* CreateEntity(float width, float height, const sf::Color& color);
 
 	template<typename T>
-	T* CreateEntity(sf::Sprite* _sprite, const sf::Color& color);
+	T* CreateEntity(SpriteData* _sprite);
 
-	void SetSprite(sf::Sprite* _sprite) { m_sprite = _sprite; hasSprite = true; };
-	void SetSpriteColor(const sf::Color& _color) { m_sprite->setColor(_color); };
-	void SetSpriteScale(float _x, float _y) { m_sprite->setScale(_x, _y); };
-	void SetSpriteScale(const sf::Vector2f& _scale) { m_sprite->setScale(_scale); };
-	void SetSpriteRotation(float _angle) { m_sprite->setRotation(_angle); };
+	void SetSprite(SpriteData* _sprite) { m_sprite = _sprite; hasSprite = true; };
+	void SetSpriteColor(const sf::Color& _color) { m_sprite->sprite->setColor(_color); };
+	void SetScale(float _x, float _y);
+	void SetScale(const sf::Vector2f& _scale);
+	sf::Vector2f GetScale();
+	void SetSpriteRotation(float _angle) { m_sprite->sprite->setRotation(_angle); };
 
-	sf::Sprite* GetSprite() { return m_sprite; };
+	void PlayAnimation(const std::string& _id);
+
+	SpriteData* GetSpriteData() { return m_sprite; };
+	sf::Sprite* GetSprite() { return m_sprite->sprite; };
 
 	bool HasSprite() { return hasSprite; };
 
+	template<typename T>
+	Entity* CreateClonedEntity();
+
+	virtual Entity* Clone();
+
 protected:
     Entity() = default;
-    ~Entity() = default;
+	~Entity();
 
     virtual void OnUpdate() {};
     virtual void OnCollision(Entity* collidedWith) {};

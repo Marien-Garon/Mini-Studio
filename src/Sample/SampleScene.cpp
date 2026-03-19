@@ -1,22 +1,22 @@
-#include "SampleScene.h"
 #include <iostream>
-#include "DummyEntity.h"
-#include"Enemy.h"
+#include "SampleScene.h"
+
+#include"Mob1.h"
+#include"Mob2.h"
+
 #include"Utils.h"
 
+#include "InputManager.h"
 #include "AssetManager.h"
 #include "SceneManager.h"
 #include "Camera.h"
 #include "Hook.h"
 #include "PauseScene.h"
 
-#include"Platform.h"
 #include"BreakablePlatform.h"
 
-#include"Entity.h"
-
 #include "Debug.h"
-#include "InputManager.h"
+#include "LevelEditor.h"
 
 #define MAX_JOYSTICK_POS  100
 #define MIN_JOYSTICK_POS -100
@@ -24,39 +24,36 @@
 
 void SampleScene::OnInitialize()
 {
+
     AssetManager& AM = AssetManager::getInstance();
+	m_parallaxe = CreateEntity<Parallaxe>(0, 0, sf::Color::Black);
+	m_parallaxe->Start();
 
-   m_player = CreateEntity<Player>(50, 50, sf::Color::Red);
-   m_player->SetPosition(500, 500);
+	std::vector<Entity*> test = LevelEditor::LoadLevel(this, "Level0");
 
-   m_robot = CreateEntity<Companion>(50, 50, sf::Color::Blue);
-   m_robot->SetPosition(m_player->GetPosition().x - 150.f, m_player->GetPosition().y - 150.f);
-   m_robot->SetOwner(m_player);
+	//m_player = CreateEntity<Player>(50,50, sf::Color::Blue);
+	m_player = CreateEntity<Player>(AM.CreateSprite("spriteSheetMC", 0, 0, 950, 723));
+	//m_player->GetCollider().SetCustomCollider(m_player->GetCollider().x + 400, m_player->GetCollider().y, m_player->GetCollider().width - 300, m_player->GetCollider().height);
+	m_player->SetScale(0.3f, 0.3f); //GO TO NARNIAAAAAAAAAAAAA
+	m_player->SetPosition(0,0, 0.5f, 0.5f);
+	
+	std::cout << m_player->GetPosition().x << "/" << m_player->GetPosition().y << std::endl;
+
+	m_robot = CreateEntity<Companion>(50, 50, sf::Color::Blue);
+	m_robot->SetPosition(m_player->GetPosition().x - 150.f, m_player->GetPosition().y - 150.f);
+	m_robot->SetOwner(m_player);
 
    mCamera = CreateEntity<Camera>(0, 0, sf::Color::Black);
-   mCamera->SetupCamera(3, m_player);
+   mCamera->SetupCamera(2, nullptr);
    /*CAMERA SPEED HERE*/
 
-   for (int i = 0; i < 3; i++) {
-	   m_hooks.push_back(CreateEntity<Hook>(20.f, 20.f, sf::Color::Yellow));
-	   m_hooks[i]->SetPosition(400.f - i * 100, 200.f + i * 100);
-   }
-	//m_Platforms.push_back(CreateEntity<Platform>(200, 50, sf::Color::Blue));
-	//m_Platforms[0]->SetPosition(500, 550);
-	//m_Platforms[0]->SetRigidBody(true);
+	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
+	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
+	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
 
-	m_Platforms.push_back(CreateEntity<BreakablePlatform>(200, 50, sf::Color::Cyan));
-	m_Platforms[0]->SetPosition(500, 550);
-	m_Platforms[0]->SetRigidBody(true);
 
-	m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 35, sf::Color::Cyan));
-	m_Platforms[1]->SetPosition(100, 101);
-	m_Platforms[1]->SetRigidBody(true);
-
-	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
-	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
-	m_UI.push_back(CreateEntity<Entity>(AM.LoadSprite("coeur"), sf::Color::White));
-
+	AM.PlayMusic("Musique principal");
+	AM.SetMusicVolume(100.F);
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
@@ -73,14 +70,6 @@ void SampleScene::OnEvent(const sf::Event& event)
 	{
 		m_player->Heal(1);
 	}
-
-	if (im.IsKeyPressed(sf::Keyboard::Escape))
-	{
-		SceneManager::getInstance().ChangeScene("PAUSE");
-	}
-	
-	m_player->Actions();
-
 }
 
 void SampleScene::OnUpdate()
@@ -112,36 +101,15 @@ void SampleScene::OnUpdate()
 		m_UI[1]->SetSpriteColor(sf::Color::Transparent);
 		m_UI[2]->SetSpriteColor(sf::Color::Transparent);
 		break;
-
-
 	}
 
-
-
-
-	GameManager::Get()->RefreshCamera(mCamera);
-
-
-  /*  if (pEntitySelected != nullptr)
-    {
-        sf::Vector2f position = pEntitySelected->GetPosition();
-        Debug::DrawCircle(position.x, position.y, 10, sf::Color::Blue);
-    }*/
+	GetGameManager()->RefreshCamera(mCamera);
 
 	IncreaseTimer();
-	// for (auto* p : m_Platforms)
-	// {
-	// 	p->OnUpdate();
-	// }
+
+	std::cout << m_player->GetPosition().x << "/" << m_player->GetPosition().y << std::endl;
 }
 
-void SampleScene::TrySetSelectedEntity(Entity* pEntity, int x, int y)
-{
-	if (pEntity->IsInside(x, y) == false)
-		return;
-
-	/*pEntitySelected = pEntity;*/
-}
 
 bool SampleScene::IsAttackTimingOkay()
 {
@@ -161,5 +129,10 @@ void SampleScene::IncreaseTimer()
 	{
 		test_timerAttaque = 0;
 	}
-
 }
+
+Camera* SampleScene::GetCamera() const
+{
+	return mCamera;
+}
+

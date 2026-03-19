@@ -21,9 +21,10 @@ GameManager::GameManager()
 	mWindowWidth = -1;
 	mWindowHeight = -1;
 
-	AssetManager::getInstance().InitMusicInDirectory();
+	AssetManager::getInstance().InitTileInDirectory();
 	AssetManager::getInstance().InitTextureInDirectory();
 	AssetManager::getInstance().InitSoundInDirectory();
+	AssetManager::getInstance().InitMusicInDirectory();
 
 }
 
@@ -44,12 +45,17 @@ GameManager::~GameManager()
 	}
 }
 
-void GameManager::CreateWindow(unsigned int width, unsigned int height, const char* title, int fpsLimit, sf::Color clearColor)
+void GameManager::CreateWindow(unsigned int width, unsigned int height, const char* title, int fpsLimit, sf::Color clearColor, bool fullscreen)
 {
 	_ASSERT(mpWindow == nullptr);
 
-	mpWindow = new sf::RenderWindow(sf::VideoMode(width, height), title);
+	mpWindow = new sf::RenderWindow(sf::VideoMode(width, height), title ); //ajouter sf::Style::Fullscreen pour plein ecran
 	mpWindow->setFramerateLimit(fpsLimit);
+
+	if (!icone.loadFromFile("..\\..\\..\\assets\\textures\\Logo.png"))
+		EXIT_FAILURE;
+
+	mpWindow->setIcon(icone.getSize().x, icone.getSize().y, icone.getPixelsPtr());
 
 	mWindowWidth = width;
 	mWindowHeight = height;
@@ -104,8 +110,8 @@ void GameManager::Run()
 
 	InputManager::Get().Init();
 
-	AssetManager::getInstance().PlayMusic("Fight");
-	AssetManager::getInstance().SetMusicVolume(0.f);
+	//AssetManager::getInstance().PlayMusic("Fight");
+	//AssetManager::getInstance().SetMusicVolume(0.f);
 
 
 	sf::Clock clock;
@@ -153,13 +159,13 @@ void GameManager::Update()
 		mpScene->OnInitialize();
 	}
 	mpScene->OnUpdate();
-
     //Update
     for (auto it = mEntities.begin(); it != mEntities.end(); )
     {
 		Entity* entity = *it;
 
         entity->Update();
+		Debug::DrawCollider(entity->GetCollider()); //--> Debug only
 
         if (entity->ToDestroy() == false)
         {
@@ -218,13 +224,9 @@ void GameManager::Draw()
 		else mpWindow->draw(*entity->GetShape());
 	}
 
-	sf::Sprite* sprite = AssetManager::getInstance().LoadSprite("sheet", 0, 0, 460, 600);
-	//std::cout << sprite.getTextureRect().width << std::endl;
-	sprite->setScale(0.1f, 0.1f);
-	DrawSprite(sprite);
 	Debug::Get()->Draw(mpWindow);
 
-	mpWindow->display();
+ 	mpWindow->display();
 }
 
 void GameManager::SetScene(Scene* scene)

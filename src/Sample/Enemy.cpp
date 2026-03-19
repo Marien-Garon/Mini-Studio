@@ -1,42 +1,133 @@
 #include "Enemy.h"
 #include "Utils.h"
-#include<iostream>
+#include "SampleScene.h"
+#include <iostream>
 
-void Enemy::Initialize()
+
+void Enemy::OnInitialize()
 {
-    m_startPos = GetPosition();
+    SetTag(2);
+    SetMoveAble(true);
+    SetSpeed(100);
 }
 
-void Enemy::OnUpdate(float dt)
+void Enemy::OnUpdate()
 {
-    float move = m_speed * m_direction * dt;
+    if (!activate)
+        return;
 
-    sf::Vector2f pos = GetPosition();
-    SetPosition(pos.x + move, pos.y);
-
-    float dist = Utils::GetDistance(GetPosition().x, 0, m_startPos.x, 0);
-
-    if (dist >= m_maxDistance)
-    {
-        m_direction *= -1;
-    }
-}
-
-
-float Enemy::TakeDamage(int amount)
-{
-    m_Hpmax -= amount;
-
-    if (m_Hpmax == 0)
-    {
-        std::cout << "Enemy died" << std::endl;
-        EnemyAlive = false;
-    }
+    if (m_directionFacing == true)
+        PlayAnimation("walkRight");
     else
+        PlayAnimation("walkLeft");
+
+    if (DetectPlayer())
+        isChargingAttack = true;
+
+    if (isChargingAttack == true)
     {
-        std::cout << "Enemy take damage " << std::endl;
-        std::cout << "Current Hp :  " << m_Hpmax << std::endl;
+        if(m_directionFacing == true)
+            PlayAnimation("ShootRight");
+
+        else
+            PlayAnimation("ShootLeft");
+
+        m_attackTimer += GetDeltaTime();
+        SetDirection(0, 0);
+        
     }
-   
-    return m_Hpmax;
+
+    else     
+        Move();
+
+    if (m_attackTimer >= m_attackCooldown)
+    {
+        Attack();
+        isChargingAttack = false;
+        m_attackTimer = 0;
+    }
+    
+    
+    
+    m_movingTimer += GetDeltaTime();
+    isGrounded = false;
 }
+
+void Enemy::OnCollision(Entity* collidedWith)
+{
+	if (collidedWith->IsTag(0) || collidedWith->IsTag(10))
+	{
+
+		Side side = GetCollidingSide(collidedWith);
+
+
+		if (side == Side::DOWN)
+		{
+			isGrounded = true;
+		}
+	}
+
+
+}
+
+
+void Enemy::TakeDamage(int amount)
+{
+
+    m_hp -= amount;
+
+    if (m_hp <= 0)
+    {
+        m_isAlive = false;
+        Destroy();
+    }
+
+}
+
+bool Enemy::DetectPlayer()
+{
+    if (activate)
+    {
+        Player* player = ((SampleScene*)GetScene())->GetPlayer();
+        float playerPositionY = player->GetPosition().y;
+        float playerPositionX = player->GetPosition().x;
+
+
+
+        if (GetPosition().y - 50 < playerPositionY && playerPositionY < GetPosition().y + 50)
+        {
+            if (m_directionFacing == 1 && playerPositionX < GetPosition().x + 500 && playerPositionX > GetPosition().x)
+                return true;
+
+            if (m_directionFacing == -1 && playerPositionX > GetPosition().x - 500 && playerPositionX < GetPosition().x)
+                return true;
+        }
+
+        return false;
+    }
+}
+
+void Enemy::Move()
+{
+    if (m_movingTimer >= m_movingCooldown || !isGrounded)
+    {
+        m_directionFacing *= -1;
+        m_movingTimer = 0;
+        isGrounded = true;
+    }
+        
+
+    SetDirection(m_directionFacing, 0);
+
+    if (m_directionFacing == true)
+        PlayAnimation("walkRight");
+    else
+        PlayAnimation("walkLeft");
+}
+
+void Enemy::Attack()
+{
+    std::cout << "fuhgiufhuiofghuifjmifghuifdsghjjksdfghiosdfghjksdfgjiousgdfhdxfgshuj" << std::endl;
+}
+
+
