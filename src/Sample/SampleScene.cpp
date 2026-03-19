@@ -30,17 +30,23 @@ void SampleScene::OnInitialize()
 	m_parallaxe = CreateEntity<Parallaxe>(0, 0, sf::Color::Black);
 	m_parallaxe->Start();
 
-	std::vector<Entity*> test = LevelEditor::LoadLevel(this, "Level4");
+	//std::vector<Entity*> test = LevelEditor::LoadLevel(this, "Level4");
 
-	m_player= CreateEntity<Player>(50, 50, sf::Color::Red);
-	m_player->SetPosition(m_playerStartPos.x, m_playerStartPos.y);
+	m_player = CreateEntity<Player>(50,50, sf::Color::Blue);
+	//m_player = CreateEntity<Player>(AM.CreateSprite("spriteSheetMC", 0, 0, 950, 723));
+	//m_player->SetScale(0.5f, 0.5f);
+	m_player->SetPosition(0,-100);
+	//m_player->SetPosition(0, 100);
+	std::cout << m_player->GetPosition().x << "/" << m_player->GetPosition().y << std::endl;
+	m_player->PlayAnimation("running_to_right");
+
 
 	m_robot = CreateEntity<Companion>(50, 50, sf::Color::Blue);
 	m_robot->SetPosition(m_player->GetPosition().x - 150.f, m_player->GetPosition().y - 150.f);
 	m_robot->SetOwner(m_player);
 
    mCamera = CreateEntity<Camera>(0, 0, sf::Color::Black);
-   mCamera->SetupCamera(2, m_player);
+   mCamera->SetupCamera(0, nullptr);
    /*CAMERA SPEED HERE*/
 
   
@@ -57,6 +63,10 @@ void SampleScene::OnInitialize()
 	//test->SetPosition(50, -150, 0.0f, 0.0f);
 	//test->SetRigidBody(true);
 
+	Mob2* test2 = CreateEntity<Mob2>(AM.CreateSprite("Mob2Animation", 0, 0, 1155, 1630));
+	test2->SetScale(0.1f, 0.1f);
+	test2->SetPosition(50, -150, 0.0f, 0.0f);
+	test2->SetRigidBody(true);
 
 	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
 	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
@@ -116,6 +126,7 @@ void SampleScene::OnUpdate()
 
 	IncreaseTimer();
 
+	std::cout << m_player->GetPosition().x << "/" << m_player->GetPosition().y << std::endl;
 }
 
 

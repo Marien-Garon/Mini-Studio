@@ -3,10 +3,10 @@
      "id" : "spriteSheetMC",
      "spritesheet" : true,
       "size": {
-        "width": 16320,
-        "height": 23136
+        "width": 8160,
+        "height": 11568
       },
-     "frame_size": { "width": 1900, "height": 1446 },
+     "frame_size": { "width": 950, "height": 723 },
       "animations": {
         "running_to_right": {
           "line": 0,

@@ -259,7 +259,8 @@ void Player::OnUpdate()
 	if (m_resetBombo && !isAttackingTimingGood)
 		m_numberOfGoodPress = 0;
 	
-	std::cout << m_hasAttackedThisBeat<< "/" << m_resetBombo << "/" << m_numberOfGoodPress << std::endl;
+	std::cout << mDirection.x << "/" << mDirection.y << std::endl;
+	std::cout << m_collider.x << "/" << m_collider.y << std::endl;
 }
 
 void Player::OnCollision(Entity* collidedWith)
