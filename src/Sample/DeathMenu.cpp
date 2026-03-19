@@ -12,8 +12,8 @@ void DeathMenu::OnInitialize()
 {
 	AssetManager& AM = AssetManager::getInstance();
 
-	m_deathScreen = CreateEntity<Entity>(AM.LoadSprite("menu"), sf::Color::Red);
-	m_deathScreen->SetSpriteScale(0.333, 0.333);
+	m_deathScreen = CreateEntity<Entity>(AM.LoadSprite("Balladeur"), sf::Color::Red);
+	//m_deathScreen->SetSpriteScale(0.333, 0.333);
 
 	m_quitButton = CreateEntity<Button>(110, 50, sf::Color::Transparent);
 	m_replayButton = CreateEntity<Button>(110, 50, sf::Color::Transparent);

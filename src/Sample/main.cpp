@@ -21,7 +21,7 @@ int main()
 	sm.AddScene("START", &menuScene);
 	sm.AddScene("LEVEL", &sampleScene);
 	sm.AddScene("PAUSE", &pauseScene);
-	sm.AddScene("DEATH", &pauseScene);
+	sm.AddScene("DEATH", &deathMenu);
 
 	sm.SetStartScene("START");
 
