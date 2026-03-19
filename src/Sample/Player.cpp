@@ -20,7 +20,7 @@ void Player::OnInitialize()
 	mMaxSpeed = 0.f;
 
 	SetSpeed(300);
-	m_grappleRopeLenght = 200.f;
+	m_grappleRopeLenght = 2000.f;
 	SetTag(1);
 }
 
@@ -51,34 +51,6 @@ void Player::OnCollision(Entity* collidedWith)
 			return;
 
 		Side side = GetCollidingSide(collidedWith);
-		//
-		//std::cout << "Platform : " << collidedWith->GetCollider().x << "/" << collidedWith->GetCollider().y << std::endl;
-		//std::cout << "Player   : " << GetCollider().x << "/" << GetCollider().y + GetCollider().height << std::endl;
-
-		/*switch (side) 
-		{
-		case Side::INSIDE:
-			std::cout << "INSIDE" << std::endl;
-			break;
-		case Side::DOWN:
-			std::cout << "DOWN" << std::endl;
-			break;
-
-		case Side::UP:
-			std::cout << "UP" << std::endl;
-			break;
-
-		case Side::RIGHT:
-			std::cout << "RIGHT" << std::endl;
-			break;
-
-		case Side::LEFT:
-			std::cout << "LEFT" << std::endl;
-			break;
-		case Side::NONE:
-			std::cout << "NONE" << std::endl;
-			break;
-		}*/
 
 		if (side == Side::DOWN)
 		{

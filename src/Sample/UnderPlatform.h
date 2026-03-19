@@ -5,4 +5,7 @@ class UnderPlatform : public Platform
 {
 public :
 	void OnCollision(Entity* entity) override;
+
+
+	Entity* Clone() override;
 };

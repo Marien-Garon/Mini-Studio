@@ -13,6 +13,15 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
+
+enum class SpriteType
+{
+	Classic,
+	Tile,
+	UnderPlatform,
+	DecoBlock
+};
+
 struct Animation
 {
 	int line = 0;
@@ -50,7 +59,7 @@ struct SpriteData
 	float frameTime = 0.f;
 	std::string currentAnimation;
 
-	SpriteData(std::string _id, int _posX = 0, int _posY = 0, int _w = 0, int _h = 0, bool isTile = false);
+	SpriteData(std::string _id, int _posX = 0, int _posY = 0, int _w = 0, int _h = 0, SpriteType _type = SpriteType::Classic);
 	~SpriteData();
 
 	void PlayAnimation(const std::string& _id);
@@ -69,6 +78,8 @@ private:
 	std::unordered_map<std::string, std::string> m_musicList;
 
 	std::unordered_map<std::string, TextureData> m_tileList;
+	std::unordered_map<std::string, TextureData> m_underPlatformList;
+	std::unordered_map<std::string, TextureData> m_decoBlockList;
 
 	std::vector<sf::Sound*> m_soundPlaying;
 
@@ -79,7 +90,6 @@ private:
 
 public:
 
-
 	static AssetManager& getInstance() {
 		static AssetManager instance;
 		return instance;
@@ -87,16 +97,21 @@ public:
 	
 	void UpdateAssets();
 
+	bool InitDecoBlock(const std::filesystem::path& filename);
+	bool InitUnderPlatform(const std::filesystem::path& filename);
 	bool InitTileInDirectory(const std::filesystem::path& filename = "../../../assets/tile");
 	bool InitMusicInDirectory(const std::filesystem::path& filename = "../../../assets/musics");
 	bool InitSoundInDirectory(const std::filesystem::path& filename = "../../../assets/sounds");
 	bool InitTextureInDirectory(const std::filesystem::path& filename = "../../../assets/textures");
 	
 	const std::unordered_map<std::string, TextureData>& GetTileBlockList() { return m_tileList; };
-
+	const std::unordered_map<std::string, TextureData>& GetUnderPlatformList() { return m_underPlatformList; };
+	const std::unordered_map<std::string, TextureData>& GetDecoBlocks() { return m_decoBlockList; };
 
 	TextureData* GetTextureData(std::string _id);
 	TextureData* GetTileData(std::string _id);
+	TextureData* GetUnderPlatformData(std::string _id);
+	TextureData* GetDecoBlockData(std::string _id);
 
 	/// <summary>
 	/// Return texture with id
@@ -115,7 +130,7 @@ public:
 	/// <param name="int _h : height of the sprite"></param>
 	/// <returns></returns>
 	SpriteData* CreateSprite(std::string _id, int _posX = 0, int _posY = 0, int _w = 0, int _h = 0);
-	SpriteData* CreateTile(std::string _id);
+	SpriteData* CreateTile(std::string _id, SpriteType _type = SpriteType::Tile);
 
 
 	/// <summary>
@@ -128,7 +143,7 @@ public:
 	/// <param name="_w -> Size of the sprite you want to create from the texture"></param>
 	/// <param name="_h -> Size of the sprite you want to create from the texture"></param>
 	/// <returns></returns>
-	sf::Sprite* LoadSprite(std::string _id, int _posX = 0, int _posY = 0, int _w = 0, int _h = 0, bool isTile = false);
+	sf::Sprite* LoadSprite(std::string _id, int _posX = 0, int _posY = 0, int _w = 0, int _h = 0, SpriteType _type = SpriteType::Classic);
 
 	/// <summary>
 	/// Play the sound with id

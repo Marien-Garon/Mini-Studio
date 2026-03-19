@@ -30,11 +30,17 @@ private:
 
 	std::vector<Platform*> m_Platforms;
 	std::vector<Entity*> m_UI;
+
+	sf::Vector2f m_playerStartPos = { 0.f,0.f };
 	
 private:
     void TrySetSelectedEntity(Enemy* pEntity, int x, int y);
 
 public:
+
+	void AddHook(Hook* hook) { m_hooks.push_back(hook); };
+	void SetPlayerPos(sf::Vector2f pos) { m_playerStartPos = pos; };
+
 
 	void OnDestroy() override {};
     void OnInitialize() override;

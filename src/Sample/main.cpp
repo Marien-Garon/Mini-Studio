@@ -15,6 +15,5 @@ int main()
 	else
 		pInstance->LaunchScene<SampleScene>();
 
-
 	return 0;
 }

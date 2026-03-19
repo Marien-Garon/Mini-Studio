@@ -5,8 +5,12 @@
 #include <iostream>
 #include "InputManager.h"
 #include "Hook.h"
+#include "SampleScene.h"
+#include "UnderPlatform.h"
+#include "DecoBlock.h"
 
 #define TILE_SIZE 64.f
+#define SIZE_DIVISION 1
 
 std::vector<Entity*> LevelEditor::LoadLevel(Scene* scene, std::string _id)
 {
@@ -43,14 +47,49 @@ std::vector<Entity*> LevelEditor::LoadLevel(Scene* scene, std::string _id)
 		pos.x -= scene->GetWindowWidth() / 2;
 		pos.y -= scene->GetWindowHeight() / 2;
 
+		AssetManager& AM = AssetManager::getInstance();
+
 		if (tag == 10)
 		{
-			TileBlock* newTile = scene->CreateEntity<TileBlock>(AssetManager::getInstance().CreateTile(id));
+			TileBlock* newTile = scene->CreateEntity<TileBlock>(AM.CreateTile(id));
 			newTile->SetTag(tag);
 			newTile->SetScale(scale);
 			newTile->SetPosition(pos.x, pos.y, 0.0f, 0.0f);
 			newTile->SetRigidBody(true);
 			m_entity.push_back(newTile);
+		}
+		if (tag == 11)
+		{
+			Hook* newHook = scene->CreateEntity<Hook>(AM.CreateSprite(id));
+			newHook->SetScale(scale);
+			newHook->SetPosition(pos.x, pos.y, 0.0f, 0.0f);
+			static_cast<SampleScene*>(scene)->AddHook(newHook);
+			m_entity.push_back(newHook);
+		}
+		if (tag == 12)
+		{
+			BreakablePlatform* platform = scene->CreateEntity<BreakablePlatform>(AM.CreateSprite(id,0,0,493,440));
+			platform->SetScale(scale);
+			platform->SetPosition(pos.x, pos.y, 0.0f, 0.0f);
+			m_entity.push_back(platform);
+		}
+		if (tag == 13)
+		{
+			static_cast<SampleScene*>(scene)->SetPlayerPos(pos);
+		}
+		if (tag == 14)
+		{
+			UnderPlatform* UPlt = scene->CreateEntity<UnderPlatform>(AM.CreateTile(id, SpriteType::UnderPlatform));
+			UPlt->SetScale(scale);
+			UPlt->SetPosition(pos.x, pos.y, 0.0f, 0.0f);
+			m_entity.push_back(UPlt);
+		}
+		if (tag == 15)
+		{
+			DecoBlock* decoBlock = scene->CreateEntity<DecoBlock>(AM.CreateTile(id, SpriteType::DecoBlock));
+			decoBlock->SetScale(scale);
+			decoBlock->SetPosition(pos.x, pos.y, 0.0f, 0.0f);
+			m_entity.push_back(decoBlock);
 		}
 	}
 	
@@ -234,7 +273,7 @@ void LevelEditor::InitEntity()
 	AssetManager& AM = AssetManager::getInstance();
 
 	BreakablePlatform* platform = CreateEntity<BreakablePlatform>(AM.CreateSprite("breakable",0,0,493,440));
-	platform->SetScale(GetScale(platform->GetCollider().width, TILE_SIZE) / 2, GetScale(platform->GetCollider().height, TILE_SIZE) / 2);
+	platform->SetScale(GetScale(platform->GetCollider().width, TILE_SIZE) / SIZE_DIVISION, GetScale(platform->GetCollider().height, TILE_SIZE) / SIZE_DIVISION);
 	platform->SetPosition(-5000, -5000);
 
 	if (m_SelectionPage.empty() || m_SelectionPage.back().size() >= 3)
@@ -244,13 +283,22 @@ void LevelEditor::InitEntity()
 
 	Hook* hook = CreateEntity<Hook>(AM.CreateSprite("poteau"));
 	hook->SetPosition(-5000,-5000);
+	hook->SetScale(GetScale(hook->GetCollider().width, TILE_SIZE) / SIZE_DIVISION, GetScale(hook->GetCollider().height, TILE_SIZE) / SIZE_DIVISION);
 
 	if (m_SelectionPage.empty() || m_SelectionPage.back().size() >= 3)
 		m_SelectionPage.emplace_back();
 
 	m_SelectionPage.back().push_back(hook);
 
+	Entity* playerPos = CreateEntity<Entity>(TILE_SIZE, TILE_SIZE, sf::Color::Red);
+	playerPos->SetPosition(-5000, -5000);
+	playerPos->SetScale(GetScale(playerPos->GetCollider().width, TILE_SIZE), GetScale(playerPos->GetCollider().height, TILE_SIZE));
+	playerPos->SetTag(13);
 
+	if (m_SelectionPage.empty() || m_SelectionPage.back().size() >= 3)
+		m_SelectionPage.emplace_back();
+
+	m_SelectionPage.back().push_back(playerPos);
 }
 
 void LevelEditor::InitTileBlock()
@@ -261,14 +309,40 @@ void LevelEditor::InitTileBlock()
 	{
 		TileBlock* newTile = CreateEntity<TileBlock>(AM.CreateTile(tileData.first));
 		newTile->SetTag(10);
-		newTile->GetSprite();
-		newTile->SetScale(GetScale(newTile->GetCollider().width, TILE_SIZE) / 2, GetScale(newTile->GetCollider().height, TILE_SIZE) / 2);
+		newTile->SetScale(GetScale(newTile->GetCollider().width, TILE_SIZE) / SIZE_DIVISION, GetScale(newTile->GetCollider().height, TILE_SIZE) / SIZE_DIVISION);
 		newTile->SetPosition(-5000, -5000);
 
 		if (m_SelectionPage.empty() || m_SelectionPage.back().size() >= 3)
 			m_SelectionPage.emplace_back();  //Mystic dark magic vector (vector has function you absolutely don't know what's they are doing but it work it's magic i swear)
 		//so it's like push back + ultra premium extra croquette
 		m_SelectionPage.back().push_back(newTile);
+	}
+
+	for (auto& uPlatform : AM.GetUnderPlatformList())
+	{
+		UnderPlatform* newUP = CreateEntity<UnderPlatform>(AM.CreateTile(uPlatform.first, SpriteType::UnderPlatform));
+		newUP->SetTag(14);
+		newUP->SetScale(GetScale(newUP->GetCollider().width, TILE_SIZE) / SIZE_DIVISION, GetScale(newUP->GetCollider().height, TILE_SIZE) / SIZE_DIVISION);
+		newUP->SetPosition(-5000, -5000);
+
+		if (m_SelectionPage.empty() || m_SelectionPage.back().size() >= 3)
+			m_SelectionPage.emplace_back();
+
+		m_SelectionPage.back().push_back(newUP);
+	}
+
+	for (auto& decoBlock : AM.GetDecoBlocks())
+	{
+		DecoBlock* newDecoB = CreateEntity<DecoBlock>(AM.CreateTile(decoBlock.first, SpriteType::DecoBlock));
+		newDecoB->SetTag(15);
+		newDecoB->SetScale(GetScale(newDecoB->GetCollider().width, TILE_SIZE) / SIZE_DIVISION, GetScale(newDecoB->GetCollider().height, TILE_SIZE) / SIZE_DIVISION);
+		newDecoB->SetPosition(-5000, -5000);
+		newDecoB->SetRigidBody(false);
+
+		if (m_SelectionPage.empty() || m_SelectionPage.back().size() >= 3)
+			m_SelectionPage.emplace_back();
+
+		m_SelectionPage.back().push_back(newDecoB);
 	}
 
 	if (m_SelectionPage.empty()) return;
@@ -407,6 +481,8 @@ void LevelEditor::OnUpdate()
 	Debug::DrawText(GetWindowWidth() - 2 * TILE_SIZE, GetWindowHeight() - TILE_SIZE, "Next", sf::Color::Black);
 	Debug::DrawText(GetWindowWidth() - 4 * TILE_SIZE, GetWindowHeight() - 2 * TILE_SIZE, "Prev", sf::Color::Black);
 	Debug::DrawText(GetWindowWidth() - 2 * TILE_SIZE, GetWindowHeight() - 2 * TILE_SIZE, "Next", sf::Color::Black);
+	Debug::DrawText(GetWindowWidth() - 3.5 * TILE_SIZE, TILE_SIZE / 2,"Current Grid : " + std::to_string(currentGrid), sf::Color::White);
+
 
 	if (InputManager::Get().IsKeyPressed(sf::Keyboard::Key::A))
 		drawGrid = !drawGrid;

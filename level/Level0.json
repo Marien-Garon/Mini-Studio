@@ -3,367 +3,68 @@
     "Tiles": [
         {
             "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 0.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
+            "id": "platform5_middle",
             "position": {
                 "x": 256.0,
-                "y": 576.0
+                "y": 512.0
             },
             "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
+                "height": 0.6274510025978088,
+                "width": 0.4915514588356018
             },
             "tag": 10
         },
         {
             "Type": "TileBlocks",
-            "id": "IMG_8571",
+            "id": "platform5_middle",
             "position": {
-                "x": 512.0,
-                "y": 576.0
+                "x": 576.0,
+                "y": 512.0
             },
             "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
+                "height": 0.6274510025978088,
+                "width": 0.4915514588356018
             },
             "tag": 10
         },
         {
             "Type": "TileBlocks",
-            "id": "IMG_8571",
+            "id": "platform5_middle",
             "position": {
-                "x": 768.0,
-                "y": 576.0
+                "x": 64.0,
+                "y": 512.0
             },
             "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
+                "height": 0.6274510025978088,
+                "width": 0.4915514588356018
             },
             "tag": 10
         },
         {
             "Type": "TileBlocks",
-            "id": "IMG_8571",
+            "id": "iron_platform_left",
             "position": {
-                "x": 1088.0,
-                "y": 576.0
+                "x": 448.0,
+                "y": 320.0
             },
             "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
+                "height": 0.48730963468551636,
+                "width": 0.4615384638309479
             },
-            "tag": 10
+            "tag": 14
         },
         {
             "Type": "TileBlocks",
-            "id": "IMG_8571",
+            "id": "iron_platform_right",
             "position": {
-                "x": 1344.0,
-                "y": 576.0
+                "x": 384.0,
+                "y": 320.0
             },
             "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
+                "height": 0.47999998927116394,
+                "width": 0.4615384638309479
             },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 1600.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 1856.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 2176.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 2432.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 2688.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 2944.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 3264.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 3520.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 3776.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 4032.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 4352.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 4608.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 4864.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 5120.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 5440.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 5696.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 5952.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 6208.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 6528.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 6784.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 7040.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
-        },
-        {
-            "Type": "TileBlocks",
-            "id": "IMG_8571",
-            "position": {
-                "x": 7296.0,
-                "y": 576.0
-            },
-            "scale": {
-                "height": 0.52173912525177,
-                "width": 0.4776119291782379
-            },
-            "tag": 10
+            "tag": 14
         }
     ]
 }

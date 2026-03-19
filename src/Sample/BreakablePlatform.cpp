@@ -37,4 +37,5 @@ void BreakablePlatform::OnCollision(Entity* entity)
 void BreakablePlatform::OnInitialize()
 {
 	SetTag(12);
+	SetRigidBody(true);
 }
