@@ -11,6 +11,6 @@ void Background::OnUpdate()
 
  	if (position.x < cameraPos.x - (windowWidth / 2))
 	{
-		SetPosition(cameraPos.x + (windowWidth / 2), position.y, 0.f, 0.f);
+		SetPosition(cameraPos.x - (windowWidth / 2), position.y, 0.f, 0.f);
 	}
 }
