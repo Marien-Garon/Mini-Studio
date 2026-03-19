@@ -28,6 +28,7 @@ private:
 	float m_pityFrames = 10.f;
 	bool mIsPaused = false;
 
+
 	Player* m_player;
 	Companion* m_robot;
 
@@ -47,6 +48,8 @@ public:
     void OnInitialize() override;
     void OnEvent(const sf::Event& event) override;
     void OnUpdate() override;
+
+	bool mIsPaused = false;
 
 private:
 

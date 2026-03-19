@@ -49,6 +49,8 @@ public:
 
 
 	friend GameManager;
+
+	GameManager* GetGameManager() { return mpGameManager; };
 };
 
 #include "Scene.inl"

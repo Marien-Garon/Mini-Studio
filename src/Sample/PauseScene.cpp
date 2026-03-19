@@ -1,6 +1,5 @@
 #include "PauseScene.h"
 #include <iostream>
-
 #include "Enemy.h"
 #include "Utils.h"
 #include "Debug.h"
@@ -59,7 +58,7 @@ void PauseScene::OnUpdate()
     GameManager* gm = GameManager::Get();
     if (!gm) return;
 
-    gm->SetFixedView();
+    //gm->SetFixedView();
 
     float winW = static_cast<float>(gm->GetWindow()->getSize().x);
     float winH = static_cast<float>(gm->GetWindow()->getSize().y);

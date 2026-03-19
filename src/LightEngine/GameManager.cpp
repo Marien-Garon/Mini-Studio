@@ -70,23 +70,22 @@ void GameManager::DrawSprite(sf::Sprite* _sprite)
 
 void GameManager::RefreshCamera(Camera* camera)
 {
-	if (camera->GetView() == nullptr)
-	{
-		std::cout << "Camera Not Initialized" << std::endl;
-		exit(0);
-	}
-	mpWindow->setView(*camera->GetView());
-	camera->GetUIView()->setViewport(sf::FloatRect(0, 0, 0.25f, 0.25f));
+	//if (camera->GetView() == nullptr)
+	//{
+	//	std::cout << "Camera Not Initialized" << std::endl;
+	//	exit(0);
+	//}
+	mpWindow->setView(camera->GetView());
+	camera->GetUIView().setViewport(sf::FloatRect(0, 0, 0.25f, 0.25f));
 }
 void GameManager::RefreshUI(Camera* camera)
 {
-	if (camera->GetView() == nullptr)
-	{
-		std::cout << "Camera Not Initialized" << std::endl;
-		exit(0);
-	}
-	mpWindow->setView(*camera->GetUIView());
-
+	//if (camera->GetView() == nullptr)
+	//{
+	//	std::cout << "Camera Not Initialized" << std::endl;
+	//	exit(0);
+	//}
+	mpWindow->setView(camera->GetUIView());
 }
 
 

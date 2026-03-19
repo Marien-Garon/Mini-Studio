@@ -27,11 +27,11 @@ public:
 	void AddElementToCamera(Entity* newEntityOnCamera);
 	void Shake(int degree);
 
-	sf::View* GetView() { return &camera; }
+	sf::View& GetView() { return camera; }
 	
 	~Camera() = default;
 
-	sf::View* GetUIView() { return &UIView; }
+	sf::View& GetUIView() { return UIView; }
 
 };
 

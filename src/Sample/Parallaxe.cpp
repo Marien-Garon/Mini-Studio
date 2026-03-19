@@ -47,7 +47,7 @@ void Parallaxe::OnUpdate()
 	float cameraSpeed = GameManager::Get()->GetScene()->GetCamera()->GetSpeed();
 
 	for (int i = 0; i < m_backgrounds.size(); i++) {
-		sf::Vector2f cameraPos = GetScene<SampleScene>()->GetCamera()->GetView()->getCenter();
+		sf::Vector2f cameraPos = GetScene<SampleScene>()->GetCamera()->GetView().getCenter();
 		sf::Vector2f backgroundPos = m_backgrounds[i]->GetPosition();
 
 		m_backgrounds[i]->SetPosition(backgroundPos.x + cameraSpeed, backgroundPos.y /*+ cameraPos.y*/);
