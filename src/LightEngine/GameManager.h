@@ -43,7 +43,10 @@ private:
 
 	sf::Color mClearColor;
 
-public:
+	float timer = 0.0f;
+	int FPS = 0;
+
+private:
 	GameManager();
 
 	void Run();
@@ -81,6 +84,8 @@ public:
 	sf::Font& GetFont() { return mFont; };
 	void SetScene(Scene* scene);
 	void ClearCurrentSceneEntities();
+
+	int GetFPS() { return FPS; };
 
 	friend Debug;
 	friend Scene;

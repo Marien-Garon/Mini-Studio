@@ -281,10 +281,7 @@ void Player::OnCollision(Entity* collidedWith)
 			StopGravity();
 			m_isGrounded = true;
 		}
- 			
-			
 	}
-		
 }
 
 void Player::TakeDamage(int _damage)
@@ -393,9 +390,9 @@ void Player::Attack()
 
 	if (m_numberOfGoodPress == 1)
 	{
-		AttackZone* attack = CreateEntity<AttackZone>(50, 50, sf::Color::Cyan);
-		attack->SetPosition(GetPosition().x + m_directionFacing * GetCollider().width, GetPosition().y);
-
+		AttackZone* attack = CreateEntity<AttackZone>(AssetManager::getInstance().CreateSprite("atk"));
+		attack->SetScale(0.1f,0.1f);
+		attack->SetPosition(GetPosition().x + m_directionFacing * (GetCollider().width / 2), GetPosition().y);
 	}
 
 	if (m_numberOfGoodPress == 3)
@@ -407,7 +404,8 @@ void Player::Attack()
 
 void Player::Shoot()
 {
-	SoundBlast* attack = CreateEntity<SoundBlast>(50, 100, sf::Color::Cyan);
+	SoundBlast* attack = CreateEntity<SoundBlast>(AssetManager::getInstance().CreateSprite("soundwave"));
+	attack->SetScale(0.2f, 0.2f);
 	attack->SetPosition(GetPosition().x, GetPosition().y);
 	attack->SetDirection(m_directionFacing, 0);
 	m_numberOfGoodPress = 0;
@@ -628,8 +626,16 @@ bool IsPlayerAtGrappleDestination::Test(Player* player)
 	if (grapple == nullptr)
 		return false;
 
-	if (player->GetPosition().x == grapple->GetPosition().x && player->GetPosition().y == grapple->GetPosition().y)
-		return true;
+	int px = player->GetPosition().x;
+	int py = player->GetPosition().y;
+
+	int gx = grapple->GetPosition().x;
+	int gy = grapple->GetPosition().y;
+
+	
+	//std::cout << player->GetPosition().x << "/" << grapple->GetPosition().x << "   " << player->GetPosition().y << "/" << grapple->GetPosition().y << std::endl;
+
+	if (px > gx - 3 && px < gx + 3 && py > gy - 3 && py < gy + 3) return true;
 	return false;
 }
 

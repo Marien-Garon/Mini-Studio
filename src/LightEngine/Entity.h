@@ -59,14 +59,14 @@ public:
 	void SetTag(int tag) { mTag = tag; }
 	int GetTag() { return mTag; }
 	void StartGravity(float startSpeed);
-	void StopGravity() { mIsGravity = false; }
+	void StopGravity() { mIsGravity = false; mGravitySpeed = 0.f; };
 
 	//float GetRadius() const { return mShape.getRadius(); }
 
 	void SetRigidBody(bool isRigitBody) { mRigidBody = isRigitBody; }
 	bool IsRigidBody() const { return mRigidBody; }
 
-	sf::Vector2f GetPosition(float ratioX = 0.5f, float ratioY = 0.5f) const;
+    sf::Vector2f GetPosition(float ratioX = 0.5f, float ratioY = 0.5f);
 	sf::Shape* GetShape() { return &mShape; }
 	sf::Vector2f GetSize();
 

@@ -33,21 +33,42 @@ void SampleScene::OnInitialize()
 
 	std::vector<Entity*> test = LevelEditor::LoadLevel(this, "Level0");
 
-	//m_player = CreateEntity<Player>(50,50, sf::Color::Blue);
-	m_player = CreateEntity<Player>(AM.CreateSprite("spriteSheetMC", 0, 0, 950, 723));
-	//m_player->GetCollider().SetCustomCollider(m_player->GetCollider().x + 400, m_player->GetCollider().y, m_player->GetCollider().width - 300, m_player->GetCollider().height);
-	m_player->SetScale(0.3f, 0.3f); //GO TO NARNIAAAAAAAAAAAAA
-	m_player->SetPosition(0,0, 0.5f, 0.5f);
-	
-	std::cout << m_player->GetPosition().x << "/" << m_player->GetPosition().y << std::endl;
+	//m_player = CreateEntity<Player>(AM.CreateSprite("spriteSheetMC2", 0, 0, 680, 482));
+	m_player = CreateEntity<Player>(AM.CreateSprite("spriteSheetMC3", 0, 0, 950, 723));
+	m_player->SetScale(0.2f, 0.2f); //GO TO NARNIAAAAAAAAAAAAA
+	m_player->SetPosition(0,-100, 0.5f, 0.5f);
+
+
 
 	m_robot = CreateEntity<Companion>(50, 50, sf::Color::Blue);
 	m_robot->SetPosition(m_player->GetPosition().x - 150.f, m_player->GetPosition().y - 150.f);
 	m_robot->SetOwner(m_player);
 
+	
+
    mCamera = CreateEntity<Camera>(0, 0, sf::Color::Black);
    mCamera->SetupCamera(2, nullptr);
    /*CAMERA SPEED HERE*/
+
+  
+	//m_Platforms.push_back(CreateEntity<Platform>(1000, 50, sf::Color::Blue));
+	//m_Platforms[0]->SetPosition(0, 10);
+	//m_Platforms[0]->SetRigidBody(true);
+ //   
+	// m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 35, sf::Color::Cyan));
+	// m_Platforms[1]->SetPosition(4546546, 201);
+	// m_Platforms[1]->SetRigidBody(true);
+
+	//Mob1* test2 = CreateEntity<Mob1>(AM.CreateSprite("Mob1Animation", 0, 0 , 1085, 1440));
+	//test2->SetScale(0.1f, 0.1f);
+	//test2->SetPosition(50, -150, 0.0f, 0.0f);
+	//test2->SetRigidBody(true);
+	//test2->Active();
+
+	//Mob2* test2 = CreateEntity<Mob2>(AM.CreateSprite("Mob2Animation", 0, 0, 1155, 1630));
+	//test2->SetScale(0.1f, 0.1f);
+	//test2->SetPosition(50, -150, 0.0f, 0.0f);
+	//test2->SetRigidBody(true);
 
 	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
 	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
@@ -109,7 +130,7 @@ void SampleScene::OnUpdate()
 
 	IncreaseTimer();
 
-	std::cout << m_player->GetPosition().x << "/" << m_player->GetPosition().y << std::endl;
+	Debug::DrawText(j + GetWindowWidth() - 100, i + 10, "FPS : " + std::to_string(GameManager::Get()->GetFPS()), sf::Color::White);
 }
 
 

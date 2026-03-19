@@ -89,7 +89,6 @@ void GameManager::RefreshUI(Camera* camera)
 }
 
 
-
 void GameManager::Run()
 {
 	if (mpWindow == nullptr) 
@@ -117,6 +116,13 @@ void GameManager::Run()
 	while (mpWindow->isOpen())
 	{
 		SetDeltaTime(clock.restart().asSeconds());
+
+		timer += mDeltaTime;
+		if (timer >= 1.f)
+		{
+			FPS = (int)(1.0f / mDeltaTime);
+			timer = 0.0f;
+		}
 
 		HandleInput(); //OnEvent here
 
@@ -164,7 +170,7 @@ void GameManager::Update()
 		Entity* entity = *it;
 
         entity->Update();
-		Debug::DrawCollider(entity->GetCollider()); //--> Debug only
+		//Debug::DrawCollider(entity->GetCollider()); //--> Debug only
 
         if (entity->ToDestroy() == false)
         {
