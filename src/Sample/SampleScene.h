@@ -29,7 +29,7 @@ private:
 	
 public :
 	bool mIsPaused = false;
-
+	bool m_shouldRestart = false;
 private :
 
 	Entity* m_pauseMenu;

@@ -96,6 +96,28 @@ void SampleScene::OnEvent(const sf::Event& event)
 
 void SampleScene::OnUpdate()
 {
+	if (m_shouldRestart)
+	{
+		m_shouldRestart = false;
+		GameManager::Get()->ClearCurrentSceneEntities();
+		m_UI.clear();
+		m_Platforms.clear();
+		m_hooks.clear();
+		m_player = nullptr;
+		m_robot = nullptr;
+		mCamera = nullptr;
+
+		if (m_pauseMenu) { m_pauseMenu->Destroy(); m_pauseMenu = nullptr; }
+		if (m_buttonContinue) { m_buttonContinue->Destroy(); m_buttonContinue = nullptr; }
+		if (m_buttonRestart) { m_buttonRestart->Destroy(); m_buttonRestart = nullptr; }
+		if (m_buttonSettings) { m_buttonSettings->Destroy(); m_buttonSettings = nullptr; }
+		if (m_buttonExit) { m_buttonExit->Destroy(); m_buttonExit = nullptr; }
+
+		OnInitialize();
+
+		return;
+	}
+
 	if (mIsPaused) {
 		GameManager* gm = GameManager::Get();
 		if (!gm) return;
@@ -119,17 +141,12 @@ void SampleScene::OnUpdate()
 				winH / 2.f - sprite->getGlobalBounds().height / 2.f);
 		}
 
-		float offsetX = 300.f;
-		float offsetY = 90.f;
-
-		// Ligne 1
 		if (m_buttonContinue)
 			m_buttonContinue->SetPosition((GetWindowWidth() / 2) + 650.f, (GetWindowHeight() / 2) + 700.f);
 
 		if (m_buttonRestart)
 			m_buttonRestart->SetPosition((GetWindowWidth() / 2) + 1000.f, (GetWindowHeight() / 2) + 700.f);
 
-		// Ligne 2
 		if (m_buttonSettings)
 			m_buttonSettings->SetPosition((GetWindowWidth() / 2) + 650.f, (GetWindowHeight() / 2) + 800.f);
 
@@ -205,30 +222,21 @@ void SampleScene::SetPause()
 	m_pauseMenu = CreateEntity<Entity>(AM.LoadSprite("pause"), sf::Color::Transparent);
 	m_pauseMenu->SetSpriteScale(0.67, 0.67);
 
-	m_buttonContinue = static_cast<Button*>(CreateEntity<Button>(AM.LoadSprite("boutoncontinue"), sf::Color::Transparent));
+	m_buttonContinue = CreateEntity<Button>(AM.LoadSprite("boutoncontinue"), sf::Color::Transparent);
 	m_buttonContinue->SetSpriteScale(0.9, 0.9);
+
 	m_buttonRestart = CreateEntity<Button>(AM.LoadSprite("boutonrestart"), sf::Color::Transparent);
 	m_buttonRestart->SetSpriteScale(0.9, 0.9);
+
 	m_buttonSettings = CreateEntity<Button>(AM.LoadSprite("boutonsettings"), sf::Color::Transparent);
 	m_buttonSettings->SetSpriteScale(0.9, 0.9);
+
 	m_buttonExit = CreateEntity<Button>(AM.LoadSprite("boutonrexit"), sf::Color::Transparent);
 	m_buttonExit->SetSpriteScale(0.9, 0.9);
 
 	if (m_buttonContinue)
 		m_buttonContinue->SetFunction([this]() { this->UnPause(); });
 
-	if (m_buttonRestart)
-		m_buttonRestart->SetFunction([this]() {
-		GameManager::Get()->ClearCurrentSceneEntities();
-		this->OnInitialize();
-			});
-
-	if (m_buttonExit)
-		m_buttonExit->SetFunction([]() {
-		GameManager* gm = GameManager::Get();
-		if (gm && gm->GetWindow())
-			gm->GetWindow()->close();
-			});
 }
 
 void SampleScene::UnPause()
