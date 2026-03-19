@@ -32,8 +32,8 @@ void SampleScene::OnInitialize()
 
 	//std::vector<Entity*> test = LevelEditor::LoadLevel(this, "Level0");
 
-	//m_player = CreateEntity<Player>(50,50, sf::Color::Blue);
-	m_player = CreateEntity<Player>(AM.CreateSprite("spriteSheetMC", 0, 0, 1900, 1446));
+	m_player = CreateEntity<Player>(50,50, sf::Color::Blue);
+	//m_player = CreateEntity<Player>(AM.CreateSprite("spriteSheetMC", 0, 0, 1900, 1446));
 	m_player->SetScale(0.1f, 0.1f);
 	m_player->SetPosition(0, 0, 0.f, 0.f);
 
