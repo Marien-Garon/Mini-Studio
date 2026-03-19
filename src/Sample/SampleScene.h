@@ -32,7 +32,7 @@ private:
 
 	std::vector<Platform*> m_Platforms;
 	std::vector<Entity*> m_UI;
-	
+	Parallaxe* m_parallaxe;
 	PauseScene* m_pauseMenu;
 	
 	
@@ -52,13 +52,6 @@ public:
     void OnInitialize() override;
     void OnEvent(const sf::Event& event) override;
     void OnUpdate() override;
-
-private:
-
-	std::vector<Hook*> m_hooks;
-	Parallaxe* m_parallaxe;
-	//Mob1* test;
-
 
 public:
 	std::vector<Hook*> GetHooks() { return m_hooks; };

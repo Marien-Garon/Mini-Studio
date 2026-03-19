@@ -1,9 +1,9 @@
 #include "DeathScene.h"
 
-#include "Player.h"
+#include "Entity.h"
 #include "Scene.h"
-#include "Enemy.h"
-#include "Companion.h"
+
+
 #include "Button.h"
 #include "SceneManager.h"
 #include "AssetManager.h"
@@ -13,7 +13,7 @@ void DeathScene::OnInitialize()
 	AssetManager& AM = AssetManager::getInstance();
 	AM.StopMusic();
 
-	m_deathScreen = CreateEntity<Entity>(AM.LoadSprite("Balladeur"), sf::Color::Red);
+	m_deathScreen = CreateEntity<Entity>(AM.LoadSprite("Balladeur"));
 	//m_deathScreen->SetSpriteScale(0.333, 0.333);
 	m_deathScreen->SetPosition(GetWindowWidth(), GetWindowHeight(), 1.f, 1.f);
 

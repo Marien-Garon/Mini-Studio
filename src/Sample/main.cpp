@@ -11,7 +11,7 @@ int main()
 
 	pInstance->CreateWindow(1280, 720, "Sample", 60, {0,0,0});
 
-	pInstance->CreateWindow(1280, 720, "HyperBlast: The Key-Star!", 60, {0,0,0}, false);
+	pInstance->CreateWindow(1280, 720, "HyperBlast: The Key-Star!", 60, {0,0,0});
 	SceneManager& sm = SceneManager::getInstance();
 
 	MenuScene menuScene;
