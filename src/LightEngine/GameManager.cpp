@@ -143,6 +143,7 @@ void GameManager::HandleInput()
 
 void GameManager::Update()
 {
+	
 	SceneManager& sm = SceneManager::getInstance();
 
 	if (sm.Update())
@@ -204,6 +205,7 @@ void GameManager::Update()
 	}
 
 	mEntitiesToAdd.clear();
+	
 }
 
 void GameManager::Draw()
@@ -233,4 +235,13 @@ void GameManager::SetScene(Scene* scene)
 		mpScene->OnInitialize();
 	}
 	
+}
+
+void GameManager::ClearCurrentSceneEntities()
+{
+	for (Entity* entity : mEntities)
+		delete entity;
+	mEntities.clear();
+	mEntitiesToDestroy.clear();
+	mEntitiesToAdd.clear();
 }

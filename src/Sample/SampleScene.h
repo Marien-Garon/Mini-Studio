@@ -7,6 +7,7 @@
 class Enemy;
 class Camera;
 class Platform;
+class PauseScene;
 
 
 class SampleScene : public Scene
@@ -22,11 +23,14 @@ class SampleScene : public Scene
 	std::vector<Platform*> m_Platforms;
 	std::vector<Entity*> m_UI;
 	
+	PauseScene* m_pauseMenu;
+	
 	
 	std::vector<Hook*> m_hooks;
 private:
 	void TrySetSelectedEntity(Entity* pEntity, int x, int y);
-
+	bool mIsPaused = false;
+	
 public:
 	void OnInitialize() override;
 	void OnEvent(const sf::Event& event) override;
@@ -34,7 +38,7 @@ public:
 
 	std::vector<Hook*> GetHooks() { return m_hooks; };
 	Player* GetPlayer() { return m_player; }
-
+	void SetPaused(bool paused) { mIsPaused = paused; }
 	bool IsAttackTimingOkay();
 	void IncreaseTimer();
 };

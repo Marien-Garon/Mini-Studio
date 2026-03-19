@@ -26,6 +26,7 @@ bool SceneManager::Update()
 {
     if (m_changeScene)
     {
+        GameManager::Get()->ClearCurrentSceneEntities();
         m_currentScene = m_nextScene;
         m_changeScene = false;
         return true;
