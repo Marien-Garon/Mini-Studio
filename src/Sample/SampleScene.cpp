@@ -48,11 +48,9 @@ void SampleScene::OnInitialize()
 	m_Platforms[0]->SetPosition(0, 10);
 	m_Platforms[0]->SetRigidBody(true);
 
-	Mob1* Test = CreateEntity<Mob1>(AM.CreateSprite("Mob1Animation", 0, 0, 1085, 1440));
-	Test->SetScale(0.05, 0.05);
+	Mob1* Test = CreateEntity<Mob1>(20,20,sf::Color::Green);
 	Test->SetPosition(100, 0, 0.f, 0.f);
 	Test->SetRigidBody(true);
-	Test->PlayAnimation("walkRight");
 
    
 
