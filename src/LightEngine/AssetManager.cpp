@@ -12,6 +12,11 @@ void Animation::NextFrame()
     }
 }
 
+void Animation::Reset()
+{
+    currentFrames = 0;
+}
+
 
 void AssetManager::UpdateMusic()
 {
@@ -559,6 +564,7 @@ SpriteData::~SpriteData()
 void SpriteData::PlayAnimation(const std::string& _id)
 {
     playingAnimation = true;
+    if (data->animations.contains(currentAnimation)) data->animations[currentAnimation].Reset();
     currentAnimation = _id;
     frameTime = data->animations[currentAnimation].duration;
 }

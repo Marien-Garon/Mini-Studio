@@ -36,6 +36,8 @@ public:
 
 	void SetScale(const sf::Vector2f& _scale);
 
+	void SetCustomCollider(float _x , float _y, float _width, float _height);
+
 	void Move(sf::Vector2f _direction);
 	void Move(float _x, float _y);
 

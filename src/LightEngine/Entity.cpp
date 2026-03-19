@@ -21,19 +21,19 @@ void Entity::Initialize(float _width, float _height, const sf::Color& color)
 		mShape.setFillColor(color);
 	}
 
-	m_collider = AABBCollider(GetPosition(0.0f,0.0f).x, GetPosition(0.0f,0.0f).y, _width, _height);
+	m_collider = AABBCollider(GetPosition(0.0f, 0.0f).x, GetPosition(0.0f, 0.0f).y, _width, _height);
 
 	mTarget.isSet = false;
 
 	OnInitialize();
 }
 
-void Entity::Repulse(Entity* other) 
+void Entity::Repulse(Entity* other)
 {
 	AABBCollider c1 = GetCollider();
 	AABBCollider c2 = other->GetCollider();
 
-	float overlapX1 = (c1.x + c1.width) - c2.x; 
+	float overlapX1 = (c1.x + c1.width) - c2.x;
 	float overlapX2 = (c2.x + c2.width) - c1.x;
 	float overlapY1 = (c1.y + c1.height) - c2.y;
 	float overlapY2 = (c2.y + c2.height) - c1.y;
@@ -51,6 +51,16 @@ void Entity::Repulse(Entity* other)
 		if (m_isMoveable) SetPosition(c1.x, c1.y - moveY / 2.f, 0.0f, 0.0f);
 		if (other->IsMoveable()) other->SetPosition(c2.x, c2.y + moveY / 2.f, 0.0f, 0.0f);
 	}
+}
+
+sf::Vector2f Entity::GetSize()
+{
+	sf::Vector2f size = hasSprite ? sf::Vector2f(m_sprite->sprite->getTextureRect().width, m_sprite->sprite->getTextureRect().height) : mShape.getSize();
+
+	size.x *= m_Scale.x;
+	size.y *= m_Scale.y;
+
+	return  size;
 }
 
 void Entity::StartGravity(float startSpeed)
@@ -94,7 +104,7 @@ void Entity::Destroy()
 
 void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 {
-	sf::Vector2f size = hasSprite ? sf::Vector2f(m_sprite->sprite->getTextureRect().width, m_sprite->sprite->getTextureRect().height) : mShape.getSize();
+	sf::Vector2f size = GetSize();
 
 	x -= size.x * ratioX;
 	y -= size.y * ratioY;
@@ -107,7 +117,7 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 	m_collider.SetPosition(x, y);
 
 	//#TODO Optimise
-	if (mTarget.isSet) 
+	if (mTarget.isSet)
 	{
 		sf::Vector2f position = GetPosition(0.5f, 0.5f);
 		mTarget.distance = Utils::GetDistance(position.x, position.y, mTarget.position.x, mTarget.position.y);
@@ -131,7 +141,7 @@ bool Entity::GoToDirection(int x, int y, float speed)
 {
 	sf::Vector2f position = GetPosition(0.5f, 0.5f);
 	sf::Vector2f direction = sf::Vector2f(x - position.x, y - position.y);
-	
+
 	bool success = Utils::Normalize(direction);
 	if (success == false)
 		return false;
@@ -198,7 +208,7 @@ void Entity::Update()
 
 	SetPosition(newPos.x, newPos.y);*/
 
-	if (mTarget.isSet) 
+	if (mTarget.isSet)
 	{
 		float x1 = GetPosition(0.5f, 0.5f).x;
 		float y1 = GetPosition(0.5f, 0.5f).y;
@@ -264,14 +274,14 @@ Entity* Entity::Clone()
 
 Entity::~Entity()
 {
-	if (m_sprite != nullptr) 
+	if (m_sprite != nullptr)
 		delete m_sprite;
 }
 
 
 void Entity::SetScale(float _x, float _y)
 {
-	if(hasSprite) m_sprite->sprite->setScale(_x, _y); 
+	if (hasSprite) m_sprite->sprite->setScale(_x, _y);
 	else mShape.setScale(_x, _y);
 
 	m_Scale = sf::Vector2f(_x, _y);

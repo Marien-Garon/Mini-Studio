@@ -44,6 +44,16 @@ void AABBCollider::SetScale(const sf::Vector2f& _scale)
     height = bHeight * _scale.y;
 }
 
+void AABBCollider::SetCustomCollider(float _x, float _y, float _width, float _height)
+{
+    width = _width;
+    height = _height;
+    bWidth = _width;
+    bHeight = _height;
+    x = _x;
+    y = _y;
+}
+
 void AABBCollider::Move(sf::Vector2f _direction)
 {
     x += _direction.x;

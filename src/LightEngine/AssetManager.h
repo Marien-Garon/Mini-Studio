@@ -31,6 +31,7 @@ struct Animation
 	float duration = 0.0f;
 
 	void NextFrame();
+	void Reset();
 };
 
 
