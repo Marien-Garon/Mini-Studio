@@ -1,8 +1,6 @@
-#include "SampleScene.h"
 #include <iostream>
-#include "DummyEntity.h"
+#include "SampleScene.h"
 
-#include"Enemy.h"
 #include"Mob1.h"
 #include"Mob2.h"
 
@@ -13,9 +11,8 @@
 #include "Camera.h"
 #include "Hook.h"
 
-#include"Platform.h"
 #include"BreakablePlatform.h"
-#include"Entity.h"
+
 #include "Debug.h"
 #include "LevelEditor.h"
 
@@ -50,28 +47,12 @@ void SampleScene::OnInitialize()
    mCamera->SetupCamera(2, nullptr);
    /*CAMERA SPEED HERE*/
 
-  
-	//m_Platforms.push_back(CreateEntity<Platform>(1000, 50, sf::Color::Blue));
-	//m_Platforms[0]->SetPosition(0, 10);
-	//m_Platforms[0]->SetRigidBody(true);
- //   
-	// m_Platforms.push_back(CreateEntity<BreakablePlatform>(100, 35, sf::Color::Cyan));
-	// m_Platforms[1]->SetPosition(4546546, 201);
-	// m_Platforms[1]->SetRigidBody(true);
-
-	//test = CreateEntity<Mob1>(AM.CreateSprite("Mob1Animation", 0, 0 , 1085, 1440));
-	//test->SetScale(0.1f, 0.1f);
-	//test->SetPosition(50, -150, 0.0f, 0.0f);
-	//test->SetRigidBody(true);
-
-	//Mob2* test2 = CreateEntity<Mob2>(AM.CreateSprite("Mob2Animation", 0, 0, 1155, 1630));
-	//test2->SetScale(0.1f, 0.1f);
-	//test2->SetPosition(50, -150, 0.0f, 0.0f);
-	//test2->SetRigidBody(true);
-
 	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
 	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
 	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
+
+
+	AM.PlayMusic("Musique principal");
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
@@ -89,8 +70,6 @@ void SampleScene::OnEvent(const sf::Event& event)
 	{
 		m_player->Heal(1);
 	}
-
-
 }
 
 void SampleScene::OnUpdate()
