@@ -48,13 +48,10 @@ void SampleScene::OnInitialize()
 	m_Platforms[0]->SetPosition(0, 10);
 	m_Platforms[0]->SetRigidBody(true);
 
-	Mob1* Test = CreateEntity<Mob1>(AM.CreateSprite("Mob1Animation", 0, 0, 1085, 1440));
-	Test->SetScale(0.05, 0.05);
-	Test->SetPosition(100, 0, 0.f, 0.f);
-	Test->SetRigidBody(true);
-	Test->PlayAnimation("walkRight");
-
-   
+	test = CreateEntity<Mob1>(AM.CreateSprite("Mob1Animation", 0, 0 , 1085, 1440));
+	test->SetScale(0.1f, 0.1f);
+	test->SetPosition(50, -150, 0.0f, 0.0f);
+	test->SetRigidBody(true);
 
 
 	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
@@ -85,6 +82,8 @@ void SampleScene::OnUpdate()
 {
 	float i = mCamera->GetView()->getCenter().y - (GetWindowHeight() / 2);
 	float j = mCamera->GetView()->getCenter().x - (GetWindowWidth() / 2);
+
+	//test->GetCollider();
 
 	switch (m_player->GetHealth())
 	{

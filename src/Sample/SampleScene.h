@@ -13,6 +13,7 @@ class Enemy;
 class Platform;
 class Camera;
 class Platform;
+class Mob1;
 
 
 class SampleScene : public Scene
@@ -42,7 +43,7 @@ private:
 
 	std::vector<Hook*> m_hooks;
 	Parallaxe* m_parallaxe;
-
+	Mob1* test;
 
 
 public:

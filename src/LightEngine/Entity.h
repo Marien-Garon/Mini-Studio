@@ -34,7 +34,7 @@ protected:
 	SpriteData* m_sprite = nullptr;
 
     sf::Vector2f mDirection;
-	sf::Vector2f m_Scale;
+	sf::Vector2f m_Scale = { 1.f, 1.f } ;
 
 	Target mTarget;
     float mSpeed = 0.f;

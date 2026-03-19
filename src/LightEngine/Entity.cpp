@@ -182,20 +182,21 @@ void Entity::Update()
 
 	sf::Vector2f translation = distance * mDirection;
 
+	m_collider.Move(translation);
+
 	if (hasSprite)
 	{
 		m_sprite->UpdateAnimation(dt);
-		//SetSpriteScale(m_Scale.x, m_Scale.y); i was drunk when i write that ? 
+		SetScale(m_Scale.x, m_Scale.y);
+		m_sprite->sprite->setPosition(GetCollider().x, GetCollider().y); //Shouldn't be done this way but ehhhh no time to do better
 		//m_sprite->sprite->move(translation);
 	}
-	//else
-	//	mShape.move(translation);
+	else
+		mShape.move(translation);
 
-	m_collider.Move(translation);
+	//sf::Vector2f newPos = GetPosition() + translation;
 
-	sf::Vector2f newPos = GetPosition() + translation;
-
-	SetPosition(newPos.x, newPos.y);
+	//SetPosition(newPos.x, newPos.y);
 
 	if (mTarget.isSet) 
 	{
@@ -253,6 +254,7 @@ void Entity::PlayAnimation(const std::string& _id)
 	if (!hasSprite) return;
 	if (m_sprite->currentAnimation == _id) return;
 	m_sprite->PlayAnimation(_id);
+	m_sprite->sprite->setScale(m_Scale);
 }
 
 Entity* Entity::Clone()
