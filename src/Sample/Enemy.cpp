@@ -13,18 +13,22 @@ void Enemy::OnInitialize()
 
 void Enemy::OnUpdate()
 {
-    if (m_directionFacing == true)
-        PlayAnimation("walkRight");
-    else
-        PlayAnimation("walkLeft");
+   
 
     if (DetectPlayer())
         isChargingAttack = true;
 
     if (isChargingAttack == true)
     {
+        if(m_directionFacing == true)
+            PlayAnimation("ShootRight");
+
+        else
+            PlayAnimation("ShootLeft");
+
         m_attackTimer += GetDeltaTime();
         SetDirection(0, 0);
+        
     }
 
     else     
@@ -106,6 +110,11 @@ void Enemy::Move()
         
 
     SetDirection(m_directionFacing, 0);
+
+    if (m_directionFacing == true)
+        PlayAnimation("walkRight");
+    else
+        PlayAnimation("walkLeft");
 }
 
 void Enemy::Attack()

@@ -32,8 +32,11 @@ void SampleScene::OnInitialize()
 
 	//std::vector<Entity*> test = LevelEditor::LoadLevel(this, "Level0");
 
-	m_player= CreateEntity<Player>(50, 50, sf::Color::Red);
-	m_player->SetPosition(0, 0);
+	//m_player = CreateEntity<Player>(50,50, sf::Color::Blue);
+	m_player = CreateEntity<Player>(AM.CreateSprite("spriteSheetMC", 0, 0, 1900, 1446));
+	m_player->SetScale(0.1f, 0.1f);
+	m_player->SetPosition(0, 0, 0.f, 0.f);
+
 
 	m_robot = CreateEntity<Companion>(50, 50, sf::Color::Blue);
 	m_robot->SetPosition(m_player->GetPosition().x - 150.f, m_player->GetPosition().y - 150.f);
@@ -53,6 +56,10 @@ void SampleScene::OnInitialize()
 	test->SetPosition(50, -150, 0.0f, 0.0f);
 	test->SetRigidBody(true);
 
+	Mob2* test2 = CreateEntity<Mob2>(AM.CreateSprite("Mob2Animation", 0, 0, 1155, 1630));
+	test2->SetScale(0.1f, 0.1f);
+	test2->SetPosition(50, -150, 0.0f, 0.0f);
+	test2->SetRigidBody(true);
 
 	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
 	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
@@ -116,6 +123,7 @@ void SampleScene::OnUpdate()
 
 	IncreaseTimer();
 
+	std::cout << m_player->GetPosition().x << "/" << m_player->GetPosition().y << std::endl;
 }
 
 
