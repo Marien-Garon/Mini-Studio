@@ -19,8 +19,8 @@ void MenuScene::OnInitialize()
 	m_menuFond = CreateEntity<Entity>(AM.CreateSprite("fond-menu"));
 	m_menuFond->SetScale(0.67, 0.67);
 
-	//balldeur = CreateEntity<Entity>(AM.CreateSprite("Balladeur"));
-	//balldeur->SetScale(0.67, 0.67);
+	balldeur = CreateEntity<Entity>(AM.CreateSprite("Balladeur"));
+	balldeur->SetScale(0.67, 0.67);
 
 	m_menuScreen = CreateEntity<Entity>(AM.CreateSprite("menu"));
 	sf::Vector2f pos = m_menuScreen->GetPosition();
