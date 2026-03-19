@@ -40,7 +40,7 @@ void SampleScene::OnInitialize()
 	m_robot->SetOwner(m_player);
 
    mCamera = CreateEntity<Camera>(0, 0, sf::Color::Black);
-   mCamera->SetupCamera(0, m_player);
+   mCamera->SetupCamera(2, m_player);
    /*CAMERA SPEED HERE*/
 
   
@@ -87,8 +87,6 @@ void SampleScene::OnUpdate()
 	float i = mCamera->GetView()->getCenter().y - (GetWindowHeight() / 2);
 	float j = mCamera->GetView()->getCenter().x - (GetWindowWidth() / 2);
 
-	//test->GetCollider();
-
 	switch (m_player->GetHealth())
 	{
 	case(3):
@@ -112,8 +110,6 @@ void SampleScene::OnUpdate()
 		m_UI[1]->SetSpriteColor(sf::Color::Transparent);
 		m_UI[2]->SetSpriteColor(sf::Color::Transparent);
 		break;
-
-
 	}
 
 	GetGameManager()->RefreshCamera(mCamera);
@@ -141,7 +137,6 @@ void SampleScene::IncreaseTimer()
 	{
 		test_timerAttaque = 0;
 	}
-
 }
 
 Camera* SampleScene::GetCamera() const
