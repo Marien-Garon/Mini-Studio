@@ -2,6 +2,6 @@
      { 
      "id" : "menu",
      "spritesheet" : false,
-     "size" : { "width": 3840, "height": 2160 }
+     "size" : { "width": 1572, "height": 1079 }
      }
 }
