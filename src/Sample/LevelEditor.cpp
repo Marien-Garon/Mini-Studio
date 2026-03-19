@@ -75,6 +75,7 @@ std::vector<Entity*> LevelEditor::LoadLevel(Scene* scene, std::string _id)
 		{
 			Hook* newHook = scene->CreateEntity<Hook>(AM.CreateSprite(id));
 			newHook->SetScale(scale);
+			newHook->SetTag(tag);
 			newHook->SetPosition(pos.x, pos.y, 0.0f, 0.0f);
 			static_cast<SampleScene*>(scene)->AddHook(newHook);
 			m_entity.push_back(newHook);
@@ -83,6 +84,7 @@ std::vector<Entity*> LevelEditor::LoadLevel(Scene* scene, std::string _id)
 		{
 			BreakablePlatform* platform = scene->CreateEntity<BreakablePlatform>(AM.CreateSprite(id,0,0,493,440));
 			platform->SetScale(scale);
+			platform->SetTag(tag);
 			platform->SetPosition(pos.x, pos.y, 0.0f, 0.0f);
 			m_entity.push_back(platform);
 		}
@@ -94,6 +96,7 @@ std::vector<Entity*> LevelEditor::LoadLevel(Scene* scene, std::string _id)
 		{
 			UnderPlatform* UPlt = scene->CreateEntity<UnderPlatform>(AM.CreateTile(id, SpriteType::UnderPlatform));
 			UPlt->SetScale(scale);
+			UPlt->SetTag(tag);
 			UPlt->SetPosition(pos.x, pos.y, 0.0f, 0.0f);
 			m_entity.push_back(UPlt);
 		}
@@ -101,6 +104,7 @@ std::vector<Entity*> LevelEditor::LoadLevel(Scene* scene, std::string _id)
 		{
 			DecoBlock* decoBlock = scene->CreateEntity<DecoBlock>(AM.CreateTile(id, SpriteType::DecoBlock));
 			decoBlock->SetScale(scale);
+			decoBlock->SetTag(tag);
 			decoBlock->SetPosition(pos.x, pos.y, 0.0f, 0.0f);
 			m_entity.push_back(decoBlock);
 		}
@@ -108,6 +112,7 @@ std::vector<Entity*> LevelEditor::LoadLevel(Scene* scene, std::string _id)
 		{
 			Mob2* mob2 = scene->CreateEntity<Mob2>(AM.CreateSprite("Mob2Animation", 0, 0, 1155, 1630));
 			mob2->SetScale(scale);
+			mob2->SetTag(tag);
 			mob2->SetPosition(pos.x, pos.y, 0.0f, 0.0f);
 			mob2->Active();
 			m_entity.push_back(mob2);
