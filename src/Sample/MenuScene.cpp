@@ -1,0 +1,53 @@
+#include "MenuScene.h"
+#include <iostream>
+#include "DummyEntity.h"
+#include "Enemy.h"
+#include "Utils.h"
+#include "Debug.h"
+#include "InputManager.h"
+#include "AssetManager.h"
+#include "Camera.h"
+#include "Button.h"
+#include "SceneManager.h"
+
+
+void MenuScene::OnInitialize()
+{
+	AssetManager& AM = AssetManager::getInstance();
+
+	m_menuScreen = CreateEntity<Entity>(AM.LoadSprite("menu"), sf::Color::Red);
+	m_menuScreen->SetSpriteScale(0.333, 0.333);
+
+   m_buttonPlay = CreateEntity<Button>(110, 50, sf::Color::Transparent);
+  
+
+   m_buttonPlay->SetFunction([]() {
+
+	   SceneManager& SM = SceneManager::getInstance();
+	   SM.ChangeScene("LEVEL");
+	   });
+
+   m_arrowLeft = CreateEntity<Button>(30, 40, sf::Color::Transparent);
+   
+   
+   m_arrowRight = CreateEntity<Button>(30, 40, sf::Color::Transparent);
+  
+
+   m_buttonExit = CreateEntity<Button>(50, 50, sf::Color::Transparent);
+  
+
+}
+
+void MenuScene::OnEvent(const sf::Event& event)
+{
+	m_buttonPlay->UpdateEvent(event);
+}
+
+
+void MenuScene::OnUpdate()
+{
+	m_buttonPlay->SetPosition((GetWindowWidth() / 2) - 12, (GetWindowHeight() / 2) - 79);
+	m_arrowLeft->SetPosition((GetWindowWidth() / 2) - 110, (GetWindowHeight() / 2));
+	m_arrowRight->SetPosition((GetWindowWidth() / 2) - 60, (GetWindowHeight() / 2));
+	m_buttonExit->SetPosition((GetWindowWidth() / 2) - 100, (GetWindowHeight() / 2) + 64);
+}

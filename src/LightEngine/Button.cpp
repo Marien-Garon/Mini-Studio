@@ -23,11 +23,11 @@ void Button::OnUpdate()
 
 	if (!IsInside(IM.GetMousePos().x, IM.GetMousePos().y))
 		SetOpacity(255);
-	else
+		else
 		SetOpacity(120);
 
 	if (IsInside(IM.GetMouseClickPos().x, IM.GetMouseClickPos().y))
-	{
+{
 		if(IM.IsMousePressed(sf::Mouse::Left)) hasBeenClick = true;
 	}
 

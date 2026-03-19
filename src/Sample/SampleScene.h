@@ -14,6 +14,7 @@ class Platform;
 class Camera;
 class Platform;
 class Mob1;
+class PauseScene;
 
 
 class SampleScene : public Scene
@@ -25,6 +26,7 @@ private:
 	float test_tempsEntreLesAttaque = 60 / test_BPMDeLaMusique; //temps entre chaque appuye en seconde
 	float test_timerAttaque = 0;
 	float m_pityFrames = 10.f;
+	bool mIsPaused = false;
 
 	Player* m_player;
 	Companion* m_robot;
@@ -33,6 +35,8 @@ private:
 	std::vector<Entity*> m_UI;
 
 	sf::Vector2f m_playerStartPos = { 0.f,0.f };
+	PauseScene* m_pauseMenu;
+
 public:
 
 	void AddHook(Hook* hook) { m_hooks.push_back(hook); };
@@ -54,7 +58,7 @@ private:
 public:
 	std::vector<Hook*> GetHooks() { return m_hooks; };
 	Player* GetPlayer() { return m_player; }
-
+	void SetPaused(bool paused) { mIsPaused = paused; }
 	bool IsAttackTimingOkay();
 	void IncreaseTimer();
 	Camera* GetCamera() const;

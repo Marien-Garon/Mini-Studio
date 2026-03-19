@@ -8,8 +8,10 @@
 
 #include "InputManager.h"
 #include "AssetManager.h"
+#include "SceneManager.h"
 #include "Camera.h"
 #include "Hook.h"
+#include "PauseScene.h"
 
 #include"BreakablePlatform.h"
 
@@ -57,7 +59,7 @@ void SampleScene::OnInitialize()
 void SampleScene::OnEvent(const sf::Event& event)
 {
 	float dt = GetDeltaTime();
-    InputManager& im = InputManager::Get();
+	InputManager& im = InputManager::Get();
 
 	if (event.mouseButton.button == sf::Mouse::Button::Left)
 	{
@@ -72,6 +74,7 @@ void SampleScene::OnEvent(const sf::Event& event)
 
 void SampleScene::OnUpdate()
 {
+
 	float i = mCamera->GetView()->getCenter().y - (GetWindowHeight() / 2);
 	float j = mCamera->GetView()->getCenter().x - (GetWindowWidth() / 2);
 
