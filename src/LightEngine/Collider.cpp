@@ -44,6 +44,16 @@ void AABBCollider::SetScale(const sf::Vector2f& _scale)
     height = bHeight * _scale.y;
 }
 
+void AABBCollider::SetCustomCollider(float _x, float _y, float _width, float _height)
+{
+    width = _width;
+    height = _height;
+    bWidth = _width;
+    bHeight = _height;
+    x = _x;
+    y = _y;
+}
+
 void AABBCollider::Move(sf::Vector2f _direction)
 {
     x += _direction.x;
@@ -68,10 +78,10 @@ Side AABBCollider::GetCollisionSide(const AABBCollider& _other)
 
     float overlapMin = std::min({ overlapX1, overlapX2, overlapY1, overlapY2 });
 
-    if (overlapMin == overlapX1)   return Side::LEFT;
+    if (overlapMin == overlapX1)  return Side::LEFT;
     if (overlapMin == overlapX2)  return Side::RIGHT;
-    if (overlapMin == overlapY1)    return Side::UP;
-    if (overlapMin == overlapY2) return Side::DOWN;
+    if (overlapMin == overlapY1)  return Side::UP;
+    if (overlapMin == overlapY2)  return Side::DOWN;
 
     return Side::NONE;
 }

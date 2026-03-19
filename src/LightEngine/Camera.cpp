@@ -24,7 +24,11 @@ void Camera::SetupCamera(int cameraSpeed, Entity* entityToFolow)
 	mSpeed = cameraSpeed;
 	followedEntity = entityToFolow;
 
-	camera.setCenter(followedEntity->GetPosition().x, followedEntity->GetPosition().y);
+	if (followedEntity == nullptr)
+		camera.setCenter(0, 0);
+
+	else
+		camera.setCenter(followedEntity->GetPosition().x, followedEntity->GetPosition().y);
 
 }
 

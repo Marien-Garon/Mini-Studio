@@ -1,0 +1,26 @@
+{"Data" : 
+     { 
+     "id" : "breakable",
+     "spritesheet" : true,
+     "size" : { "width": 1972, "height": 880 },
+     "frame_size": { "width": 493, "height": 440 },
+     "animations":
+          {
+               "open":
+               {
+               "line": 0,
+               "frameNbr" : 4,
+               "duration" : 0.1,
+               "loop": false
+               },
+
+               "close":
+               {
+               "line": 1,
+               "frameNbr" : 4,               
+               "duration" : 0.1,               
+               "loop": false
+               }
+          }
+     }
+}

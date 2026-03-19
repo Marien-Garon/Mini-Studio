@@ -50,7 +50,7 @@ void Player::OnInitialize()
 	mMaxSpeed = 0.f;
 
 	SetSpeed(300);
-	m_grappleRopeLenght = 500.f;
+	m_grappleRopeLenght = 2000.f;
 	SetTag(1);
 
 	StateMachineInitialize();
@@ -161,6 +161,7 @@ void Player::StateMachineInitialize()
 		Transition<Player>* t_idle = m_stateMachine.AddTransition((int)State::Attacking, (int)State::Idle);
 		t_idle->AddCondition(new NoMoveCommandCondition());
 		t_idle->AddCondition(new IsAnimationCooldownBelowZero());
+		t_idle->AddCondition(new IsGravityOffCondition);
 
 		//->Saute si une commande de saut est appuyer
 		Transition<Player>* t_jumping = m_stateMachine.AddTransition((int)State::Attacking, (int)State::Jumping);
@@ -259,7 +260,8 @@ void Player::OnUpdate()
 	if (m_resetBombo && !isAttackingTimingGood)
 		m_numberOfGoodPress = 0;
 	
-	std::cout << m_hasAttackedThisBeat<< "/" << m_resetBombo << "/" << m_numberOfGoodPress << std::endl;
+	std::cout << mDirection.x << "/" << mDirection.y << std::endl;
+	std::cout << m_collider.x << "/" << m_collider.y << std::endl;
 }
 
 void Player::OnCollision(Entity* collidedWith)
@@ -272,34 +274,6 @@ void Player::OnCollision(Entity* collidedWith)
 			return;
 
 		Side side = GetCollidingSide(collidedWith);
-		
-		/*std::cout << "Platform : " << collidedWith->GetCollider().x << "/" << collidedWith->GetCollider().y << std::endl;
-		std::cout << "Player   : " << GetCollider().x << "/" << GetCollider().y + GetCollider().height << std::endl;
-
-		/*switch (side) 
-		{
-		case Side::INSIDE:
-			std::cout << "INSIDE" << std::endl;
-			break;
-		case Side::DOWN:
-			std::cout << "DOWN" << std::endl;
-			break;
-
-		case Side::UP:
-			std::cout << "UP" << std::endl;
-			break;
-
-		case Side::RIGHT:
-			std::cout << "RIGHT" << std::endl;
-			break;
-
-		case Side::LEFT:
-			std::cout << "LEFT" << std::endl;
-			break;
-		case Side::NONE:
-			std::cout << "NONE" << std::endl;
-			break;
-		}*/
 
 		if (side == Side::DOWN)
 		{
@@ -497,7 +471,7 @@ void Player::ThrowGrapple(Hook* target)
 	m_grapple->SetPosition(GetPosition().x + 1, GetPosition().y + 1);
 	m_grapple->m_Owner = this;
 
-	m_grapple->GoToPosition(target->GetPosition().x, target->GetPosition().y);
+	m_grapple->GoToPosition(target->GetPosition(0.0f,0.0f).x, target->GetPosition(0.0f, 0.0f).y);
 
 	mIsGravity = true;
 	m_grappleCooldown = m_baseGrappleCooldown;
@@ -675,7 +649,12 @@ bool HasNotAttackedThisBeatCondition::Test(Player* player)
 
 void IdleState::Start(Player* type)
 {
-	//Animation � mettre ici
+	if (type->GetDirectionFacing() == 1)
+		type->PlayAnimation("idle_test_right");
+
+	else
+		type->PlayAnimation("idle_test_left");
+	
 }
 
 void IdleState::Update(Player* type, float dt)
@@ -695,15 +674,20 @@ void MovingState::Start(Player* type)
 
 void MovingState::Update(Player* type, float dt)
 {
-	//Animation a mettre ici
 
 	type->ControlSetDirectionFacing();
 
 	if (type->GetDirectionFacing() == 1)
+	{
 		type->MoveRight();
-
+		type->PlayAnimation("running_to_right");
+	}
+	
 	else if (type->GetDirectionFacing() == -1)
+	{
 		type->MoveLeft();
+		type->PlayAnimation("running_to_left");
+	}
 }
 
 void MovingState::End(Player* type)
@@ -715,6 +699,13 @@ void MovingState::End(Player* type)
 void JumpingState::Start(Player* type)
 {
 	type->SetPosition(type->GetPosition().x, type->GetPosition().y - 1);
+	if (type->GetDirectionFacing())
+		type->PlayAnimation("jumping_to_right");
+
+	else
+		type->PlayAnimation("jumping_to_left");
+	
+	
 	type->Jump();
 }
 
@@ -725,10 +716,16 @@ void JumpingState::Update(Player* type, float dt)
 	InputManager& in = InputManager::Get();
 
 	if (in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D))
+	{
 		type->MoveRight();
+		type->PlayAnimation("jumping_to_right");
+	}
 
 	if (in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q))
+	{
 		type->MoveLeft();
+		type->PlayAnimation("jumping_to_left");
+	}
 }
 
 void JumpingState::End(Player* type)
@@ -739,7 +736,34 @@ void JumpingState::End(Player* type)
 
 void AttackingState::Start(Player* type)
 {
-	// animation ici
+
+	if (type->GetNumberOfGoodPress() == 0)
+	{
+		if (type->GetDirectionFacing())
+			type->PlayAnimation("first_combo_to_right");
+
+		else
+			type->PlayAnimation("first_combo_to_left");
+	}
+	
+	if (type->GetNumberOfGoodPress() == 1)
+	{
+		if (type->GetDirectionFacing())
+			type->PlayAnimation("second_combo_to_right");
+
+		else
+			type->PlayAnimation("second_combo_to_left");
+	}
+
+	if (type->GetNumberOfGoodPress() == 2)
+	{
+		if (type->GetDirectionFacing())
+			type->PlayAnimation("third_combo_to_right");
+
+		else
+			type->PlayAnimation("third_combo_to_left");
+	}
+
 	type->Attack();
 }
 
@@ -755,7 +779,13 @@ void AttackingState::End(Player* type)
 
 void LaunchingGrappleState::Start(Player* type)
 {
-	//Animation ici
+	if (type->GetDirectionFacing())
+		type->PlayAnimation("grapple_to_right");
+
+	else
+		type->PlayAnimation("grapple_to_left");
+
+	
 	type->ThrowGrapple(type->SearchForHook());
 }
 
@@ -791,7 +821,11 @@ void TravellingState::End(Player* type)
 
 void FallingState::Start(Player* type)
 {
-	//animation ici
+	if (type->GetDirectionFacing())
+		type->PlayAnimation("falling_to_right");
+
+	else
+		type->PlayAnimation("falling_to_left");
 }
 
 void FallingState::Update(Player* type, float dt)
@@ -801,14 +835,25 @@ void FallingState::Update(Player* type, float dt)
 	InputManager& in = InputManager::Get();
 
 	if (in.GetJoystickLeftX(0) >= 100.f || in.IsKeyHeld(sf::Keyboard::D))
+	{
+		type->PlayAnimation("falling_to_right");
 		type->MoveRight();
 
+	}
+		
 	if (in.GetJoystickLeftX(0) <= -100.f || in.IsKeyHeld(sf::Keyboard::Q))
+	{
+		type->PlayAnimation("falling_to_left");
 		type->MoveLeft();
+	}
+		
 }
 
 void FallingState::End(Player* type)
 {
+	if (type->GetDirectionFacing())
+		type->PlayAnimation("landing_to_right");
 
+	else
+		type->PlayAnimation("landing_to_left");
 }
-

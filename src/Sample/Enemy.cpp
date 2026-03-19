@@ -13,6 +13,9 @@ void Enemy::OnInitialize()
 
 void Enemy::OnUpdate()
 {
+    if (!activate)
+        return;
+
     if (m_directionFacing == true)
         PlayAnimation("walkRight");
     else
@@ -23,8 +26,15 @@ void Enemy::OnUpdate()
 
     if (isChargingAttack == true)
     {
+        if(m_directionFacing == true)
+            PlayAnimation("ShootRight");
+
+        else
+            PlayAnimation("ShootLeft");
+
         m_attackTimer += GetDeltaTime();
         SetDirection(0, 0);
+        
     }
 
     else     
@@ -76,23 +86,25 @@ void Enemy::TakeDamage(int amount)
 
 bool Enemy::DetectPlayer()
 {
-    Player* player = ((SampleScene*)GetScene())->GetPlayer();
-    float playerPositionY = player->GetPosition().y;
-    float playerPositionX = player->GetPosition().x;
-
-   
-
-    if (GetPosition().y - 50 < playerPositionY && playerPositionY  < GetPosition().y + 50)
+    if (activate)
     {
-        if (m_directionFacing == 1 && playerPositionX < GetPosition().x + 500 && playerPositionX > GetPosition().x)
-            return true;
+        Player* player = ((SampleScene*)GetScene())->GetPlayer();
+        float playerPositionY = player->GetPosition().y;
+        float playerPositionX = player->GetPosition().x;
 
-        if (m_directionFacing == -1 && playerPositionX >GetPosition().x - 500 && playerPositionX < GetPosition().x)
-            return true;
+
+
+        if (GetPosition().y - 50 < playerPositionY && playerPositionY < GetPosition().y + 50)
+        {
+            if (m_directionFacing == 1 && playerPositionX < GetPosition().x + 500 && playerPositionX > GetPosition().x)
+                return true;
+
+            if (m_directionFacing == -1 && playerPositionX > GetPosition().x - 500 && playerPositionX < GetPosition().x)
+                return true;
+        }
+
+        return false;
     }
-
-    return false;
-           
 }
 
 void Enemy::Move()
@@ -106,6 +118,11 @@ void Enemy::Move()
         
 
     SetDirection(m_directionFacing, 0);
+
+    if (m_directionFacing == true)
+        PlayAnimation("walkRight");
+    else
+        PlayAnimation("walkLeft");
 }
 
 void Enemy::Attack()

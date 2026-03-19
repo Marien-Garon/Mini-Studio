@@ -50,7 +50,7 @@ void Parallaxe::OnUpdate()
 		sf::Vector2f cameraPos = GetScene<SampleScene>()->GetCamera()->GetView()->getCenter();
 		sf::Vector2f backgroundPos = m_backgrounds[i]->GetPosition();
 
-		m_backgrounds[i]->SetPosition(backgroundPos.x + cameraSpeed, backgroundPos.y + cameraPos.y);
+		m_backgrounds[i]->SetPosition(backgroundPos.x + cameraSpeed, backgroundPos.y /*+ cameraPos.y*/);
 	}
 }
 

@@ -3,6 +3,7 @@
 #include "TileBlock.h"
 #include "BreakablePlatform.h"
 
+#include <unordered_map>
 #include <filesystem>
 #include <fstream>
 #include <nlohmann/json.hpp>
@@ -10,7 +11,16 @@ using json = nlohmann::json;
 
 class Button;
 
+struct SavedEntity
+{
+	sf::Vector2f pos;
+	Entity* entity;
 
+	SavedEntity(Entity* e, sf::Vector2f p) :
+		pos(p),
+		entity(e)
+	{}
+};
 
 class LevelEditor : public Scene
 {
@@ -19,7 +29,7 @@ private:
 	std::vector<std::vector<Entity*>> m_SelectionPage;
 	std::vector<Entity*> m_posedBlock;
 
-	std::vector <std::vector<Entity*>> m_gridList;
+	std::unordered_map<unsigned int,std::vector<SavedEntity*>> m_gridList;
 
 	std::vector<Button*> btnList;
 
@@ -37,15 +47,17 @@ public:
 	void EraseCurrentLevel();
 	bool CanPoseTile(float _x, float _y);
 
-	
-	void ReplaceGrid();
 
 	void ReplaceTile();
 	void RemoveTile(int _index);
 	
-	void IndexMove(int _movement);
+	void RemoveGrid(int _grid);
+	void ReplaceGrid();
 
-	std::vector<Entity*> GetPresentTile(float _x, float _y);
+	void IndexMove(int _movement);
+	void GridMove(int _movement);
+
+	std::vector<SavedEntity*> GetPresentTile(float _x, float _y);
 
 
 	float GetScale(float size, float target);

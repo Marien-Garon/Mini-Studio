@@ -10,7 +10,6 @@ void BreakablePlatform::OnCollision(Entity* entity)
 
 		if (m_timer <= 0.5f)
 
-	  std::cout << IsRigidBody() << std::endl;
 		if (entity->IsTag(1))
 		{
 			if (GetCollidingSide(entity) == Side::UP)
@@ -33,4 +32,10 @@ void BreakablePlatform::OnCollision(Entity* entity)
 		}
 	}
 	
+}
+
+void BreakablePlatform::OnInitialize()
+{
+	SetTag(12);
+	SetRigidBody(true);
 }

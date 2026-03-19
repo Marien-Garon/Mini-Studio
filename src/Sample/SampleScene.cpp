@@ -1,8 +1,6 @@
-#include "SampleScene.h"
 #include <iostream>
-#include "DummyEntity.h"
+#include "SampleScene.h"
 
-#include"Enemy.h"
 #include"Mob1.h"
 #include"Mob2.h"
 
@@ -15,9 +13,8 @@
 #include "Hook.h"
 #include "PauseScene.h"
 
-#include"Platform.h"
 #include"BreakablePlatform.h"
-#include"Entity.h"
+
 #include "Debug.h"
 #include "LevelEditor.h"
 
@@ -32,38 +29,35 @@ void SampleScene::OnInitialize()
 	m_parallaxe = CreateEntity<Parallaxe>(0, 0, sf::Color::Black);
 	m_parallaxe->Start();
 
-	//std::vector<Entity*> test = LevelEditor::LoadLevel(this, "Level0");
+	std::vector<Entity*> test = LevelEditor::LoadLevel(this, "Level0");
 
-	m_player= CreateEntity<Player>(50, 50, sf::Color::Red);
-	m_player->SetPosition(0, 0);
+	//m_player = CreateEntity<Player>(50,50, sf::Color::Blue);
+	m_player = CreateEntity<Player>(AM.CreateSprite("spriteSheetMC", 0, 0, 950, 723));
+	//m_player->GetCollider().SetCustomCollider(m_player->GetCollider().x + 400, m_player->GetCollider().y, m_player->GetCollider().width - 300, m_player->GetCollider().height);
+	m_player->SetScale(0.3f, 0.3f); //GO TO NARNIAAAAAAAAAAAAA
+	m_player->SetPosition(0,0, 0.5f, 0.5f);
+	
+	std::cout << m_player->GetPosition().x << "/" << m_player->GetPosition().y << std::endl;
 
 	m_robot = CreateEntity<Companion>(50, 50, sf::Color::Blue);
 	m_robot->SetPosition(m_player->GetPosition().x - 150.f, m_player->GetPosition().y - 150.f);
 	m_robot->SetOwner(m_player);
 
    mCamera = CreateEntity<Camera>(0, 0, sf::Color::Black);
-   mCamera->SetupCamera(2, m_player);
+   mCamera->SetupCamera(2, nullptr);
    /*CAMERA SPEED HERE*/
 
-  
-	m_Platforms.push_back(CreateEntity<Platform>(1000, 50, sf::Color::Blue));
-	m_Platforms[0]->SetPosition(0, 10);
-	m_Platforms[0]->SetRigidBody(true);
-
-	test = CreateEntity<Mob1>(AM.CreateSprite("Mob1Animation", 0, 0 , 1085, 1440));
-	test->SetScale(0.1f, 0.1f);
-	test->SetPosition(50, -150, 0.0f, 0.0f);
-	test->SetRigidBody(true);
-
-
 	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
 	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
 	m_UI.push_back(CreateEntity<Entity>(AM.CreateSprite("coeur")));
+
+
+	AM.PlayMusic("Musique principal");
+	AM.SetMusicVolume(100.F);
 }
 
 void SampleScene::OnEvent(const sf::Event& event)
 {
-
 	float dt = GetDeltaTime();
 	InputManager& im = InputManager::Get();
 
@@ -124,6 +118,7 @@ void SampleScene::OnUpdate()
 
 	IncreaseTimer();
 
+	std::cout << m_player->GetPosition().x << "/" << m_player->GetPosition().y << std::endl;
 }
 
 

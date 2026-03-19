@@ -9,23 +9,23 @@
                "walkRight":
                {
                "line": 0,
-               "frameNbr" : 5,
-               "duration" : 0.2,
+               "frameNbr" : 6,
+               "duration" : 0.1,
                "loop": true
                },
 
 		"walkLeft":
                {
                "line": 1,
-               "frameNbr" : 5,
-               "duration" : 0.2,
+               "frameNbr" : 6,
+               "duration" : 0.1,
                "loop": true
                },
 
 		"deathRight":
                {
                "line": 2,
-               "frameNbr" : 5,
+               "frameNbr" : 6,
                "duration" : 0.3,
                "loop": false
                },
@@ -33,7 +33,7 @@
 		"deathLeft":
                {
                "line": 3,
-               "frameNbr" : 5,
+               "frameNbr" : 6,
                "duration" : 0.3,
                "loop": false
                },
@@ -41,16 +41,16 @@
 		"ShootRight":
                {
                "line": 4,
-               "frameNbr" : 5,
-               "duration" : 0.5,
+               "frameNbr" : 6,
+               "duration" : 0.3,
                "loop": false
                },
 
 		"ShootLeft":
                {
                "line": 5,
-               "frameNbr" : 5,
-               "duration" : 0.5,
+               "frameNbr" : 6,
+               "duration" : 0.3,
                "loop": false
                }
           }

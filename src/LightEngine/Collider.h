@@ -17,9 +17,9 @@ struct AABBCollider
 {
 public:
 
-	float x, y;
-	float width, height;
-	float bWidth, bHeight;
+	float x = 0, y = 0;
+	float width = 0, height = 0;
+	float bWidth = 0, bHeight = 0;
 
 	AABBCollider(float _x, float _y, float _w, float _h);
 	AABBCollider() {}; // Default constructor because without that the code go hugghhhh and die
@@ -35,6 +35,8 @@ public:
 	void SetScale(float _x, float _y);
 
 	void SetScale(const sf::Vector2f& _scale);
+
+	void SetCustomCollider(float _x , float _y, float _width, float _height);
 
 	void Move(sf::Vector2f _direction);
 	void Move(float _x, float _y);

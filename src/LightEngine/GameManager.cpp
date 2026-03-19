@@ -52,6 +52,11 @@ void GameManager::CreateWindow(unsigned int width, unsigned int height, const ch
 	mpWindow = new sf::RenderWindow(sf::VideoMode(width, height), title ); //ajouter sf::Style::Fullscreen pour plein ecran
 	mpWindow->setFramerateLimit(fpsLimit);
 
+	if (!icone.loadFromFile("..\\..\\..\\assets\\textures\\Logo.png"))
+		EXIT_FAILURE;
+
+	mpWindow->setIcon(icone.getSize().x, icone.getSize().y, icone.getPixelsPtr());
+
 	mWindowWidth = width;
 	mWindowHeight = height;
 
@@ -105,8 +110,8 @@ void GameManager::Run()
 
 	InputManager::Get().Init();
 
-	AssetManager::getInstance().PlayMusic("Fight");
-	AssetManager::getInstance().SetMusicVolume(0.f);
+	//AssetManager::getInstance().PlayMusic("Fight");
+	//AssetManager::getInstance().SetMusicVolume(0.f);
 
 
 	sf::Clock clock;
@@ -160,7 +165,7 @@ void GameManager::Update()
 		Entity* entity = *it;
 
         entity->Update();
-		Debug::DrawCollider(entity->GetCollider());
+		Debug::DrawCollider(entity->GetCollider()); //--> Debug only
 
         if (entity->ToDestroy() == false)
         {

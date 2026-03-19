@@ -58,7 +58,6 @@ public:
 	float GetSpeed() { return mSpeed; }
 	void SetTag(int tag) { mTag = tag; }
 	int GetTag() { return mTag; }
-
 	void StartGravity(float startSpeed);
 	void StopGravity() { mIsGravity = false; }
 
@@ -69,6 +68,7 @@ public:
 
     sf::Vector2f GetPosition(float ratioX = 0.5f, float ratioY = 0.5f) const;
 	sf::Shape* GetShape() { return &mShape; }
+	sf::Vector2f GetSize();
 
 	bool IsTag(int tag) const { return mTag == tag; }
     bool IsColliding(Entity* other);

@@ -1,6 +1,6 @@
 #include "AssetManager.h"
 #include "Debug.h"
-
+#include <iostream>
 
 void Animation::NextFrame()
 {
@@ -10,6 +10,11 @@ void Animation::NextFrame()
         if (loop) currentFrames = 0;
         else currentFrames = frameNbr - 1;
     }
+}
+
+void Animation::Reset()
+{
+    currentFrames = 0;
 }
 
 
@@ -48,7 +53,7 @@ void AssetManager::UpdateAssets()
     UpdateMusic();
 }
 
-bool AssetManager::InitTileInDirectory(const std::filesystem::path& filename)
+bool AssetManager::InitDecoBlock(const std::filesystem::path& filename)
 {
     if (!std::filesystem::exists(filename) || !std::filesystem::is_directory(filename)) {
         Debug::DebugMessage(Debug::Severity::ERROR, "Find Directory", "Couldn't open directory : " + filename.string());
@@ -63,6 +68,96 @@ bool AssetManager::InitTileInDirectory(const std::filesystem::path& filename)
             continue;
         }
 
+        if (entry.path().extension() != ".png" && entry.path().extension() != ".PNG")
+        {
+            if (entry.path().extension() != ".json")
+                Debug::DebugMessage(Debug::Severity::WARN, "Load File", "Extension " + entry.path().extension().string() + " is not a valid extension");
+            continue;
+        }
+
+        std::string id = entry.path().stem().string();
+
+        if (m_decoBlockList.contains(id))
+        {
+            Debug::DebugMessage(Debug::Severity::WARN, "Load File", "Already a DecoBlock register at id : " + entry.path().stem().string());
+            continue;
+        }
+
+        TextureData& data = m_decoBlockList[id];
+
+        data.texture.loadFromFile(entry.path().string());
+        data.spritesheet = false;
+        data.sizeW = data.texture.getSize().x;
+        data.sizeH = data.texture.getSize().y;
+        Debug::DebugMessage(Debug::Severity::INFO, "Register DecoBlock", "Successfully register : " + id);
+    }
+}
+
+bool AssetManager::InitUnderPlatform(const std::filesystem::path& filename)
+{
+    if (!std::filesystem::exists(filename) || !std::filesystem::is_directory(filename)) {
+        Debug::DebugMessage(Debug::Severity::ERROR, "Find Directory", "Couldn't open directory : " + filename.string());
+        return false;
+    }
+
+    for (auto& entry : std::filesystem::directory_iterator(filename))
+    {
+        if (!entry.is_regular_file())
+        {
+            Debug::DebugMessage(Debug::Severity::WARN, "Load File", "File" + entry.path().filename().string() + " is not a valid file");
+            continue;
+        }
+
+        if (entry.path().extension() != ".png" && entry.path().extension() != ".PNG")
+        {
+            if (entry.path().extension() != ".json")
+                Debug::DebugMessage(Debug::Severity::WARN, "Load File", "Extension " + entry.path().extension().string() + " is not a valid extension");
+            continue;
+        }
+
+        std::string id = entry.path().stem().string();
+
+        if (m_underPlatformList.contains(id))
+        {
+            Debug::DebugMessage(Debug::Severity::WARN, "Load File", "Already a Under Platform register at id : " + entry.path().stem().string());
+            continue;
+        }
+        
+        TextureData& data = m_underPlatformList[id];
+
+        data.texture.loadFromFile(entry.path().string());
+        data.spritesheet = false;
+        data.sizeW = data.texture.getSize().x;
+        data.sizeH = data.texture.getSize().y;
+        Debug::DebugMessage(Debug::Severity::INFO, "Register UnderPlatform", "Successfully register : " + id);
+    }
+}
+
+bool AssetManager::InitTileInDirectory(const std::filesystem::path& filename)
+{
+    if (!std::filesystem::exists(filename) || !std::filesystem::is_directory(filename)) {
+        Debug::DebugMessage(Debug::Severity::ERROR, "Find Directory", "Couldn't open directory : " + filename.string());
+        return false;
+    }
+
+    for (auto& entry : std::filesystem::directory_iterator(filename))
+    {
+        if (entry.is_directory() && entry.path().stem().string() == "underPlatform")
+        {
+            InitUnderPlatform(filename.string() + "/underPlatform");
+            continue;
+        }
+        if (entry.is_directory() && entry.path().stem().string() == "decoBlocks")
+        {
+            InitDecoBlock(filename.string() + "/decoBlocks");
+            continue;
+        }
+
+        if (!entry.is_regular_file())
+        {
+            Debug::DebugMessage(Debug::Severity::WARN, "Load File", "File " + entry.path().filename().string() + " is not a valid file");
+            continue;
+        }
 
         if (entry.path().extension() != ".png" && entry.path().extension() != ".PNG")
         {
@@ -255,6 +350,19 @@ TextureData* AssetManager::GetTileData(std::string _id)
     return &m_tileList[_id];
 }
 
+TextureData* AssetManager::GetUnderPlatformData(std::string _id)
+{
+    if (!m_underPlatformList.contains(_id)) return nullptr;
+    return &m_underPlatformList[_id];
+}
+
+TextureData* AssetManager::GetDecoBlockData(std::string _id)
+{
+    if (!m_decoBlockList.contains(_id)) return nullptr;
+    return &m_decoBlockList[_id];
+}
+
+
 sf::Texture AssetManager::GetTexture(std::string _id)
 {
     if (!m_textureList.contains(_id)) return sf::Texture();
@@ -266,9 +374,9 @@ SpriteData* AssetManager::CreateSprite(std::string _id, int _posX, int _posY, in
     return new SpriteData(_id, _posX, _posY, _w, _h);
 }
 
-SpriteData* AssetManager::CreateTile(std::string _id)
+SpriteData* AssetManager::CreateTile(std::string _id, SpriteType _type)
 {
-    return new SpriteData(_id, 0,0,0,0, true);
+    return new SpriteData(_id, 0,0,0,0, _type);
 }
 
 
@@ -315,16 +423,42 @@ sf::Music* AssetManager::PlayMusic(std::string _id)
 }
 
 
-sf::Sprite* AssetManager::LoadSprite(std::string _id, int _posX, int _posY, int _w, int _h, bool isTile)
+sf::Sprite* AssetManager::LoadSprite(std::string _id, int _posX, int _posY, int _w, int _h, SpriteType _type)
 {
-    if (!m_textureList.contains(_id) && !m_tileList.contains(_id)) return nullptr;
+    if (!m_textureList.contains(_id) && !m_tileList.contains(_id ) && !m_underPlatformList.contains(_id) && !m_decoBlockList.contains(_id)) return nullptr;
 
-    if (_w == 0) _w = isTile ? m_tileList[_id].sizeW : m_textureList[_id].sizeW;
-    if (_h == 0) _h = isTile ? m_tileList[_id].sizeH : m_textureList[_id].sizeH;
+    sf::Texture* texture = nullptr;
 
-    sf::Texture& texture = isTile ? m_tileList[_id].texture : m_textureList[_id].texture;
+    switch (_type)
+    {
+    case SpriteType::Classic:
+        if (_w == 0) _w = m_textureList[_id].sizeW;
+        if (_h == 0) _h = m_textureList[_id].sizeH;
+        texture = &m_textureList[_id].texture;
+        break;
+    case SpriteType::Tile:
+        if (_w == 0) _w = m_tileList[_id].sizeW;
+        if (_h == 0) _h = m_tileList[_id].sizeH;
+        texture = &m_tileList[_id].texture;
+        break;
+    case SpriteType::UnderPlatform:
+        if (_w == 0) _w = m_underPlatformList[_id].sizeW;
+        if (_h == 0) _h = m_underPlatformList[_id].sizeH;
+        texture = &m_underPlatformList[_id].texture;
+        break;
+    case SpriteType::DecoBlock:
+        if (_w == 0) _w = m_decoBlockList[_id].sizeW;
+        if (_h == 0) _h = m_decoBlockList[_id].sizeH;
+        texture = &m_decoBlockList[_id].texture;
+        break;
+    }
 
-    return new sf::Sprite(texture, sf::IntRect(_posX, _posY, _w, _h));
+    //if (_w == 0) _w = isTile ? m_tileList[_id].sizeW : m_textureList[_id].sizeW;
+    //if (_h == 0) _h = isTile ? m_tileList[_id].sizeH : m_textureList[_id].sizeH;
+
+    //sf::Texture& texture = isTile ? m_tileList[_id].texture : m_textureList[_id].texture;
+
+    return texture ? new sf::Sprite(*texture, sf::IntRect(_posX, _posY, _w, _h)) : nullptr;
 }
 
 void AssetManager::PauseMusic()
@@ -393,14 +527,31 @@ AssetManager::~AssetManager()
 
 }
 
-SpriteData::SpriteData(std::string _id, int _posX, int _posY, int _w, int _h,bool isTile)
+SpriteData::SpriteData(std::string _id, int _posX, int _posY, int _w, int _h, SpriteType _type)
 {
-    if(isTile)
-        data = AssetManager::getInstance().GetTileData(_id);
-    else
+    switch (_type)
+    {
+    case SpriteType::Classic:
         data = AssetManager::getInstance().GetTextureData(_id);
+        break;
+    case SpriteType::Tile:
+        data = AssetManager::getInstance().GetTileData(_id);
+        break;
+    case SpriteType::UnderPlatform:
+        data = AssetManager::getInstance().GetUnderPlatformData(_id);
+        break;
+    case SpriteType::DecoBlock:
+        data = AssetManager::getInstance().GetDecoBlockData(_id);
+    default:
+        break;
+    }
+
+    //if(isTile)
+    //    data = AssetManager::getInstance().GetTileData(_id);
+    //else
+    //    data = AssetManager::getInstance().GetTextureData(_id);
     textureID = _id;
-    sprite = AssetManager::getInstance().LoadSprite(_id, _posX, _posY, _w, _h, isTile);
+    sprite = AssetManager::getInstance().LoadSprite(_id, _posX, _posY, _w, _h, _type);
 }
 
 SpriteData::~SpriteData()
@@ -413,6 +564,7 @@ SpriteData::~SpriteData()
 void SpriteData::PlayAnimation(const std::string& _id)
 {
     playingAnimation = true;
+    if (data->animations.contains(currentAnimation)) data->animations[currentAnimation].Reset();
     currentAnimation = _id;
     frameTime = data->animations[currentAnimation].duration;
 }
