@@ -26,6 +26,9 @@ void Player::OnInitialize()
 
 void Player::OnUpdate()
 {
+	if (GetScene<SampleScene>()->mIsPaused)
+		return;
+
 	if (!m_isJumping && !mIsGravity)
 		StartGravity(0.f);
 

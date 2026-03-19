@@ -4,6 +4,9 @@
 
 void Companion::OnUpdate()
 {
+	if (GetScene<SampleScene>()->mIsPaused)
+		return;
+
 	Follow();
 
 	GetShape()->setFillColor(sf::Color::Blue);

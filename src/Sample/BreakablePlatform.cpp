@@ -1,5 +1,6 @@
 #include "BreakablePlatform.h"
 #include<iostream>
+#include "SampleScene.h"
 
 
 void BreakablePlatform::OnCollision(Entity* entity)
@@ -9,6 +10,9 @@ void BreakablePlatform::OnCollision(Entity* entity)
 	{
 		if (GetCollidingSide(entity) == Side::UP)
 		{
+			if(GetScene<SampleScene>()->mIsPaused) {
+				return;
+			}
 
 			m_timer -= GetDeltaTime();
 
