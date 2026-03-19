@@ -24,39 +24,28 @@ void MenuScene::OnInitialize()
 	m_menuScreen->SetSpriteScale(0.67, 0.67);
 	m_menuScreen->SetPosition(pos.x + 105.0f, pos.y );
 
+	m_encadre = CreateEntity<Entity>(350, 150, sf::Color::Green);
+
+	m_buttonPlay = CreateEntity<Button>(338, 138, sf::Color::Red);
     sf::Vector2f buttonPos((GetWindowWidth() / 2) - 1.5f, (GetWindowHeight() / 2) - 9);
     m_buttonPlay->SetPosition(buttonPos.x, buttonPos.y);
 
-    float buttonWidth = 338;
-    float buttonHeight = 138;
-
-    sf::Vector2i mousePos = sf::Mouse::getPosition();
-
-    if (mousePos.x >= buttonPos.x && mousePos.x <= buttonPos.x + buttonWidth &&
-        mousePos.y >= buttonPos.y && mousePos.y <= buttonPos.y + buttonHeight)
-    {
-        m_encadre->SetPosition(buttonPos.x, buttonPos.y);
-    }
-    else
-    {
-        m_encadre->SetPosition(-1000, -1000);
-    }
-
-   m_buttonPlay = CreateEntity<Button>(338, 138, sf::Color::Transparent);
-
-   m_buttonPlay->SetFunction([]() {
+	m_buttonPlay->SetFunction([]() {
 
 	   SceneManager& SM = SceneManager::getInstance();
 	   SM.ChangeScene("LEVEL");
-	   });
+	});
 
- /*  m_arrowLeft = CreateEntity<Button>(30, 40, sf::Color::Transparent);
-   
-   m_arrowRight = CreateEntity<Button>(30, 40, sf::Color::Transparent);
+	
 
-   m_buttonExit = CreateEntity<Button>(50, 50, sf::Color::Transparent);
+	m_arrowLeft = CreateEntity<Button>(30, 40, sf::Color::Transparent);
+	m_arrowLeft->SetPosition((GetWindowWidth() / 2) - 110, (GetWindowHeight() / 2));
 
-   m_buttonExit = CreateEntity<Button>(50, 50, sf::Color::Transparent);*/
+	m_arrowRight = CreateEntity<Button>(30, 40, sf::Color::Transparent);
+	m_arrowRight->SetPosition((GetWindowWidth() / 2) - 60, (GetWindowHeight() / 2));
+
+	m_buttonExit = CreateEntity<Button>(50, 50, sf::Color::Transparent);
+	m_buttonExit->SetPosition((GetWindowWidth() / 2) - 106, (GetWindowHeight() / 2) + 63);
   
 }
 
@@ -68,8 +57,17 @@ void MenuScene::OnEvent(const sf::Event& event)
 
 void MenuScene::OnUpdate()
 {
-	m_buttonPlay->SetPosition((GetWindowWidth() / 2) - 1.5, (GetWindowHeight() / 2) - 9);
-//	m_arrowLeft->SetPosition((GetWindowWidth() / 2) - 110, (GetWindowHeight() / 2));
-//	m_arrowRight->SetPosition((GetWindowWidth() / 2) - 60, (GetWindowHeight() / 2));
-//	m_buttonExit->SetPosition((GetWindowWidth() / 2) - 106, (GetWindowHeight() / 2) + 63);
+	float buttonWidth = 338;
+	float buttonHeight = 138;
+
+	sf::Vector2i mousePos = sf::Mouse::getPosition();
+
+	if (m_buttonPlay->IsInside(mousePos.x, mousePos.y))
+	{
+		m_encadre->SetPosition(m_buttonPlay->GetPosition().x, m_buttonPlay->GetPosition().y);
+	}
+	else
+	{
+		m_encadre->SetPosition(-1000, -1000);
+	}
 }

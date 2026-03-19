@@ -14,7 +14,7 @@ bool AABBCollider::IsInside(const AABBCollider& _other)
 
 bool AABBCollider::IsInside(float _x, float _y)
 {
-    return ( _x > x && _x < x + width && _y > y && y < y + height );
+    return ( _x > x && _x < x + width && _y > y && _y < y + height );
 }
 
 void AABBCollider::SetPosition(float _x, float _y)
