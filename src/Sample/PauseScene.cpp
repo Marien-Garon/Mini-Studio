@@ -1,6 +1,5 @@
 #include "PauseScene.h"
 #include <iostream>
-#include "DummyEntity.h"
 #include "Enemy.h"
 #include "Utils.h"
 #include "Debug.h"
@@ -14,7 +13,7 @@
 void PauseScene::OnInitialize()
 {
 	AssetManager& AM = AssetManager::getInstance();
-	m_pauseMenu = CreateEntity<Entity>(AM.LoadSprite("pause"), sf::Color::Red);
+	m_pauseMenu = CreateEntity<Entity>(AM.CreateSprite("pause"));
 
 	m_buttonContinue = CreateEntity<Entity>(350, 65, sf::Color::Transparent);
 	m_buttonRestart = CreateEntity<Entity>(350, 65, sf::Color::Transparent);
@@ -59,7 +58,7 @@ void PauseScene::OnUpdate()
     GameManager* gm = GameManager::Get();
     if (!gm) return;
 
-    gm->SetFixedView();
+    //gm->SetFixedView();
 
     float winW = static_cast<float>(gm->GetWindow()->getSize().x);
     float winH = static_cast<float>(gm->GetWindow()->getSize().y);

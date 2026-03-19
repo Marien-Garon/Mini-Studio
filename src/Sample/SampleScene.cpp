@@ -75,8 +75,8 @@ void SampleScene::OnEvent(const sf::Event& event)
 void SampleScene::OnUpdate()
 {
 
-	float i = mCamera->GetView()->getCenter().y - (GetWindowHeight() / 2);
-	float j = mCamera->GetView()->getCenter().x - (GetWindowWidth() / 2);
+	float i = mCamera->GetView().getCenter().y - (GetWindowHeight() / 2);
+	float j = mCamera->GetView().getCenter().x - (GetWindowWidth() / 2);
 
 	switch (m_player->GetHealth())
 	{
@@ -103,7 +103,7 @@ void SampleScene::OnUpdate()
 		break;
 	}
 
-	GetGameManager()->RefreshCamera(mCamera);
+	GameManager::Get()->RefreshCamera(mCamera);
 
 	IncreaseTimer();
 

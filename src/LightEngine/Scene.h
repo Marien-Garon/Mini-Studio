@@ -45,6 +45,8 @@ public:
 	void DrawSprite(sf::Sprite* _sprite) const;
 
 	friend GameManager;
+
+	GameManager* GetGameManager() { return mpGameManager; };
 };
 
 #include "Scene.inl"

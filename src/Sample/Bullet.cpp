@@ -12,7 +12,7 @@ void Bullet::OnUpdate()
 {
 
 	Camera* cam = GetScene()->GetCamera();
-	sf::Vector2f center = cam->GetView()->getCenter();
+	sf::Vector2f center = cam->GetView().getCenter();
 	float windW = GetScene()->GetWindowWidth();
 	float windH = GetScene()->GetWindowHeight();
 
